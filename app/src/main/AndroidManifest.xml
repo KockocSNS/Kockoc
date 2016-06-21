@@ -15,6 +15,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".detail.DetailActivity"/>
+        <activity android:name=".Login.LoginActivity"/>
+
+        <!-- 카카오톡 debug key -->
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="Gn1KAuZgmPY9g9Xs4hfmqKDExEE="/>
     </application>
 
 </manifest>
