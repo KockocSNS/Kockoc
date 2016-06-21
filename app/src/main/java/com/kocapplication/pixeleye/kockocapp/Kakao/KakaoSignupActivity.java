@@ -10,7 +10,7 @@ import com.kakao.usermgmt.callback.MeResponseCallback;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.helper.log.Logger;
 import com.kocapplication.pixeleye.kockocapp.Login.LoginActivity;
-import com.kocapplication.pixeleye.kockocapp.Main.BaseActivity;
+import com.kocapplication.pixeleye.kockocapp.main.BaseActivity;
 import com.kocapplication.pixeleye.kockocapp.MainActivity;
 
 /**

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item> <layer-list>
+        <item> <shape>
+            <gradient android:angle="90" android:startColor="#dbdbdb"
+                android:endColor="#dbdbdb" android:type="linear" />
+
+            <padding android:bottom="5dp"
+                android:left="3dp"
+                android:right="3dp"
+                android:top="5dp" />
+
+        </shape> </item>
+
+        <item>
+            <bitmap android:src="@drawable/detail_spineer_arrow" android:gravity="right|center" />
+        </item>
+
+    </layer-list> </item>
+
+</selector>

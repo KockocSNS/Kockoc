@@ -8,10 +8,10 @@ import com.kakao.auth.AuthType;
 import com.kakao.auth.IApplicationConfig;
 import com.kakao.auth.ISessionConfig;
 import com.kakao.auth.KakaoAdapter;
-import com.kocapplication.pixeleye.kockocapp.GlobalApplication;
+import com.kocapplication.pixeleye.kockocapp.util.GlobalApplication;
 
 /**
- * Created by pixeleye03 on 2016-06-21.
+ * Created by hp on 2016-06-21.
  */
 public class KakaoSDKAdapter extends KakaoAdapter {
 

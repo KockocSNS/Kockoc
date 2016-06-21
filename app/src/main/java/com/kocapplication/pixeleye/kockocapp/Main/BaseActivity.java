@@ -1,5 +1,6 @@
 package com.kocapplication.pixeleye.kockocapp.main;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -11,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.kocapplication.pixeleye.kockocapp.R;
@@ -82,5 +85,16 @@ public class BaseActivity extends AppCompatActivity {
         View view = getLayoutInflater().inflate(R.layout.actionbar_image_title, null);
 
         actionBar.setCustomView(view);
+    }
+
+    /**
+     * softKeyboardHide
+     * 키보드를 숨기고 edittext 초기화
+     * @param editText
+     */
+    protected void softKeyboardHide(EditText editText){
+        InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        editText.setText("");
     }
 }
