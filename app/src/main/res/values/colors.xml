@@ -5,6 +5,13 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="mainBgColor">#f66c5b</color>
+    <color name="darkBgColor">#cf5b4d</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
+
+    <color name="transparency">#00000000</color>
+    <color name="translucent_80">#80000000</color>
+    <color name="translucent_70">#70000000</color>
+
+
 </resources>
