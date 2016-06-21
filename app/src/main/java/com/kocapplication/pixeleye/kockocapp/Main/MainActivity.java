@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.view.Menu;
 
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.main.course.CourseFragment;
+import com.kocapplication.pixeleye.kockocapp.main.myKockoc.MyKocKocFragment;
+import com.kocapplication.pixeleye.kockocapp.main.recommend.RecommendFragment;
 import com.kocapplication.pixeleye.kockocapp.main.story.StoryFragment;
 
 import java.util.ArrayList;
@@ -34,13 +37,15 @@ public class MainActivity extends BaseActivity {
 
         List<Fragment> fragments = new ArrayList<Fragment>();
         fragments.add(new StoryFragment());
+        fragments.add(new RecommendFragment());
+        fragments.add(new CourseFragment());
+        fragments.add(new MyKocKocFragment());
 
         List<String> titles = new ArrayList<String>();
         titles.add("소식");
         titles.add("추천");
         titles.add("코스");
         titles.add("내콕콕");
-
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
