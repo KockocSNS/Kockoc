@@ -1,9 +1,9 @@
-package com.kocapplication.pixeleye.kockocapp.Main;
+package com.kocapplication.pixeleye.kockocapp.main;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -47,12 +47,20 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.menu_search:
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+                return true;
+            case R.id.menu_neighbor:
+
+                return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -61,6 +69,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void actionBarTitleSet(String title) {
+        actionBar.setDisplayShowTitleEnabled(false);
         View view = getLayoutInflater().inflate(R.layout.actionbar_text_title, null);
         TextView titleView = (TextView) view.findViewById(R.id.actionbar_text_title);
         titleView.setText(title);
@@ -69,6 +78,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void actionBarTitleSet() {
+        actionBar.setDisplayShowTitleEnabled(false);
         View view = getLayoutInflater().inflate(R.layout.actionbar_image_title, null);
 
         actionBar.setCustomView(view);
