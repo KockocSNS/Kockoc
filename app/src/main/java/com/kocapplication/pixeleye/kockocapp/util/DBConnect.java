@@ -60,7 +60,7 @@ public class DBConnect {
             receive = string.toString();
 
         } catch (Exception e) {
-            Log.d(TAG, "Receive Error");
+            Log.d(TAG, "Receive POST Error");
             e.printStackTrace();
         }
 
@@ -73,7 +73,8 @@ public class DBConnect {
         connect(postUrl);
 
         try {
-            BufferedReader bf = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+            InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream(), "UTF-8");
+            BufferedReader bf = new BufferedReader(inputStreamReader);
             StringBuilder string = new StringBuilder();
             String line;
 
@@ -83,7 +84,7 @@ public class DBConnect {
             receive = string.toString();
 
         } catch (Exception e) {
-            Log.d(TAG, "Receive Error");
+            Log.d(TAG, "Receive GET Error");
             e.printStackTrace();
         }
 

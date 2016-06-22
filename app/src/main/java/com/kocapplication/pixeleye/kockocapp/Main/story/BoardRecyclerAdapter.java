@@ -1,8 +1,11 @@
 package com.kocapplication.pixeleye.kockocapp.main.story;
 
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
+import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
 
 import java.util.List;
@@ -21,16 +24,30 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<BoardRecyclerView
 
     @Override
     public BoardRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_board, parent, false);
+//        itemView.setOnClickListener();
+        return new BoardRecyclerViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(BoardRecyclerViewHolder holder, int position) {
+        Board data = items.get(position);
 
+        holder.getDate().setText(data.getDate());
+        holder.getTitle().setText(data.getText());
+        holder.getTag().setText(data.getHashTagByString());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return items.size();
+    }
+
+    public List<Board> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Board> items) {
+        this.items = items;
     }
 }

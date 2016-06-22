@@ -1,12 +1,15 @@
 package com.kocapplication.pixeleye.kockocapp.main.story;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +50,10 @@ public class StoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_story, container, false);
 
         init(view);
+
+        Handler handler = new StoryDataReceiveHandler();
+        Thread thread = new StoryThread(handler);
+        thread.start();
 
         return view;
     }
@@ -129,6 +136,18 @@ public class StoryFragment extends Fragment {
 //                writeButton.callOnClick();
 //                startActivityForResult(intent);
             }
+        }
+    }
+
+    private class StoryDataReceiveHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            ArrayList<Board> boards = (ArrayList<Board>) msg.getData().getSerializable("THREAD");
+
+            adapter.setItems(boards);
+            adapter.notifyDataSetChanged();
         }
     }
 }
