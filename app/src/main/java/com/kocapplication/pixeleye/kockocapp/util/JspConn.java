@@ -1,6 +1,9 @@
 package com.kocapplication.pixeleye.kockocapp.util;
 
 import android.os.StrictMode;
+import android.util.Log;
+
+import com.kocapplication.pixeleye.kockocapp.R;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -20,18 +23,48 @@ import java.util.List;
  * Created by hp on 2016-06-23.
  */
 public class JspConn {
+    final static String TAG = "JspConn";
 
     /**
      * DetailPage
      */
-    static public String loadDetailPage(String Board_No) {
+    static public String loadDetailPage(String boardNo) {
+        Log.e(TAG,"boardNo :"+boardNo);
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
         String postURL = BasicValue.getInstance().getUrlHead()+"Board/LoadDetailPage.jsp";
         HttpPost post = new HttpPost(postURL);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("boardNo", "" + Board_No));
+        params.add(new BasicNameValuePair("boardNo", "" + boardNo));
         String result = "";
+        try {
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG,"loadDetailPage result :"+result);
+        return result;
+    }
+    static public String WriteComment(String comment, int boardNo, int userNo) {
+        passiveMethod();
+        HttpClient client = new DefaultHttpClient();
+        String postURL = BasicValue.getInstance().getUrlHead()+"Board/Comment/WriteComment.jsp";
+        HttpPost post = new HttpPost(postURL);
+
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("comment", "" + comment));
+        params.add(new BasicNameValuePair("boardNo", "" + String.valueOf(boardNo)));
+        params.add(new BasicNameValuePair("userNo", "" + String.valueOf(userNo)));
+        String result = "";
+
         try {
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);

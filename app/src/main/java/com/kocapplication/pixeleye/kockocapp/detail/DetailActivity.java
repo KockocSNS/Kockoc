@@ -1,6 +1,7 @@
 package com.kocapplication.pixeleye.kockocapp.detail;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,20 +10,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.main.BaseActivity;
+import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 /**
  * Created by hp on 2016-06-20.
  */
 public class DetailActivity extends AppCompatActivity {
     final static String TAG = "DetailActivity";
-
-    private DetailFragment mdetailFragment;
-    private DetailPageData mDetailPageData;
 
     private EditText comment_et;
     private Button commentSend_btn;
@@ -74,12 +76,12 @@ public class DetailActivity extends AppCompatActivity {
     private class CommentSendListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-//            String commentString = comment_et.getText().toString();
-//
-//            JspConn.WriteComment(commentString, mBoardNo, BasicValue.mUserNo);
+            String commentString = comment_et.getText().toString();
+
+            JspConn.WriteComment(commentString, boardNo, BasicValue.getInstance().getUserNo());
 //            JspConn.pushGcm(editText.getText().toString()+"|"+mBoardNo+"&"+mCourseNo, mDetailPageArr.get(vp_detail_page.getCurrentItem()).getUserNo()); //gcm
-//
-//            softKeyboardHide(comment_et);
+
+            softKeyboardHide(comment_et);
         }
     }
     /**
@@ -172,5 +174,11 @@ public class DetailActivity extends AppCompatActivity {
                                     DialogInterface dialoginterface, int i) {}
                         })
                 .show();
+    }
+    //키보드 숨김
+    protected void softKeyboardHide(EditText editText){
+        InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        editText.setText("");
     }
 }

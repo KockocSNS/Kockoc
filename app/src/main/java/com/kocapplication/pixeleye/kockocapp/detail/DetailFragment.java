@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +18,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 
 import org.apmem.tools.layouts.FlowLayout;
 
@@ -25,6 +30,7 @@ import org.apmem.tools.layouts.FlowLayout;
 public class DetailFragment extends Fragment {
     final static String TAG = "DetailFragment";
     DetailPageData detailPageData;
+    DetailRecyclerAdapter adapter;
 
     LinearLayout ll_profile;
     LinearLayout ll_htmlInfo;
@@ -33,6 +39,7 @@ public class DetailFragment extends Fragment {
     LinearLayout ll_comment_menu;
     LinearLayout ll_bgLayout;
     FlowLayout fl_board_hashtag;
+    RecyclerView rv_comment_list;
 
     ToggleButton btn_like;
     Spinner course_spinner;
@@ -54,6 +61,7 @@ public class DetailFragment extends Fragment {
 
     private int boardNo;
     private int courseNo;
+    LayoutInflater mInflater;
 
 
     public DetailFragment(){super();}
@@ -68,6 +76,7 @@ public class DetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.detail_content,container,false);
+        this.mInflater = inflater;
 
         init(view);
 
@@ -78,9 +87,7 @@ public class DetailFragment extends Fragment {
         Thread thread = new DetailThread(handler,boardNo,courseNo);
         thread.start();
 
-        setData();
-        setImg();
-
+        setCommentList();
         return view;
     }
     private void init(View view){
@@ -90,6 +97,7 @@ public class DetailFragment extends Fragment {
         ll_board_map = (LinearLayout)view.findViewById(R.id.ll_detail_content_maps);
         ll_comment_menu = (LinearLayout)view.findViewById(R.id.ll_comment_menu);
         ll_bgLayout = (LinearLayout)view.findViewById(R.id.ll_bg_detail_up);
+        rv_comment_list = (RecyclerView)view.findViewById(R.id.rv_detail_commentlist);
         btn_like = (ToggleButton)view.findViewById(R.id.toggle_detail_content_like);
         course_spinner = (Spinner)view.findViewById(R.id.course_spinner);
         course_title = (TextView)view.findViewById(R.id.course_title);
@@ -108,14 +116,46 @@ public class DetailFragment extends Fragment {
         fl_board_hashtag = (FlowLayout)view.findViewById(R.id.fl_detail_content_tag);
     }
 
-    private void setData(){
-        profile_nickname.setText(detailPageData.getUserName());
-        profile_date.setText(detailPageData.getBoardDate());
-        board_text.setText(detailPageData.getBoardText());
-        comment_scrap.setText(detailPageData.getScrapNumber());
-        comment_count.setText(detailPageData.getCommentArr().size());
+    private void setData(DetailPageData data){
+        profile_nickname.setText(data.getUserName());
+        profile_date.setText(data.getBoardDate());
+        board_text.setText(data.getBoardText());
+//        comment_scrap.setText(detailPageData.getScrapNumber());
+//        comment_count.setText(detailPageData.getCommentArr().size());
+
+        Log.e(TAG,"courseTitle :"+data.getCourse().get(0));
+        //해시태그
+        for (int l = 0; l < data.getHashTagArr().size(); l++) {
+            TextView textTemp = new TextView(getActivity());
+            textTemp.setTextColor(mInflater.getContext().getResources().getColor(R.color.innerTagColor));
+            textTemp.setText(data.getHashTagArr().get(l));
+            fl_board_hashtag.addView(textTemp);
+        }
     }
-    private void setImg(){
+
+    private void setImg(DetailPageData data){
+        //프로필 이미지
+        Glide.with(getActivity()).load(BasicValue.getInstance().getUrlHead()+"board_image/" + data.getUserNo() + "/profile.jpg").into(profile_img);
+
+        //게시글 이미지
+        for(int i = 0;i < data.getBoardImgArr().size(); i++ ){
+            //ImageView 생성
+            ImageView temp = new ImageView(getActivity());
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.topMargin = 10;
+            temp.setLayoutParams(params);
+            temp.setAdjustViewBounds(true);
+            temp.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+            Glide.with(getActivity()).load(BasicValue.getInstance().getUrlHead()+"board_image/" + data.getUserNo() + "/" + data.getBoardImgArr().get(i)).into(temp);
+            ll_board_img.addView(temp);
+        }
+    }
+    private void setCommentList(){
+        adapter = new DetailRecyclerAdapter(detailPageData.getCommentArr());
+        rv_comment_list.setAdapter(adapter);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
+
 
     }
 
@@ -123,8 +163,9 @@ public class DetailFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-
             detailPageData = (DetailPageData) msg.getData().getSerializable("THREAD");
+            setData(detailPageData);
+            setImg(detailPageData);
         }
     }
 }
