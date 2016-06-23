@@ -11,7 +11,7 @@ import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.helper.log.Logger;
 import com.kocapplication.pixeleye.kockocapp.Login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivity;
-import com.kocapplication.pixeleye.kockocapp.MainActivity;
+import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 
 /**
  * Created by pixeleye03 on 2016-06-21.
@@ -52,13 +52,13 @@ public class KakaoSignupActivity extends BaseActivity{
             }
 
             @Override
-            public void onNotSignedUp() {} // 카카오톡 회원이 아닐 시 showSignup(); 호출해야함
+            public void onNotSignedUp() {}                    // 카카오톡 회원이 아닐 시 showSignup(); 호출해야함
 
             @Override
             public void onSuccess(UserProfile userProfile) {  //성공 시 userProfile 형태로 반환
                 Logger.d("UserProfile : " + userProfile);
                 String nickName = userProfile.getNickname();  // 닉네임 받아옴
-                redirectMainActivity(); // 로그인 성공시 MainActivity로
+                redirectMainActivity();                       // 로그인 성공시 MainActivity로
             }
         });
     }
