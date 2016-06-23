@@ -9,13 +9,15 @@ public class BoardBasicAttr implements Serializable {
     private int userNo;
     private int boardNo;
     private int courseNo;
-    private int coursePo;
+    private int coursePosition;
+    private int courseCount;
 
-    public BoardBasicAttr(int userNo, int boardNo, int courseNo, int coursePo) {
+    public BoardBasicAttr(int userNo, int boardNo, int courseNo, int coursePosition, int courseCount) {
         this.userNo = userNo;
         this.boardNo = boardNo;
         this.courseNo = courseNo;
-        this.coursePo = coursePo;
+        this.coursePosition = coursePosition;
+        this.courseCount = courseCount;
     }
 
     public int getUserNo() {
@@ -30,8 +32,12 @@ public class BoardBasicAttr implements Serializable {
         return courseNo;
     }
 
-    public int getCoursePo() {
-        return coursePo;
+    public int getCoursePosition() {
+        return coursePosition;
+    }
+
+    public int getCourseCount() {
+        return courseCount;
     }
 }
 

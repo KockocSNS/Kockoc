@@ -1,6 +1,7 @@
 package com.kocapplication.pixeleye.kockocapp.main;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -9,7 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -35,10 +36,12 @@ public class BaseActivity extends AppCompatActivity {
     protected void init() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
 
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
+
+        assert actionBar != null;
         actionBar.setHomeAsUpIndicator(R.drawable.nav_menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
@@ -71,11 +74,12 @@ public class BaseActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    protected void actionBarTitleSet(String title) {
+    protected void actionBarTitleSet(String title, int color) {
         actionBar.setDisplayShowTitleEnabled(false);
         View view = getLayoutInflater().inflate(R.layout.actionbar_text_title, null);
         TextView titleView = (TextView) view.findViewById(R.id.actionbar_text_title);
         titleView.setText(title);
+        titleView.setTextColor(color);
 
         actionBar.setCustomView(view);
     }

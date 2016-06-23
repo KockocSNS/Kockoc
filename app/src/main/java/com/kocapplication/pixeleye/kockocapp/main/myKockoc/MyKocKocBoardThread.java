@@ -1,4 +1,4 @@
-package com.kocapplication.pixeleye.kockocapp.main.story;
+package com.kocapplication.pixeleye.kockocapp.main.myKockoc;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,17 +30,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Han_ on 2016-06-21.
+ * Created by Han_ on 2016-06-23.
  */
-public class StoryThread extends Thread {
-    private String postURL;
+public class MyKocKocBoardThread extends Thread {
+    private String postURL = BasicValue.getInstance().getUrlHead() + "News/readMyNews.jsp";
     private Handler handler;
-    private int boardNo;
 
-    public StoryThread(Handler handler, String postURL) {
+    public MyKocKocBoardThread(Handler handler) {
         super();
         this.handler = handler;
-        this.postURL = postURL;
     }
 
     @Override
@@ -48,27 +46,27 @@ public class StoryThread extends Thread {
         super.run();
 
         String result = "";
+
         try {
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(postURL);
-
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("boardNo", "" + (-1)));
+//            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
+            params.add(new BasicNameValuePair("userNo", "" + 90));
+            params.add(new BasicNameValuePair("boardNo", ""+ -1 ));
 
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
-
             HttpResponse response = client.execute(post);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 result += line;
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        Log.i("StoryThread", result);
 
         JsonParser parser = new JsonParser();
         JsonObject upperObject = parser.parse(result).getAsJsonObject();
@@ -81,22 +79,20 @@ public class StoryThread extends Thread {
             JsonObject object = element.getAsJsonObject();
             JsonObject expression = object.get("etcObject").getAsJsonObject();
 
-            // TODO: 2016-06-23 TO Much Connection이 생긴닷
-            // TODO: 요거 JSP 를 조금 수정해서 DB에서 한번에 들고 올수 있도록 하는게 좋을것 같다.
-//            String courseJsonString = courseJsonObject(object.get("Course_No").getAsInt());
-//
-//            JsonObject courseObject = parser.parse(courseJsonString).getAsJsonObject();
-//            int courseCount = 0;
-//
-//            for (int innerI = 1; innerI < 10; innerI++) {
-//                String temp = "Course" + innerI;
-//                JsonElement courseElement = courseObject.get(temp);
-//                if (courseElement.isJsonNull()) {
-//                    Log.i("COURSE_THREAD", "COURSE COUNT IS NOT 9 / CURRENT COUNT IS " + (innerI));
-//                    break;
-//                }
-//                courseCount++;
-//            }
+            String courseJsonString = courseJsonObject(object.get("Course_No").getAsInt());
+
+            JsonObject courseObject = parser.parse(courseJsonString).getAsJsonObject();
+            int courseCount = 0;
+
+            for (int innerI = 1; innerI < 10; innerI++) {
+                String temp = "Course" + innerI;
+                JsonElement courseElement = courseObject.get(temp);
+                if (courseElement.isJsonNull()) {
+                    Log.i("COURSE_THREAD", "COURSE COUNT IS NOT 9 / CURRENT COUNT IS " + (innerI));
+                    break;
+                }
+                courseCount++;
+            }
 
             BoardBasicAttr attributes =
                     new BoardBasicAttr(
@@ -105,7 +101,7 @@ public class StoryThread extends Thread {
                             object.get("Course_No").getAsInt(),
                             // TODO: 2016-06-23 coursePo 가 JSP 에서 던져주지 않는다.
                             0,
-                            0
+                            courseCount
                     );
 
             ExpressionCount expressionCount =

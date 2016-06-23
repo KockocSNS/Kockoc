@@ -45,7 +45,7 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/img_detail_inner_down_profile"
+                    android:id="@+id/img_detail_inner_up_profile"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginRight="5dp"

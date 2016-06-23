@@ -88,7 +88,7 @@ public class CourseThread extends Thread {
                 String temp = "Course" + innerI;
                 JsonElement element = object.get(temp);
                 if (element.isJsonNull()) {
-                    Log.i("COURSE_THREAD", "COURSE COUNT IS NOT 9 / CURRENT COUNT IS " + (innerI - 1));
+//                    Log.i("COURSE_THREAD", "COURSE COUNT IS NOT 9 / CURRENT COUNT IS " + (innerI - 1));
                     break;
                 }
 
