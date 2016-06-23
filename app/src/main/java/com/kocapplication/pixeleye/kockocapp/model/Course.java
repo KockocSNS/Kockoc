@@ -7,9 +7,20 @@ import java.util.List;
  * Created by Han_ on 2016-06-22.
  */
 public class Course implements Serializable {
-    private List<String> boardTitles;
+    private String title;
+    private String timeStamp;
 
-    public Course() {
+    public Course(String title, String timeStamp) {
         super();
+        this.title = title;
+        this.timeStamp = timeStamp;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
     }
 }
