@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 
 import com.kocapplication.pixeleye.kockocapp.R;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
+    private final String TAG = "MAINACTIVITY";
+
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPageAdapter adapter;
@@ -74,6 +77,7 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
+            Log.i(TAG, items.get(position).getId() + "");
             return items.get(position);
         }
 

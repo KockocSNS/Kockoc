@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/iv_myPage_profile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:onClick="@+id/iv_myPage_profile"
+            android:background="@drawable/default_profile"
+            />
+
+        <LinearLayout
+            android:layout_gravity="bottom"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textSize="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/tv_myName" />
+            <Button
+                android:id="@+id/btn_follow"
+                android:visibility="invisible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""/>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/linear_my_page_profile_scrap"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/bg_rectangle_shape_silver"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_margin="5dp"
+                android:layout_gravity="center"
+                android:src="@drawable/profile_interest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center"
+                android:text="관심글"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@color/mainBgColor"
+                android:text="x"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/scrapNum" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_my_page_profile_neighbor"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/bg_rectangle_shape_silver"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_margin="5dp"
+                android:layout_gravity="center"
+                android:src="@drawable/my_04"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center"
+                android:text="이웃"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/followNum"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="x"
+                android:textColor="@color/mainBgColor"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_my_page_profile_course"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="@drawable/bg_rectangle_shape_silver"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_margin="5dp"
+                android:layout_gravity="center"
+                android:src="@drawable/my_05"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_marginRight="5dp"
+                android:layout_gravity="center"
+                android:text="코스"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="x"
+                android:textColor="@color/mainBgColor"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/courseNum" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

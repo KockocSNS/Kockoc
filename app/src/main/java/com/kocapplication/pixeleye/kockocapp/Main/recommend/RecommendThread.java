@@ -1,8 +1,9 @@
-package com.kocapplication.pixeleye.kockocapp.main.story;
+package com.kocapplication.pixeleye.kockocapp.main.recommend;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -22,6 +23,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -29,14 +32,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Han_ on 2016-06-21.
+ * Created by Han_ on 2016-06-23.
  */
-public class StoryThread extends Thread {
-    private final String postURL = BasicValue.getInstance().getUrlHead() + "News/readNews.jsp";
+public class RecommendThread extends Thread {
+    private String postURL = BasicValue.getInstance().getUrlHead() + "News/recommendNews.jsp";
     private Handler handler;
-    private int boardNo;
 
-    public StoryThread(Handler handler) {
+    public RecommendThread(Handler handler) {
         super();
         this.handler = handler;
     }
@@ -45,12 +47,13 @@ public class StoryThread extends Thread {
     public void run() {
         super.run();
 
+        Message msg = Message.obtain();
+        msg.what = 1;
         String result = "";
+
         try {
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead() + "/News/readNews.jsp";
             HttpPost post = new HttpPost(postURL);
-
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("boardNo", "" + (-1)));
 
@@ -60,12 +63,16 @@ public class StoryThread extends Thread {
             HttpResponse response = client.execute(post);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
             String line;
+
             while ((line = bufferedReader.readLine()) != null) {
                 result += line;
             }
         } catch (Exception e) {
             e.printStackTrace();
+            msg.what = 0;
         }
+
+        Log.i("RECOMMENDTHREAD", result);
 
         JsonParser parser = new JsonParser();
         JsonObject upperObject = parser.parse(result).getAsJsonObject();
@@ -115,11 +122,9 @@ public class StoryThread extends Thread {
             receiveData.add(board);
         }
 
-        Message msg = Message.obtain();
         Bundle bundle = new Bundle();
         bundle.putSerializable("THREAD", receiveData);
         msg.setData(bundle);
         handler.sendMessage(msg);
     }
-
 }
