@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <include
+        android:id="@+id/profile_container"
+        layout="@layout/fragment_mykockoc_profile" />
 
-        <include android:id="@+id/profile_container"
-            layout="@layout/fragment_mykockoc_profile" />
+    <include
+        android:id="@+id/recycler_layout"
+        layout="@layout/recyclerview" />
 
-        <include
-            android:id="@+id/recycler_layout"
-            layout="@layout/recyclerview" />
-
-    </LinearLayout>
-
-</ScrollView>
+</LinearLayout>

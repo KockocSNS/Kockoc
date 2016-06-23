@@ -77,7 +77,6 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            Log.i(TAG, items.get(position).getId() + "");
             return items.get(position);
         }
 

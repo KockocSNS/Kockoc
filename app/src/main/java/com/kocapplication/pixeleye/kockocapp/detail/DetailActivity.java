@@ -2,6 +2,7 @@ package com.kocapplication.pixeleye.kockocapp.detail;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Menu;
@@ -10,10 +11,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivity;
 import com.kocapplication.pixeleye.kockocapp.model.DetailPageData;
+
+import org.w3c.dom.Text;
 
 /**
  * Created by hp on 2016-06-20.
@@ -28,32 +32,44 @@ public class DetailActivity extends BaseActivity {
     private Button commentSend_btn;
     private Button courseCopy_btn;
     private Button scrap_btn;
-    private ImageButton back_btn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        actionBarTitleSet("상세보기");
+        init();
+        actionBarSetting();
     }
 
-    protected void init(){
+
+    protected void init() {
+        super.init();
         // TODO: 2016-06-21 DB 연동 후 값 가져오기
 //        mDetailPageArr = JsonParser.detailPageLoad(JspConn.loadDetailPage(String.valueOf(mBoardNo)));
 //        course = JsonParser.readCourse(JspConn.readCourseByCourseNo(mCourseNo));
 
         comment_et = (EditText) findViewById(R.id.edit_comment);
         commentSend_btn = (Button) findViewById(R.id.btn_send_comment);
-        courseCopy_btn = (Button)findViewById(R.id.btn_detail_course_copy);
-        scrap_btn = (Button)findViewById(R.id.btn_detail_interest);
-        back_btn = (ImageButton)findViewById(R.id.btn_detail_back);
 
 
         commentSend_btn.setOnClickListener(new CommentSendListener());
+    }
+
+    private void actionBarSetting() {
+        actionBar.setDisplayShowTitleEnabled(false);
+        actionBar.setHomeAsUpIndicator(R.drawable.back_btn);
+
+        View view = getLayoutInflater().inflate(R.layout.actionbar_detail, null);
+
+        TextView title = (TextView) view.findViewById(R.id.actionbar_text_title);
+        courseCopy_btn = (Button) view.findViewById(R.id.btn_detail_course_copy);
+        scrap_btn = (Button) view.findViewById(R.id.btn_detail_interest);
+
+        actionBar.setCustomView(view);
+
         courseCopy_btn.setOnClickListener(new CourseCopyListener());
         scrap_btn.setOnClickListener(new ScrapListener());
-        back_btn.setOnClickListener(new BackListener());
     }
 
     /**

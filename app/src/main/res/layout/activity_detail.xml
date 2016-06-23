@@ -8,51 +8,49 @@
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/mainBgColor">
+        android:background="@color/mainBgColor"/>
 
-        <ImageButton
-            android:id="@+id/btn_detail_back"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/transparency"
-            android:src="@drawable/back_btn" />
+        <!--<ImageButton-->
+            <!--android:id="@+id/btn_detail_back"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@color/transparency"-->
+            <!--android:src="@drawable/back_btn" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="상세보기"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:text="상세보기"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="20dp"-->
+            <!--android:textStyle="bold" />-->
 
-        <Button
-            android:id="@+id/btn_detail_course_copy"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_marginLeft="5dp"
-            android:background="@drawable/bg_round_shape_subbgcolor"
-            android:drawableLeft="@drawable/detail_star"
-            android:drawablePadding="3dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="코스복사"
-            android:textSize="12dp" />
+        <!--<Button-->
+            <!--android:id="@+id/btn_detail_course_copy"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="25dp"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:background="@drawable/bg_round_shape_subbgcolor"-->
+            <!--android:drawableLeft="@drawable/detail_star"-->
+            <!--android:drawablePadding="3dp"-->
+            <!--android:paddingLeft="5dp"-->
+            <!--android:paddingRight="5dp"-->
+            <!--android:text="코스복사"-->
+            <!--android:textSize="12dp" />-->
 
-        <Button
-            android:id="@+id/btn_detail_interest"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_marginLeft="5dp"
-            android:background="@drawable/bg_round_shape_subbgcolor"
-            android:drawableLeft="@drawable/detail_star"
-            android:drawablePadding="3dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="관심글 등록"
-            android:textSize="12dp" />
-
-    </android.support.v7.widget.Toolbar>
+        <!--<Button-->
+            <!--android:id="@+id/btn_detail_interest"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="25dp"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:background="@drawable/bg_round_shape_subbgcolor"-->
+            <!--android:drawableLeft="@drawable/detail_star"-->
+            <!--android:drawablePadding="3dp"-->
+            <!--android:paddingLeft="5dp"-->
+            <!--android:paddingRight="5dp"-->
+            <!--android:text="관심글 등록"-->
+            <!--android:textSize="12dp" />-->
 
     <FrameLayout
         android:id="@+id/container"

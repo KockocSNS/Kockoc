@@ -35,7 +35,7 @@ import java.util.List;
  * Created by Han_ on 2016-06-23.
  */
 public class RecommendThread extends Thread {
-    private String postURL = BasicValue.getInstance().getUrlHead() + "News/recommendNews.jsp";
+    private String postURL;
     private Handler handler;
 
     public RecommendThread(Handler handler) {
@@ -91,7 +91,8 @@ public class RecommendThread extends Thread {
                             object.get("Board_No").getAsInt(),
                             object.get("Course_No").getAsInt(),
                             // TODO: 2016-06-23 coursePo 가 JSP 에서 던져주지 않는다.
-                            object.get("Album_No").getAsInt()
+                            0,
+                            0
                     );
 
             ExpressionCount expressionCount =
@@ -117,6 +118,7 @@ public class RecommendThread extends Thread {
             Board board = new Board(attributes, expressionCount, coordinate,
                     object.get("Text").getAsString(),
                     object.get("Time").getAsString(),
+                    object.get("mainImg").getAsString(),
                     hashTags);
 
             receiveData.add(board);

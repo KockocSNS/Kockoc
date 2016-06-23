@@ -35,9 +35,18 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<BoardRecyclerView
     public void onBindViewHolder(BoardRecyclerViewHolder holder, int position) {
         Board data = items.get(position);
 
+        int courseCount = data.getBasicAttributes().getCourseCount();
+
+        holder.getBoardImage().setImageDrawable(data.getBoardImage());
         holder.getDate().setText(data.getDate());
         holder.getTitle().setText(data.getText());
         holder.getTag().setText(data.getHashTagByString());
+
+        if (courseCount == 0) holder.getCourseCount().setVisibility(View.GONE);
+        else {
+            holder.getCourseCount().setVisibility(View.VISIBLE);
+            holder.getCourseCount().setText(String.valueOf(courseCount));
+        }
     }
 
     @Override
