@@ -76,7 +76,7 @@ public class StoryFragment extends Fragment {
 
         refreshLayout.setOnRefreshListener(new RefreshListener());
 
-        adapter = new BoardRecyclerAdapter(new ArrayList<Board>());
+        adapter = new BoardRecyclerAdapter(new ArrayList<Board>(), new ItemClickListener());
         recyclerView.setAdapter(adapter);
 
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
@@ -100,6 +100,13 @@ public class StoryFragment extends Fragment {
         public void onRefresh() {
             Toast.makeText(getActivity(), "asdasd", Toast.LENGTH_SHORT).show();
             refreshLayout.setRefreshing(false);
+        }
+    }
+
+    private class ItemClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+
         }
     }
 
@@ -137,8 +144,8 @@ public class StoryFragment extends Fragment {
 //                startActivityForResult(intent);
             }
         }
-    }
 
+    }
     private class StoryDataReceiveHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -149,5 +156,6 @@ public class StoryFragment extends Fragment {
             adapter.setItems(boards);
             adapter.notifyDataSetChanged();
         }
+
     }
 }

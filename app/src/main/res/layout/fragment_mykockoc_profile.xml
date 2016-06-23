@@ -97,7 +97,7 @@
             <ImageView
                 android:layout_margin="5dp"
                 android:layout_gravity="center"
-                android:src="@drawable/my_04"
+                android:src="@drawable/profile_neighbor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -132,7 +132,7 @@
             <ImageView
                 android:layout_margin="5dp"
                 android:layout_gravity="center"
-                android:src="@drawable/my_05"
+                android:src="@drawable/profile_course"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

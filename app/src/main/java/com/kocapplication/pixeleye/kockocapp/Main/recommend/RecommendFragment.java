@@ -1,6 +1,7 @@
 package com.kocapplication.pixeleye.kockocapp.main.recommend;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.story.BoardRecyclerAdapter;
@@ -36,6 +36,10 @@ public class RecommendFragment extends Fragment {
 
         init(view);
 
+        Handler handler = new Handler();
+        Thread thread = new RecommendThread(handler);
+        thread.start();
+
         return view;
     }
 
@@ -44,7 +48,7 @@ public class RecommendFragment extends Fragment {
         refreshLayout.setOnRefreshListener(new RefreshListener());
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        adapter = new BoardRecyclerAdapter(new ArrayList<Board>());
+        adapter = new BoardRecyclerAdapter(new ArrayList<Board>(), new ItemClickListener());
 
         recyclerView.setAdapter(adapter);
 
@@ -54,6 +58,13 @@ public class RecommendFragment extends Fragment {
 
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
+    }
+
+    private class ItemClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+
+        }
     }
 
     private class RefreshListener implements SwipeRefreshLayout.OnRefreshListener {

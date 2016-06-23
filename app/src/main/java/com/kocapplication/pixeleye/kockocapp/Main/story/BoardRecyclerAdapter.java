@@ -15,17 +15,19 @@ import java.util.List;
  */
 public class BoardRecyclerAdapter extends RecyclerView.Adapter<BoardRecyclerViewHolder> {
     private List<Board> items;
+    private View.OnClickListener listener;
 
-    public BoardRecyclerAdapter(List<Board> data) {
+    public BoardRecyclerAdapter(List<Board> data, View.OnClickListener listener) {
         super();
         if (data == null) throw new IllegalArgumentException("DATA MUST NOT BE NULL");
         this.items = data;
+        this.listener = listener;
     }
 
     @Override
     public BoardRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_board, parent, false);
-//        itemView.setOnClickListener();
+        itemView.setOnClickListener(listener);
         return new BoardRecyclerViewHolder(itemView);
     }
 

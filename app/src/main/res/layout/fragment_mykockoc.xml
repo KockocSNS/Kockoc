@@ -8,11 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
+        <include android:id="@+id/profile_container"
+            layout="@layout/fragment_mykockoc_profile" />
 
         <include
             android:id="@+id/recycler_layout"
-            layout="@layout/recyclerview_with_swipe_refresh" />
+            layout="@layout/recyclerview" />
 
     </LinearLayout>
 
