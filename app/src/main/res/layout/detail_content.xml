@@ -16,8 +16,6 @@
             android:layout_height="wrap_content"
             android:background="@drawable/spinner_background"
             android:gravity="right" />
-        <!--android:paddingLeft="120dp"
-            android:layout_weight="0.1"-->
 
         <TextView
             android:id="@+id/course_title"
@@ -41,13 +39,13 @@
 
             <!-- user profile  -->
             <LinearLayout
-                android:id="@+id/user_info"
+                android:id="@+id/ll_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/img_detail_inner_up_profile"
+                    android:id="@+id/img_detail_inner_down_profile"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginRight="5dp"
@@ -88,7 +86,7 @@
                 android:layout_marginTop="10dp">
 
                 <TextView
-                    android:id="@+id/tv_detail_inner_up_text"
+                    android:id="@+id/tv_detail_content_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autoLink="web"
@@ -98,21 +96,21 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/htmlInfo"
+                android:id="@+id/ll_htmlInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone">
 
                 <ImageView
-                    android:id="@+id/tv_detail_inner_up_htmlImg"
+                    android:id="@+id/tv_detail_content_htmlImg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
                     android:src="@drawable/empty_photo" />
 
                 <TextView
-                    android:id="@+id/tv_detail_inner_up_htmlTitle"
+                    android:id="@+id/tv_detail_content_htmlTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="html title"
@@ -120,7 +118,7 @@
                     android:textSize="18dp" />
 
                 <TextView
-                    android:id="@+id/tv_detail_inner_up_htmlDesc"
+                    android:id="@+id/tv_detail_content_htmlDesc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="html desc"
@@ -130,13 +128,13 @@
 
             <!-- ImageView -->
             <LinearLayout
-                android:id="@+id/ll_detail_inner_up_imgViewList"
+                android:id="@+id/ll_detail_content_imgViewList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/img_detail_inner_up_main_img"
+                    android:id="@+id/img_detail_content_main_img"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -144,14 +142,14 @@
 
             <!-- courseView -->
             <ImageView
-                android:id="@+id/iv_detail_inner_up_courses"
+                android:id="@+id/iv_detail_content_courses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
 
             <!-- mapView -->
             <LinearLayout
-                android:id="@+id/ll_detail_inner_up_maps"
+                android:id="@+id/ll_detail_content_maps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -161,7 +159,7 @@
             <org.apmem.tools.layouts.FlowLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:f="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/ll_detail_inner_up_tag"
+                android:id="@+id/fl_detail_content_tag"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 f:layout_newLine="true">
@@ -171,7 +169,7 @@
 
         <!-- commentMenuView -->
         <LinearLayout
-            android:id="@+id/comment_menu"
+            android:id="@+id/ll_comment_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/detail_up"
@@ -182,7 +180,7 @@
 
 
             <ToggleButton
-                android:id="@+id/tv_detail_inner_up_comment_view01"
+                android:id="@+id/toggle_detail_content_like"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -196,7 +194,7 @@
                 android:textOn="" />
 
             <TextView
-                android:id="@+id/tv_detail_inner_up_comment_view03"
+                android:id="@+id/tv_detail_comment_scrap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -213,7 +211,7 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/tv_detail_inner_up_comment_view05"
+                android:id="@+id/tv_detail_comment_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -225,7 +223,7 @@
                 android:textColor="@color/gray" />
 
             <TextView
-                android:id="@+id/tv_detail_inner_up_comment_view06"
+                android:id="@+id/tv_detail_comment_link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"

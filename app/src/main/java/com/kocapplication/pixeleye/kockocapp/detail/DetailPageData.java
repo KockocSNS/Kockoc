@@ -1,12 +1,14 @@
-package com.kocapplication.pixeleye.kockocapp.model;
+package com.kocapplication.pixeleye.kockocapp.detail;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by hp on 2016-06-21.
  */
-public class DetailPageData {
+public class DetailPageData implements Serializable{
     private int boardNo;
+    private int courseNo;
     private String userName ;
     private String userNo;
     private String profileImage;
@@ -17,10 +19,12 @@ public class DetailPageData {
     private ArrayList<String> hashTagArr = new ArrayList<String>();
     private ArrayList<Comment> commentArr = new ArrayList<Comment>();
 
+
     private double mLatitude;
     private double mLongitude;
     private String boardTime;
 
+    private int recommend_No =0;
     private int scrapNumber;
 
     public void setBoardNo(int boardNo){this.boardNo = boardNo;}
@@ -34,12 +38,11 @@ public class DetailPageData {
     public void setCourse(ArrayList<String> course){this.course = course;}
     public void setHashTagArr(ArrayList<String> hashTagArr){this.hashTagArr = hashTagArr;}
     public void setCommentArr(ArrayList<Comment> commentArr){this.commentArr =  commentArr;}
-    public void setScrapNumber(int scrapNumber){
-        this.scrapNumber = scrapNumber;
-    }
+    public void setScrapNumber(int scrapNumber){this.scrapNumber = scrapNumber;}
     public void setLongitude(double longitude){
         this.mLongitude = longitude;
     }
+    public void setCourseNo(int courseNo) {this.courseNo = courseNo;}
 
     public int getBoardNo(){return this.boardNo;}
     public String getUserName(){return this.userName;}
@@ -60,6 +63,10 @@ public class DetailPageData {
     public double getLongitude(){
         return this.mLongitude;
     }
+    public int getCourseNo() {return courseNo;}
+
+
+    public void plusRecommend_No(){this.recommend_No++;}
 
     public class Comment{
         private int comment_userNo;

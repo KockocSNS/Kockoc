@@ -54,10 +54,22 @@ public class Board implements Serializable {
     public String getHashTagByString() {
         String returnValue = "";
         for (String temp:hashTags)
-            returnValue += (temp + ",");
+            returnValue += (temp + ", ");
 
-        returnValue = returnValue.substring(0, returnValue.length() - 1);
+        returnValue = returnValue.substring(0, returnValue.length() - 2);
 
         return returnValue;
+    }
+
+    public BoardBasicAttr getBasicAttributes() {
+        return basicAttributes;
+    }
+
+    public ExpressionCount getExpressionCount() {
+        return expressionCount;
+    }
+
+    public Coordinate getCoordinate() {
+        return coordinate;
     }
 }
