@@ -15,7 +15,9 @@ import android.widget.Toast;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.story.BoardRecyclerAdapter;
+import com.kocapplication.pixeleye.kockocapp.main.story.StoryThread;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
+import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 
 import java.util.ArrayList;
 
@@ -37,7 +39,7 @@ public class RecommendFragment extends Fragment {
         init(view);
 
         Handler handler = new Handler();
-        Thread thread = new RecommendThread(handler);
+        Thread thread = new StoryThread(handler, BasicValue.getInstance().getUrlHead() + "News/recommendNews.jsp");
         thread.start();
 
         return view;

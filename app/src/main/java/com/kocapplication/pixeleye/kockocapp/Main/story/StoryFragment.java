@@ -10,7 +10,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,7 @@ import android.widget.Toast;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
+import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 
 import java.util.ArrayList;
 
@@ -54,7 +54,7 @@ public class StoryFragment extends Fragment {
         init(view);
 
         Handler handler = new StoryDataReceiveHandler();
-        Thread thread = new StoryThread(handler);
+        Thread thread = new StoryThread(handler, BasicValue.getInstance().getUrlHead() + "News/readNews.jsp");
         thread.start();
 
         return view;
@@ -113,8 +113,7 @@ public class StoryFragment extends Fragment {
             Board board = adapter.getItems().get(position);
 
             Intent intent = new Intent(getActivity(), DetailActivity.class);
-            intent.putExtra("boardNo", board.getBasicAttributes().getBoardNo());
-            intent.putExtra("courseNo", board.getBasicAttributes().getCourseNo());
+            intent.putExtra("", board.getBasicAttributes().getBoardNo());
             startActivity(intent);
         }
     }
@@ -165,5 +164,6 @@ public class StoryFragment extends Fragment {
             adapter.setItems(boards);
             adapter.notifyDataSetChanged();
         }
+
     }
 }
