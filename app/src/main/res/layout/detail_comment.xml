@@ -13,7 +13,7 @@
             android:layout_marginBottom="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-            android:id="@+id/img_detail_inner_down_profile"
+            android:id="@+id/img_detail_comment_profile"
             android:src="@drawable/empty_photo"
             android:scaleType="centerCrop"
             android:layout_width="40dp"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tv_detail_inner_down_nickname"
+                android:id="@+id/tv_detail_comment_nickname"
                 android:text="홍길동"
                 android:textStyle="bold"
                 android:textSize="15dp"
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/tv_detail_inner_down_text"
+                android:id="@+id/tv_detail_comment_text"
                 android:text="텍스트입력"
                 android:textStyle="bold"
                 android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
 
         <TextView
             android:gravity="right"
-            android:id="@+id/tv_detail_inner_down_date"
+            android:id="@+id/tv_detail_comment_date"
             android:text="2016-07-10"
             android:textColor="@color/gray"
             android:textSize="12dp"

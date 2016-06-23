@@ -113,7 +113,8 @@ public class StoryFragment extends Fragment {
             Board board = adapter.getItems().get(position);
 
             Intent intent = new Intent(getActivity(), DetailActivity.class);
-            intent.putExtra("", board.getBasicAttributes().getBoardNo());
+            intent.putExtra("boardNo", board.getBasicAttributes().getBoardNo());
+            intent.putExtra("courseNo", board.getBasicAttributes().getCourseNo());
             startActivity(intent);
         }
     }

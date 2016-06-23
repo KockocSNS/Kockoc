@@ -83,7 +83,6 @@ public class DetailPageData implements Serializable{
         public void setComment_date(String comment_date){this.comment_date = comment_date;}
         public void setComment_No(int comment_No){this.comment_No = comment_No;}
 
-
         public int getComment_No(){
             return this.comment_No;
         }

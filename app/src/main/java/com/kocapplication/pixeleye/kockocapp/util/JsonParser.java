@@ -1,5 +1,7 @@
 package com.kocapplication.pixeleye.kockocapp.util;
 
+import android.util.Log;
+
 import com.kocapplication.pixeleye.kockocapp.detail.DetailPageData;
 
 import org.json.JSONArray;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
  * Created by hp on 2016-06-23.
  */
 public class JsonParser {
+    final static String TAG = "JsonParser";
     /**
      * Course
      */
@@ -42,6 +45,7 @@ public class JsonParser {
         DetailPageData detailPageData = new DetailPageData();
         try{
             JSONObject getObject = new JSONObject(MSG);
+            Log.e(TAG,"json :"+getObject);
             JSONArray Details = getObject.getJSONArray("boardArr");
             JSONObject temp = Details.getJSONObject(0);
 
