@@ -2,8 +2,10 @@ package com.kocapplication.pixeleye.kockocapp.detail;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,13 +14,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.main.BaseActivity;
-import com.kocapplication.pixeleye.kockocapp.model.DetailPageData;
 
 /**
  * Created by hp on 2016-06-20.
  */
-public class DetailActivity extends BaseActivity {
+public class DetailActivity extends AppCompatActivity {
     final static String TAG = "DetailActivity";
 
     private DetailFragment mdetailFragment;
@@ -30,12 +30,18 @@ public class DetailActivity extends BaseActivity {
     private Button scrap_btn;
     private ImageButton back_btn;
 
+    private int boardNo;
+    private int courseNo;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        setTitle("상세 보기");
 
-        actionBarTitleSet("상세보기");
+        init();
+        getIntentValue();
+        getFragmentManager().beginTransaction().replace(R.id.container, new DetailFragment(boardNo,courseNo)).commit();
     }
 
     protected void init(){
@@ -54,6 +60,11 @@ public class DetailActivity extends BaseActivity {
         courseCopy_btn.setOnClickListener(new CourseCopyListener());
         scrap_btn.setOnClickListener(new ScrapListener());
         back_btn.setOnClickListener(new BackListener());
+    }
+    private void getIntentValue(){
+        Intent intent = getIntent();
+        boardNo = intent.getIntExtra("boardNo",0);
+        courseNo = intent.getIntExtra("courseNo",0);
     }
 
     /**

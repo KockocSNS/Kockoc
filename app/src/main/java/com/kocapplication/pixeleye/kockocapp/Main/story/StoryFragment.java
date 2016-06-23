@@ -1,5 +1,6 @@
 package com.kocapplication.pixeleye.kockocapp.main.story;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
 
 import java.util.ArrayList;
@@ -106,7 +108,14 @@ public class StoryFragment extends Fragment {
     private class ItemClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+            int position = recyclerView.getChildLayoutPosition(v);
 
+            Board board = adapter.getItems().get(position);
+
+            Intent intent = new Intent(getActivity(), DetailActivity.class);
+            intent.putExtra("boardNo", board.getBasicAttributes().getBoardNo());
+            intent.putExtra("courseNo", board.getBasicAttributes().getCourseNo());
+            startActivity(intent);
         }
     }
 
@@ -156,6 +165,5 @@ public class StoryFragment extends Fragment {
             adapter.setItems(boards);
             adapter.notifyDataSetChanged();
         }
-
     }
 }
