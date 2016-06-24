@@ -116,7 +116,7 @@ public class DetailFragment extends Fragment {
         fl_board_hashtag = (FlowLayout)view.findViewById(R.id.fl_detail_content_tag);
     }
 
-    private void setData(DetailPageData data){
+    private void setData(DetailPageData data) {
         profile_nickname.setText(data.getUserName());
         profile_date.setText(data.getBoardDate());
         board_text.setText(data.getBoardText());
@@ -133,7 +133,7 @@ public class DetailFragment extends Fragment {
         }
     }
 
-    private void setImg(DetailPageData data){
+    private void setImg(DetailPageData data) {
         //프로필 이미지
         Glide.with(getActivity()).load(BasicValue.getInstance().getUrlHead()+"board_image/" + data.getUserNo() + "/profile.jpg").into(profile_img);
 

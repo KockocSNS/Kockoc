@@ -1,5 +1,6 @@
 package com.kocapplication.pixeleye.kockocapp.main.recommend;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.story.BoardRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.main.story.StoryThread;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
@@ -39,7 +41,7 @@ public class RecommendFragment extends Fragment {
         init(view);
 
         Handler handler = new Handler();
-        Thread thread = new StoryThread(handler, BasicValue.getInstance().getUrlHead() + "News/recommendNews.jsp");
+        Thread thread = new RecommendThread(handler);
         thread.start();
 
         return view;
@@ -65,7 +67,14 @@ public class RecommendFragment extends Fragment {
     private class ItemClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+            int position = recyclerView.getChildLayoutPosition(v);
 
+            Board board = adapter.getItems().get(position);
+
+            Intent intent = new Intent(getActivity(), DetailActivity.class);
+            intent.putExtra("boardNo", board.getBasicAttributes().getBoardNo());
+            intent.putExtra("courseNo", board.getBasicAttributes().getCourseNo());
+            startActivity(intent);
         }
     }
 

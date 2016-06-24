@@ -33,14 +33,19 @@ import java.util.List;
  * Created by Han_ on 2016-06-21.
  */
 public class StoryThread extends Thread {
-    private String postURL;
+    private String postURL = BasicValue.getInstance().getUrlHead() + "News/readNews.jsp";
+//    private String postURL = "http://115.68.14.27:8080/" + "News/readNews.jsp";
     private Handler handler;
-    private int boardNo;
+    private int boardNo = -1;
 
-    public StoryThread(Handler handler, String postURL) {
+    public StoryThread(Handler handler) {
         super();
         this.handler = handler;
-        this.postURL = postURL;
+    }
+
+    public StoryThread(Handler handler, int boardNo) {
+        this(handler);
+        this.boardNo = boardNo;
     }
 
     @Override
@@ -53,7 +58,7 @@ public class StoryThread extends Thread {
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("boardNo", "" + (-1)));
+            params.add(new BasicNameValuePair("boardNo", "" + boardNo));
 
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
@@ -130,6 +135,7 @@ public class StoryThread extends Thread {
 
             Board board = new Board(attributes, expressionCount, coordinate,
                     object.get("Text").getAsString(),
+                    object.get("Date").getAsString(),
                     object.get("Time").getAsString(),
                     object.get("mainImg").getAsString(),
                     hashTags);

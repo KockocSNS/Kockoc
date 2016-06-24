@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +25,10 @@ import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.write.NewWriteActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Han_ on 2016-06-20.
@@ -37,7 +40,7 @@ public class StoryFragment extends Fragment {
     private RecyclerView recyclerView;
     private BoardRecyclerAdapter adapter;
 
-    private Animation up,down;
+    private Animation up, down;
 
     private FrameLayout mainContainer;
     private TextView writeButton;   //글쓰기 버튼
@@ -46,6 +49,10 @@ public class StoryFragment extends Fragment {
     private TextView boardAdd;      //새글 버튼
     private TextView continuousAdd; //이어쓰기
 
+    private ArrayList<Board> initialData;
+
+    public static final int NEW_WRITE_REQUEST_CODE = 12433;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,16 +60,19 @@ public class StoryFragment extends Fragment {
 
         init(view);
 
-        Handler handler = new StoryDataReceiveHandler();
-        Thread thread = new StoryThread(handler, BasicValue.getInstance().getUrlHead() + "News/readNews.jsp");
-        thread.start();
+        if (initialData == null) {
+            Handler handler = new StoryDataReceiveHandler();
+            Thread thread = new StoryThread(handler);
+            refreshLayout.setRefreshing(true);
+            thread.start();
+        }
 
         return view;
     }
 
     private void init(View view) {
         up = AnimationUtils.loadAnimation(this.getActivity(), R.anim.main_bottom_menu_up);
-        down = AnimationUtils.loadAnimation(this.getActivity(), R.anim.main_bottom_menu_up);
+        down = AnimationUtils.loadAnimation(this.getActivity(), R.anim.main_bottom_menu_down);
 
         mainContainer = (FrameLayout) view.findViewById(R.id.story_main_container);
         writeButton = (TextView) view.findViewById(R.id.story_write_button);
@@ -78,7 +88,9 @@ public class StoryFragment extends Fragment {
 
         refreshLayout.setOnRefreshListener(new RefreshListener());
 
-        adapter = new BoardRecyclerAdapter(new ArrayList<Board>(), new ItemClickListener());
+        if (initialData == null) adapter = new BoardRecyclerAdapter(new ArrayList<Board>(), new ItemClickListener());
+        else adapter = new BoardRecyclerAdapter(initialData, new ItemClickListener());
+
         recyclerView.setAdapter(adapter);
 
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
@@ -97,10 +109,24 @@ public class StoryFragment extends Fragment {
         continuousAdd.setOnClickListener(listener);
     }
 
+    private void buttonLayoutUpAnimation() {
+        writeButton.setBackgroundResource(R.drawable.story_close_button);
+        mainContainer.setBackgroundResource(R.color.translucent_80);
+        writeContainer.setVisibility(View.VISIBLE);
+        writeContainer.startAnimation(up);
+    }
+
+    private void buttonLayoutDownAnimation() {
+        writeButton.setBackgroundResource(R.drawable.story_write_button);
+        mainContainer.setBackgroundResource(R.color.transparency);
+        writeContainer.setVisibility(View.INVISIBLE);
+        writeContainer.startAnimation(down);
+    }
+
     private class RefreshListener implements SwipeRefreshLayout.OnRefreshListener {
         @Override
         public void onRefresh() {
-            Toast.makeText(getActivity(), "asdasd", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "refresh!", Toast.LENGTH_SHORT).show();
             refreshLayout.setRefreshing(false);
         }
     }
@@ -110,12 +136,32 @@ public class StoryFragment extends Fragment {
         public void onClick(View v) {
             int position = recyclerView.getChildLayoutPosition(v);
 
-            Board board = adapter.getItems().get(position);
+            if (writeContainer.getVisibility() == View.INVISIBLE) {
+                Board board = adapter.getItems().get(position);
 
-            Intent intent = new Intent(getActivity(), DetailActivity.class);
-            intent.putExtra("boardNo", board.getBasicAttributes().getBoardNo());
-            intent.putExtra("courseNo", board.getBasicAttributes().getCourseNo());
-            startActivity(intent);
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra("boardNo", board.getBasicAttributes().getBoardNo());
+                intent.putExtra("courseNo", board.getBasicAttributes().getCourseNo());
+                startActivity(intent);
+            } else {
+                buttonLayoutDownAnimation();
+            }
+        }
+    }
+
+    private class BottomRefreshListener extends RecyclerView.OnScrollListener {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+
+            int LastVisibleItem = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+
+            if ((LastVisibleItem) == adapter.getItems().size() - 1 && !refreshLayout.isRefreshing() && adapter.getItems().size() > 6) {
+                refreshLayout.setRefreshing(true);
+                Handler handler = new BottomRefreshHandler();
+                Thread thread = new StoryThread(handler, initialData.get(initialData.size() - 1).getBasicAttributes().getBoardNo());
+                thread.start();
+            }
         }
     }
 
@@ -124,30 +170,18 @@ public class StoryFragment extends Fragment {
         public void onClick(View v) {
             if (v.equals(writeButton)) {
                 if (writeContainer.getVisibility() == View.INVISIBLE) {
-                    writeButton.setBackgroundResource(R.drawable.story_close_button);
-                    mainContainer.setBackgroundResource(R.color.translucent_80);
-                    writeContainer.setVisibility(View.VISIBLE);
-                    writeContainer.startAnimation(up);
+                    buttonLayoutUpAnimation();
                 } else {
-                    writeButton.setBackgroundResource(R.drawable.story_write_button);
-                    mainContainer.setBackgroundResource(R.color.transparency);
-                    writeContainer.setVisibility(View.INVISIBLE);
-                    writeContainer.startAnimation(down);
+                    buttonLayoutDownAnimation();
                 }
-            }
-
-            else if (v.equals(boardAdd)) {
-//                Intent intent = new Intent(getActivity(), );
-//                writeButton.callOnClick();
-//                startActivityForResult(intent);
-            }
-
-            else if (v.equals(courseAdd)) {
+            } else if (v.equals(boardAdd)) {
+                Intent intent = new Intent(getActivity(), NewWriteActivity.class);
+                writeButton.callOnClick();
+                startActivityForResult(intent, NEW_WRITE_REQUEST_CODE);
+            } else if (v.equals(courseAdd)) {
 //                Intent intent = new Intent();
 //                startActivity(intent);
-            }
-
-            else if (v.equals(continuousAdd)) {
+            } else if (v.equals(continuousAdd)) {
 //                Intent intent = new Intent(getActivity(), );
 //                writeButton.callOnClick();
 //                startActivityForResult(intent);
@@ -155,6 +189,7 @@ public class StoryFragment extends Fragment {
         }
 
     }
+
     private class StoryDataReceiveHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -162,9 +197,26 @@ public class StoryFragment extends Fragment {
 
             ArrayList<Board> boards = (ArrayList<Board>) msg.getData().getSerializable("THREAD");
 
+            initialData = boards;
             adapter.setItems(boards);
             adapter.notifyDataSetChanged();
+            refreshLayout.setRefreshing(false);
         }
+    }
 
+    private class BottomRefreshHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            ArrayList<Board> boards = (ArrayList<Board>) msg.getData().getSerializable("THREAD");
+
+            List<Board> initialData = adapter.getItems();
+            initialData.addAll(boards);
+
+            adapter.setItems(initialData);
+            adapter.notifyDataSetChanged();
+            refreshLayout.setRefreshing(false);
+        }
     }
 }

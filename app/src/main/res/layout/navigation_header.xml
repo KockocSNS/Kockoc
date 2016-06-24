@@ -3,18 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:padding="10dp"
     android:background="@color/mainBgColor">
 
     <ImageView
         android:id="@+id/header_profile_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
         android:src="@drawable/profile"/>
 
     <TextView
         android:id="@+id/header_profile_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white" />
+        android:layout_gravity="center"
+        android:text="Test"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"/>
 
 </LinearLayout>

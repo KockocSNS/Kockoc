@@ -2,7 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/item_logout"
-        android:title="로그아웃" />
+        android:id="@+id/nav_help"
+        android:icon="@drawable/nav_help"
+        android:title="도움말" />
+
+    <item
+        android:id="@+id/nav_alarm"
+        android:icon="@drawable/nav_alarm"
+        android:title="알림" />
+
+    <item
+        android:id="@+id/nav_setting"
+        android:icon="@drawable/nav_setting"
+        android:title="설정" />
 
 </menu>

@@ -37,16 +37,25 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<BoardRecyclerView
 
         int courseCount = data.getBasicAttributes().getCourseCount();
 
+        holder.getLike().setText(String.valueOf(data.getExpressionCount().getExpressionCount()));
+        holder.getScrap().setText(String.valueOf(data.getExpressionCount().getScrapCount()));
+        holder.getComment().setText(String.valueOf(data.getExpressionCount().getCommentCount()));
+
         holder.getBoardImage().setImageDrawable(data.getBoardImage());
         holder.getDate().setText(data.getDate());
         holder.getTitle().setText(data.getText());
         holder.getTag().setText(data.getHashTagByString());
 
-        if (courseCount == 0) holder.getCourseCount().setVisibility(View.GONE);
+        if (courseCount == 0) {
+            holder.getCourseCount().setVisibility(View.GONE);
+            holder.getCourseImage().setVisibility(View.GONE);
+        }
         else {
             holder.getCourseCount().setVisibility(View.VISIBLE);
+            holder.getCourseImage().setVisibility(View.VISIBLE);
             holder.getCourseCount().setText(String.valueOf(courseCount));
         }
+
     }
 
     @Override
