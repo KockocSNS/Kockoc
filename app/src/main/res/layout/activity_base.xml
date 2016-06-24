@@ -16,10 +16,12 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/tool_bar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/mainBgColor" />
+            android:background="@color/mainBgColor">
+
+        </android.support.v7.widget.Toolbar>
 
     </LinearLayout>
 
@@ -29,7 +31,10 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/navigation_header"
+        app:itemBackground="@drawable/nav_item_background"
         app:itemTextColor="@color/black"
+        app:itemIconTint="@color/black"
+        app:itemTextAppearance="@style/NavigationItemFont"
         app:menu="@menu/navigation_menu">
 
     </android.support.design.widget.NavigationView>

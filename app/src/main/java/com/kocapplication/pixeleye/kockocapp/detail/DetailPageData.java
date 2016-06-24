@@ -19,7 +19,6 @@ public class DetailPageData implements Serializable{
     private ArrayList<String> hashTagArr = new ArrayList<String>();
     private ArrayList<Comment> commentArr = new ArrayList<Comment>();
 
-
     private double mLatitude;
     private double mLongitude;
     private String boardTime;

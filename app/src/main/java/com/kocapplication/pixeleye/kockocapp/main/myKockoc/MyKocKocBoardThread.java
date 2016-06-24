@@ -14,6 +14,7 @@ import com.kocapplication.pixeleye.kockocapp.model.BoardBasicAttr;
 import com.kocapplication.pixeleye.kockocapp.model.Coordinate;
 import com.kocapplication.pixeleye.kockocapp.model.ExpressionCount;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -79,7 +80,7 @@ public class MyKocKocBoardThread extends Thread {
             JsonObject object = element.getAsJsonObject();
             JsonObject expression = object.get("etcObject").getAsJsonObject();
 
-            String courseJsonString = courseJsonObject(object.get("Course_No").getAsInt());
+            String courseJsonString = JspConn.readCourseByCourseNo(object.get("Course_No").getAsInt());
 
             JsonObject courseObject = parser.parse(courseJsonString).getAsJsonObject();
             int courseCount = 0;
@@ -126,6 +127,7 @@ public class MyKocKocBoardThread extends Thread {
 
             Board board = new Board(attributes, expressionCount, coordinate,
                     object.get("Text").getAsString(),
+                    object.get("Date").getAsString(),
                     object.get("Time").getAsString(),
                     object.get("mainImg").getAsString(),
                     hashTags);
@@ -138,35 +140,6 @@ public class MyKocKocBoardThread extends Thread {
         bundle.putSerializable("THREAD", receiveData);
         msg.setData(bundle);
         handler.sendMessage(msg);
-    }
-
-    private String courseJsonObject(int courseNo) {
-        String result = "";
-
-        postURL = BasicValue.getInstance().getUrlHead() + "Course/readCourseByCourseNo.jsp";
-        try {
-            HttpClient client = new DefaultHttpClient();
-            HttpPost post = new HttpPost(postURL);
-
-            List<NameValuePair> params = new ArrayList<>();
-            // params.add(new BasicNameValuePair("UserNo",""));
-            params.add(new BasicNameValuePair("courseNo", "" + courseNo));
-            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-            post.setEntity(ent);
-            HttpResponse response = client.execute(post);
-
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
-
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                result += line;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return result;
     }
 
 }

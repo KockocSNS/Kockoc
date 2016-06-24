@@ -35,7 +35,7 @@ import java.util.List;
  * Created by Han_ on 2016-06-23.
  */
 public class RecommendThread extends Thread {
-    private String postURL;
+    private String postURL =  BasicValue.getInstance().getUrlHead() + "News/recommendNews.jsp";
     private Handler handler;
 
     public RecommendThread(Handler handler) {
@@ -117,6 +117,7 @@ public class RecommendThread extends Thread {
 
             Board board = new Board(attributes, expressionCount, coordinate,
                     object.get("Text").getAsString(),
+                    object.get("Date").getAsString(),
                     object.get("Time").getAsString(),
                     object.get("mainImg").getAsString(),
                     hashTags);

@@ -24,8 +24,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".detail.DetailActivity"/>
-        <activity android:name=".Login.LoginActivity"/>
+        <activity android:name=".detail.DetailActivity" />
+        <activity android:name=".Login.LoginActivity" />
+        <activity android:name=".write.NewWriteActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
 
         <!-- 카카오톡 debug key -->
         <meta-data

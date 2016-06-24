@@ -20,6 +20,7 @@ public class Board implements Serializable {
 
     private String text;
     private String date;
+    private String time;
     private String courseTitle;
     private String mainImageURL;
     private Drawable boardImage;
@@ -29,12 +30,13 @@ public class Board implements Serializable {
     private List<String> imageNames;
     private List<String> courses;
 
-    public Board(BoardBasicAttr attributes, ExpressionCount expressionCount, String text, String date, String mainImageURL, List<String> hashTags) {
+    public Board(BoardBasicAttr attributes, ExpressionCount expressionCount, String text, String date, String time, String mainImageURL, List<String> hashTags) {
         basicAttributes = attributes;
         this.expressionCount = expressionCount;
 
         this.text = text;
         this.date = date;
+        this.time = time;
 
         this.coordinate = new Coordinate(0, 0);
 
@@ -45,14 +47,14 @@ public class Board implements Serializable {
 
         try {
             InputStream inputStream = (InputStream) new URL("http://221.160.54.160:8080/board_image/" + attributes.getUserNo() + "/" + mainImageURL).getContent();
-            this.boardImage = Drawable.createFromStream(inputStream, "test");
+            this.boardImage = Drawable.createFromStream(inputStream, "board_image");
         } catch (Exception e) {
             Log.e("BOARD", "MAIN IMAGE RECEIVE ERROR");
         }
     }
 
-    public Board(BoardBasicAttr attributes, ExpressionCount expressionCount, Coordinate coordinate, String text, String date, String mainImageURL, List<String> hashTags) {
-        this(attributes, expressionCount, text, date, mainImageURL, hashTags);
+    public Board(BoardBasicAttr attributes, ExpressionCount expressionCount, Coordinate coordinate, String text, String date, String time, String mainImageURL, List<String> hashTags) {
+        this(attributes, expressionCount, text, date, time, mainImageURL, hashTags);
         this.coordinate = coordinate;
     }
 
@@ -66,6 +68,10 @@ public class Board implements Serializable {
 
     public String getDate() {
         return date;
+    }
+
+    public String getTime() {
+        return time;
     }
 
     public String getText() {

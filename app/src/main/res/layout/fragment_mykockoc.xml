@@ -6,7 +6,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <include android:id="@+id/profile_container"
             layout="@layout/fragment_mykockoc_profile" />

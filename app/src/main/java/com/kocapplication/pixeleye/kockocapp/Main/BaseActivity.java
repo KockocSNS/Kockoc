@@ -38,13 +38,12 @@ public class BaseActivity extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
 
-//        setSupportActionBar(toolbar);
-//        actionBar = getSupportActionBar();
-        // TODO: 2016-06-23 Main에서도 Null뜸
-//        assert actionBar != null;
-//        actionBar.setHomeAsUpIndicator(R.drawable.nav_menu);
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-//        actionBar.setDisplayShowCustomEnabled(true);
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+        assert actionBar != null;
+        actionBar.setHomeAsUpIndicator(R.drawable.nav_menu);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowCustomEnabled(true);
     }
 
     protected void onRefresh() {
@@ -85,10 +84,10 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void actionBarTitleSet() {
-//        actionBar.setDisplayShowTitleEnabled(false);
-//        View view = getLayoutInflater().inflate(R.layout.actionbar_image_title, null);
-//
-//        actionBar.setCustomView(view);
+        actionBar.setDisplayShowTitleEnabled(false);
+        View view = getLayoutInflater().inflate(R.layout.actionbar_image_title, null);
+
+        actionBar.setCustomView(view);
     }
 
     /**
@@ -100,5 +99,25 @@ public class BaseActivity extends AppCompatActivity {
         InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         editText.setText("");
+    }
+
+    private class NavigationListener implements NavigationView.OnNavigationItemSelectedListener {
+        @Override
+        public boolean onNavigationItemSelected(MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.nav_help:
+                    drawerLayout.openDrawer(GravityCompat.START);
+                    return true;
+                case R.id.nav_alarm:
+
+                    return true;
+                case R.id.nav_setting:
+
+                    return true;
+
+            }
+
+            return false;
+        }
     }
 }

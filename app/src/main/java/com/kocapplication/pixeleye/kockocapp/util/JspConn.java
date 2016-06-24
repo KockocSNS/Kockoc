@@ -53,6 +53,7 @@ public class JspConn {
         Log.d(TAG,"loadDetailPage result :"+result);
         return result;
     }
+
     static public String WriteComment(String comment, int boardNo, int userNo) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
