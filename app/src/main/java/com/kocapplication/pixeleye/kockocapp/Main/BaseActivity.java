@@ -1,7 +1,6 @@
 package com.kocapplication.pixeleye.kockocapp.main;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -10,7 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -70,6 +68,8 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+            drawerLayout.closeDrawers();
         super.onBackPressed();
     }
 
@@ -93,9 +93,10 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * softKeyboardHide
      * 키보드를 숨기고 edittext 초기화
+     *
      * @param editText
      */
-    protected void softKeyboardHide(EditText editText){
+    protected void softKeyboardHide(EditText editText) {
         InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         editText.setText("");

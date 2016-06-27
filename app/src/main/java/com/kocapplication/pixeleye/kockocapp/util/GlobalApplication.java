@@ -2,6 +2,7 @@ package com.kocapplication.pixeleye.kockocapp.util;
 
 import android.app.Activity;
 import android.app.Application;
+import android.view.Display;
 
 import com.kakao.auth.KakaoSDK;
 import com.kocapplication.pixeleye.kockocapp.Kakao.KakaoSDKAdapter;
@@ -38,6 +39,7 @@ public class GlobalApplication extends Application {
             throw new IllegalStateException("this application does not inherit com.kakao.GlobalApplication");
         return instance;
     }
+
     /**
      * 애플리케이션 종료시 singleton 어플리케이션 객체 초기화한다.
      */
@@ -46,5 +48,6 @@ public class GlobalApplication extends Application {
         super.onTerminate();
         instance = null;
     }
+
 }
 

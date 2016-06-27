@@ -5,12 +5,18 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/mainBgColor</item>
         <item name="colorPrimaryDark">@color/darkBgColor</item>
-        <item name="colorAccent">@color/white</item>
+        <item name="colorAccent">@color/black</item>
     </style>
 
     <style name="NavigationItemFont">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">100sp</item>
     </style>
+
+    <style name="MIP_theme" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 
 </resources>

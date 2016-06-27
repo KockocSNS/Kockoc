@@ -99,6 +99,7 @@ public class StoryFragment extends Fragment {
 
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
+        recyclerView.setOnScrollListener(new BottomRefreshListener());
     }
 
     private void buttonListenerSet() {
@@ -126,8 +127,10 @@ public class StoryFragment extends Fragment {
     private class RefreshListener implements SwipeRefreshLayout.OnRefreshListener {
         @Override
         public void onRefresh() {
-            Toast.makeText(getActivity(), "refresh!", Toast.LENGTH_SHORT).show();
-            refreshLayout.setRefreshing(false);
+            refreshLayout.setRefreshing(true);
+            Handler handler = new StoryDataReceiveHandler();
+            Thread thread = new StoryThread(handler);
+            thread.start();
         }
     }
 
@@ -159,7 +162,8 @@ public class StoryFragment extends Fragment {
             if ((LastVisibleItem) == adapter.getItems().size() - 1 && !refreshLayout.isRefreshing() && adapter.getItems().size() > 6) {
                 refreshLayout.setRefreshing(true);
                 Handler handler = new BottomRefreshHandler();
-                Thread thread = new StoryThread(handler, initialData.get(initialData.size() - 1).getBasicAttributes().getBoardNo());
+                Board lastItem = adapter.getItems().get(adapter.getItems().size() - 1);
+                Thread thread = new StoryThread(handler, lastItem.getBasicAttributes().getBoardNo());
                 thread.start();
             }
         }

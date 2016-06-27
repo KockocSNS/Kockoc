@@ -10,6 +10,8 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -29,10 +31,14 @@
         <activity android:name=".write.NewWriteActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
 
+        <activity android:name=".write.map.MapActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+
         <!-- 카카오톡 debug key -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="Gn1KAuZgmPY9g9Xs4hfmqKDExEE="/>
+
     </application>
 
 </manifest>

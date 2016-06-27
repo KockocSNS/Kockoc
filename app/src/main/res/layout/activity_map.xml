@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/current_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="30dp"
+        android:drawableLeft="@drawable/icon_map"
+        android:drawablePadding="10dp"
+        android:text="내 위치 가져오기"
+        style="?attr/borderlessButtonStyle" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/search_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/search_button"
+            android:background="@drawable/bg_rectangle_shape_silver"
+            android:padding="5dp"/>
+
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:minHeight="35dp"
+            android:text="검색"
+            android:background="@drawable/bg_rectangle_shape_click"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:weightSum="5">
+
+        <Button
+            android:id="@+id/map_hotels"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="30dp"
+            android:text="숙박업소"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_round_shape_subbgcolor"/>
+
+        <Button
+            android:id="@+id/map_foods"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="30dp"
+            android:text="음식점"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_round_shape_subbgcolor"/>
+
+        <Button
+            android:id="@+id/map_mart"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="30dp"
+            android:text="마트"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_round_shape_subbgcolor"/>
+
+        <Button
+            android:id="@+id/map_terminal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="30dp"
+            android:text="터미널"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_round_shape_subbgcolor"/>
+
+        <Button
+            android:id="@+id/map_hospital"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="30dp"
+            android:text="병원"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_round_shape_subbgcolor"/>
+
+    </LinearLayout>
+
+    <net.daum.mf.map.api.MapView
+        android:id="@+id/map_view"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="250dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+</LinearLayout>
