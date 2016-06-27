@@ -242,17 +242,15 @@
                         android:gravity="center"
                         android:textColor="@color/gray" />
                 </LinearLayout>
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_detail_commentlist"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/ll_comment_menu">
-                </android.support.v7.widget.RecyclerView>
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ll_comment_menu">
+                    <include android:id="@+id/detail_commentlist_layout"
+                        layout="@layout/detail_comment_list"/>
+                </LinearLayout>
             </RelativeLayout>
         </ScrollView>
-
-
-
     </LinearLayout>
 
 
