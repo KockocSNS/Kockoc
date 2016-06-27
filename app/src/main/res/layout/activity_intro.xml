@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/introImg"
-            android:background="@drawable/main_img" />
+            android:background="@drawable/intro_main_img" />
 
     </RelativeLayout>
 
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/introLogo"
         android:layout_marginTop="198dp"
-        android:background="@drawable/bg_01"
+        android:background="@drawable/intro_logo"
         android:layout_gravity="center"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true" />

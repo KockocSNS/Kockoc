@@ -87,7 +87,6 @@ public class DetailFragment extends Fragment {
         Thread thread = new DetailThread(handler,boardNo,courseNo);
         thread.start();
 
-        setCommentList();
         return view;
     }
     private void init(View view){
@@ -97,7 +96,7 @@ public class DetailFragment extends Fragment {
         ll_board_map = (LinearLayout)view.findViewById(R.id.ll_detail_content_maps);
         ll_comment_menu = (LinearLayout)view.findViewById(R.id.ll_comment_menu);
         ll_bgLayout = (LinearLayout)view.findViewById(R.id.ll_bg_detail_up);
-        rv_comment_list = (RecyclerView)view.findViewById(R.id.rv_detail_commentlist);
+
         btn_like = (ToggleButton)view.findViewById(R.id.toggle_detail_content_like);
         course_spinner = (Spinner)view.findViewById(R.id.course_spinner);
         course_title = (TextView)view.findViewById(R.id.course_title);
@@ -114,6 +113,8 @@ public class DetailFragment extends Fragment {
         board_mainimg = (ImageView)view.findViewById(R.id.img_detail_content_main_img);
         board_courses = (ImageView)view.findViewById(R.id.iv_detail_content_courses);
         fl_board_hashtag = (FlowLayout)view.findViewById(R.id.fl_detail_content_tag);
+        View includeView = view.findViewById(R.id.detail_commentlist_layout);
+        rv_comment_list = (RecyclerView)includeView.findViewById(R.id.rv_detail_commentlist);
     }
 
     private void setData(DetailPageData data) {
@@ -152,11 +153,11 @@ public class DetailFragment extends Fragment {
         }
     }
     private void setCommentList(){
-        adapter = new DetailRecyclerAdapter(detailPageData.getCommentArr());
+        adapter = new DetailRecyclerAdapter(detailPageData.getCommentArr(),getActivity());
         rv_comment_list.setAdapter(adapter);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
-
-
+        rv_comment_list.setLayoutManager(manager);
+        rv_comment_list.setHasFixedSize(true);
     }
 
     private class DetailDataReceiveHandler extends Handler {
@@ -166,6 +167,7 @@ public class DetailFragment extends Fragment {
             detailPageData = (DetailPageData) msg.getData().getSerializable("THREAD");
             setData(detailPageData);
             setImg(detailPageData);
+            setCommentList();
         }
     }
 }
