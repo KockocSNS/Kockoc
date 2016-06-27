@@ -17,13 +17,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:largeHeap="true">
-        <activity android:name=".main.MainActivity">
+        <activity android:name=".intro.IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".main.MainActivity" />
         <activity android:name=".detail.DetailActivity" />
         <activity android:name=".Login.LoginActivity" />
         <activity android:name=".write.NewWriteActivity"
