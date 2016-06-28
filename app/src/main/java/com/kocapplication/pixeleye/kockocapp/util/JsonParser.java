@@ -111,7 +111,7 @@ public class JsonParser {
         return detailPageData;
     }
 
-    static public ArrayList<Neighbor> getNeighborInfo(String msg){
+    static public ArrayList<Neighbor> getFollowInfo(String msg){
         ArrayList<Neighbor> neighborList = new ArrayList<>();
         Log.e(TAG,""+msg);
         try{

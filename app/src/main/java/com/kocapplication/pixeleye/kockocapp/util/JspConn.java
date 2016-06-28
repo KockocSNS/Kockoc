@@ -79,6 +79,7 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.e(TAG,"writecomment result :"+result);
         return result;
     }
     //gcm 메시지 보내기
@@ -116,82 +117,6 @@ public class JspConn {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("commentNo", "" +commentNo));
         String result = "";
-        try {
-            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-            post.setEntity(ent);
-
-            HttpResponse response = client.execute(post);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                result += line;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-    static public String checkExpression(int boardNo){
-        String result="";
-        try {
-            passiveMethod();
-            HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Board/Expression/checkExpression.jsp";
-            HttpPost post = new HttpPost(postURL);
-
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("boardNo", "" + boardNo));
-
-            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-            post.setEntity(ent);
-            HttpResponse response = client.execute(post);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                result += line;
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-    static public String writeExpression(int boardNo, int Status) {
-        passiveMethod();
-        HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead()+"Board/Expression/test/writeExpression.jsp";
-        HttpPost post = new HttpPost(postURL);
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-
-        params.add(new BasicNameValuePair("userNo", "" + String.valueOf(BasicValue.getInstance().getUserNo())));
-        params.add(new BasicNameValuePair("boardNo", "" + String.valueOf(boardNo)));
-        params.add(new BasicNameValuePair("status", "" + String.valueOf(Status)));
-        String result = "";
-        try {
-            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-            post.setEntity(ent);
-
-            HttpResponse response = client.execute(post);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                result += line;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-    static public String addScrap(int boardNo) {
-
-        passiveMethod();
-        HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead()+"Scrap/AddScrap.jsp";
-        HttpPost post = new HttpPost(postURL);
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("boardNo", "" + String.valueOf(boardNo)));
-        params.add(new BasicNameValuePair("userNo", "" + String.valueOf(BasicValue.getInstance().getUserNo())));
-        String result = "";
-
         try {
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
@@ -284,38 +209,6 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
-    }
-
-    /**
-     * Board
-     */
-    static public String boardDelete(int boardNo, int userNo) {
-        String result = "";
-        try {
-            passiveMethod();
-            HttpClient client = new DefaultHttpClient();
-
-            String postURL =BasicValue.getInstance().getUrlHead()+"Board/HPdeleteBoard.jsp";
-            HttpPost post = new HttpPost(postURL);
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("boardNo", "" + boardNo));
-            params.add(new BasicNameValuePair("userNo", "" + userNo));
-
-            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-            post.setEntity(ent);
-
-            HttpResponse response = client.execute(post);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                result += line;
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Log.d("Debug", "boardDelete complete");
         return result;
     }
 
