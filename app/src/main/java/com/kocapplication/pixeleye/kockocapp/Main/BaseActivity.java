@@ -36,6 +36,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void init() {
+        NavigationListener navigationListener = new NavigationListener();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
@@ -46,6 +47,8 @@ public class BaseActivity extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.nav_menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
+
+        navigationView.setNavigationItemSelectedListener(navigationListener);
     }
 
     protected void onRefresh() {
@@ -109,7 +112,8 @@ public class BaseActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.nav_help:
-                    drawerLayout.openDrawer(GravityCompat.START);
+                    Intent adviceActivity = new Intent(getApplicationContext(), AdviceActivity.class);
+                    startActivity(adviceActivity);
                     return true;
                 case R.id.nav_alarm:
 
