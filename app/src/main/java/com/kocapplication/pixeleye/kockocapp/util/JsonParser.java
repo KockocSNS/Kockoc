@@ -3,11 +3,13 @@ package com.kocapplication.pixeleye.kockocapp.util;
 import android.util.Log;
 
 import com.kocapplication.pixeleye.kockocapp.detail.DetailPageData;
+import com.kocapplication.pixeleye.kockocapp.model.Neighbor;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by hp on 2016-06-23.
@@ -111,4 +113,25 @@ public class JsonParser {
         }
         return detailPageData;
     }
+
+    static public ArrayList<Neighbor> getNeighborInfo(String msg){
+        ArrayList<Neighbor> neighborList = new ArrayList<>();
+        Log.e(TAG,""+msg);
+        try{
+            JSONArray neighborArr = new JSONArray(msg);
+            int length = neighborArr.length();
+            for(int i=0; i<length; i++){
+                JSONObject temp = neighborArr.getJSONObject(i);
+                int userNo = temp.getInt("userNo");
+                String nickName = temp.getString("nickname");
+
+                neighborList.add(new Neighbor(userNo, nickName));
+            }
+        }catch (Exception e){
+            e.getMessage();
+        }
+
+        return neighborList;
+    }
+
 }

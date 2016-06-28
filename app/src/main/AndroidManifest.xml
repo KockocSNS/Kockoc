@@ -29,6 +29,8 @@
         <activity android:name=".Login.LoginActivity" />
         <activity android:name=".write.NewWriteActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+        <activity android:name=".scrap.ScrapActivity"/>
+        <activity android:name=".neighbor.NeighborActivity"/>
 
         <!-- 카카오톡 debug key -->
         <meta-data
