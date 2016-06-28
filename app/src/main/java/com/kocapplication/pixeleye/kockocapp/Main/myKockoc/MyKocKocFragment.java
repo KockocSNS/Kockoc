@@ -20,9 +20,13 @@ import android.widget.TextView;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
+import com.kocapplication.pixeleye.kockocapp.intro.IntroActivity;
+import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.main.story.BoardRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
 import com.kocapplication.pixeleye.kockocapp.model.ProfileData;
+import com.kocapplication.pixeleye.kockocapp.neighbor.NeighborActivity;
+import com.kocapplication.pixeleye.kockocapp.scrap.ScrapActivity;
 
 import java.util.ArrayList;
 
@@ -98,16 +102,21 @@ public class MyKocKocFragment extends Fragment {
     }
 
     private void listenerSet() {
-
+        View.OnClickListener listener = new CountClickListener();
+        scrapButton.setOnClickListener(listener);
+        neighborButton.setOnClickListener(listener);
+        courseButton.setOnClickListener(listener);
     }
 
     private class CountClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             if (v.equals(scrapButton)) {
-
+                Intent scrap_intent = new Intent(getContext(), ScrapActivity.class);
+                startActivity(scrap_intent);
             } else if (v.equals(neighborButton)) {
-
+                Intent neighbor_intent = new Intent(getContext(), NeighborActivity.class);
+                startActivity(neighbor_intent);
             } else if (v.equals(courseButton)) {
 
             }

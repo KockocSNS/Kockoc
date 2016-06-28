@@ -1,6 +1,7 @@
 package com.kocapplication.pixeleye.kockocapp.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.neighbor.NeighborActivity;
 
 /**
  * Created by Han_ on 2016-06-20.
@@ -60,7 +62,8 @@ public class BaseActivity extends AppCompatActivity {
 
                 return true;
             case R.id.menu_neighbor:
-
+                Intent neighbor_intent = new Intent(BaseActivity.this, NeighborActivity.class);
+                startActivity(neighbor_intent);
                 return true;
 
         }
@@ -114,7 +117,6 @@ public class BaseActivity extends AppCompatActivity {
                 case R.id.nav_setting:
 
                     return true;
-
             }
 
             return false;
