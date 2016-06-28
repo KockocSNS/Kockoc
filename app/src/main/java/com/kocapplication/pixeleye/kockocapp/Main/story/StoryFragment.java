@@ -142,6 +142,7 @@ public class StoryFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
                 intent.putExtra("boardNo", board.getBasicAttributes().getBoardNo());
                 intent.putExtra("courseNo", board.getBasicAttributes().getCourseNo());
+                intent.putExtra("board_userNo",board.getBasicAttributes().getUserNo());
                 startActivity(intent);
             } else {
                 buttonLayoutDownAnimation();
