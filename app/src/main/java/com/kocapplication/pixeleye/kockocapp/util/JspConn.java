@@ -79,6 +79,57 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.e(TAG,"writecomment result :"+result);
+        return result;
+    }
+    //gcm 메시지 보내기
+    static public String pushGcm(String msg, int userNo) {
+        String result = "";
+        try {
+            passiveMethod();
+            HttpClient client = new DefaultHttpClient();
+
+            String postURL = BasicValue.getInstance().getUrlHead()+"GCM/GCM.jsp";
+            HttpPost post = new HttpPost(postURL);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userNo", "" + userNo));
+            params.add(new BasicNameValuePair("msg", "" + msg));
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d("TAG", "pushGCM result :" + result);
+        return result;
+    }
+    static public String DeleteComment(int commentNo) {
+        passiveMethod();
+        HttpClient client = new DefaultHttpClient();
+        String postURL = BasicValue.getInstance().getUrlHead()+"Board/Comment/DeleteComment.jsp";
+        HttpPost post = new HttpPost(postURL);
+
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("commentNo", "" +commentNo));
+        String result = "";
+        try {
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return result;
     }
 

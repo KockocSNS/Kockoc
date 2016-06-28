@@ -20,16 +20,18 @@ public class DetailRecyclerAdapter extends RecyclerView.Adapter<DetailRecyclerVi
     final static String TAG = "DetailRecyclerAdapter";
     private ArrayList<DetailPageData.Comment> commentArr;
     private Context mContext;
+    private View.OnClickListener listener;
 
-    // TODO: 2016-06-23 댓글 목록 데이터 받는지 확인하고 뿌려주기
-    public DetailRecyclerAdapter(ArrayList<DetailPageData.Comment> data,Context mContext) {
+    public DetailRecyclerAdapter(ArrayList<DetailPageData.Comment> data,Context mContext,View.OnClickListener listener) {
         this.mContext = mContext;
         this.commentArr = data;
+        this.listener = listener;
     }
 
     @Override
     public DetailRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.detail_comment_item, parent, false);
+        itemView.setOnClickListener(listener);
         return new DetailRecyclerViewHolder(itemView);
     }
 
@@ -42,7 +44,6 @@ public class DetailRecyclerAdapter extends RecyclerView.Adapter<DetailRecyclerVi
         holder.getComment_nickname().setText(data.getComment_userName());
         Glide.with(mContext).load(BasicValue.getInstance().getUrlHead()+"board_image/" + (data.getComment_userNo() + "/profile.jpg"))
                 .error(R.drawable.detail_comment_empty).into(holder.getComment_img());
-
     }
 
     @Override
@@ -50,7 +51,9 @@ public class DetailRecyclerAdapter extends RecyclerView.Adapter<DetailRecyclerVi
         return commentArr.size();
     }
 
-//    public ArrayList<DetailPageData.Comment> getItems() {return commentArr;}
-//
-//    public void setItems(ArrayList<DetailPageData.Comment> commentArr) {this.commentArr = commentArr;}
+    public void removeItem(int position){
+        commentArr.remove(position);
+        notifyItemRemoved(position);
+    }
+
 }
