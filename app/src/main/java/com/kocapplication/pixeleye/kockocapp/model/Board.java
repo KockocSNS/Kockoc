@@ -21,15 +21,13 @@ public class Board implements Serializable {
     private String text;
     private String date;
     private String time;
-    private String courseTitle;
-    private String mainImageURL;
     private Drawable boardImage;
 
     private List<String> hashTags;
     private List<String> imagePaths;
     private List<String> imageNames;
-    private List<String> courses;
 
+    // 지도 없는 데이터를 받아올 때 사용되는 생성자.
     public Board(BoardBasicAttr attributes, ExpressionCount expressionCount, String text, String date, String time, String mainImageURL, List<String> hashTags) {
         basicAttributes = attributes;
         this.expressionCount = expressionCount;
@@ -43,7 +41,6 @@ public class Board implements Serializable {
         this.hashTags = hashTags;
         imagePaths = new ArrayList<>();
         imageNames = new ArrayList<>();
-        courses = new ArrayList<>();
 
         try {
             InputStream inputStream = (InputStream) new URL("http://221.160.54.160:8080/board_image/" + attributes.getUserNo() + "/" + mainImageURL).getContent();
@@ -53,9 +50,17 @@ public class Board implements Serializable {
         }
     }
 
+    // 지도가 함께 있는 데이터를 받아올 때 사용되는 생성자.
     public Board(BoardBasicAttr attributes, ExpressionCount expressionCount, Coordinate coordinate, String text, String date, String time, String mainImageURL, List<String> hashTags) {
         this(attributes, expressionCount, text, date, time, mainImageURL, hashTags);
         this.coordinate = coordinate;
+    }
+
+    // 새글 작성시 사용되는 생성자.
+    public Board(BoardBasicAttr attributes, Coordinate coordinate, String text, List<String> imagePaths, List<String> hashTags) {
+        this(attributes, null, text, null, null, null, hashTags);
+        this.coordinate = coordinate;
+        this.imagePaths = imagePaths;
     }
 
     public void setBoardImage(Drawable boardImage) {

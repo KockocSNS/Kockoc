@@ -7,8 +7,12 @@
         android:id="@+id/actionbar_text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
         android:layout_gravity="center"
         android:gravity="center"
-        android:textColor="@color/black" />
+        android:text="글쓰기"
+        android:textSize="20dp"
+        android:textColor="@color/white" />
 
 </LinearLayout>
