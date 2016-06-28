@@ -1,4 +1,4 @@
-package com.kocapplication.pixeleye.kockocapp.scrap;
+package com.kocapplication.pixeleye.kockocapp.main.myKockoc.scrap;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,6 @@ import android.view.View;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivity;
-import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.main.story.BoardRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.main.story.StoryThread;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
@@ -24,7 +23,7 @@ import java.util.ArrayList;
 /**
  * Created by pixeleye02 on 2016-06-27.
  */
-public class ScrapActivity extends BaseActivity{
+public class ScrapActivity extends BaseActivity {
 
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;

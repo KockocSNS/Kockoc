@@ -45,7 +45,7 @@ public class MyKocKocProfileThread extends Thread {
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<>();
-            params.add(new BasicNameValuePair("userNo", "" + 90));
+            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
             HttpResponse response = client.execute(post);

@@ -45,5 +45,8 @@ dependencies {
     compile files('lib/libDaumMapAndroid.jar')
     compile files('lib/libDaumMapEngineApi.jar')
 
+    //Rounded Image
+    compile 'jp.wasabeef:glide-transformations:1.0.6@aar'
+
 }
 apply plugin: 'com.google.gms.google-services'
