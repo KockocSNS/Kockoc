@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -34,10 +35,11 @@ import java.util.List;
  */
 public class NewWriteActivity extends BaseActivityWithoutNav {
     private final String TAG = "NEW_WRITE_ACTIVITY";
-    private final int MAP_REQUESTCODE = 50233;
+    public static final int MAP_REQUESTCODE = 50233;
 
     private EditText boardText;
     private LinearLayout imageContainer;
+    private LinearLayout mapContainer;
 
     private TextView tagText;
     private EditText tagInput;
@@ -66,6 +68,8 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
         View containView = container.inflate();
 
         imageContainer = (LinearLayout) containView.findViewById(R.id.image_container);
+        mapContainer = (LinearLayout) containView.findViewById(R.id.map_container);
+
         boardText = (EditText) containView.findViewById(R.id.board_text);
         tagInput = (EditText) containView.findViewById(R.id.tag_input);
         tagText = (TextView) containView.findViewById(R.id.tag_text);
@@ -82,6 +86,7 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
     @Override
     protected void init() {
         super.init();
+        coordinate = null;
     }
 
     private class ButtonListener implements View.OnClickListener {
@@ -182,10 +187,35 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
 
         }
 
-
         @Override
         public void onCancel() {
             Snackbar.make(photoAdd, "이미지 불러오기를 실패하였습니다.", Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == MAP_REQUESTCODE && resultCode == RESULT_OK) {
+            double latitude = data.getDoubleExtra("LATITUDE", 0);
+            double longitude = data.getDoubleExtra("LONGITUDE", 0);
+
+            coordinate = new Coordinate(latitude, longitude);
+
+            ImageView mapImage = new ImageView(getApplicationContext());
+            mapImage.setImageDrawable(getResources().getDrawable(R.drawable.map_image));
+
+            mapContainer.removeAllViews();
+            mapContainer.addView(mapImage);
+
+            mapImage.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    coordinate = null;
+                    return false;
+                }
+            });
         }
     }
 }
