@@ -6,7 +6,7 @@ package com.kocapplication.pixeleye.kockocapp.util;
 public class BasicValue {
     private static BasicValue ourInstance = new BasicValue();
     private String urlHead = "http://221.160.54.160:8080/";
-    private int userNo = 90;
+    private int userNo = -1;
 
     public static BasicValue getInstance() {
         return ourInstance;
