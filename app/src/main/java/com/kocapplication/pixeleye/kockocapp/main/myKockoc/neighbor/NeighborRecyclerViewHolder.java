@@ -1,4 +1,4 @@
-package com.kocapplication.pixeleye.kockocapp.neighbor;
+package com.kocapplication.pixeleye.kockocapp.main.myKockoc.neighbor;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,18 +16,23 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
-import com.kocapplication.pixeleye.kockocapp.intro.IntroActivity;
-import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
+import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity;
+import com.kocapplication.pixeleye.kockocapp.main.myKockoc.neighbor.NeighborActivity;
+import com.kocapplication.pixeleye.kockocapp.main.myKockoc.scrap.ScrapActivity;
 import com.kocapplication.pixeleye.kockocapp.main.story.BoardRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
 import com.kocapplication.pixeleye.kockocapp.model.ProfileData;
-import com.kocapplication.pixeleye.kockocapp.neighbor.NeighborActivity;
-import com.kocapplication.pixeleye.kockocapp.scrap.ScrapActivity;
+import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+
 
 import java.util.ArrayList;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by Han_ on 2016-06-21.
@@ -102,10 +106,13 @@ public class MyKocKocFragment extends Fragment {
     }
 
     private void listenerSet() {
-        View.OnClickListener listener = new CountClickListener();
-        scrapButton.setOnClickListener(listener);
-        neighborButton.setOnClickListener(listener);
-        courseButton.setOnClickListener(listener);
+        View.OnClickListener count_listener = new CountClickListener();
+        scrapButton.setOnClickListener(count_listener);
+        neighborButton.setOnClickListener(count_listener);
+        courseButton.setOnClickListener(count_listener);
+
+        View.OnClickListener profile_listenrer = new ProfileClickListener();
+        profileImage.setOnClickListener(profile_listenrer);
     }
 
     private class CountClickListener implements View.OnClickListener {
@@ -118,8 +125,17 @@ public class MyKocKocFragment extends Fragment {
                 Intent neighbor_intent = new Intent(getContext(), NeighborActivity.class);
                 startActivity(neighbor_intent);
             } else if (v.equals(courseButton)) {
+                Intent course_intent = new Intent(getContext(), CourseActivity.class);
+                startActivity(course_intent);
 
             }
+        }
+    }
+
+    private class ProfileClickListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(getContext(), "사진선택", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -145,6 +161,8 @@ public class MyKocKocFragment extends Fragment {
             ProfileData data = (ProfileData) msg.getData().getSerializable("THREAD");
 
             nickName.setText(data.getNickName());
+            Glide.with(getContext()).load(BasicValue.getInstance().getUrlHead()+"board_image/"+ BasicValue.getInstance().getUserNo() + "/profile.jpg")
+                    .error(R.drawable.default_profile).bitmapTransform(new CropCircleTransformation(Glide.get(getContext()).getBitmapPool())).into(profileImage);
 
             scrapCount.setText(data.getCourseCount() + "");
             neighborCount.setText(data.getNeighborCount() + "");

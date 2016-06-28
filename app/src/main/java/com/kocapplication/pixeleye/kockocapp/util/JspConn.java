@@ -163,7 +163,7 @@ public class JspConn {
         return result;
     }
 
-    static public String getNeighborInfo(int userNo) {
+    static public String getFollowInfo(int userNo) {
         String result = "";
         try {
             passiveMethod();
@@ -211,7 +211,6 @@ public class JspConn {
         }
         return result;
     }
-
 
     static public void passiveMethod() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

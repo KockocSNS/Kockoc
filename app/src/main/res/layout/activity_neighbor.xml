@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.kocapplication.pixeleye.kockocapp.neighbor.NeighborActivity"
+    tools:context=".main.myKockoc.neighbor.NeighborActivity"
     android:orientation="vertical">
 
     <LinearLayout
@@ -10,25 +10,25 @@
         android:orientation="vertical"
         android:weightSum="2">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Follow"
-            android:textSize="20dp"
-            android:textColor="#F66C5B"
-            android:layout_marginLeft="10dp"
-            android:textStyle="bold" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Following"
+                android:textSize="20dp"
+                android:textColor="#F66C5B"
+                android:layout_marginLeft="10dp"
+                android:textStyle="bold" />
 
-        <include
-            android:id="@+id/recycler_layout"
-            layout="@layout/recyclerview" />
+            <include
+                android:id="@+id/recycler_layout_following"
+                layout="@layout/recyclerview" />
 
-    </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
@@ -44,7 +44,7 @@
                 android:textStyle="bold" />
 
             <include
-                android:id="@+id/recycler_layout"
+                android:id="@+id/recycler_layout_follower"
                 layout="@layout/recyclerview" />
 
         </LinearLayout>

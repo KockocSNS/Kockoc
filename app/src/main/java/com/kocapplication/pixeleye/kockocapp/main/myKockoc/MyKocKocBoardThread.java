@@ -52,8 +52,8 @@ public class MyKocKocBoardThread extends Thread {
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-//            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
-            params.add(new BasicNameValuePair("userNo", "" + 90));
+            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
+//            params.add(new BasicNameValuePair("userNo", "" + 90));
             params.add(new BasicNameValuePair("boardNo", ""+ -1 ));
 
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);

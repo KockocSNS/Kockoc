@@ -19,7 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.neighbor.NeighborActivity;
+import com.kocapplication.pixeleye.kockocapp.main.myKockoc.neighbor.NeighborActivity;
 
 /**
  * Created by Han_ on 2016-06-20.
