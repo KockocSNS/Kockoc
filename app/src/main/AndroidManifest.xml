@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".main.MainActivity" />
-        <activity android:name=".detail.DetailActivity" />
+        <activity android:name=".detail.DetailActivity"/>
         <activity android:name=".Login.LoginActivity" />
         <activity android:name=".write.NewWriteActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>

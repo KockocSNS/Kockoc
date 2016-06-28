@@ -10,6 +10,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,8 @@ import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 import org.apmem.tools.layouts.FlowLayout;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Created by hp on 2016-06-21.
@@ -34,6 +37,7 @@ public class DetailFragment extends Fragment {
     final static String TAG = "DetailFragment";
     DetailPageData detailPageData;
     DetailRecyclerAdapter adapter;
+
 
     LinearLayout ll_profile;
     LinearLayout ll_htmlInfo;
@@ -83,8 +87,6 @@ public class DetailFragment extends Fragment {
 
         init(view);
 
-        detailPageData = new DetailPageData();
-
         //DetailThread 에서 데이터를 받아옴
         Handler handler = new DetailDataReceiveHandler();
         Thread thread = new DetailThread(handler,boardNo,courseNo);
@@ -93,6 +95,9 @@ public class DetailFragment extends Fragment {
         return view;
     }
     private void init(View view){
+        detailPageData = new DetailPageData();
+
+
         ll_profile = (LinearLayout)view.findViewById(R.id.ll_profile);
         ll_htmlInfo = (LinearLayout)view.findViewById(R.id.ll_htmlInfo);
         ll_board_img = (LinearLayout)view.findViewById(R.id.ll_detail_content_imgViewList);
@@ -118,16 +123,17 @@ public class DetailFragment extends Fragment {
         fl_board_hashtag = (FlowLayout)view.findViewById(R.id.fl_detail_content_tag);
         View includeView = view.findViewById(R.id.detail_commentlist_layout);
         rv_comment_list = (RecyclerView)includeView.findViewById(R.id.rv_detail_commentlist);
+
+        btn_like.setOnClickListener(new LikeClickListener());
     }
 
     private void setData(DetailPageData data) {
         profile_nickname.setText(data.getUserName());
         profile_date.setText(data.getBoardDate());
         board_text.setText(data.getBoardText());
-//        comment_scrap.setText(detailPageData.getScrapNumber());
-//        comment_count.setText(detailPageData.getCommentArr().size());
+        comment_scrap.setText(String.valueOf(detailPageData.getScrapNumber()));
+        comment_count.setText(String.valueOf(detailPageData.getCommentArr().size()));
 
-        Log.e(TAG,"courseTitle :"+data.getCourse().get(0));
         //해시태그
         for (int l = 0; l < data.getHashTagArr().size(); l++) {
             TextView textTemp = new TextView(getActivity());
@@ -186,6 +192,10 @@ public class DetailFragment extends Fragment {
             setData(detailPageData);
             setImg(detailPageData);
             setCommentList();
+            //DetailData를 받아 오면 좋아요 수 얻어옴
+            Handler ex_handler = new ExpressionCheckHandler();
+            Thread ex_thread = new ExpressionCheckThread(ex_handler, boardNo);
+            ex_thread.start();
         }
     }
     private class RefreshDataReceiveHandler extends Handler {
@@ -195,6 +205,44 @@ public class DetailFragment extends Fragment {
             detailPageData = (DetailPageData) msg.getData().getSerializable("THREAD");
             adapter = new DetailRecyclerAdapter(detailPageData.getCommentArr(),getActivity(),new CommentClickListener());
             rv_comment_list.setAdapter(adapter);
+        }
+    }
+
+    /**
+     * ExpressionCheckHandler
+     * 좋아요 값 표시
+     */
+    private class ExpressionCheckHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            String receive = msg.getData().getString("MESSAGE");
+
+            btn_like.setTextOff(detailPageData.getRecommend_No() + "");
+            btn_like.setTextOn((detailPageData.getRecommend_No() + 1) + "");
+            btn_like.setText(detailPageData.getRecommend_No() + "");
+
+            try {
+                JSONObject upperObj = new JSONObject(receive);
+                JSONArray array = upperObj.getJSONArray("userArr");
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject object = array.getJSONObject(i);
+                    if (BasicValue.getInstance().getUserNo() == object.getInt("userNo")) {
+                        btn_like.setChecked(true);
+                        btn_like.setTextOn(detailPageData.getRecommend_No() + "");
+                        btn_like.setTextOff((detailPageData.getRecommend_No() - 1) + "");
+                        btn_like.setText(detailPageData.getRecommend_No() + "");
+                        }
+                    }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    private class LikeClickListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            JspConn.writeExpression(detailPageData.getBoardNo(),0);
         }
     }
     private class CommentClickListener implements View.OnClickListener {

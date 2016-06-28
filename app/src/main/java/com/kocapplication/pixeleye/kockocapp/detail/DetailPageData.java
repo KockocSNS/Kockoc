@@ -23,8 +23,12 @@ public class DetailPageData implements Serializable{
     private double mLongitude;
     private String boardTime;
 
-    private int recommend_No =0;
+
+
+    private int recommend_No;
     private int scrapNumber;
+
+
 
     public void setBoardNo(int boardNo){this.boardNo = boardNo;}
     public void setBoardTime(String boardTime) {this.boardTime = boardTime;}
@@ -42,6 +46,7 @@ public class DetailPageData implements Serializable{
         this.mLongitude = longitude;
     }
     public void setCourseNo(int courseNo) {this.courseNo = courseNo;}
+    public void setRecommend_No(int recommend_No) {this.recommend_No = recommend_No;}
 
     public int getBoardNo(){return this.boardNo;}
     public String getUserName(){return this.userName;}
@@ -63,9 +68,7 @@ public class DetailPageData implements Serializable{
         return this.mLongitude;
     }
     public int getCourseNo() {return courseNo;}
-
-
-    public void plusRecommend_No(){this.recommend_No++;}
+    public int getRecommend_No() {return recommend_No;}
 
     public class Comment{
         private int comment_userNo;
