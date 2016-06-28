@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.kocapplication.pixeleye.kockocapp.R;
 
 /**
- * Created by pixeleye03 on 2016-06-23.
+ * Created by hp on 2016-06-23.
  */
 public class DetailRecyclerViewHolder extends RecyclerView.ViewHolder {
     private ImageView comment_img;

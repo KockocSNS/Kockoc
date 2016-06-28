@@ -8,7 +8,7 @@ import android.util.Log;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 /**
- * Created by pixeleye02 on 2016-05-04.
+ * Created by hp on 2016-05-04.
  */
 public class ExpressionCheckThread extends Thread {
     final static String TAG = "ExpressionCheckThread";
