@@ -20,6 +20,9 @@ import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.EnterListener;
 import com.kocapplication.pixeleye.kockocapp.util.map.GpsInfo;
+import com.kocapplication.pixeleye.kockocapp.util.map.Item;
+import com.kocapplication.pixeleye.kockocapp.util.map.OnFinishSearchListener;
+import com.kocapplication.pixeleye.kockocapp.util.map.Searcher;
 
 import net.daum.mf.map.api.CameraUpdateFactory;
 import net.daum.mf.map.api.MapPOIItem;
@@ -129,6 +132,30 @@ public class MapActivity extends BaseActivityWithoutNav
 
     }
 
+    private void showResults(List<Item> itemList) {
+        MapPointBounds mapPointBounds = new MapPointBounds();
+
+        for (Item item : itemList) {
+            Log.i(TAG, item.title);
+
+            MapPOIItem poiItem = new MapPOIItem();
+            poiItem.setItemName(item.title);
+            poiItem.setTag(itemList.indexOf(item));
+
+            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(item.latitude, item.longitude);
+            poiItem.setMapPoint(mapPoint);
+            mapPointBounds.add(mapPoint);
+
+            poiItem.setMarkerType(MapPOIItem.MarkerType.BluePin);
+            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
+
+            daumMap.addPOIItem(poiItem);
+        }
+
+        daumMap.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
+
+    }
+
     private class UpperButtonListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -142,6 +169,7 @@ public class MapActivity extends BaseActivityWithoutNav
         private void searchButtonClicked() {
             String text = searchText.getText().toString();
 
+            Log.i(TAG, text);
             if (text.isEmpty()) {
                 Toast.makeText(MapActivity.this, "검색할 장소를 입력해주세요.", Toast.LENGTH_SHORT).show();
                 return;
@@ -152,6 +180,21 @@ public class MapActivity extends BaseActivityWithoutNav
             double longitude = geoCoordinate.longitude;
             int radius = 10000;
             int page = 1;
+            String apiKey = BasicValue.getInstance().getDAUM_MAP_API_KEY();
+
+            Searcher searcher = new Searcher();
+            searcher.searchKeyword(getApplicationContext(), text, page, apiKey, new OnFinishSearchListener() {
+                @Override
+                public void onSuccess(List<Item> itemList) {
+                    daumMap.removeAllPOIItems();
+                    showResults(itemList);
+                }
+
+                @Override
+                public void onFail() {
+                    Toast.makeText(MapActivity.this, "제한 트래픽 초과되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+            });
 
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(searchText.getWindowToken(), 0);
@@ -228,7 +271,6 @@ public class MapActivity extends BaseActivityWithoutNav
         }
     }
 
-
     @Override
     public void onMapViewInitialized(MapView mapView) {
     }
@@ -280,6 +322,4 @@ public class MapActivity extends BaseActivityWithoutNav
     @Override
     public void onDraggablePOIItemMoved(MapView mapView, MapPOIItem mapPOIItem, MapPoint mapPoint) {
     }
-
-
 }
