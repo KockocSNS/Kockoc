@@ -8,7 +8,7 @@ import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 /**
- * Created by pixeleye03 on 2016-06-23.
+ * Created by hp on 2016-06-23.
  */
 public class DetailThread extends Thread {
     final static String TAG = "DetailThread";

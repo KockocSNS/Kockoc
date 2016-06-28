@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,9 +16,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.main.BaseActivity;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
@@ -27,15 +30,17 @@ public class DetailActivity extends AppCompatActivity {
     final static String TAG = "DetailActivity";
     DetailFragment detailFragment;
 
+    private Toolbar toolbar;
     private EditText comment_et;
     private Button commentSend_btn;
     private Button courseCopy_btn;
     private Button scrap_btn;
     private ImageButton back_btn;
+    private ImageView menu_btn;
 
     private int boardNo;
     private int courseNo;
-    private int board_userNo;
+    private int board_userNo; // 글 작성자 유저번호
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,17 +56,26 @@ public class DetailActivity extends AppCompatActivity {
     protected void init(){
         detailFragment = new DetailFragment(boardNo,courseNo);
 
+        toolbar = (Toolbar)findViewById(R.id.tool_bar);
         comment_et = (EditText) findViewById(R.id.edit_comment);
         commentSend_btn = (Button) findViewById(R.id.btn_send_comment);
         courseCopy_btn = (Button)findViewById(R.id.btn_detail_course_copy);
         scrap_btn = (Button)findViewById(R.id.btn_detail_interest);
         back_btn = (ImageButton)findViewById(R.id.btn_detail_back);
+        menu_btn = (ImageView)findViewById(R.id.detail_menu);
 
         commentSend_btn.setOnClickListener(new CommentSendListener());
         courseCopy_btn.setOnClickListener(new CourseCopyListener());
         scrap_btn.setOnClickListener(new ScrapListener());
         back_btn.setOnClickListener(new BackListener());
+        menu_btn.setOnClickListener(new MenuListener());
+        //작성자와 유저번호가 같으면 코스 복사와 관심글 숨김
+        if(board_userNo == BasicValue.getInstance().getUserNo()){
+            courseCopy_btn.setVisibility(View.GONE);
+            scrap_btn.setVisibility(View.GONE);
+        }
     }
+
     private void getIntentValue(){
         Intent intent = getIntent();
         boardNo = intent.getIntExtra("boardNo",0);
@@ -91,6 +105,7 @@ public class DetailActivity extends AppCompatActivity {
     private class CourseCopyListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+            Toast.makeText(DetailActivity.this, "코스 복사 구현해야함", Toast.LENGTH_SHORT).show();
 //            int index;
 //            ArrayList<Courses> courseArr = (JsonParser.readCourseToCopy(JspConn.readCourseAll()));
 //            for (index = 0; index < courseArr.size(); index++) {
@@ -115,14 +130,19 @@ public class DetailActivity extends AppCompatActivity {
     private class ScrapListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-//            JspConn.addScrap(mBoardNo);
-//            Toast.makeText(v.getContext(), "관심글 등록되었습니다.", Toast.LENGTH_SHORT).show();
+            JspConn.addScrap(boardNo);
+            Toast.makeText(v.getContext(), "관심글 등록되었습니다.", Toast.LENGTH_SHORT).show();
         }
     }
     private class BackListener implements View.OnClickListener{
         @Override
+        public void onClick(View v) {finish();}
+    }
+    private class MenuListener implements View.OnClickListener{
+        @Override
         public void onClick(View v) {
-            finish();
+            Log.e(TAG,"클릭");
+            DetailActivity.this.openOptionsMenu();
         }
     }
 
@@ -133,25 +153,22 @@ public class DetailActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // TODO: 2016-06-21 userNo값 받기
-//        if (Integer.parseInt(mDetailPageData.getUserNo()) == BasicValue.mUserNo)
-//            getMenuInflater().inflate(R.menu.menu_detail_page, menu);
-//        else
-//            getMenuInflater().inflate(R.menu.menu_detail_page_report, menu);
-//
+        if (board_userNo == BasicValue.getInstance().getUserNo())
+            getMenuInflater().inflate(R.menu.menu_detail_page, menu);
+        else
+            getMenuInflater().inflate(R.menu.menu_detail_page_report, menu);
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        if(id == R.id.menu_delete)
-//            openDeleteDialog();
-//        else if(id == R.id.menu_edit)
-//             TODO: 2016-06-21 수정 기능 구현 필요함
+        int id = item.getItemId();
+        if(id == R.id.menu_delete)
+            openDeleteDialog();
+        else if(id == R.id.menu_edit)
+            Toast.makeText(DetailActivity.this, "글 수정 구현해야함", Toast.LENGTH_SHORT).show();
 //                editBoard();
-//             TODO: 2016-06-21 신고 기능 구현 필요함
-//        else if (id == R.id.menu_report)
-//            Toast.makeText(this, "너 고소", Toast.LENGTH_SHORT).show();
+        else if (id == R.id.menu_report)
+            Toast.makeText(this, "신고 기능 구현 해야함", Toast.LENGTH_SHORT).show();
 
         return super.onOptionsItemSelected(item);
     }
@@ -164,7 +181,7 @@ public class DetailActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(
                                     DialogInterface dialoginterface, int i) {
-//                                JspConn.delete(mDetailPageArr.get(vp_detail_page.getCurrentItem()).getBoardNo(),BasicValue.mUserNo);
+                                JspConn.boardDelete(boardNo,BasicValue.getInstance().getUserNo());
                                 finish();
                             }
                         })
@@ -181,4 +198,5 @@ public class DetailActivity extends AppCompatActivity {
         mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         editText.setText("");
     }
+
 }

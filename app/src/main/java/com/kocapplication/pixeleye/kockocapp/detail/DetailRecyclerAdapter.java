@@ -14,7 +14,7 @@ import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import java.util.ArrayList;
 
 /**
- * Created by pixeleye03 on 2016-06-23.
+ * Created by hp on 2016-06-23.
  */
 public class DetailRecyclerAdapter extends RecyclerView.Adapter<DetailRecyclerViewHolder>{
     final static String TAG = "DetailRecyclerAdapter";

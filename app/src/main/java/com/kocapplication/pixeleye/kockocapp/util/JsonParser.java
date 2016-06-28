@@ -47,7 +47,6 @@ public class JsonParser {
         DetailPageData detailPageData = new DetailPageData();
         try{
             JSONObject getObject = new JSONObject(MSG);
-            Log.e(TAG,"json :"+getObject);
             JSONArray Details = getObject.getJSONArray("boardArr");
             JSONObject temp = Details.getJSONObject(0);
 
@@ -79,12 +78,10 @@ public class JsonParser {
                 hashTagList.add(hashTagArr.get(n).toString());
             }
             detailPageData.setHashTagArr(hashTagList);
-            //hash tag list end
 
             JSONArray expressionArr = temp.getJSONArray("expression");
-            for(int m=0; m<expressionArr.length(); m++) {
-                detailPageData.plusRecommend_No();
-            }
+            detailPageData.setRecommend_No(expressionArr.length());
+
 
             ArrayList<String>imagePathArr = new ArrayList<String>();
             JSONArray imageArr = temp.getJSONArray("imageArr");

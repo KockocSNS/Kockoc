@@ -14,7 +14,7 @@ import com.kocapplication.pixeleye.kockocapp.main.BaseActivity;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 
 /**
- * Created by pixeleye03 on 2016-06-21.
+ * Created by hp on 2016-06-21.
  */
 public class KakaoSignupActivity extends BaseActivity{
     /**
