@@ -25,6 +25,7 @@ import com.kocapplication.pixeleye.kockocapp.util.JspConn;
  */
 public class DetailActivity extends AppCompatActivity {
     final static String TAG = "DetailActivity";
+    DetailFragment detailFragment;
 
     private EditText comment_et;
     private Button commentSend_btn;
@@ -34,6 +35,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private int boardNo;
     private int courseNo;
+    private int board_userNo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,22 +43,19 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         setTitle("상세 보기");
 
-        init();
         getIntentValue();
-        getFragmentManager().beginTransaction().replace(R.id.container, new DetailFragment(boardNo,courseNo)).commit();
+        init();
+        getFragmentManager().beginTransaction().replace(R.id.container,detailFragment).commit();
     }
 
     protected void init(){
-        // TODO: 2016-06-21 DB 연동 후 값 가져오기
-//        mDetailPageArr = JsonParser.detailPageLoad(JspConn.loadDetailPage(String.valueOf(mBoardNo)));
-//        course = JsonParser.readCourse(JspConn.readCourseByCourseNo(mCourseNo));
+        detailFragment = new DetailFragment(boardNo,courseNo);
 
         comment_et = (EditText) findViewById(R.id.edit_comment);
         commentSend_btn = (Button) findViewById(R.id.btn_send_comment);
         courseCopy_btn = (Button)findViewById(R.id.btn_detail_course_copy);
         scrap_btn = (Button)findViewById(R.id.btn_detail_interest);
         back_btn = (ImageButton)findViewById(R.id.btn_detail_back);
-
 
         commentSend_btn.setOnClickListener(new CommentSendListener());
         courseCopy_btn.setOnClickListener(new CourseCopyListener());
@@ -67,6 +66,7 @@ public class DetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         boardNo = intent.getIntExtra("boardNo",0);
         courseNo = intent.getIntExtra("courseNo",0);
+        board_userNo = intent.getIntExtra("board_userNo",0);
     }
 
     /**
@@ -79,8 +79,8 @@ public class DetailActivity extends AppCompatActivity {
             String commentString = comment_et.getText().toString();
 
             JspConn.WriteComment(commentString, boardNo, BasicValue.getInstance().getUserNo());
-//            JspConn.pushGcm(editText.getText().toString()+"|"+mBoardNo+"&"+mCourseNo, mDetailPageArr.get(vp_detail_page.getCurrentItem()).getUserNo()); //gcm
-
+            JspConn.pushGcm(commentString+"|"+boardNo+"&"+courseNo, board_userNo); //gcm
+            detailFragment.addComment();
             softKeyboardHide(comment_et);
         }
     }

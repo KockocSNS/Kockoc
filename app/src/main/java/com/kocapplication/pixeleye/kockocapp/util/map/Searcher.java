@@ -2,6 +2,9 @@ package  com.kocapplication.pixeleye.kockocapp.util.map;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -55,10 +58,14 @@ public class Searcher {
 	OnFinishSearchListener onFinishSearchListener;
 	SearchTask searchTask;
 	String appId;
+    private Handler handler;
 
+    public Searcher(Handler handler) {
+        super();
+        this.handler = handler;
+    }
 
-
-	private class SearchTask extends AsyncTask<String, Void, Void> {
+    private class SearchTask extends AsyncTask<String, Void, Void> {
 		@Override
 		protected Void doInBackground(String... urls) {
 			String url = urls[0];
@@ -66,12 +73,18 @@ public class Searcher {
 			header.put(HEADER_NAME_X_APPID, appId);
 			header.put(HEADER_NAME_X_PLATFORM, HEADER_VALUE_X_PLATFORM_ANDROID);
 			String json = fetchData(url, header);
-			List<Item> itemList = parse(json);
+			ArrayList<Item> itemList = parse(json);
 			if (onFinishSearchListener != null) {
 				if (itemList == null) {
 					onFinishSearchListener.onFail();
 				} else {
+                    //onSuccess와 handler에 메세지를 함께 보낸다.
 					onFinishSearchListener.onSuccess(itemList);
+					Message msg = Message.obtain();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("THREAD", itemList);
+                    msg.setData(bundle);
+                    handler.sendMessage(msg);
 				}
 			}
 			return null;
@@ -178,8 +191,8 @@ public class Searcher {
 		}
 	}
 
-	private List<Item> parse(String jsonString) {
-		List<Item> itemList = new ArrayList<Item>();
+	private ArrayList<Item> parse(String jsonString) {
+		ArrayList<Item> itemList = new ArrayList<Item>();
 		try {
 			JSONObject reader = new JSONObject(jsonString);
 			JSONObject channel = reader.getJSONObject("channel");

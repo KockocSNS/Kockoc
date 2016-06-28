@@ -1,7 +1,9 @@
 package com.kocapplication.pixeleye.kockocapp.detail;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,6 +23,7 @@ import android.widget.ToggleButton;
 import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 import org.apmem.tools.layouts.FlowLayout;
 
@@ -152,12 +155,27 @@ public class DetailFragment extends Fragment {
             ll_board_img.addView(temp);
         }
     }
+
+    /**
+     * setCommentList
+     * 댓글 데이터를 RecyclerView에 붙임
+     */
     private void setCommentList(){
-        adapter = new DetailRecyclerAdapter(detailPageData.getCommentArr(),getActivity());
+        adapter = new DetailRecyclerAdapter(detailPageData.getCommentArr(),getActivity(),new CommentClickListener());
         rv_comment_list.setAdapter(adapter);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         rv_comment_list.setLayoutManager(manager);
         rv_comment_list.setHasFixedSize(true);
+    }
+
+    /**
+     * addComment
+     * 댓글을 달면 데이터를 새로 받아 어댑터를 다시 붙임
+     */
+    public void addComment(){
+        Handler handler = new RefreshDataReceiveHandler();
+        Thread thread = new DetailThread(handler,boardNo,courseNo);
+        thread.start();
     }
 
     private class DetailDataReceiveHandler extends Handler {
@@ -168,6 +186,41 @@ public class DetailFragment extends Fragment {
             setData(detailPageData);
             setImg(detailPageData);
             setCommentList();
+        }
+    }
+    private class RefreshDataReceiveHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            detailPageData = (DetailPageData) msg.getData().getSerializable("THREAD");
+            adapter = new DetailRecyclerAdapter(detailPageData.getCommentArr(),getActivity(),new CommentClickListener());
+            rv_comment_list.setAdapter(adapter);
+        }
+    }
+    private class CommentClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            final int position = rv_comment_list.getChildLayoutPosition(v);
+            try {
+                if (detailPageData.getCommentArr().get(position).getComment_userNo() == BasicValue.getInstance().getUserNo()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                    builder.setTitle("안내");
+                    builder.setMessage("삭제하시겠습니까?");
+                    builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            JspConn.DeleteComment(detailPageData.getCommentArr().get(position).getComment_No());
+                            adapter.removeItem(position);
+                        }
+                    });
+                    builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {}
+                    });
+                    builder.create().show();
+                }
+            } catch (Exception e) {Log.e(TAG,"댓글 삭제 오류"+e.getMessage());}
         }
     }
 }

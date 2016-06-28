@@ -1,5 +1,10 @@
 package com.kocapplication.pixeleye.kockocapp.util.map;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
 public class Item {
 	public String title;
 	public String imageUrl;

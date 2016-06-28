@@ -1,11 +1,15 @@
 package com.kocapplication.pixeleye.kockocapp.write.map;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -23,6 +27,7 @@ import com.kocapplication.pixeleye.kockocapp.util.map.GpsInfo;
 import com.kocapplication.pixeleye.kockocapp.util.map.Item;
 import com.kocapplication.pixeleye.kockocapp.util.map.OnFinishSearchListener;
 import com.kocapplication.pixeleye.kockocapp.util.map.Searcher;
+import com.kocapplication.pixeleye.kockocapp.write.NewWriteActivity;
 
 import net.daum.mf.map.api.CameraUpdateFactory;
 import net.daum.mf.map.api.MapPOIItem;
@@ -36,6 +41,8 @@ import java.util.List;
 /**
  * Created by Han_ on 2016-06-27.
  */
+
+//주의 : 코드가 너무 복잡. 클래스 분리가 필요함.
 public class MapActivity extends BaseActivityWithoutNav
         implements MapView.MapViewEventListener, MapView.POIItemEventListener {
     private final String TAG = "MAP_ACTIVITY";
@@ -87,7 +94,7 @@ public class MapActivity extends BaseActivityWithoutNav
         daumMapContainer.addView(daumMap);
 
         recyclerView = (RecyclerView) containerView.findViewById(R.id.recycler_view);
-        adapter = new RecyclerAdapter(new ArrayList<String>());
+        adapter = new RecyclerAdapter(new ArrayList<Item>());
         recyclerView.setAdapter(adapter);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -123,9 +130,6 @@ public class MapActivity extends BaseActivityWithoutNav
         poiItem.setMapPoint(mapPoint);
         poiItem.setMarkerType(MapPOIItem.MarkerType.RedPin);
         poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.RedPin);
-//        poiItem.setCustomSelectedImageResourceId(R.drawable.map_pin_red);
-//        poiItem.setCustomImageAutoscale(false);
-//        poiItem.setCustomImageAnchor(0.5f, 1.0f);
 
         daumMap.addPOIItem(poiItem);
         daumMap.setMapCenterPoint(mapPoint, true);
@@ -136,8 +140,6 @@ public class MapActivity extends BaseActivityWithoutNav
         MapPointBounds mapPointBounds = new MapPointBounds();
 
         for (Item item : itemList) {
-            Log.i(TAG, item.title);
-
             MapPOIItem poiItem = new MapPOIItem();
             poiItem.setItemName(item.title);
             poiItem.setTag(itemList.indexOf(item));
@@ -153,7 +155,6 @@ public class MapActivity extends BaseActivityWithoutNav
         }
 
         daumMap.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
-
     }
 
     private class UpperButtonListener implements View.OnClickListener {
@@ -169,23 +170,20 @@ public class MapActivity extends BaseActivityWithoutNav
         private void searchButtonClicked() {
             String text = searchText.getText().toString();
 
-            Log.i(TAG, text);
             if (text.isEmpty()) {
                 Toast.makeText(MapActivity.this, "검색할 장소를 입력해주세요.", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             MapPoint.GeoCoordinate geoCoordinate = daumMap.getMapCenterPoint().getMapPointGeoCoord();
-            double latitude = geoCoordinate.latitude;
-            double longitude = geoCoordinate.longitude;
-            int radius = 10000;
             int page = 1;
             String apiKey = BasicValue.getInstance().getDAUM_MAP_API_KEY();
 
-            Searcher searcher = new Searcher();
+            Searcher searcher = new Searcher(new SearchHandler());
             searcher.searchKeyword(getApplicationContext(), text, page, apiKey, new OnFinishSearchListener() {
                 @Override
                 public void onSuccess(List<Item> itemList) {
+                    //onSuccess 뿐만아니라 아래의 SearchHandler에도 Message가 전달된다.
                     daumMap.removeAllPOIItems();
                     showResults(itemList);
                 }
@@ -208,15 +206,20 @@ public class MapActivity extends BaseActivityWithoutNav
                 return;
             }
 
-            Log.i(TAG, "gps 사용");
-
             double latitude = gps.getLatitude();
             double longitude = gps.getLongitude();
 
-            Log.i(TAG, latitude + "");
-            Log.i(TAG, longitude + "");
-
             moveMap(latitude, longitude);
+
+            Item item = new Item();
+            item.title = "내 위치";
+            item.phone = "";
+
+            List<Item> items = new ArrayList<>();
+            items.add(item);
+
+            adapter.setItems(items);
+            adapter.notifyDataSetChanged();
 
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(searchText.getWindowToken(), 0);
@@ -237,19 +240,45 @@ public class MapActivity extends BaseActivityWithoutNav
         }
     }
 
+    private class ItemClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            int position = recyclerView.getChildLayoutPosition(v);
+            Item item = adapter.getItems().get(position);
+
+            Intent intent = new Intent();
+            intent.putExtra("LATITUDE", item.latitude);
+            intent.putExtra("LONGITUDE", item.longitude);
+            MapActivity.this.setResult(RESULT_OK, intent);
+            MapActivity.this.finish();
+        }
+    }
+
+    private class SearchHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            List<Item> items = (ArrayList<Item>) msg.getData().getSerializable("THREAD");
+            adapter.setItems(items);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     private class RecyclerViewHolder extends RecyclerView.ViewHolder {
-//        private TextView ;
-//        private TextView ;
+        private TextView title;
+        private TextView detail;
 
         public RecyclerViewHolder(View itemView) {
             super(itemView);
+            this.title = (TextView) itemView.findViewById(R.id.map_title);
+            this.detail = (TextView) itemView.findViewById(R.id.map_detail_script);
         }
     }
 
     private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
-        private List<String> items;
+        private List<Item> items;
 
-        public RecyclerAdapter(List<String> data) {
+        public RecyclerAdapter(List<Item> data) {
             super();
             if (data == null) throw new IllegalArgumentException("DATA MUST NOT BE NULL");
             items = data;
@@ -257,17 +286,30 @@ public class MapActivity extends BaseActivityWithoutNav
 
         @Override
         public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return null;
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_map, parent, false);
+            itemView.setOnClickListener(new ItemClickListener());
+            return new RecyclerViewHolder(itemView);
         }
 
         @Override
         public void onBindViewHolder(RecyclerViewHolder holder, int position) {
+            Item item = items.get(position);
 
+            holder.title.setText(item.title);
+            holder.detail.setText(item.phone);
         }
 
         @Override
         public int getItemCount() {
             return items.size();
+        }
+
+        public void setItems(List<Item> items) {
+            this.items = items;
+        }
+
+        public List<Item> getItems() {
+            return items;
         }
     }
 
