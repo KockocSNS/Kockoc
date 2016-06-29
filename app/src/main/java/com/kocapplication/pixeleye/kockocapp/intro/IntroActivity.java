@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 
 /**
  * Created by pixeleye02 on 2016-06-27.
@@ -24,7 +24,7 @@ public class IntroActivity extends Activity {
             @Override
             public void handleMessage(Message msg) {
                 finish();
-                Intent login_intent = new Intent(IntroActivity.this, MainActivity.class);
+                Intent login_intent = new Intent(IntroActivity.this, LoginActivity.class);
                 startActivity(login_intent);
             }
         };
