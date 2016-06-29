@@ -54,7 +54,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     protected void init(){
-        detailFragment = new DetailFragment(boardNo,courseNo);
+        detailFragment = new DetailFragment(boardNo,courseNo,board_userNo);
 
         toolbar = (Toolbar)findViewById(R.id.tool_bar);
         comment_et = (EditText) findViewById(R.id.edit_comment);

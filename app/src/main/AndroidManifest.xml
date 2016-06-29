@@ -34,6 +34,7 @@
         <activity android:name=".main.myKockoc.scrap.ScrapActivity"/>
         <activity android:name=".main.myKockoc.neighbor.NeighborActivity"/>
         <activity android:name=".main.myKockoc.course.CourseActivity"/>
+        <activity android:name=".user.UserActivity"/>
 
         <activity android:name=".write.map.MapActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />

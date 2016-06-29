@@ -1,4 +1,4 @@
-package com.kocapplication.pixeleye.kockocapp.main.myKockoc;
+package com.kocapplication.pixeleye.kockocapp.user;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,13 +33,19 @@ import java.util.List;
 /**
  * Created by Han_ on 2016-06-23.
  */
-public class MyKocKocBoardThread extends Thread {
+public class ProfileBoardThread extends Thread {
     private String postURL = BasicValue.getInstance().getUrlHead() + "News/readMyNews.jsp";
     private Handler handler;
+    private int userNo = BasicValue.getInstance().getUserNo();
 
-    public MyKocKocBoardThread(Handler handler) {
+    public ProfileBoardThread(Handler handler) {
         super();
         this.handler = handler;
+    }
+
+    public ProfileBoardThread(Handler handler,int userNo) {
+        this(handler);
+        this.userNo = userNo;
     }
 
     @Override
@@ -50,19 +56,19 @@ public class MyKocKocBoardThread extends Thread {
 
         try {
             HttpClient client = new DefaultHttpClient();
-            HttpPost post = new HttpPost(postURL);
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
+                HttpPost post = new HttpPost(postURL);
+                List<NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("userNo", "" + userNo));
 //            params.add(new BasicNameValuePair("userNo", "" + 90));
-            params.add(new BasicNameValuePair("boardNo", ""+ -1 ));
+                params.add(new BasicNameValuePair("boardNo", ""+ -1 ));
 
-            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-            post.setEntity(ent);
-            HttpResponse response = client.execute(post);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                result += line;
+                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                post.setEntity(ent);
+                HttpResponse response = client.execute(post);
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    result += line;
             }
 
         } catch (Exception e) {
@@ -80,19 +86,24 @@ public class MyKocKocBoardThread extends Thread {
             JsonObject object = element.getAsJsonObject();
             JsonObject expression = object.get("etcObject").getAsJsonObject();
 
-            String courseJsonString = JspConn.readCourseByCourseNo(object.get("Course_No").getAsInt());
-
-            JsonObject courseObject = parser.parse(courseJsonString).getAsJsonObject();
             int courseCount = 0;
 
-            for (int innerI = 1; innerI < 10; innerI++) {
-                String temp = "Course" + innerI;
-                JsonElement courseElement = courseObject.get(temp);
-                if (courseElement.isJsonNull()) {
-                    Log.i("COURSE_THREAD", "COURSE COUNT IS NOT 9 / CURRENT COUNT IS " + (innerI));
-                    break;
+            try {
+                String courseJsonString = JspConn.readCourseByCourseNo(object.get("Course_No").getAsInt());
+
+                JsonObject courseObject = parser.parse(courseJsonString).getAsJsonObject();
+
+                for (int innerI = 1; innerI < 10; innerI++) {
+                    String temp = "Course" + innerI;
+                    JsonElement courseElement = courseObject.get(temp);
+                    if (courseElement.isJsonNull()) {
+                        Log.i("COURSE_THREAD", "COURSE COUNT IS NOT 9 / CURRENT COUNT IS " + (innerI));
+                        break;
+                    }
+                    courseCount++;
                 }
-                courseCount++;
+            } catch (Exception e){
+                e.printStackTrace();
             }
 
             BoardBasicAttr attributes =
