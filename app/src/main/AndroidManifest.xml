@@ -28,22 +28,26 @@
         </activity>
         <activity android:name=".main.AdviceActivity"/>
         <activity android:name=".main.MainActivity" />
-        <activity android:name=".detail.DetailActivity"/>
-        <activity android:name=".Login.LoginActivity" />
-        <activity android:name=".write.NewWriteActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <activity android:name=".main.myKockoc.scrap.ScrapActivity"/>
         <activity android:name=".main.myKockoc.neighbor.NeighborActivity"/>
         <activity android:name=".main.myKockoc.course.CourseActivity"/>
+
         <activity android:name=".user.UserActivity"/>
 
-        <activity android:name=".write.map.MapActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity android:name=".detail.DetailActivity"/>
+
+        <activity android:name=".Login.LoginActivity" />
+
+        <activity android:name=".write.newWrite.NewWriteActivity"    android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+        <activity android:name=".write.newWrite.map.MapActivity"     android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity android:name=".write.course.CourseTitleActivity" android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".write.course.CourseWriteActivity" />
 
         <!-- 카카오톡 debug key -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="Gn1KAuZgmPY9g9Xs4hfmqKDExEE="/>
+
     </application>
 
 </manifest>
