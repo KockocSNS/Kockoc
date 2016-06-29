@@ -45,17 +45,17 @@ public class NeighborActivity extends BaseActivityWithoutNav {
         followerRecyclerView = (RecyclerView) followerView.findViewById(R.id.recycler_view) ;
 
         adapter = new NeighborRecyclerAdapter(following, NeighborActivity.this);
-        adapter2 = new NeighborRecyclerAdapter(follower, NeighborActivity.this);
-
         followingRecyclerView.setAdapter(adapter);
-        followerRecyclerView.setAdapter(adapter2);
         LinearLayoutManager manager_follow = new LinearLayoutManager(NeighborActivity.this , LinearLayoutManager.VERTICAL,false);
-        LinearLayoutManager manager_follower = new LinearLayoutManager(NeighborActivity.this , LinearLayoutManager.VERTICAL,false);
         followingRecyclerView.setLayoutManager(manager_follow);
         followingRecyclerView.setHasFixedSize(true);
+
+
+        adapter2 = new NeighborRecyclerAdapter(follower, NeighborActivity.this);
+        followerRecyclerView.setAdapter(adapter2);
+        LinearLayoutManager manager_follower = new LinearLayoutManager(NeighborActivity.this , LinearLayoutManager.VERTICAL,false);
         followerRecyclerView.setLayoutManager(manager_follower);
         followerRecyclerView.setHasFixedSize(true);
-
     }
 
     private class ItemClickListener implements View.OnClickListener {

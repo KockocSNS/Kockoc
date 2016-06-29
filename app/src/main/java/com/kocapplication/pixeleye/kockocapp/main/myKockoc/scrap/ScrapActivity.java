@@ -1,6 +1,7 @@
 package com.kocapplication.pixeleye.kockocapp.main.myKockoc.scrap;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -36,6 +37,8 @@ public class ScrapActivity extends BaseActivityWithoutNav {
         super.onCreate(savedInstanceState);
 
         init();
+
+        actionBarTitleSet("관심글", Color.WHITE);
 
         container.setLayoutResource(R.layout.activity_course);
         View containView = container.inflate();

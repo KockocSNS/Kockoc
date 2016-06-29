@@ -1,4 +1,4 @@
-package com.kocapplication.pixeleye.kockocapp.main.myKockoc;
+package com.kocapplication.pixeleye.kockocapp.user;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,13 +26,19 @@ import java.util.List;
 /**
  * Created by Han_ on 2016-06-23.
  */
-public class MyKocKocProfileThread extends Thread {
+public class ProfileImageThread extends Thread {
     private String postURL = BasicValue.getInstance().getUrlHead() + "Member/getUserInfo.jsp";
     private Handler handler;
+    private int userNo = BasicValue.getInstance().getUserNo();
 
-    public MyKocKocProfileThread(Handler handler) {
+    public ProfileImageThread(Handler handler) {
         super();
         this.handler = handler;
+    }
+
+    public ProfileImageThread(Handler handler, int userNo){
+        this(handler);
+        this.userNo = userNo;
     }
 
     @Override
@@ -47,7 +53,7 @@ public class MyKocKocProfileThread extends Thread {
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<>();
-            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
+            params.add(new BasicNameValuePair("userNo", "" + userNo));
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
             HttpResponse response = client.execute(post);
@@ -73,7 +79,7 @@ public class MyKocKocProfileThread extends Thread {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             // TODO: 2016-06-23
 //            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
-            params.add(new BasicNameValuePair("userNo", "" + 90));
+            params.add(new BasicNameValuePair("userNo", "" + userNo));
 
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
