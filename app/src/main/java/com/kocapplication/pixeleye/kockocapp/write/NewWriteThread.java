@@ -3,18 +3,19 @@ package com.kocapplication.pixeleye.kockocapp.write;
 import android.os.Handler;
 
 import com.kocapplication.pixeleye.kockocapp.model.Board;
+import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 
 /**
  * Created by Han_ on 2016-06-27.
  */
 public class NewWriteThread extends Thread {
     private Handler handler;
-    private Board board;
+    private Board boardWithImage;
 
-    public NewWriteThread(Handler handler, Board board) {
+    public NewWriteThread(Handler handler, Board boardWithImage) {
         super();
         this.handler = handler;
-        this.board = board;
+        this.boardWithImage = boardWithImage;
     }
 
     @Override

@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
+import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 import com.kocapplication.pixeleye.kockocapp.model.BoardBasicAttr;
 import com.kocapplication.pixeleye.kockocapp.model.Coordinate;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
@@ -26,8 +27,10 @@ import com.kocapplication.pixeleye.kockocapp.write.map.MapActivity;
 import net.yazeed44.imagepicker.model.ImageEntry;
 import net.yazeed44.imagepicker.util.Picker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -99,7 +102,7 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
         }
 
         private void confirmClicked() {
-            String _tags = tagInput.getText().toString();
+            String _tags = tagText.getText().toString();
             String[] tags = _tags.split(", ");
 
             List<String> tagList = new ArrayList<>(Arrays.asList(tags));
@@ -111,7 +114,16 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
             }
 
             BoardBasicAttr attributes = new BoardBasicAttr(BasicValue.getInstance().getUserNo());
-            newWriteBoard = new Board(attributes, coordinate, text, imagePaths, tagList);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+
+            String date = dateFormat.format(new Date());
+            String time = timeFormat.format(new Date());
+
+            newWriteBoard = new Board(attributes, coordinate, text, date, time, imagePaths, tagList);
+
+            Log.i(TAG, newWriteBoard.toString());
 
             Handler handler = new Handler();
             Thread thread = new NewWriteThread(handler, newWriteBoard);
@@ -143,7 +155,7 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
                 tag = tag + ", #" + inputTag;
 
             tagText.setText(tag);
-            tagInput.clearComposingText();
+            tagInput.setText("");
         }
     }
 

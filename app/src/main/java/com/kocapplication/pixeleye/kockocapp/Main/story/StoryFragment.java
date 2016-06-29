@@ -10,7 +10,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +22,7 @@ import android.widget.Toast;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
-import com.kocapplication.pixeleye.kockocapp.model.Board;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 import com.kocapplication.pixeleye.kockocapp.write.NewWriteActivity;
 
 import java.util.ArrayList;
@@ -49,7 +47,7 @@ public class StoryFragment extends Fragment {
     private TextView boardAdd;      //새글 버튼
     private TextView continuousAdd; //이어쓰기
 
-    private ArrayList<Board> initialData;
+    private ArrayList<BoardWithImage> initialData;
 
     public static final int NEW_WRITE_REQUEST_CODE = 12433;
 
@@ -88,7 +86,7 @@ public class StoryFragment extends Fragment {
 
         refreshLayout.setOnRefreshListener(new RefreshListener());
 
-        if (initialData == null) adapter = new BoardRecyclerAdapter(new ArrayList<Board>(), new ItemClickListener());
+        if (initialData == null) adapter = new BoardRecyclerAdapter(new ArrayList<BoardWithImage>(), new ItemClickListener());
         else adapter = new BoardRecyclerAdapter(initialData, new ItemClickListener());
 
         recyclerView.setAdapter(adapter);
@@ -99,6 +97,8 @@ public class StoryFragment extends Fragment {
 
         recyclerView.setLayoutManager(manager);
         recyclerView.setHasFixedSize(true);
+
+        recyclerView.setOnScrollListener(new BottomRefreshListener());
     }
 
     private void buttonListenerSet() {
@@ -137,12 +137,12 @@ public class StoryFragment extends Fragment {
             int position = recyclerView.getChildLayoutPosition(v);
 
             if (writeContainer.getVisibility() == View.INVISIBLE) {
-                Board board = adapter.getItems().get(position);
+                BoardWithImage boardWithImage = adapter.getItems().get(position);
 
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
-                intent.putExtra("boardNo", board.getBasicAttributes().getBoardNo());
-                intent.putExtra("courseNo", board.getBasicAttributes().getCourseNo());
-                intent.putExtra("board_userNo",board.getBasicAttributes().getUserNo());
+                intent.putExtra("boardNo", boardWithImage.getBasicAttributes().getBoardNo());
+                intent.putExtra("courseNo", boardWithImage.getBasicAttributes().getCourseNo());
+                intent.putExtra("board_userNo", boardWithImage.getBasicAttributes().getUserNo());
                 startActivity(intent);
             } else {
                 buttonLayoutDownAnimation();
@@ -196,10 +196,10 @@ public class StoryFragment extends Fragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            ArrayList<Board> boards = (ArrayList<Board>) msg.getData().getSerializable("THREAD");
+            ArrayList<BoardWithImage> boardWithImages = (ArrayList<BoardWithImage>) msg.getData().getSerializable("THREAD");
 
-            initialData = boards;
-            adapter.setItems(boards);
+            initialData = boardWithImages;
+            adapter.setItems(boardWithImages);
             adapter.notifyDataSetChanged();
             refreshLayout.setRefreshing(false);
         }
@@ -210,10 +210,10 @@ public class StoryFragment extends Fragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            ArrayList<Board> boards = (ArrayList<Board>) msg.getData().getSerializable("THREAD");
+            ArrayList<BoardWithImage> boardWithImages = (ArrayList<BoardWithImage>) msg.getData().getSerializable("THREAD");
 
-            List<Board> initialData = adapter.getItems();
-            initialData.addAll(boards);
+            List<BoardWithImage> initialData = adapter.getItems();
+            initialData.addAll(boardWithImages);
 
             adapter.setItems(initialData);
             adapter.notifyDataSetChanged();
