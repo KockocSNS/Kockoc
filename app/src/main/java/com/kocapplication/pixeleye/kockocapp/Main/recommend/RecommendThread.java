@@ -9,7 +9,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.kocapplication.pixeleye.kockocapp.model.Board;
+import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 import com.kocapplication.pixeleye.kockocapp.model.BoardBasicAttr;
 import com.kocapplication.pixeleye.kockocapp.model.Coordinate;
 import com.kocapplication.pixeleye.kockocapp.model.ExpressionCount;
@@ -23,8 +23,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -51,6 +49,7 @@ public class RecommendThread extends Thread {
         msg.what = 1;
         String result = "";
 
+        // recommend news
         try {
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(postURL);
@@ -78,7 +77,7 @@ public class RecommendThread extends Thread {
         JsonObject upperObject = parser.parse(result).getAsJsonObject();
         JsonArray array = upperObject.getAsJsonArray("boardArr");
 
-        ArrayList<Board> receiveData = new ArrayList<>();
+        ArrayList<BoardWithImage> receiveData = new ArrayList<>();
 
         for (int i = 0; i < array.size(); i++) {
             JsonElement element = array.get(i);
@@ -115,14 +114,14 @@ public class RecommendThread extends Thread {
             for (int ti = 0; ti < hashTagArr.size(); ti++)
                 hashTags.add(hashTagArr.get(ti).getAsString());
 
-            Board board = new Board(attributes, expressionCount, coordinate,
+            BoardWithImage boardWithImage = new BoardWithImage(attributes, expressionCount, coordinate,
                     object.get("Text").getAsString(),
                     object.get("Date").getAsString(),
                     object.get("Time").getAsString(),
                     object.get("mainImg").getAsString(),
                     hashTags);
 
-            receiveData.add(board);
+            receiveData.add(boardWithImage);
         }
 
         Bundle bundle = new Bundle();

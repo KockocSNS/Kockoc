@@ -9,7 +9,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.kocapplication.pixeleye.kockocapp.model.Board;
+import com.google.gson.JsonSyntaxException;
+import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 import com.kocapplication.pixeleye.kockocapp.model.BoardBasicAttr;
 import com.kocapplication.pixeleye.kockocapp.model.Coordinate;
 import com.kocapplication.pixeleye.kockocapp.model.ExpressionCount;
@@ -48,6 +49,7 @@ public class MyKocKocBoardThread extends Thread {
 
         String result = "";
 
+        //profile
         try {
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(postURL);
@@ -73,7 +75,7 @@ public class MyKocKocBoardThread extends Thread {
         JsonObject upperObject = parser.parse(result).getAsJsonObject();
         JsonArray array = upperObject.getAsJsonArray("boardArr");
 
-        ArrayList<Board> receiveData = new ArrayList<>();
+        ArrayList<BoardWithImage> receiveData = new ArrayList<>();
 
         for (int i = 0; i < array.size(); i++) {
             JsonElement element = array.get(i);
@@ -82,17 +84,24 @@ public class MyKocKocBoardThread extends Thread {
 
             String courseJsonString = JspConn.readCourseByCourseNo(object.get("Course_No").getAsInt());
 
-            JsonObject courseObject = parser.parse(courseJsonString).getAsJsonObject();
+            Log.i("MyKocKocBoardThread", "test" + courseJsonString);
+
+
             int courseCount = 0;
 
-            for (int innerI = 1; innerI < 10; innerI++) {
-                String temp = "Course" + innerI;
-                JsonElement courseElement = courseObject.get(temp);
-                if (courseElement.isJsonNull()) {
-                    Log.i("COURSE_THREAD", "COURSE COUNT IS NOT 9 / CURRENT COUNT IS " + (innerI));
-                    break;
+            try {
+                JsonObject courseObject = parser.parse(courseJsonString).getAsJsonObject();
+                for (int innerI = 1; innerI < 10; innerI++) {
+                    String temp = "Course" + innerI;
+                    JsonElement courseElement = courseObject.get(temp);
+                    if (courseElement.isJsonNull()) {
+                        Log.i("COURSE_THREAD", "COURSE COUNT IS NOT 9 / CURRENT COUNT IS " + (innerI));
+                        break;
+                    }
+                    courseCount++;
                 }
-                courseCount++;
+            } catch (JsonSyntaxException e) {
+                e.printStackTrace();
             }
 
             BoardBasicAttr attributes =
@@ -125,14 +134,14 @@ public class MyKocKocBoardThread extends Thread {
             for (int ti = 0; ti < hashTagArr.size(); ti++)
                 hashTags.add(hashTagArr.get(ti).getAsString());
 
-            Board board = new Board(attributes, expressionCount, coordinate,
+            BoardWithImage boardWithImage = new BoardWithImage(attributes, expressionCount, coordinate,
                     object.get("Text").getAsString(),
                     object.get("Date").getAsString(),
                     object.get("Time").getAsString(),
                     object.get("mainImg").getAsString(),
                     hashTags);
 
-            receiveData.add(board);
+            receiveData.add(boardWithImage);
         }
 
         Message msg = Message.obtain();

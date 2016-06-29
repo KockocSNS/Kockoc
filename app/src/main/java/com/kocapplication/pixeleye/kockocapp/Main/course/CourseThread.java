@@ -51,8 +51,6 @@ public class CourseThread extends Thread {
             List<NameValuePair> params = new ArrayList<>();
 
             params.add(new BasicNameValuePair("userNo", String.valueOf(BasicValue.getInstance().getUserNo())));
-            // TODO: 2016-06-23 위의 코드로 바꿔야한닷.
-//            params.add(new BasicNameValuePair("userNo", String.valueOf(BasicValue.getInstance().getUserNo())));
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
 

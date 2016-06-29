@@ -1,5 +1,6 @@
 package com.kocapplication.pixeleye.kockocapp.main.myKockoc.neighbor;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.view.View;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivity;
+import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.model.Neighbor;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
@@ -15,7 +17,7 @@ import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 import java.util.ArrayList;
 
-public class NeighborActivity extends BaseActivity {
+public class NeighborActivity extends BaseActivityWithoutNav {
     RecyclerView followingRecyclerView;
     RecyclerView followerRecyclerView;
 
@@ -25,15 +27,21 @@ public class NeighborActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_neighbor);
+
+        init();
+
+        actionBarTitleSet("이웃", Color.WHITE);
+
+        container.setLayoutResource(R.layout.activity_neighbor);
+        View containView = container.inflate();
 
         ArrayList<Neighbor> following = JsonParser.getFollowInfo(JspConn.getFollowInfo(BasicValue.getInstance().getUserNo()));
         ArrayList<Neighbor> follower = JsonParser.getFollowInfo(JspConn.getFollowerInfo(BasicValue.getInstance().getUserNo()));
 
-        View followingView = findViewById(R.id.recycler_layout_following);
+        View followingView = containView.findViewById(R.id.recycler_layout_following);
         followingRecyclerView = (RecyclerView) followingView.findViewById(R.id.recycler_view);
 
-        View followerView = findViewById(R.id.recycler_layout_follower);
+        View followerView = containView.findViewById(R.id.recycler_layout_follower);
         followerRecyclerView = (RecyclerView) followerView.findViewById(R.id.recycler_view) ;
 
         adapter = new NeighborRecyclerAdapter(following, NeighborActivity.this);

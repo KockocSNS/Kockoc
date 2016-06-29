@@ -40,6 +40,8 @@ public class MyKocKocProfileThread extends Thread {
         super.run();
 
         String result = "";
+
+        //get User Info 프로필 기본정보
         try {
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(postURL);

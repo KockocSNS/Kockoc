@@ -14,31 +14,36 @@ import android.view.View;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivity;
+import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.main.story.BoardRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.main.story.StoryThread;
-import com.kocapplication.pixeleye.kockocapp.model.Board;
+import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 
 import java.util.ArrayList;
 
 /**
  * Created by pixeleye02 on 2016-06-27.
  */
-public class ScrapActivity extends BaseActivity {
+public class ScrapActivity extends BaseActivityWithoutNav {
 
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private BoardRecyclerAdapter adapter;
-    private ArrayList<Board> initialData;
+    private ArrayList<BoardWithImage> initialData;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scrap);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
+        init();
 
-        adapter = new BoardRecyclerAdapter(new ArrayList<Board>(), new ItemClickListener());
+        container.setLayoutResource(R.layout.activity_course);
+        View containView = container.inflate();
+
+        recyclerView = (RecyclerView) containView.findViewById(R.id.recycler_view);
+        refreshLayout = (SwipeRefreshLayout) containView.findViewById(R.id.refresh_layout);
+
+        adapter = new BoardRecyclerAdapter(new ArrayList<BoardWithImage>(), new ItemClickListener());
 
         recyclerView.setAdapter(adapter);
 
@@ -62,11 +67,11 @@ public class ScrapActivity extends BaseActivity {
         public void onClick(View v) {
             int position = recyclerView.getChildLayoutPosition(v);
 
-            Board board = adapter.getItems().get(position);
+            BoardWithImage boardWithImage = adapter.getItems().get(position);
 
             Intent intent = new Intent(ScrapActivity.this, DetailActivity.class);
-            intent.putExtra("boardNo", board.getBasicAttributes().getBoardNo());
-            intent.putExtra("courseNo", board.getBasicAttributes().getCourseNo());
+            intent.putExtra("boardNo", boardWithImage.getBasicAttributes().getBoardNo());
+            intent.putExtra("courseNo", boardWithImage.getBasicAttributes().getCourseNo());
             startActivity(intent);
 
         }
@@ -77,10 +82,10 @@ public class ScrapActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            ArrayList<Board> boards = (ArrayList<Board>) msg.getData().getSerializable("THREAD");
+            ArrayList<BoardWithImage> boardWithImages = (ArrayList<BoardWithImage>) msg.getData().getSerializable("THREAD");
 
-            initialData = boards;
-            adapter.setItems(boards);
+            initialData = boardWithImages;
+            adapter.setItems(boardWithImages);
             adapter.notifyDataSetChanged();
             refreshLayout.setRefreshing(false);
         }
