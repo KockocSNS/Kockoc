@@ -9,7 +9,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.kocapplication.pixeleye.kockocapp.model.Board;
+import com.google.gson.JsonSyntaxException;
+import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 import com.kocapplication.pixeleye.kockocapp.model.BoardBasicAttr;
 import com.kocapplication.pixeleye.kockocapp.model.Coordinate;
 import com.kocapplication.pixeleye.kockocapp.model.ExpressionCount;
@@ -54,6 +55,7 @@ public class ProfileBoardThread extends Thread {
 
         String result = "";
 
+        //profile
         try {
             HttpClient client = new DefaultHttpClient();
                 HttpPost post = new HttpPost(postURL);
@@ -79,7 +81,7 @@ public class ProfileBoardThread extends Thread {
         JsonObject upperObject = parser.parse(result).getAsJsonObject();
         JsonArray array = upperObject.getAsJsonArray("boardArr");
 
-        ArrayList<Board> receiveData = new ArrayList<>();
+        ArrayList<BoardWithImage> receiveData = new ArrayList<>();
 
         for (int i = 0; i < array.size(); i++) {
             JsonElement element = array.get(i);
@@ -90,7 +92,6 @@ public class ProfileBoardThread extends Thread {
 
             try {
                 String courseJsonString = JspConn.readCourseByCourseNo(object.get("Course_No").getAsInt());
-
                 JsonObject courseObject = parser.parse(courseJsonString).getAsJsonObject();
 
                 for (int innerI = 1; innerI < 10; innerI++) {
@@ -102,9 +103,10 @@ public class ProfileBoardThread extends Thread {
                     }
                     courseCount++;
                 }
-            } catch (Exception e){
+            } catch (JsonSyntaxException e) {
                 e.printStackTrace();
             }
+
 
             BoardBasicAttr attributes =
                     new BoardBasicAttr(
@@ -136,14 +138,14 @@ public class ProfileBoardThread extends Thread {
             for (int ti = 0; ti < hashTagArr.size(); ti++)
                 hashTags.add(hashTagArr.get(ti).getAsString());
 
-            Board board = new Board(attributes, expressionCount, coordinate,
+            BoardWithImage boardWithImage = new BoardWithImage(attributes, expressionCount, coordinate,
                     object.get("Text").getAsString(),
                     object.get("Date").getAsString(),
                     object.get("Time").getAsString(),
                     object.get("mainImg").getAsString(),
                     hashTags);
 
-            receiveData.add(board);
+            receiveData.add(boardWithImage);
         }
 
         Message msg = Message.obtain();

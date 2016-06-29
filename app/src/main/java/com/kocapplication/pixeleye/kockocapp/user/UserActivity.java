@@ -25,6 +25,7 @@ import com.kocapplication.pixeleye.kockocapp.main.myKockoc.neighbor.NeighborActi
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.scrap.ScrapActivity;
 import com.kocapplication.pixeleye.kockocapp.main.story.BoardRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
+import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 import com.kocapplication.pixeleye.kockocapp.model.ProfileData;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 
@@ -82,7 +83,7 @@ public class UserActivity extends BaseActivity {
 
         //recyclerView
         recyclerView = (RecyclerView) recycler.findViewById(R.id.recycler_view);
-        adapter = new BoardRecyclerAdapter(new ArrayList<Board>(), new ItemClickListener());
+        adapter = new BoardRecyclerAdapter(new ArrayList<BoardWithImage>(), new ItemClickListener());
         recyclerView.setAdapter(adapter);
 
         GridLayoutManager manager = new GridLayoutManager(UserActivity.this, 2);
@@ -170,7 +171,7 @@ public class UserActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            ArrayList<Board> boards = (ArrayList<Board>) msg.getData().getSerializable("THREAD");
+            ArrayList<BoardWithImage> boards = (ArrayList<BoardWithImage>) msg.getData().getSerializable("THREAD");
 
             adapter.setItems(boards);
             adapter.notifyDataSetChanged();

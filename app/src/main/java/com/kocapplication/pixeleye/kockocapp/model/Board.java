@@ -1,8 +1,10 @@
 package com.kocapplication.pixeleye.kockocapp.model;
 
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.InputStream;
 import java.io.Serializable;
@@ -11,24 +13,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Han_ on 2016-06-21.
+ * Created by Han_ on 2016-06-29.
  */
-public class Board implements Serializable {
-    private BoardBasicAttr basicAttributes;
-    private ExpressionCount expressionCount;
-    private Coordinate coordinate;
+public class Board implements Serializable{
+    protected BoardBasicAttr basicAttributes;
+    protected ExpressionCount expressionCount;
+    protected Coordinate coordinate;
 
-    private String text;
-    private String date;
-    private String time;
-    private Drawable boardImage;
+    protected String text;
+    protected String date;
+    protected String time;
 
-    private List<String> hashTags;
-    private List<String> imagePaths;
-    private List<String> imageNames;
+    protected List<String> hashTags;
+    protected List<String> imagePaths;
+    protected List<String> imageNames;
 
     // 지도 없는 데이터를 받아올 때 사용되는 생성자.
-    public Board(BoardBasicAttr attributes, ExpressionCount expressionCount, String text, String date, String time, String mainImageURL, List<String> hashTags) {
+    public Board(BoardBasicAttr attributes, ExpressionCount expressionCount, String text, String date, String time, List<String> hashTags) {
         basicAttributes = attributes;
         this.expressionCount = expressionCount;
 
@@ -41,35 +42,27 @@ public class Board implements Serializable {
         this.hashTags = hashTags;
         imagePaths = new ArrayList<>();
         imageNames = new ArrayList<>();
-
-        try {
-            InputStream inputStream = (InputStream) new URL("http://221.160.54.160:8080/board_image/" + attributes.getUserNo() + "/" + mainImageURL).getContent();
-            this.boardImage = Drawable.createFromStream(inputStream, "board_image");
-        } catch (Exception e) {
-            Log.e("BOARD", "MAIN IMAGE RECEIVE ERROR");
-        }
     }
 
     // 지도가 함께 있는 데이터를 받아올 때 사용되는 생성자.
-    public Board(BoardBasicAttr attributes, ExpressionCount expressionCount, Coordinate coordinate, String text, String date, String time, String mainImageURL, List<String> hashTags) {
-        this(attributes, expressionCount, text, date, time, mainImageURL, hashTags);
+    public Board(BoardBasicAttr attributes, ExpressionCount expressionCount, Coordinate coordinate, String text, String date, String time, List<String> hashTags) {
+        this(attributes, expressionCount, text, date, time, hashTags);
         this.coordinate = coordinate;
     }
 
     // 새글 작성시 사용되는 생성자.
-    public Board(BoardBasicAttr attributes, Coordinate coordinate, String text, List<String> imagePaths, List<String> hashTags) {
-        this(attributes, null, text, null, null, null, hashTags);
+    public Board(BoardBasicAttr attributes, Coordinate coordinate, String text, String date, String time, List<String> imagePaths, List<String> hashTags) {
+        this(attributes, null, text, date, time, hashTags);
         this.coordinate = coordinate;
         this.imagePaths = imagePaths;
     }
 
-    public void setBoardImage(Drawable boardImage) {
-        this.boardImage = boardImage;
+    @Override
+    public String toString() {
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        return gson.toJson(this);
     }
 
-    public Drawable getBoardImage() {
-        return boardImage;
-    }
 
     public String getDate() {
         return date;
@@ -85,7 +78,7 @@ public class Board implements Serializable {
 
     public String getHashTagByString() {
         String returnValue = "";
-        for (String temp:hashTags)
+        for (String temp : hashTags)
             returnValue += (temp + ", ");
 
         returnValue = returnValue.substring(0, returnValue.length() - 2);

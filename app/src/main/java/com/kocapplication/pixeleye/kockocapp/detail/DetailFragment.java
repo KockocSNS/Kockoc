@@ -11,7 +11,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,10 +73,12 @@ public class DetailFragment extends Fragment {
     LayoutInflater mInflater;
 
 
-    public DetailFragment(){super();}
+    public DetailFragment() {
+        super();
+    }
 
     @SuppressLint("ValidFragment")
-    public DetailFragment(int boardNo,int courseNo, int board_userNo){
+    public DetailFragment(int boardNo, int courseNo, int board_userNo) {
         this.boardNo = boardNo;
         this.courseNo = courseNo;
         this.board_userNo = board_userNo;
@@ -86,46 +87,47 @@ public class DetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.detail_content,container,false);
+        View view = inflater.inflate(R.layout.detail_content, container, false);
         this.mInflater = inflater;
 
         init(view);
 
         //DetailThread 에서 데이터를 받아옴
         Handler handler = new DetailDataReceiveHandler();
-        Thread thread = new DetailThread(handler,boardNo,courseNo);
+        Thread thread = new DetailThread(handler, boardNo, courseNo);
         thread.start();
 
         return view;
     }
-    private void init(View view){
+
+    private void init(View view) {
         detailPageData = new DetailPageData();
 
-        ll_profile = (LinearLayout)view.findViewById(R.id.ll_profile);
-        ll_htmlInfo = (LinearLayout)view.findViewById(R.id.ll_htmlInfo);
-        ll_board_img = (LinearLayout)view.findViewById(R.id.ll_detail_content_imgViewList);
-        ll_board_map = (LinearLayout)view.findViewById(R.id.ll_detail_content_maps);
-        ll_comment_menu = (LinearLayout)view.findViewById(R.id.ll_comment_menu);
-        ll_bgLayout = (LinearLayout)view.findViewById(R.id.ll_bg_detail_up);
+        ll_profile = (LinearLayout) view.findViewById(R.id.ll_profile);
+        ll_htmlInfo = (LinearLayout) view.findViewById(R.id.ll_htmlInfo);
+        ll_board_img = (LinearLayout) view.findViewById(R.id.ll_detail_content_imgViewList);
+        ll_board_map = (LinearLayout) view.findViewById(R.id.ll_detail_content_maps);
+        ll_comment_menu = (LinearLayout) view.findViewById(R.id.ll_comment_menu);
+        ll_bgLayout = (LinearLayout) view.findViewById(R.id.ll_bg_detail_up);
 
-        btn_like = (ToggleButton)view.findViewById(R.id.toggle_detail_content_like);
-        course_spinner = (Spinner)view.findViewById(R.id.course_spinner);
-        course_title = (TextView)view.findViewById(R.id.course_title);
-        profile_nickname = (TextView)view.findViewById(R.id.tv_detail_inner_up_nickname);
-        profile_date = (TextView)view.findViewById(R.id.tv_detail_inner_up_date);
-        board_text = (TextView)view.findViewById(R.id.tv_detail_content_text);
-        html_title = (TextView)view.findViewById(R.id.tv_detail_content_htmlTitle);
-        html_desc = (TextView)view.findViewById(R.id.tv_detail_content_htmlDesc);
-        comment_scrap = (TextView)view.findViewById(R.id.tv_detail_comment_scrap);
-        comment_count = (TextView)view.findViewById(R.id.tv_detail_comment_count);
-        comment_link = (TextView)view.findViewById(R.id.tv_detail_comment_link);
-        profile_img = (ImageView)view.findViewById(R.id.img_detail_inner_up_profile);
-        html_img = (ImageView)view.findViewById(R.id.tv_detail_content_htmlImg);
-        board_mainimg = (ImageView)view.findViewById(R.id.img_detail_content_main_img);
-        board_courses = (ImageView)view.findViewById(R.id.iv_detail_content_courses);
-        fl_board_hashtag = (FlowLayout)view.findViewById(R.id.fl_detail_content_tag);
+        btn_like = (ToggleButton) view.findViewById(R.id.toggle_detail_content_like);
+        course_spinner = (Spinner) view.findViewById(R.id.course_spinner);
+        course_title = (TextView) view.findViewById(R.id.course_title);
+        profile_nickname = (TextView) view.findViewById(R.id.tv_detail_inner_up_nickname);
+        profile_date = (TextView) view.findViewById(R.id.tv_detail_inner_up_date);
+        board_text = (TextView) view.findViewById(R.id.tv_detail_content_text);
+        html_title = (TextView) view.findViewById(R.id.tv_detail_content_htmlTitle);
+        html_desc = (TextView) view.findViewById(R.id.tv_detail_content_htmlDesc);
+        comment_scrap = (TextView) view.findViewById(R.id.tv_detail_comment_scrap);
+        comment_count = (TextView) view.findViewById(R.id.tv_detail_comment_count);
+        comment_link = (TextView) view.findViewById(R.id.tv_detail_comment_link);
+        profile_img = (ImageView) view.findViewById(R.id.img_detail_inner_up_profile);
+        html_img = (ImageView) view.findViewById(R.id.tv_detail_content_htmlImg);
+        board_mainimg = (ImageView) view.findViewById(R.id.img_detail_content_main_img);
+        board_courses = (ImageView) view.findViewById(R.id.iv_detail_content_courses);
+        fl_board_hashtag = (FlowLayout) view.findViewById(R.id.fl_detail_content_tag);
         View includeView = view.findViewById(R.id.detail_commentlist_layout);
-        rv_comment_list = (RecyclerView)includeView.findViewById(R.id.rv_detail_commentlist);
+        rv_comment_list = (RecyclerView) includeView.findViewById(R.id.rv_detail_commentlist);
 
         profile_img.setOnClickListener(new ProfileClickListener());
 
@@ -150,10 +152,10 @@ public class DetailFragment extends Fragment {
 
     private void setImg(DetailPageData data) {
         //프로필 이미지
-        Glide.with(getActivity()).load(BasicValue.getInstance().getUrlHead()+"board_image/" + data.getUserNo() + "/profile.jpg").into(profile_img);
+        Glide.with(getActivity()).load(BasicValue.getInstance().getUrlHead() + "board_image/" + data.getUserNo() + "/profile.jpg").into(profile_img);
 
         //게시글 이미지
-        for(int i = 0;i < data.getBoardImgArr().size(); i++ ){
+        for (int i = 0; i < data.getBoardImgArr().size(); i++) {
             //ImageView 생성
             ImageView temp = new ImageView(getActivity());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -162,7 +164,7 @@ public class DetailFragment extends Fragment {
             temp.setAdjustViewBounds(true);
             temp.setScaleType(ImageView.ScaleType.FIT_CENTER);
 
-            Glide.with(getActivity()).load(BasicValue.getInstance().getUrlHead()+"board_image/" + data.getUserNo() + "/" + data.getBoardImgArr().get(i)).into(temp);
+            Glide.with(getActivity()).load(BasicValue.getInstance().getUrlHead() + "board_image/" + data.getUserNo() + "/" + data.getBoardImgArr().get(i)).into(temp);
             ll_board_img.addView(temp);
         }
     }
@@ -171,10 +173,10 @@ public class DetailFragment extends Fragment {
      * setCommentList
      * 댓글 데이터를 RecyclerView에 붙임
      */
-    private void setCommentList(){
-        adapter = new DetailRecyclerAdapter(detailPageData.getCommentArr(),getActivity(),new CommentClickListener());
+    private void setCommentList() {
+        adapter = new DetailRecyclerAdapter(detailPageData.getCommentArr(), getActivity(), new CommentClickListener());
         rv_comment_list.setAdapter(adapter);
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv_comment_list.setLayoutManager(manager);
         rv_comment_list.setHasFixedSize(true);
     }
@@ -183,9 +185,9 @@ public class DetailFragment extends Fragment {
      * addComment
      * 댓글을 달면 데이터를 새로 받아 어댑터를 다시 붙임
      */
-    public void addComment(){
+    public void addComment() {
         Handler handler = new RefreshDataReceiveHandler();
-        Thread thread = new DetailThread(handler,boardNo,courseNo);
+        Thread thread = new DetailThread(handler, boardNo, courseNo);
         thread.start();
     }
 
@@ -203,12 +205,13 @@ public class DetailFragment extends Fragment {
             ex_thread.start();
         }
     }
+
     private class RefreshDataReceiveHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             detailPageData = (DetailPageData) msg.getData().getSerializable("THREAD");
-            adapter = new DetailRecyclerAdapter(detailPageData.getCommentArr(),getActivity(),new CommentClickListener());
+            adapter = new DetailRecyclerAdapter(detailPageData.getCommentArr(), getActivity(), new CommentClickListener());
             rv_comment_list.setAdapter(adapter);
         }
     }
@@ -237,28 +240,30 @@ public class DetailFragment extends Fragment {
                         btn_like.setTextOn(detailPageData.getRecommend_No() + "");
                         btn_like.setTextOff((detailPageData.getRecommend_No() - 1) + "");
                         btn_like.setText(detailPageData.getRecommend_No() + "");
-                        }
                     }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
-    private class ProfileClickListener implements View.OnClickListener{
+
+    private class ProfileClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            Intent user_intent = new Intent(getContext(), UserActivity.class);
-            user_intent.putExtra("userNo",board_userNo);
+            Intent user_intent = new Intent(getActivity(), UserActivity.class);
+            user_intent.putExtra("userNo", board_userNo);
             startActivity(user_intent);
         }
     }
 
-    private class LikeClickListener implements View.OnClickListener{
+    private class LikeClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            JspConn.writeExpression(detailPageData.getBoardNo(),0);
+            JspConn.writeExpression(detailPageData.getBoardNo(), 0);
         }
     }
+
     private class CommentClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -278,11 +283,14 @@ public class DetailFragment extends Fragment {
                     });
                     builder.setNegativeButton("아니오", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {}
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
                     });
                     builder.create().show();
                 }
-            } catch (Exception e) {Log.e(TAG,"댓글 삭제 오류"+e.getMessage());}
+            } catch (Exception e) {
+                Log.e(TAG, "댓글 삭제 오류" + e.getMessage());
+            }
         }
     }
 }

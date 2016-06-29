@@ -17,9 +17,7 @@ import android.widget.Toast;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.story.BoardRecyclerAdapter;
-import com.kocapplication.pixeleye.kockocapp.main.story.StoryThread;
-import com.kocapplication.pixeleye.kockocapp.model.Board;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 
 import java.util.ArrayList;
 
@@ -52,7 +50,7 @@ public class RecommendFragment extends Fragment {
         refreshLayout.setOnRefreshListener(new RefreshListener());
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        adapter = new BoardRecyclerAdapter(new ArrayList<Board>(), new ItemClickListener());
+        adapter = new BoardRecyclerAdapter(new ArrayList<BoardWithImage>(), new ItemClickListener());
 
         recyclerView.setAdapter(adapter);
 
@@ -69,11 +67,11 @@ public class RecommendFragment extends Fragment {
         public void onClick(View v) {
             int position = recyclerView.getChildLayoutPosition(v);
 
-            Board board = adapter.getItems().get(position);
+            BoardWithImage boardWithImage = adapter.getItems().get(position);
 
             Intent intent = new Intent(getActivity(), DetailActivity.class);
-            intent.putExtra("boardNo", board.getBasicAttributes().getBoardNo());
-            intent.putExtra("courseNo", board.getBasicAttributes().getCourseNo());
+            intent.putExtra("boardNo", boardWithImage.getBasicAttributes().getBoardNo());
+            intent.putExtra("courseNo", boardWithImage.getBasicAttributes().getCourseNo());
             startActivity(intent);
         }
     }

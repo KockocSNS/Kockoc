@@ -25,7 +25,7 @@ import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.neighbor.NeighborActivity;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.scrap.ScrapActivity;
 import com.kocapplication.pixeleye.kockocapp.main.story.BoardRecyclerAdapter;
-import com.kocapplication.pixeleye.kockocapp.model.Board;
+import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 import com.kocapplication.pixeleye.kockocapp.model.ProfileData;
 import com.kocapplication.pixeleye.kockocapp.user.ProfileBoardThread;
 import com.kocapplication.pixeleye.kockocapp.user.ProfileImageThread;
@@ -96,7 +96,7 @@ public class MyKocKocFragment extends Fragment {
 
         //recyclerView
         recyclerView = (RecyclerView) recycler.findViewById(R.id.recycler_view);
-        adapter = new BoardRecyclerAdapter(new ArrayList<Board>(), new ItemClickListener());
+        adapter = new BoardRecyclerAdapter(new ArrayList<BoardWithImage>(), new ItemClickListener());
         recyclerView.setAdapter(adapter);
 
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
@@ -146,11 +146,11 @@ public class MyKocKocFragment extends Fragment {
         public void onClick(View v) {
             int position = recyclerView.getChildLayoutPosition(v);
 
-            Board board = adapter.getItems().get(position);
+            BoardWithImage boardWithImage = adapter.getItems().get(position);
 
             Intent intent = new Intent(getActivity(), DetailActivity.class);
-            intent.putExtra("boardNo", board.getBasicAttributes().getBoardNo());
-            intent.putExtra("courseNo", board.getBasicAttributes().getCourseNo());
+            intent.putExtra("boardNo", boardWithImage.getBasicAttributes().getBoardNo());
+            intent.putExtra("courseNo", boardWithImage.getBasicAttributes().getCourseNo());
             startActivity(intent);
         }
     }
@@ -177,9 +177,9 @@ public class MyKocKocFragment extends Fragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            ArrayList<Board> boards = (ArrayList<Board>) msg.getData().getSerializable("THREAD");
+            ArrayList<BoardWithImage> boardWithImages = (ArrayList<BoardWithImage>) msg.getData().getSerializable("THREAD");
 
-            adapter.setItems(boards);
+            adapter.setItems(boardWithImages);
             adapter.notifyDataSetChanged();
         }
     }

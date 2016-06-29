@@ -8,7 +8,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,6 @@ import com.kocapplication.pixeleye.kockocapp.util.map.GpsInfo;
 import com.kocapplication.pixeleye.kockocapp.util.map.Item;
 import com.kocapplication.pixeleye.kockocapp.util.map.OnFinishSearchListener;
 import com.kocapplication.pixeleye.kockocapp.util.map.Searcher;
-import com.kocapplication.pixeleye.kockocapp.write.NewWriteActivity;
 
 import net.daum.mf.map.api.CameraUpdateFactory;
 import net.daum.mf.map.api.MapPOIItem;
@@ -136,6 +134,35 @@ public class MapActivity extends BaseActivityWithoutNav
 
     }
 
+    private void searchMap(String text) {
+//        MapPoint.GeoCoordinate geoCoordinate = daumMap.getMapCenterPoint().getMapPointGeoCoord();
+//
+//        double latitude = geoCoordinate.latitude; // 위도
+//        double longitude = geoCoordinate.longitude; // 경도
+//        int radius = 10000; // 중심 좌표부터의 반경거리. 특정 지역을 중심으로 검색하려고 할 경우 사용. meter 단위 (0 ~ 10000)
+        int page = 1;
+
+        String apiKey = BasicValue.getInstance().getDAUM_MAP_API_KEY();
+
+        Searcher searcher = new Searcher(new SearchHandler());
+        searcher.searchKeyword(getApplicationContext(), text, page, apiKey, new OnFinishSearchListener() {
+            @Override
+            public void onSuccess(List<Item> itemList) {
+                //onSuccess 뿐만아니라 아래의 SearchHandler에도 Message가 전달된다.
+                daumMap.removeAllPOIItems();
+                showResults(itemList);
+            }
+
+            @Override
+            public void onFail() {
+                Toast.makeText(MapActivity.this, "제한 트래픽 초과되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(searchText.getWindowToken(), 0);
+    }
+
     private void showResults(List<Item> itemList) {
         MapPointBounds mapPointBounds = new MapPointBounds();
 
@@ -174,28 +201,7 @@ public class MapActivity extends BaseActivityWithoutNav
                 Toast.makeText(MapActivity.this, "검색할 장소를 입력해주세요.", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            MapPoint.GeoCoordinate geoCoordinate = daumMap.getMapCenterPoint().getMapPointGeoCoord();
-            int page = 1;
-            String apiKey = BasicValue.getInstance().getDAUM_MAP_API_KEY();
-
-            Searcher searcher = new Searcher(new SearchHandler());
-            searcher.searchKeyword(getApplicationContext(), text, page, apiKey, new OnFinishSearchListener() {
-                @Override
-                public void onSuccess(List<Item> itemList) {
-                    //onSuccess 뿐만아니라 아래의 SearchHandler에도 Message가 전달된다.
-                    daumMap.removeAllPOIItems();
-                    showResults(itemList);
-                }
-
-                @Override
-                public void onFail() {
-                    Toast.makeText(MapActivity.this, "제한 트래픽 초과되었습니다.", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(searchText.getWindowToken(), 0);
+            searchMap(text);
         }
 
         private void currentLocationClicked() {
@@ -229,7 +235,17 @@ public class MapActivity extends BaseActivityWithoutNav
     private class ButtonListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-
+            if (v.equals(hotel)) {
+                searchMap("숙박");
+            } else if (v.equals(food)) {
+                searchMap("음식점");
+            } else if (v.equals(mart)) {
+                searchMap("마트");
+            } else if (v.equals(terminal)) {
+                searchMap("터미널");
+            } else if (v.equals(hospital)) {
+                searchMap("병원");
+            }
         }
     }
 

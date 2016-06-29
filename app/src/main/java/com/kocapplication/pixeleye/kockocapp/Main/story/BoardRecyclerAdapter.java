@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.model.Board;
+import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 
 import java.util.List;
 
@@ -14,10 +14,10 @@ import java.util.List;
  * Created by Han_ on 2016-06-21.
  */
 public class BoardRecyclerAdapter extends RecyclerView.Adapter<BoardRecyclerViewHolder> {
-    private List<Board> items;
+    private List<BoardWithImage> items;
     private View.OnClickListener listener;
 
-    public BoardRecyclerAdapter(List<Board> data, View.OnClickListener listener) {
+    public BoardRecyclerAdapter(List<BoardWithImage> data, View.OnClickListener listener) {
         super();
         if (data == null) throw new IllegalArgumentException("DATA MUST NOT BE NULL");
         this.items = data;
@@ -33,7 +33,7 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<BoardRecyclerView
 
     @Override
     public void onBindViewHolder(BoardRecyclerViewHolder holder, int position) {
-        Board data = items.get(position);
+        BoardWithImage data = items.get(position);
 
         int courseCount = data.getBasicAttributes().getCourseCount();
 
@@ -63,11 +63,11 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<BoardRecyclerView
         return items.size();
     }
 
-    public List<Board> getItems() {
+    public List<BoardWithImage> getItems() {
         return items;
     }
 
-    public void setItems(List<Board> items) {
+    public void setItems(List<BoardWithImage> items) {
         this.items = items;
     }
 }
