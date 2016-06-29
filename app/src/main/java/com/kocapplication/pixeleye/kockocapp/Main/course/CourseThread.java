@@ -91,8 +91,9 @@ public class CourseThread extends Thread {
                 }
 
                 String board = element.getAsString();
+                Log.i("CourseThread", board);
                 String[] split = board.split("/");
-                course.add(new Course(split[0], split[1]));
+                course.add(new Course(split[0], split[1], null));
             }
 
             courses.add(new Courses(courseNo, title, date, time, course));

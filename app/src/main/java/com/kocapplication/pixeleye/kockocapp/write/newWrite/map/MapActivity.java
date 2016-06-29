@@ -1,4 +1,4 @@
-package com.kocapplication.pixeleye.kockocapp.write.map;
+package com.kocapplication.pixeleye.kockocapp.write.newWrite.map;
 
 import android.content.Context;
 import android.content.Intent;
