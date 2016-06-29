@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Kockoc_refectoring.iml" filepath="$PROJECT_DIR$/Kockoc_refectoring.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kockocrefactoring.iml" filepath="$PROJECT_DIR$/kockocrefactoring.iml" />
     </modules>
   </component>
 </project>

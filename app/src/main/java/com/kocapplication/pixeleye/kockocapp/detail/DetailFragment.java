@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,6 +24,7 @@ import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.user.UserActivity;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
@@ -68,15 +70,17 @@ public class DetailFragment extends Fragment {
 
     private int boardNo;
     private int courseNo;
+    private int board_userNo;
     LayoutInflater mInflater;
 
 
     public DetailFragment(){super();}
 
     @SuppressLint("ValidFragment")
-    public DetailFragment(int boardNo,int courseNo){
+    public DetailFragment(int boardNo,int courseNo, int board_userNo){
         this.boardNo = boardNo;
         this.courseNo = courseNo;
+        this.board_userNo = board_userNo;
     }
 
     @Nullable
@@ -96,7 +100,6 @@ public class DetailFragment extends Fragment {
     }
     private void init(View view){
         detailPageData = new DetailPageData();
-
 
         ll_profile = (LinearLayout)view.findViewById(R.id.ll_profile);
         ll_htmlInfo = (LinearLayout)view.findViewById(R.id.ll_htmlInfo);
@@ -123,6 +126,8 @@ public class DetailFragment extends Fragment {
         fl_board_hashtag = (FlowLayout)view.findViewById(R.id.fl_detail_content_tag);
         View includeView = view.findViewById(R.id.detail_commentlist_layout);
         rv_comment_list = (RecyclerView)includeView.findViewById(R.id.rv_detail_commentlist);
+
+        profile_img.setOnClickListener(new ProfileClickListener());
 
         btn_like.setOnClickListener(new LikeClickListener());
     }
@@ -239,6 +244,15 @@ public class DetailFragment extends Fragment {
             }
         }
     }
+    private class ProfileClickListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            Intent user_intent = new Intent(getContext(), UserActivity.class);
+            user_intent.putExtra("userNo",board_userNo);
+            startActivity(user_intent);
+        }
+    }
+
     private class LikeClickListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
