@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="10dp"
-    android:background="@color/mainBgColor">
+    android:background="@color/mainBgColor"
+    android:id="@+id/nav_header">
 
     <ImageView
         android:id="@+id/header_profile_image"

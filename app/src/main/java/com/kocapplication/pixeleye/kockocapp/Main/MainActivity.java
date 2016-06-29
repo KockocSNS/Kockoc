@@ -1,24 +1,35 @@
 package com.kocapplication.pixeleye.kockocapp.main;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseFragment;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.MyKocKocFragment;
+import com.kocapplication.pixeleye.kockocapp.main.myKockoc.MyProfileImgThread;
 import com.kocapplication.pixeleye.kockocapp.main.recommend.RecommendFragment;
 import com.kocapplication.pixeleye.kockocapp.main.story.StoryFragment;
+import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
-    private final String TAG = "MAINACTIVITY";
+    private final String TAG = "MainActivity";
+    private final int PROFILE_SET = 1;
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -58,6 +69,19 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case PROFILE_SET:
+                //ProfileImgReceiveHandler 에서 서버로 프로필 이미지 전송
+                Handler handler = new ProfileImgReceiveHandler();
+                Thread thread = new MyProfileImgThread(handler,data,this);
+                thread.start();
+                break;
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
@@ -87,6 +111,14 @@ public class MainActivity extends BaseActivity {
         @Override
         public int getCount() {
             return items.size();
+        }
+    }
+
+    private class ProfileImgReceiveHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Log.e(TAG,"메인핸들러 수신");
         }
     }
 }

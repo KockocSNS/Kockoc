@@ -16,10 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.neighbor.NeighborActivity;
+import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by Han_ on 2016-06-20.
@@ -28,6 +33,8 @@ public class BaseActivity extends AppCompatActivity {
     protected DrawerLayout drawerLayout;
     protected NavigationView navigationView;
     protected ActionBar actionBar;
+    protected ImageView nav_profile_img;
+    protected TextView nav_profile_name;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +46,12 @@ public class BaseActivity extends AppCompatActivity {
         NavigationListener navigationListener = new NavigationListener();
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        View nav_header = navigationView.inflateHeaderView(R.layout.navigation_header);
+        nav_profile_img = (ImageView)nav_header.findViewById(R.id.header_profile_image);
+        nav_profile_name = (TextView)nav_header.findViewById(R.id.header_profile_text);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+
 
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
@@ -49,6 +61,9 @@ public class BaseActivity extends AppCompatActivity {
         actionBar.setDisplayShowCustomEnabled(true);
 
         navigationView.setNavigationItemSelectedListener(navigationListener);
+        Glide.with(this).load(BasicValue.getInstance().getUrlHead()+"board_image/"+ BasicValue.getInstance().getUserNo() + "/profile.jpg")
+                .error(R.drawable.default_profile).bitmapTransform(new CropCircleTransformation(Glide.get(this).getBitmapPool())).into(nav_profile_img);
+        nav_profile_name.setText(String.valueOf(BasicValue.getInstance().getUserNo()));
     }
 
     protected void onRefresh() {

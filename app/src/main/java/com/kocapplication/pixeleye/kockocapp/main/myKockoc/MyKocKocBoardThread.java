@@ -56,6 +56,7 @@ public class MyKocKocBoardThread extends Thread {
 //            params.add(new BasicNameValuePair("userNo", "" + 90));
             params.add(new BasicNameValuePair("boardNo", ""+ -1 ));
 
+
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
             HttpResponse response = client.execute(post);

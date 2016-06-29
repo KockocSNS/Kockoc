@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 public class MyKocKocFragment extends Fragment {
     private final String TAG = "MyKocKocFragment";
+    private final int PROFILE_SET = 1;
     private RecyclerView recyclerView;
     private BoardRecyclerAdapter adapter;
 
@@ -61,6 +63,9 @@ public class MyKocKocFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_mykockoc, container, false);
 
         init(view);
+
+        Glide.with(getContext()).load(BasicValue.getInstance().getUrlHead()+"board_image/"+ BasicValue.getInstance().getUserNo() + "/profile.jpg")
+                .error(R.drawable.default_profile).bitmapTransform(new CropCircleTransformation(Glide.get(getContext()).getBitmapPool())).into(profileImage);
 
         Handler handler = new ProfileHandler();
         Thread thread = new MyKocKocProfileThread(handler);
@@ -111,8 +116,8 @@ public class MyKocKocFragment extends Fragment {
         neighborButton.setOnClickListener(count_listener);
         courseButton.setOnClickListener(count_listener);
 
-        View.OnClickListener profile_listenrer = new ProfileClickListener();
-        profileImage.setOnClickListener(profile_listenrer);
+        View.OnClickListener profile_listener = new ProfileClickListener();
+        profileImage.setOnClickListener(profile_listener);
     }
 
     private class CountClickListener implements View.OnClickListener {
@@ -135,7 +140,11 @@ public class MyKocKocFragment extends Fragment {
     private class ProfileClickListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            Toast.makeText(getContext(), "사진선택", Toast.LENGTH_SHORT).show();
+            Glide.get(getActivity()).clearDiskCache(); // 글라이드 캐시 초기화
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+            intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            getActivity().startActivityForResult(intent, PROFILE_SET); // 메인 액티비티로 result 보냄
         }
     }
 
@@ -161,9 +170,6 @@ public class MyKocKocFragment extends Fragment {
             ProfileData data = (ProfileData) msg.getData().getSerializable("THREAD");
 
             nickName.setText(data.getNickName());
-            Glide.with(getContext()).load(BasicValue.getInstance().getUrlHead()+"board_image/"+ BasicValue.getInstance().getUserNo() + "/profile.jpg")
-                    .error(R.drawable.default_profile).bitmapTransform(new CropCircleTransformation(Glide.get(getContext()).getBitmapPool())).into(profileImage);
-
             scrapCount.setText(data.getCourseCount() + "");
             neighborCount.setText(data.getNeighborCount() + "");
             courseCount.setText(data.getCourseCount() + "");
