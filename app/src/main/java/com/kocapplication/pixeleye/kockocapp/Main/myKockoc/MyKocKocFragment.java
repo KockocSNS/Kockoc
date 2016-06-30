@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
+import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.neighbor.NeighborActivity;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.scrap.ScrapActivity;
@@ -57,6 +57,7 @@ public class MyKocKocFragment extends Fragment {
     private LinearLayout scrapButton;
     private LinearLayout neighborButton;
     private LinearLayout courseButton;
+
 
 
     @Nullable
@@ -191,6 +192,7 @@ public class MyKocKocFragment extends Fragment {
             courseCount.setText(data.getCourseCount() + "");
             Glide.with(getContext()).load(BasicValue.getInstance().getUrlHead()+"board_image/"+ BasicValue.getInstance().getUserNo() + "/profile.jpg")
                     .error(R.drawable.default_profile).bitmapTransform(new CropCircleTransformation(Glide.get(getContext()).getBitmapPool())).into(profileImage);
+            ((MainActivity)getActivity()).set_navProfileName(data.getNickName());
         }
     }
 
@@ -220,7 +222,7 @@ public class MyKocKocFragment extends Fragment {
                     .skipMemoryCache(true)
                     .error(R.drawable.default_profile)
                     .bitmapTransform(new CropCircleTransformation(Glide.get(getContext()).getBitmapPool())).into(profileImage);
+            ((MainActivity)getActivity()).set_navProfileImg();
         }
     }
-
 }
