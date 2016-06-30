@@ -23,7 +23,8 @@ import android.widget.Toast;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
-import com.kocapplication.pixeleye.kockocapp.write.NewWriteActivity;
+import com.kocapplication.pixeleye.kockocapp.write.course.CourseTitleActivity;
+import com.kocapplication.pixeleye.kockocapp.write.newWrite.NewWriteActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -170,18 +171,16 @@ public class StoryFragment extends Fragment {
         @Override
         public void onClick(View v) {
             if (v.equals(writeButton)) {
-                if (writeContainer.getVisibility() == View.INVISIBLE) {
+                if (writeContainer.getVisibility() == View.INVISIBLE)
                     buttonLayoutUpAnimation();
-                } else {
-                    buttonLayoutDownAnimation();
-                }
+                else buttonLayoutDownAnimation();
             } else if (v.equals(boardAdd)) {
                 Intent intent = new Intent(getActivity(), NewWriteActivity.class);
                 writeButton.callOnClick();
                 startActivityForResult(intent, NEW_WRITE_REQUEST_CODE);
             } else if (v.equals(courseAdd)) {
-//                Intent intent = new Intent();
-//                startActivity(intent);
+                Intent intent = new Intent(getActivity(), CourseTitleActivity.class);
+                startActivity(intent);
             } else if (v.equals(continuousAdd)) {
 //                Intent intent = new Intent(getActivity(), );
 //                writeButton.callOnClick();
