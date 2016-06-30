@@ -35,11 +35,13 @@
         <activity android:name=".login.GetExtraInfoActivity"/>
         <activity android:name=".main.MainActivity" />
         <activity android:name=".detail.DetailActivity"/>
+
         <activity android:name=".main.myKockoc.scrap.ScrapActivity"/>
         <activity android:name=".main.myKockoc.neighbor.NeighborActivity"/>
         <activity android:name=".main.myKockoc.course.CourseActivity"/>
-
         <activity android:name=".user.UserActivity"/>
+        <activity android:name=".navigation.SettingActivity"/>
+        <activity android:name=".navigation.PasswordChangeActivity"/>
         <activity android:name=".login.Kakao.KakaoSignupActivity"/>
 
         <activity android:name=".write.newWrite.NewWriteActivity"    android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
