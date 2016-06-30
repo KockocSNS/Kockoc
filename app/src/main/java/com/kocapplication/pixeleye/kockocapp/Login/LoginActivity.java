@@ -2,10 +2,14 @@ package com.kocapplication.pixeleye.kockocapp.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -42,12 +46,13 @@ import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 
 import org.json.JSONObject;
 
+import java.security.MessageDigest;
+
 /**
  * Created by Han_ on 2016-04-01.
  * Edited by hp on 2016-06-29.
  */
 // TODO: 2016-06-29 로그인 시 BasicValue에 이름값 넣어야함
-// TODO: 2016-06-29 카톡 로그인만 됨, 네이버,페이스북 구현 필요함
 public class LoginActivity extends AppCompatActivity {
     final static String TAG = "LoginActivityTest";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;

@@ -9,7 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 
+import com.facebook.login.LoginManager;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 
 /**
@@ -54,6 +58,21 @@ public class SettingActivity extends BaseActivityWithoutNav {
                 Intent passchange_intent = new Intent(SettingActivity.this, PasswordChangeActivity.class);
                 startActivity(passchange_intent);
             } else if (v.equals(logoutButton)){
+                UserManagement.requestLogout(new LogoutResponseCallback() {
+                    @Override
+                    public void onCompleteLogout() {
+                    }
+                });
+                Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+                intent.putExtra("logout", 0);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+                try{
+                    LoginManager.getInstance().logOut();
+                } catch(Exception e){
+                    e.printStackTrace();
+                }
 
             } else if (v.equals(serviceDropOutButton)){
 
@@ -61,3 +80,4 @@ public class SettingActivity extends BaseActivityWithoutNav {
         }
     }
 }
+
