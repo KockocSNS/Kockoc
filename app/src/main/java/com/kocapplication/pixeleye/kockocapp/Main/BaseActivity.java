@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.neighbor.NeighborActivity;
+import com.kocapplication.pixeleye.kockocapp.navigation.SettingActivity;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -134,6 +135,8 @@ public class BaseActivity extends AppCompatActivity {
 
                     return true;
                 case R.id.nav_setting:
+                    Intent setting_intent = new Intent(BaseActivity.this, SettingActivity.class);
+                    startActivity(setting_intent);
 
                     return true;
             }
