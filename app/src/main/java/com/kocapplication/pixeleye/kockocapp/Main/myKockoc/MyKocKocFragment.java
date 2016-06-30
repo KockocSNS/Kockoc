@@ -17,9 +17,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity;
@@ -65,9 +65,6 @@ public class MyKocKocFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_mykockoc, container, false);
 
         init(view);
-
-        Glide.with(getContext()).load(BasicValue.getInstance().getUrlHead()+"board_image/"+ BasicValue.getInstance().getUserNo() + "/profile.jpg")
-                .error(R.drawable.default_profile).bitmapTransform(new CropCircleTransformation(Glide.get(getContext()).getBitmapPool())).into(profileImage);
 
         Handler handler = new ProfileHandler();
         Thread thread = new ProfileImageThread(handler);
@@ -134,19 +131,21 @@ public class MyKocKocFragment extends Fragment {
             } else if (v.equals(courseButton)) {
                 Intent course_intent = new Intent(getContext(), CourseActivity.class);
                 startActivity(course_intent);
-
             }
         }
     }
 
+    /**
+     * ProfileClickListener
+     * 프로필 사진 변경 -> 내장 갤러리
+     */
     private class ProfileClickListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            Glide.get(getActivity()).clearDiskCache(); // 글라이드 캐시 초기화
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
             intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            getActivity().startActivityForResult(intent, PROFILE_SET); // 메인 액티비티로 result 보냄
+            startActivityForResult(intent, PROFILE_SET); // 메인 액티비티로 result 보냄
         }
     }
 
@@ -164,17 +163,34 @@ public class MyKocKocFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case PROFILE_SET:
+                //ProfileImgReceiveHandler 에서 서버로 프로필 이미지 전송
+                Handler handler = new ProfileImgReceiveHandler();
+                Thread thread = new MyProfileImgThread(handler,data,getActivity());
+                thread.start();
+                break;
+        }
+    }
+
+
     private class ProfileHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
             ProfileData data = (ProfileData) msg.getData().getSerializable("THREAD");
+            BasicValue.getInstance().setUserNickname(data.getNickName());
 
             nickName.setText(data.getNickName());
             scrapCount.setText(data.getCourseCount() + "");
             neighborCount.setText(data.getNeighborCount() + "");
             courseCount.setText(data.getCourseCount() + "");
+            Glide.with(getContext()).load(BasicValue.getInstance().getUrlHead()+"board_image/"+ BasicValue.getInstance().getUserNo() + "/profile.jpg")
+                    .error(R.drawable.default_profile).bitmapTransform(new CropCircleTransformation(Glide.get(getContext()).getBitmapPool())).into(profileImage);
         }
     }
 
@@ -189,4 +205,22 @@ public class MyKocKocFragment extends Fragment {
             adapter.notifyDataSetChanged();
         }
     }
+
+    /**
+     * ProfileImgReceiveHandler
+     * 프로필 사진 변경 시 호출
+     */
+    private class ProfileImgReceiveHandler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Glide.with(getActivity())
+                    .load(BasicValue.getInstance().getUrlHead()+"board_image/"+ BasicValue.getInstance().getUserNo() + "/profile.jpg")
+                    .diskCacheStrategy(DiskCacheStrategy.NONE) // glide 캐시 초기화
+                    .skipMemoryCache(true)
+                    .error(R.drawable.default_profile)
+                    .bitmapTransform(new CropCircleTransformation(Glide.get(getContext()).getBitmapPool())).into(profileImage);
+        }
+    }
+
 }
