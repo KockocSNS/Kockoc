@@ -1,4 +1,4 @@
-package com.kocapplication.pixeleye.kockocapp.write;
+package com.kocapplication.pixeleye.kockocapp.write.newWrite;
 
 import android.os.Handler;
 

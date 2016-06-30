@@ -2,7 +2,6 @@ package com.kocapplication.pixeleye.kockocapp.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -11,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -20,6 +18,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.login.LoginManager;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
+import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.neighbor.NeighborActivity;
 import com.kocapplication.pixeleye.kockocapp.navigation.SettingActivity;
@@ -64,12 +66,10 @@ public class BaseActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(navigationListener);
         Glide.with(this).load(BasicValue.getInstance().getUrlHead()+"board_image/"+ BasicValue.getInstance().getUserNo() + "/profile.jpg")
                 .error(R.drawable.default_profile).bitmapTransform(new CropCircleTransformation(Glide.get(this).getBitmapPool())).into(nav_profile_img);
-        nav_profile_name.setText(String.valueOf(BasicValue.getInstance().getUserNo()));
+        nav_profile_name.setText(BasicValue.getInstance().getUserNickname());
     }
 
-    protected void onRefresh() {
-
-    }
+    protected void onRefresh() {}
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -139,8 +139,20 @@ public class BaseActivity extends AppCompatActivity {
                     startActivity(setting_intent);
 
                     return true;
+                case R.id.nav_logout:
+                    UserManagement.requestLogout(new LogoutResponseCallback() {@Override public void onCompleteLogout() {}}); // 카카오 로그아웃
+                    Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
+                    intent.putExtra("logout", 0);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    BaseActivity.this.startActivity(intent);
+                    BaseActivity.this.finish();
+                    try{
+                        LoginManager.getInstance().logOut();
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    return true;
             }
-
             return false;
         }
     }

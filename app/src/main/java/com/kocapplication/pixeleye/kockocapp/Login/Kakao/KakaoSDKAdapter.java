@@ -1,4 +1,4 @@
-package com.kocapplication.pixeleye.kockocapp.Kakao;
+package com.kocapplication.pixeleye.kockocapp.login.Kakao;
 
 import android.app.Activity;
 import android.content.Context;

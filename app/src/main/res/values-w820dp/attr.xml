@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="KakaoDialogSpinner">
+        <attr name="kakao_prompt" format="string"/>
+        <attr name="kakao_entries" format="reference"/>
+        <attr name="kakao_icon" format="reference"/>
+        <attr name="kakao_dialogTitle" format="reference"/>
+        <attr name="kakao_showTitleDivider" format="boolean"/>
+        <attr name="kakao_titleTextColor" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="LoginButton">
+        <attr name="bg" format="reference|integer"/>
+        <attr name="symbol" format="reference|integer"/>
+        <attr name="text" format="reference|string"/>
+        <attr name="textColor" format="reference|integer"/>
+
+    </declare-styleable>
+</resources>

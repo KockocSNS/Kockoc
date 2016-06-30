@@ -35,7 +35,7 @@ public class CourseActivity extends BaseActivityWithoutNav {
 
         init();
 
-        actionBarTitleSet("코스짜기", Color.WHITE);
+        actionBarTitleSet("코스", Color.WHITE);
 
         container.setLayoutResource(R.layout.activity_course);
         View containView = container.inflate();

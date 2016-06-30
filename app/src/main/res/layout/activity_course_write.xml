@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/course_set_layout"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/recycler_layout"
+            layout="@layout/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/course_image" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/course_set_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/confirm"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/course"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="3dp"
+            android:gravity="center_vertical"
+            android:text="코스"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/course_name_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/course_date_set"
+            android:layout_toRightOf="@+id/course"
+            android:background="@drawable/bg_rectangle_shape_silver"
+            android:padding="5dp"
+            android:singleLine="true"/>
+
+        <Button
+            android:id="@+id/course_date_set"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/course_time_set"
+            android:drawableTop="@drawable/course_date"
+            android:gravity="center"
+            android:minWidth="50dp"
+            android:minHeight="40dp"
+            android:textSize="10dp" />
+
+        <Button
+            android:id="@+id/course_time_set"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/add_button"
+            android:drawableTop="@drawable/course_time"
+            android:gravity="center"
+            android:minWidth="50dp"
+            android:minHeight="40dp"
+            android:padding="-5dp"
+            android:text="오전 09:00"
+            android:textSize="10dp" />
+
+        <Button
+            android:id="@+id/add_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:minWidth="50dp"
+            android:minHeight="40dp"
+            android:padding="-5dp"
+            android:background="@drawable/bg_round_shape_silver"
+            android:text="추가" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/confirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="완료" />
+
+</RelativeLayout>

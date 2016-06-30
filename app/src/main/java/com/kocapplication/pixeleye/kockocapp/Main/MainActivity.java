@@ -68,18 +68,6 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
-            case PROFILE_SET:
-                //ProfileImgReceiveHandler 에서 서버로 프로필 이미지 전송
-                Handler handler = new ProfileImgReceiveHandler();
-                Thread thread = new MyProfileImgThread(handler,data,this);
-                thread.start();
-                break;
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -114,11 +102,9 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private class ProfileImgReceiveHandler extends Handler{
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            Log.e(TAG,"메인핸들러 수신");
-        }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
     }
 }

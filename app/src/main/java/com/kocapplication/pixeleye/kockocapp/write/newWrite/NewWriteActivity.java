@@ -1,4 +1,4 @@
-package com.kocapplication.pixeleye.kockocapp.write;
+package com.kocapplication.pixeleye.kockocapp.write.newWrite;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,11 +18,10 @@ import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
-import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 import com.kocapplication.pixeleye.kockocapp.model.BoardBasicAttr;
 import com.kocapplication.pixeleye.kockocapp.model.Coordinate;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
-import com.kocapplication.pixeleye.kockocapp.write.map.MapActivity;
+import com.kocapplication.pixeleye.kockocapp.write.newWrite.map.MapActivity;
 
 import net.yazeed44.imagepicker.model.ImageEntry;
 import net.yazeed44.imagepicker.util.Picker;
@@ -126,6 +125,8 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
             Log.i(TAG, newWriteBoard.toString());
 
             Handler handler = new Handler();
+
+            // TODO: 2016-06-29 작성된 내용을 Server에 보내는 기능 만들어야한다.
             Thread thread = new NewWriteThread(handler, newWriteBoard);
             thread.start();
         }
