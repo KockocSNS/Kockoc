@@ -46,7 +46,6 @@ import org.json.JSONObject;
  * Created by Han_ on 2016-04-01.
  * Edited by hp on 2016-06-29.
  */
-// TODO: 2016-06-29 자동 로그인 구현 해야함
 // TODO: 2016-06-29 로그인 시 BasicValue에 이름값 넣어야함
 // TODO: 2016-06-29 카톡 로그인만 됨, 네이버,페이스북 구현 필요함
 public class LoginActivity extends AppCompatActivity {
@@ -214,7 +213,8 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this,"준비중입니다.",Toast.LENGTH_LONG).show();
 //                facebookLogin.performClick();
             } else if (v.equals(naverButton)) {
-                oAuthLogin.startOauthLoginActivity(LoginActivity.this, new NaverLoginHandler());
+                Toast.makeText(LoginActivity.this,"준비중입니다.",Toast.LENGTH_LONG).show();
+//                oAuthLogin.startOauthLoginActivity(LoginActivity.this, new NaverLoginHandler());
             } else if (v.equals(kakaoButton)) {
                 kakaoLogin.performClick();
             } else if (v.equals(signUpButton)) {
