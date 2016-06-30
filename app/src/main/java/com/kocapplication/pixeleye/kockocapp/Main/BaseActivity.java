@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.login.LoginManager;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
@@ -64,9 +65,25 @@ public class BaseActivity extends AppCompatActivity {
         actionBar.setDisplayShowCustomEnabled(true);
 
         navigationView.setNavigationItemSelectedListener(navigationListener);
+        //네비게이션 프로필 이미지
         Glide.with(this).load(BasicValue.getInstance().getUrlHead()+"board_image/"+ BasicValue.getInstance().getUserNo() + "/profile.jpg")
                 .error(R.drawable.default_profile).bitmapTransform(new CropCircleTransformation(Glide.get(this).getBitmapPool())).into(nav_profile_img);
-        nav_profile_name.setText(BasicValue.getInstance().getUserNickname());
+    }
+
+    /**
+     * set_navProfile
+     * 프로필 사진과 이름 설정
+     */
+    protected void set_navProfileImg(){
+        Glide.with(BaseActivity.this)
+                .load(BasicValue.getInstance().getUrlHead()+"board_image/"+ BasicValue.getInstance().getUserNo() + "/profile.jpg")
+                .diskCacheStrategy(DiskCacheStrategy.NONE) // glide 캐시 초기화
+                .skipMemoryCache(true)
+                .error(R.drawable.default_profile)
+                .bitmapTransform(new CropCircleTransformation(Glide.get(BaseActivity.this).getBitmapPool())).into(nav_profile_img);
+    }
+    protected void set_navProfileName(String name){
+        nav_profile_name.setText(name);
     }
 
     protected void onRefresh() {}

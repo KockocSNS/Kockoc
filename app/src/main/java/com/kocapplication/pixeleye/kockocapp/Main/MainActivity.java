@@ -68,7 +68,6 @@ public class MainActivity extends BaseActivity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -105,6 +104,12 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
     }
+
+    /**
+     * set_navProfile
+     * myKocKocFragment의 핸들러에서 데이터를 받아 BaseActivity에 set
+     */
+    public void set_navProfileImg(){super.set_navProfileImg();} // 프사 변경 할때
+    public void set_navProfileName(String name){super.set_navProfileName(name);}
 }
