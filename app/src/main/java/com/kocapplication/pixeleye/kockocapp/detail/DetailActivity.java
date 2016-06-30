@@ -1,14 +1,13 @@
 package com.kocapplication.pixeleye.kockocapp.detail;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,11 +25,10 @@ import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 /**
  * Created by hp on 2016-06-20.
  */
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends Activity {
     final static String TAG = "DetailActivity";
     DetailFragment detailFragment;
 
-    private Toolbar toolbar;
     private EditText comment_et;
     private Button commentSend_btn;
     private Button courseCopy_btn;
@@ -56,7 +54,6 @@ public class DetailActivity extends AppCompatActivity {
     protected void init(){
         detailFragment = new DetailFragment(boardNo,courseNo,board_userNo);
 
-        toolbar = (Toolbar)findViewById(R.id.tool_bar);
         comment_et = (EditText) findViewById(R.id.edit_comment);
         commentSend_btn = (Button) findViewById(R.id.btn_send_comment);
         courseCopy_btn = (Button)findViewById(R.id.btn_detail_course_copy);
@@ -141,7 +138,6 @@ public class DetailActivity extends AppCompatActivity {
     private class MenuListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            Log.e(TAG,"클릭");
             DetailActivity.this.openOptionsMenu();
         }
     }

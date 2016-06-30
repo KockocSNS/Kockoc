@@ -108,9 +108,12 @@ public class GetExtraInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (chk_allPass()) {
-                    if (flag.equals("naver")) JspConn.recordMember(user);
+                    if (flag.equals("naver"))
+                        JspConn.recordMember(user);
                     else if (flag.equals("kakao"))
                         JspConn.updateUser(nickname, tel, gender, birth); // 카카오 사인업에서 만든 User 업데이트
+                    else if (flag.equals("facebook"))
+                        JspConn.recordMember(user);
 
                     startActivity(new Intent(GetExtraInfoActivity.this, MainActivity.class));
                     finish();
