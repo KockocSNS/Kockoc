@@ -63,7 +63,6 @@
             android:gravity="center"
             android:minWidth="50dp"
             android:minHeight="40dp"
-            android:text="2016/06/03"
             android:textSize="10dp" />
 
         <Button

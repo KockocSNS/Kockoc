@@ -26,6 +26,7 @@ import org.apache.http.protocol.HTTP;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -93,10 +94,11 @@ public class CourseThread extends Thread {
                 String board = element.getAsString();
                 Log.i("CourseThread", board);
                 String[] split = board.split("/");
-                course.add(new Course(split[0], split[1], null));
+                Date dateTime = new Date(split[1]);
+                course.add(new Course(split[0], dateTime));
             }
 
-            courses.add(new Courses(courseNo, title, date, time, course));
+            courses.add(new Courses(courseNo, title, new Date(date), course));
         }
 
         Message msg = Message.obtain();

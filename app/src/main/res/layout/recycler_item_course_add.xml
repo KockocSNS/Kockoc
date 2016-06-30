@@ -17,7 +17,10 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/course_time"
+        android:minWidth="10dp"
+        android:padding="-5dp"
         android:drawableLeft="@drawable/course_date"
+        android:drawablePadding="2dp"
         style="@style/Base.Widget.AppCompat.Button.Borderless" />
 
     <Button
@@ -26,7 +29,12 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/delete"
+        android:minWidth="10dp"
+        android:padding="-5dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
         android:drawableLeft="@drawable/course_time"
+        android:drawablePadding="2dp"
         style="@style/Base.Widget.AppCompat.Button.Borderless" />
 
     <Button
@@ -35,8 +43,9 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:drawableLeft="@drawable/delete"
-
+        android:minWidth="10dp"
+        android:padding="-5dp"
+        android:drawableLeft="@drawable/close_red"
         android:text="삭제"
         android:textColor="@color/mainBgColor"
         style="@style/Base.Widget.AppCompat.Button.Borderless"/>
