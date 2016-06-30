@@ -107,7 +107,6 @@ public class ProfileBoardThread extends Thread {
                 e.printStackTrace();
             }
 
-
             BoardBasicAttr attributes =
                     new BoardBasicAttr(
                             object.get("User_No").getAsInt(),

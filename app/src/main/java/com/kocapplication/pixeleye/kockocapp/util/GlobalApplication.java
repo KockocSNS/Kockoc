@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.kakao.auth.KakaoSDK;
-import com.kocapplication.pixeleye.kockocapp.Kakao.KakaoSDKAdapter;
+import com.kocapplication.pixeleye.kockocapp.login.Kakao.KakaoSDKAdapter;
 
 /**
- * Created by pixeleye03 on 2016-06-21.
+ * Created by hp on 2016-06-21.
  */
 public class GlobalApplication extends Application {
     final static String TAG = "GlobalApplication";
@@ -17,6 +17,7 @@ public class GlobalApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
         KakaoSDK.init(new KakaoSDKAdapter());
     }
 

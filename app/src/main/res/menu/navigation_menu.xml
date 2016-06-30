@@ -16,4 +16,9 @@
         android:icon="@drawable/nav_setting"
         android:title="설정" />
 
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/nav_setting"
+        android:title="로그아웃" />
+
 </menu>
