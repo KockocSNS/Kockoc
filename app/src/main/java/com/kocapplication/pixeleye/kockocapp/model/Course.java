@@ -41,7 +41,7 @@ public class Course implements Serializable {
     }
 
     public String getTime() {
-        SimpleDateFormat format = new SimpleDateFormat("a HH:mm");
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         return format.format(dateTime);
     }
 
