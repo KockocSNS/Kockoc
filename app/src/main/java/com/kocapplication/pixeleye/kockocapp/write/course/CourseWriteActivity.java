@@ -83,7 +83,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
 
         View recyclerLayout = containView.findViewById(R.id.recycler_layout);
         recyclerView = (RecyclerView) recyclerLayout.findViewById(R.id.recycler_view);
-        adapter = new CourseWriteRecyclerAdapter(new ArrayList<Course>());
+        adapter = new CourseWriteRecyclerAdapter(new ArrayList<Course>(), this);
         recyclerView.setAdapter(adapter);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -117,9 +117,9 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
 
                 String date = dateButton.getText().toString();
                 String time = timeButton.getText().toString();
-                String dateTime = date + time;
+                String dateTime = date + " " + time;
 
-                SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dda HH:mm");
+                SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
                 Date courseDate = new Date();
                 try {
                     courseDate = format.parse(dateTime);
@@ -142,6 +142,11 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
             }
 
             else if (v.equals(confirm)) {
+                if (adapter.getItems().isEmpty()) {
+                    Snackbar.make(confirm, "코스를 입력해주세요.", Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+
                 AlarmHelper manager = new AlarmHelper(CourseWriteActivity.this);
                 Courses courses = new Courses(courseTitle, new Date(), adapter.getItems());
                 manager.setCourseAlarm(courses);
@@ -187,14 +192,13 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            String ampm = hourOfDay > 12 ? "오후" : "오전";
-            String _hour = hourOfDay > 12 ? String.valueOf(hourOfDay - 12) : String.valueOf(hourOfDay);
             String _minute = String.valueOf(minute);
+            String _hour = String.valueOf(hourOfDay);
 
             _hour = _hour.length() < 2 ? "0" + _hour : _hour;
             _minute = _minute.length() < 2 ? "0" + _minute : _minute;
 
-            String time = ampm + " " + _hour + ":" + _minute;
+            String time = _hour + ":" + _minute;
 
             timeButton.setText(time);
         }
