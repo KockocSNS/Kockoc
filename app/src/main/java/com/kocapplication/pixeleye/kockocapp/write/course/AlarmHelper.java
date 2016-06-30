@@ -1,9 +1,7 @@
 package com.kocapplication.pixeleye.kockocapp.write.course;
 
 import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import com.kocapplication.pixeleye.kockocapp.model.Course;
@@ -30,10 +28,14 @@ public class AlarmHelper {
         Log.i(TAG, "SET ALARM");
 
         List<Course> _courses = courses.getCourses();
+        long time = new Date().getTime();
+
+        Log.i(TAG, "Current : " + time + "");
 
         for (Course course : _courses) {
             if (course.getDataByMilSec() > new Date().getTime()) {
-                Log.i(TAG, course.getDate() + "/" + course.getTime());
+                Log.i(TAG, "Set : " + course.getDataByMilSec());
+                Log.i(TAG, "String : " + course.getDate() + "/" + course.getTime());
             }
         }
 
