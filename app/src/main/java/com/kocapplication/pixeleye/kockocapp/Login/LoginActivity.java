@@ -54,7 +54,7 @@ import java.security.MessageDigest;
  */
 // TODO: 2016-06-29 로그인 시 BasicValue에 이름값 넣어야함
 public class LoginActivity extends AppCompatActivity {
-    final static String TAG = "LoginActivityTest";
+    final static String TAG = "LoginActivity";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private EditText idText;
     private EditText pwText;
@@ -125,19 +125,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_login);
-
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md;
-                md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                String something = new String(Base64.encode(md.digest(), 0));
-                Log.d("Hash key", something);
-            }
-        } catch (Exception e) {
-            Log.e("name not found", e.toString());
-        }
 
         init();
 

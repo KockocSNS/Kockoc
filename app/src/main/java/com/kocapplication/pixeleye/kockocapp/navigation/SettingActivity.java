@@ -9,7 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 
+import com.facebook.login.LoginManager;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 
 /**
@@ -17,7 +21,6 @@ import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
  */
 public class SettingActivity extends BaseActivityWithoutNav {
     private Button passwordChange;
-    private Button logoutButton;
     private Button serviceDropOutButton;
     private Switch autoLoginSet;
 
@@ -32,7 +35,6 @@ public class SettingActivity extends BaseActivityWithoutNav {
         View containView = container.inflate();
 
         passwordChange = (Button) containView.findViewById(R.id.pass_change);
-        logoutButton = (Button) containView.findViewById(R.id.logout_button);
         serviceDropOutButton = (Button) containView.findViewById(R.id.service_drop_out_button);
         autoLoginSet = (Switch) containView.findViewById(R.id.auto_login_set);
 
@@ -42,9 +44,9 @@ public class SettingActivity extends BaseActivityWithoutNav {
     private void listenerset(){
         ButtonClickListener buttonClickListener = new ButtonClickListener();
         passwordChange.setOnClickListener(buttonClickListener);
-        logoutButton.setOnClickListener(buttonClickListener);
         serviceDropOutButton.setOnClickListener(buttonClickListener);
     }
+
 
     private class ButtonClickListener implements View.OnClickListener{
         @Override
@@ -53,11 +55,10 @@ public class SettingActivity extends BaseActivityWithoutNav {
                 Log.e("SET","AA");
                 Intent passchange_intent = new Intent(SettingActivity.this, PasswordChangeActivity.class);
                 startActivity(passchange_intent);
-            } else if (v.equals(logoutButton)){
-
             } else if (v.equals(serviceDropOutButton)){
 
             }
         }
     }
 }
+

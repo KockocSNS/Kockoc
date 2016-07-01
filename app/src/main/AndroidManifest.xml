@@ -28,20 +28,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main.AdviceActivity"/>
+
         <activity android:name=".login.LoginActivity"/>
         <activity android:name=".login.JoinActivity"/>
         <activity android:name=".login.GetExtraInfoActivity"/>
-        <activity android:name=".main.MainActivity" />
+        <activity android:name=".login.Kakao.KakaoSignupActivity"/>
+
         <activity android:name=".detail.DetailActivity"/>
 
+        <activity android:name=".main.MainActivity" />
+        <activity android:name=".main.AdviceActivity"/>
         <activity android:name=".main.myKockoc.scrap.ScrapActivity"/>
         <activity android:name=".main.myKockoc.neighbor.NeighborActivity"/>
         <activity android:name=".main.myKockoc.course.CourseActivity"/>
+
         <activity android:name=".user.UserActivity"/>
+
         <activity android:name=".navigation.SettingActivity"/>
         <activity android:name=".navigation.PasswordChangeActivity"/>
-        <activity android:name=".login.Kakao.KakaoSignupActivity"/>
+        <activity android:name=".navigation.NoticeActivity"/>
+
+
 
         <activity android:name=".write.newWrite.NewWriteActivity"    android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <activity android:name=".write.newWrite.map.MapActivity"     android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />

@@ -583,6 +583,37 @@ public class JspConn {
         return false;
     }
 
+    static public String test(String password, String newPass) {
+        String result = "";
+
+        try {
+            passiveMethod();
+            HttpClient client = new DefaultHttpClient();
+            String postURL = BasicValue.getInstance().getUrlHead()+"Member/test.jsp";
+            HttpPost post = new HttpPost(postURL);
+
+            List<NameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("UserNo", "" + BasicValue.getInstance().getUserNo()));
+            params.add(new BasicNameValuePair("PWD", password));
+            params.add(new BasicNameValuePair("newPWD", newPass));
+
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse response = client.execute(post);
+
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.e(TAG,result);
+        return result;
+    }
+
 
     static public void passiveMethod() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
