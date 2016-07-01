@@ -9,9 +9,27 @@ import android.content.SharedPreferences;
 public class SharedPreferenceHelper {
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
+    private enum Type { ALARM }
 
     public SharedPreferenceHelper(Context context) {
         preferences = context.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE);
+        editor = preferences.edit();
+    }
+
+    public SharedPreferenceHelper(Context context, Type type) {
+        String name = "PREFERENCE";
+
+        switch (type) {
+            case ALARM:
+                name = "ALARM";
+                break;
+
+            default:
+                name = "PREFERENCE";
+                break;
+        }
+
+        preferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
         editor = preferences.edit();
     }
 

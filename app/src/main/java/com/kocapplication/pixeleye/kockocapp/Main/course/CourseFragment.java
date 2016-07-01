@@ -1,5 +1,6 @@
 package com.kocapplication.pixeleye.kockocapp.main.course;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,11 +12,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
+import com.kocapplication.pixeleye.kockocapp.write.course.CourseTitleActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ import java.util.List;
  * Created by Han_ on 2016-06-21.
  */
 public class CourseFragment extends Fragment {
+    private TextView courseAdd;
     private RecyclerView recyclerView;
     private CourseRecyclerAdapter adapter;
 
@@ -42,6 +44,9 @@ public class CourseFragment extends Fragment {
     }
 
     private void init(View view) {
+        courseAdd = (TextView) view.findViewById(R.id.course_add);
+        courseAdd.setOnClickListener(new ButtonListener());
+
         View container = view.findViewById(R.id.recycler_layout);
         recyclerView = (RecyclerView) container.findViewById(R.id.recycler_view);
 
@@ -54,6 +59,14 @@ public class CourseFragment extends Fragment {
         recyclerView.setLayoutManager(manager);
 
         recyclerView.setHasFixedSize(true);
+    }
+
+    private class ButtonListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getActivity(), CourseTitleActivity.class);
+            startActivity(intent);
+        }
     }
 
     private class ItemClickListener implements View.OnClickListener {

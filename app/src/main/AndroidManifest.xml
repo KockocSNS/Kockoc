@@ -8,8 +8,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -21,7 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:largeHeap="true">
-        <activity android:name=".intro.IntroActivity">
+
+        <activity android:name=".intro.IntroActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,11 +54,11 @@
 
 
 
-        <activity android:name=".write.newWrite.NewWriteActivity"    android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
-        <activity android:name=".write.newWrite.map.MapActivity"     android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name=".write.course.CourseTitleActivity" android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".write.newWrite.NewWriteActivity"   android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+        <activity android:name=".write.newWrite.map.MapActivity"    android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity android:name=".write.course.CourseTitleActivity"  android:windowSoftInputMode="adjustPan" />
         <activity android:name=".write.course.CourseWriteActivity" />
-
+        <activity android:name=".write.course.AlarmDialogActivity" />
 
         <!-- 네이버 로그인-->
         <activity

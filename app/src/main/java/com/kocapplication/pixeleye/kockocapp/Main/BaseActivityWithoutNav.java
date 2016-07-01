@@ -6,6 +6,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
@@ -17,6 +18,7 @@ import com.kocapplication.pixeleye.kockocapp.R;
  * Created by Han_ on 2016-06-24.
  */
 public class BaseActivityWithoutNav extends AppCompatActivity {
+    private final String TAG = "BASE_ACTIVITY";
     protected DrawerLayout drawerLayout;
     protected ActionBar actionBar;
     protected ViewStub container;
@@ -27,6 +29,11 @@ public class BaseActivityWithoutNav extends AppCompatActivity {
         setContentView(R.layout.activity_base_without_navigationview);
 
         init();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     protected void init() {
