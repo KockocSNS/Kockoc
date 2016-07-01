@@ -89,7 +89,9 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
             }
 
             else if (v.equals(holder.getTimeButton())) {
-                new TimePickerDialog(activity, new TimeSetListener(holder), 9, 0, false).show();
+                String time = holder.getTimeButton().getText().toString();
+                String[] _time = time.split(":");
+                new TimePickerDialog(activity, new TimeSetListener(holder), Integer.parseInt(_time[0]), Integer.parseInt(_time[1]), false).show();
             }
 
             else if (v.equals(holder.getDelete())) {

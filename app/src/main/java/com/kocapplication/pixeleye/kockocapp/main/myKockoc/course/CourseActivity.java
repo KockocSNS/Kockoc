@@ -1,5 +1,6 @@
 package com.kocapplication.pixeleye.kockocapp.main.myKockoc.course;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivity;
@@ -17,6 +19,7 @@ import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseThread;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
+import com.kocapplication.pixeleye.kockocapp.write.course.CourseTitleActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +29,7 @@ import java.util.List;
  */
 public class CourseActivity extends BaseActivityWithoutNav {
     private SwipeRefreshLayout refreshLayout;
+    private TextView courseAdd;
     private RecyclerView recyclerView ;
     private CourseRecyclerAdapter adapter;
 
@@ -39,6 +43,8 @@ public class CourseActivity extends BaseActivityWithoutNav {
 
         container.setLayoutResource(R.layout.activity_course);
         View containView = container.inflate();
+        courseAdd = (TextView) containView.findViewById(R.id.course_add);
+        courseAdd.setOnClickListener(new ButtonListener());
 
         View recyclerContainer = containView.findViewById(R.id.recycler_layout);
         refreshLayout = (SwipeRefreshLayout) recyclerContainer.findViewById(R.id.refresh_layout);
@@ -57,6 +63,14 @@ public class CourseActivity extends BaseActivityWithoutNav {
         Handler handler = new CourseHandler();
         Thread thread = new CourseThread(handler);
         thread.start();
+    }
+
+    private class ButtonListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(CourseActivity.this, CourseTitleActivity.class);
+            startActivity(intent);
+        }
     }
 
     private class ItemClickListener implements View.OnClickListener {

@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -34,6 +35,8 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  * Created by Han_ on 2016-06-20.
  */
 public class BaseActivity extends AppCompatActivity {
+    private final String TAG = "BASE_ACTIVITY";
+
     protected DrawerLayout drawerLayout;
     protected NavigationView navigationView;
     protected ActionBar actionBar;
@@ -109,6 +112,8 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) drawerLayout.closeDrawers();
+        else finish();
         super.onBackPressed();
     }
 
