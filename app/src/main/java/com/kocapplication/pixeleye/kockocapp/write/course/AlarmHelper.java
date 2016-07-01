@@ -32,6 +32,7 @@ public class AlarmHelper {
 
         Log.i(TAG, "Current : " + time + "");
 
+        // TODO: 2016-06-30 여기서 부터 하면 된다.
         for (Course course : _courses) {
             if (course.getDataByMilSec() > new Date().getTime()) {
                 Log.i(TAG, "Set : " + course.getDataByMilSec());
