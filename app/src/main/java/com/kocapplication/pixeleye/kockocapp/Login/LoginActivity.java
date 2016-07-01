@@ -53,7 +53,6 @@ import java.security.MessageDigest;
  * Edited by hp on 2016-06-29.
  */
 // TODO: 2016-06-29 로그인 시 BasicValue에 이름값 넣어야함
-// TODO: 2016-06-29 카톡 로그인만 됨, 네이버,페이스북 구현 필요함
 public class LoginActivity extends AppCompatActivity {
     final static String TAG = "LoginActivityTest";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -101,7 +100,6 @@ public class LoginActivity extends AppCompatActivity {
                 gcmBoardNo = intent.getIntExtra("gcmBoardNo", 0);
                 gcmCourseNo = intent.getIntExtra("gcmCourseNo", 0);
             }
-
         }catch(Exception e){
             Log.d(TAG,"getintent값 없음");
         }
@@ -229,11 +227,9 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "빈칸을 입력해주세요", Toast.LENGTH_SHORT).show();
 
             } else if (v.equals(facebookButton)) {
-                Toast.makeText(LoginActivity.this,"준비중입니다.",Toast.LENGTH_LONG).show();
-//                facebookLogin.performClick();
+                facebookLogin.performClick();
             } else if (v.equals(naverButton)) {
-                Toast.makeText(LoginActivity.this,"준비중입니다.",Toast.LENGTH_LONG).show();
-//                oAuthLogin.startOauthLoginActivity(LoginActivity.this, new NaverLoginHandler());
+                oAuthLogin.startOauthLoginActivity(LoginActivity.this, new NaverLoginHandler());
             } else if (v.equals(kakaoButton)) {
                 kakaoLogin.performClick();
             } else if (v.equals(signUpButton)) {
@@ -274,18 +270,17 @@ public class LoginActivity extends AppCompatActivity {
                 userData = new User(object.getString("name"), object.getString("name"), "", object.getString("id"), "", "", object.getString("gender"));
                 Handler handler = new LoginHandler();
                 if (!JspConn.checkDuplID(userData.e_mail)) {
-                    Toast.makeText(LoginActivity.this, "페이스북 로그인 구현해야함", Toast.LENGTH_SHORT).show();
 //                    // Email이 이미 존재하는 경우
-//                    getInstanceIdToken();
-//                    Thread thread = new NoPwdLoginThread(getApplicationContext(), handler, userData.e_mail);
-//                    thread.start();
+                    getInstanceIdToken();
+                    Thread thread = new NoPwdLoginThread(getApplicationContext(), handler, userData.e_mail);
+                    thread.start();
                 } else {
-                    Toast.makeText(LoginActivity.this, "페이스북 로그인 구현해야함", Toast.LENGTH_SHORT).show();
 //                    // Email이 없는 경우이므로 회원가입
-//                    Intent intent = new Intent(LoginActivity.this, GetExtraInfoActivity.class);
-//                    intent.putExtra("userData",userData);
-//                    startActivity(intent);
-//                    finish();
+                    Intent intent = new Intent(LoginActivity.this, GetExtraInfoActivity.class);
+                    intent.putExtra("user",userData);
+                    intent.putExtra("flag","facebook");
+                    startActivity(intent);
+                    finish();
                 }
             } catch (Exception e) {
                 e.printStackTrace();

@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -35,11 +34,13 @@
         <activity android:name=".login.GetExtraInfoActivity"/>
         <activity android:name=".main.MainActivity" />
         <activity android:name=".detail.DetailActivity"/>
+
         <activity android:name=".main.myKockoc.scrap.ScrapActivity"/>
         <activity android:name=".main.myKockoc.neighbor.NeighborActivity"/>
         <activity android:name=".main.myKockoc.course.CourseActivity"/>
-
         <activity android:name=".user.UserActivity"/>
+        <activity android:name=".navigation.SettingActivity"/>
+        <activity android:name=".navigation.PasswordChangeActivity"/>
         <activity android:name=".login.Kakao.KakaoSignupActivity"/>
 
         <activity android:name=".write.newWrite.NewWriteActivity"    android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
@@ -47,10 +48,29 @@
         <activity android:name=".write.course.CourseTitleActivity" android:windowSoftInputMode="adjustPan" />
         <activity android:name=".write.course.CourseWriteActivity" />
 
+
+        <!-- 네이버 로그인-->
+        <activity
+            android:name="com.nhn.android.naverlogin.ui.OAuthLoginActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.nhn.android.naverlogin.ui.OAuthLoginInAppBrowserActivity"
+            android:label="OAuth2.0 In-app" />
+        <!-- 페이스북 로그인 -->
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <!-- 카카오톡 debug key -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="9b6bb8886ea6b7a8ae3e05ff6b989ea6"/>
+            android:value="@string/kakao_app_id"/>
+        <!-- 페이스북 debug key -->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
         <!-- Gcm Service -->
         <service android:name=".util.GCM.RegistrationIntentService"
             android:exported="false"/>
