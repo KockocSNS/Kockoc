@@ -26,6 +26,7 @@ import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.neighbor.NeighborActivity;
+import com.kocapplication.pixeleye.kockocapp.navigation.NoticeActivity;
 import com.kocapplication.pixeleye.kockocapp.navigation.SettingActivity;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 
@@ -154,6 +155,8 @@ public class BaseActivity extends AppCompatActivity {
                     startActivity(adviceActivity);
                     return true;
                 case R.id.nav_alarm:
+                    Intent notice_intent = new Intent(BaseActivity.this, NoticeActivity.class);
+                    startActivity(notice_intent);
 
                     return true;
                 case R.id.nav_setting:
@@ -162,17 +165,21 @@ public class BaseActivity extends AppCompatActivity {
 
                     return true;
                 case R.id.nav_logout:
-                    UserManagement.requestLogout(new LogoutResponseCallback() {@Override public void onCompleteLogout() {}}); // 카카오 로그아웃
+                    UserManagement.requestLogout(new LogoutResponseCallback() {
+                        @Override
+                        public void onCompleteLogout() {
+                        }
+                    });
                     Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
                     intent.putExtra("logout", 0);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    BaseActivity.this.startActivity(intent);
-                    BaseActivity.this.finish();
+                    startActivity(intent);
+                    finish();
                     try{
                         LoginManager.getInstance().logOut();
                     } catch(Exception e){
                         e.printStackTrace();
                     }
+
                     return true;
             }
             return false;
