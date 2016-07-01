@@ -3,6 +3,7 @@ package com.kocapplication.pixeleye.kockocapp.user;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -26,17 +27,18 @@ import java.util.List;
 /**
  * Created by Han_ on 2016-06-23.
  */
-public class ProfileImageThread extends Thread {
+public class GetUserInfoThread extends Thread {
+    final static String TAG = "GetUserInfoThread";
     private String postURL = BasicValue.getInstance().getUrlHead() + "Member/getUserInfo.jsp";
     private Handler handler;
     private int userNo = BasicValue.getInstance().getUserNo();
 
-    public ProfileImageThread(Handler handler) {
+    public GetUserInfoThread(Handler handler) {
         super();
         this.handler = handler;
     }
 
-    public ProfileImageThread(Handler handler, int userNo){
+    public GetUserInfoThread(Handler handler, int userNo){
         this(handler);
         this.userNo = userNo;
     }
@@ -65,6 +67,7 @@ public class ProfileImageThread extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.d(TAG,"get user Info result :"+result);
 
         JsonParser parser = new JsonParser();
         JsonObject object = parser.parse(result).getAsJsonObject();
@@ -93,6 +96,7 @@ public class ProfileImageThread extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.d(TAG,"getUserScrapCourse result :"+result);
 
         object = parser.parse(result).getAsJsonObject();
         int course = object.get("courseCount").getAsInt();

@@ -111,10 +111,9 @@ public class GetExtraInfoActivity extends AppCompatActivity {
                     if (flag.equals("naver"))
                         JspConn.recordMember(user);
                     else if (flag.equals("kakao"))
-                        JspConn.updateUser(nickname, tel, gender, birth); // 카카오 사인업에서 만든 User 업데이트
+                        JspConn.recordMember(user); // 카카오 사인업에서 만든 User 업데이트
                     else if (flag.equals("facebook"))
                         JspConn.recordMember(user);
-
                     startActivity(new Intent(GetExtraInfoActivity.this, MainActivity.class));
                     finish();
                 }

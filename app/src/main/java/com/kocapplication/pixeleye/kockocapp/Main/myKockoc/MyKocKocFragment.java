@@ -29,7 +29,7 @@ import com.kocapplication.pixeleye.kockocapp.main.story.BoardRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 import com.kocapplication.pixeleye.kockocapp.model.ProfileData;
 import com.kocapplication.pixeleye.kockocapp.user.ProfileBoardThread;
-import com.kocapplication.pixeleye.kockocapp.user.ProfileImageThread;
+import com.kocapplication.pixeleye.kockocapp.user.GetUserInfoThread;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 
 
@@ -67,8 +67,8 @@ public class MyKocKocFragment extends Fragment {
 
         init(view);
 
-        Handler handler = new ProfileHandler();
-        Thread thread = new ProfileImageThread(handler);
+        Handler handler = new GetUserInfoHandler();
+        Thread thread = new GetUserInfoThread(handler);
         thread.start();
 
         Handler handler1 = new BoardHandler();
@@ -128,6 +128,7 @@ public class MyKocKocFragment extends Fragment {
                 startActivity(scrap_intent);
             } else if (v.equals(neighborButton)) {
                 Intent neighbor_intent = new Intent(getContext(), NeighborActivity.class);
+                neighbor_intent.putExtra("userNo",BasicValue.getInstance().getUserNo());
                 startActivity(neighbor_intent);
             } else if (v.equals(courseButton)) {
                 Intent course_intent = new Intent(getContext(), CourseActivity.class);
@@ -178,7 +179,7 @@ public class MyKocKocFragment extends Fragment {
     }
 
 
-    private class ProfileHandler extends Handler {
+    private class GetUserInfoHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -187,7 +188,7 @@ public class MyKocKocFragment extends Fragment {
             BasicValue.getInstance().setUserNickname(data.getNickName());
 
             nickName.setText(data.getNickName());
-            scrapCount.setText(data.getCourseCount() + "");
+            scrapCount.setText(data.getScrapCount() + "");
             neighborCount.setText(data.getNeighborCount() + "");
             courseCount.setText(data.getCourseCount() + "");
             Glide.with(getContext()).load(BasicValue.getInstance().getUrlHead()+"board_image/"+ BasicValue.getInstance().getUserNo() + "/profile.jpg")
