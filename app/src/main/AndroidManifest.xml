@@ -43,6 +43,8 @@
         <activity android:name=".main.MainActivity" />
         <activity android:name=".main.AdviceActivity"/>
         <activity android:name=".main.myKockoc.scrap.ScrapActivity"/>
+        <activity android:name=".main.search.SearchActivity"/>
+        <activity android:name=".main.search.SearchBoardActivity"/>
         <activity android:name=".main.myKockoc.neighbor.NeighborActivity"/>
         <activity android:name=".main.myKockoc.course.CourseActivity"/>
 

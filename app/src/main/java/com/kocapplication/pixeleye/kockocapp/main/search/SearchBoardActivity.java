@@ -1,4 +1,4 @@
-package com.kocapplication.pixeleye.kockocapp.main.myKockoc.scrap;
+package com.kocapplication.pixeleye.kockocapp.main.search;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 /**
  * Created by pixeleye02 on 2016-06-27.
  */
-public class ScrapActivity extends BaseActivityWithoutNav {
+public class SearchBoardActivity extends BaseActivityWithoutNav {
 
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
@@ -36,7 +36,7 @@ public class ScrapActivity extends BaseActivityWithoutNav {
 
         init();
 
-        actionBarTitleSet("관심글", Color.WHITE);
+        actionBarTitleSet("검색 결과", Color.WHITE);
 
         container.setLayoutResource(R.layout.activity_board);
         View containView = container.inflate();
@@ -48,7 +48,7 @@ public class ScrapActivity extends BaseActivityWithoutNav {
 
         recyclerView.setAdapter(adapter);
 
-        GridLayoutManager manager = new GridLayoutManager(ScrapActivity.this, 2);
+        GridLayoutManager manager = new GridLayoutManager(SearchBoardActivity.this, 2);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         manager.scrollToPosition(0);
 
@@ -56,8 +56,8 @@ public class ScrapActivity extends BaseActivityWithoutNav {
         recyclerView.setHasFixedSize(true);
 
         if (initialData == null) {
-            Handler handler = new ScrapDataReceiveHandler();
-            Thread thread = new ScrapThread(handler);
+            Handler handler = new SearchDataReceiveHandler();
+            Thread thread = new SearchThread(handler);
             refreshLayout.setRefreshing(true);
             thread.start();
         }
@@ -70,7 +70,7 @@ public class ScrapActivity extends BaseActivityWithoutNav {
 
             BoardWithImage boardWithImage = adapter.getItems().get(position);
 
-            Intent intent = new Intent(ScrapActivity.this, DetailActivity.class);
+            Intent intent = new Intent(SearchBoardActivity.this, DetailActivity.class);
             intent.putExtra("boardNo", boardWithImage.getBasicAttributes().getBoardNo());
             intent.putExtra("courseNo", boardWithImage.getBasicAttributes().getCourseNo());
             startActivity(intent);
@@ -78,7 +78,7 @@ public class ScrapActivity extends BaseActivityWithoutNav {
         }
     }
 
-    private class ScrapDataReceiveHandler extends Handler {
+    private class SearchDataReceiveHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
