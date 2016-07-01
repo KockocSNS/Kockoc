@@ -1,6 +1,7 @@
 package com.kocapplication.pixeleye.kockocapp.user;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivity;
+import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.neighbor.NeighborActivity;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.scrap.ScrapActivity;
@@ -36,7 +37,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 /**
  * Created by pixeleye02 on 2016-06-28.
  */
-public class UserActivity extends BaseActivity {
+public class UserActivity extends BaseActivityWithoutNav {
     private final String TAG = "UserActivity";
     private RecyclerView recyclerView;
     private BoardRecyclerAdapter adapter;
@@ -58,12 +59,15 @@ public class UserActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
 
         Intent intent = getIntent();
         this.userNo = intent.getIntExtra("userNo",-1);
 
-        View profile = findViewById(R.id.user_profile_container);
+        container.setLayoutResource(R.layout.activity_user);
+        View containView = container.inflate();
+        actionBarTitleSet("유저 정보", Color.WHITE);
+
+        View profile = containView.findViewById(R.id.user_profile_container);
         View recycler = findViewById(R.id.recycler_layout_user);
 
         //profile
@@ -94,7 +98,7 @@ public class UserActivity extends BaseActivity {
         recyclerView.setHasFixedSize(true);
 
         Handler handler = new ProfileHandler();
-        Thread thread = new ProfileImageThread(handler,userNo);
+        Thread thread = new GetUserInfoThread(handler,userNo);
         thread.start();
 
         Handler handler1 = new BoardHandler();
@@ -116,14 +120,17 @@ public class UserActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             if (v.equals(scrapButton)) {
-                Intent scrap_intent = new Intent(UserActivity.this, ScrapActivity.class);
-                startActivity(scrap_intent);
+                Toast.makeText(UserActivity.this, "비공개 입니다", Toast.LENGTH_SHORT).show();
+//                Intent scrap_intent = new Intent(UserActivity.this, ScrapActivity.class);
+//                startActivity(scrap_intent);
             } else if (v.equals(neighborButton)) {
                 Intent neighbor_intent = new Intent(UserActivity.this, NeighborActivity.class);
+                neighbor_intent.putExtra("userNo",userNo);
                 startActivity(neighbor_intent);
             } else if (v.equals(courseButton)) {
-                Intent course_intent = new Intent(UserActivity.this, CourseActivity.class);
-                startActivity(course_intent);
+                Toast.makeText(UserActivity.this, "비공개 입니다", Toast.LENGTH_SHORT).show();
+//                Intent course_intent = new Intent(UserActivity.this, CourseActivity.class);
+//                startActivity(course_intent);
             }
         }
     }

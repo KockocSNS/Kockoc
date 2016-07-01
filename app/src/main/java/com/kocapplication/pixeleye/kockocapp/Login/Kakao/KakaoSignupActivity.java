@@ -3,6 +3,8 @@ package com.kocapplication.pixeleye.kockocapp.login.Kakao;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.kakao.auth.ErrorCode;
 import com.kakao.network.ErrorResult;
@@ -13,6 +15,7 @@ import com.kakao.util.helper.log.Logger;
 import com.kocapplication.pixeleye.kockocapp.login.GetExtraInfoActivity;
 import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
+import com.kocapplication.pixeleye.kockocapp.model.User;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
@@ -63,8 +66,6 @@ public class KakaoSignupActivity extends Activity {
             @Override
             public void onNotSignedUp(){} // 카카오톡 회원이 아닐 시 showSignup(); 호출해야함
 
-
-            // TODO: 2016-06-08 카카오 로그인상태에서 팅기면 유저넘버값 이상한걸로 자동로그인됨
             @Override
             public void onSuccess(UserProfile userProfile) {
                 String kakaoID = String.valueOf(userProfile.getId());
@@ -73,17 +74,14 @@ public class KakaoSignupActivity extends Activity {
 
                 Logger.d("UserProfile : " + userProfile);
                 int userNo = JspConn.kakaoCheck(kakaoID, kakaoNickname);
+                Log.e(TAG,"userNo :"+userNo);
                 if(userNo>0){
                     BasicValue.getInstance().setUserNo(userNo);
-                    BasicValue.getInstance().setUserNickname(kakaoNickname);
                     redirectMainActivity();
-                } else{  // 체크 값이 없으면 DB에 기록하고
-                    JspConn.kakaoRecordUser(kakaoNickname,kakaoID);
-                    userNo = JspConn.kakaoCheck(kakaoID, kakaoNickname);
-                    BasicValue.getInstance().setUserNo(userNo);
-                    BasicValue.getInstance().setUserNickname(kakaoNickname);
-                    redirecGetUserActivity();
-                }
+                } else if(userNo == -1){
+                    Toast.makeText(KakaoSignupActivity.this, "카카오 로그인 오류", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(KakaoSignupActivity.this,LoginActivity.class));
+                }else {redirecGetUserActivity(kakaoID);}
             }
         });
     }
@@ -105,8 +103,15 @@ public class KakaoSignupActivity extends Activity {
         startActivity(intent);
         finish();
     }
-    protected void redirecGetUserActivity() {
+    protected void redirecGetUserActivity(String name) {
         Intent intent = new Intent(this, GetExtraInfoActivity.class);
+
+        User user = new User();
+        user.setUserEmail(name);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user",user);
+
+        intent.putExtra("user",bundle);
         intent.putExtra("flag","kakao");
         startActivity(intent);
         finish();

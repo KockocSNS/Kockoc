@@ -26,6 +26,7 @@ import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.neighbor.NeighborActivity;
+import com.kocapplication.pixeleye.kockocapp.main.search.SearchActivity;
 import com.kocapplication.pixeleye.kockocapp.navigation.NoticeActivity;
 import com.kocapplication.pixeleye.kockocapp.navigation.SettingActivity;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
@@ -99,10 +100,11 @@ public class BaseActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.menu_search:
-
+                startActivity(new Intent(BaseActivity.this, SearchActivity.class));
                 return true;
             case R.id.menu_neighbor:
                 Intent neighbor_intent = new Intent(BaseActivity.this, NeighborActivity.class);
+                neighbor_intent.putExtra("userNo",BasicValue.getInstance().getUserNo());
                 startActivity(neighbor_intent);
                 return true;
 
