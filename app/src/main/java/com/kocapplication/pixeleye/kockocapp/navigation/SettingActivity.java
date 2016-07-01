@@ -21,7 +21,6 @@ import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
  */
 public class SettingActivity extends BaseActivityWithoutNav {
     private Button passwordChange;
-    private Button logoutButton;
     private Button serviceDropOutButton;
     private Switch autoLoginSet;
 
@@ -36,7 +35,6 @@ public class SettingActivity extends BaseActivityWithoutNav {
         View containView = container.inflate();
 
         passwordChange = (Button) containView.findViewById(R.id.pass_change);
-        logoutButton = (Button) containView.findViewById(R.id.logout_button);
         serviceDropOutButton = (Button) containView.findViewById(R.id.service_drop_out_button);
         autoLoginSet = (Switch) containView.findViewById(R.id.auto_login_set);
 
@@ -46,9 +44,9 @@ public class SettingActivity extends BaseActivityWithoutNav {
     private void listenerset(){
         ButtonClickListener buttonClickListener = new ButtonClickListener();
         passwordChange.setOnClickListener(buttonClickListener);
-        logoutButton.setOnClickListener(buttonClickListener);
         serviceDropOutButton.setOnClickListener(buttonClickListener);
     }
+
 
     private class ButtonClickListener implements View.OnClickListener{
         @Override
@@ -57,23 +55,6 @@ public class SettingActivity extends BaseActivityWithoutNav {
                 Log.e("SET","AA");
                 Intent passchange_intent = new Intent(SettingActivity.this, PasswordChangeActivity.class);
                 startActivity(passchange_intent);
-            } else if (v.equals(logoutButton)){
-                UserManagement.requestLogout(new LogoutResponseCallback() {
-                    @Override
-                    public void onCompleteLogout() {
-                    }
-                });
-                Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
-                intent.putExtra("logout", 0);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-                try{
-                    LoginManager.getInstance().logOut();
-                } catch(Exception e){
-                    e.printStackTrace();
-                }
-
             } else if (v.equals(serviceDropOutButton)){
 
             }
