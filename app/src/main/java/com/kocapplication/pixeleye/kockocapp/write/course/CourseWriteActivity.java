@@ -16,6 +16,7 @@ import android.widget.TimePicker;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
+import com.kocapplication.pixeleye.kockocapp.main.course.CourseViewRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
@@ -72,7 +73,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
         String hour = isAm ? String.valueOf(calendar.get(Calendar.HOUR)) : String.valueOf(calendar.get(Calendar.HOUR) + 12);
         String minute = String.valueOf(calendar.get(Calendar.MINUTE));
 
-        String date = year + "/";
+        String date = year.substring(2) + "/";
         date += month.length() < 2 ? "0" + month + "/" : month+ "/" ;
         date += day.length() < 2 ? "0" + day : day;
 
@@ -128,7 +129,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 String time = timeButton.getText().toString();
                 String dateTime = date + " " + time;
 
-                SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+                SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm");
                 Date courseDate = new Date();
                 try {
                     courseDate = format.parse(dateTime);
@@ -147,7 +148,9 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 adapter.getItems().add(addCourse);
                 adapter.notifyDataSetChanged();
 
+                recyclerView.scrollToPosition(adapter.getItems().size());
                 courseInput.setText("");
+
             } else if (v.equals(confirm)) {
                 if (adapter.getItems().isEmpty()) {
                     Snackbar.make(confirm, "코스를 입력해주세요.", Snackbar.LENGTH_SHORT).show();

@@ -4,11 +4,16 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 
+import com.facebook.login.LoginManager;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 
 /**
@@ -38,17 +43,24 @@ public class SettingActivity extends BaseActivityWithoutNav {
         listenerset();
     }
 
-    private void listenerset(){
-        passwordChange.setOnClickListener(new ChangePwdClickListener());
+    private void listenerSet() {
+        ButtonClickListener buttonClickListener = new ButtonClickListener();
+        passwordChange.setOnClickListener(buttonClickListener);
+        serviceDropOutButton.setOnClickListener(buttonClickListener);
         nicknameChange.setOnClickListener(new ChangeNicknameClickListener());
     }
 
 
-    private class ChangePwdClickListener implements View.OnClickListener{
+    private class ButtonClickListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            Intent passchange_intent = new Intent(SettingActivity.this, PasswordChangeActivity.class);
-            startActivity(passchange_intent);
+            if (v.equals(passwordChange)){
+                Log.e("SET","AA");
+                Intent passchange_intent = new Intent(SettingActivity.this, PasswordChangeActivity.class);
+                startActivity(passchange_intent);
+            } else if (v.equals(serviceDropOutButton)){
+                new CustomAlertDialog(SettingActivity.this, "계정을 삭제하시겠습니까?", new DialogButtonListener());
+            }
         }
     }
     private class ChangeNicknameClickListener implements View.OnClickListener{
@@ -56,6 +68,28 @@ public class SettingActivity extends BaseActivityWithoutNav {
         public void onClick(View v) {
             Intent nickchange_intent = new Intent(SettingActivity.this, NicknameChangeActivity.class);
             startActivity(nickchange_intent);
+        }
+    }
+    private class DialogButtonListener implements DialogInterface.OnClickListener {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            if (which == DialogInterface.BUTTON_POSITIVE) {
+                new UserDeleteThread(new DialogHandler(), BasicValue.getInstance().getUserNo()).start();
+            }
+        }
+    }
+
+    private class DialogHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            if (msg.what == 1) {
+                Snackbar.make(serviceDropOutButton, "탈퇴 되었습니다.", Snackbar.LENGTH_SHORT).show();
+                BasicValue.getInstance().setUserNo(-1);
+                finish();
+                setResult(RESULT_OK);
+            }
         }
     }
 }

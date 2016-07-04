@@ -36,7 +36,7 @@ public class Course implements Serializable {
     }
 
     public String getDate() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd");
         return format.format(dateTime);
     }
 

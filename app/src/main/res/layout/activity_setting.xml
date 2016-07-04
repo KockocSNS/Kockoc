@@ -7,7 +7,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:paddingTop="40dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -196,15 +197,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:padding="1dp"
                 android:background="@drawable/bg_rectangle_shape_gray"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="1dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
                     android:background="#d5d5d5"
+                    android:paddingLeft="10dp"
                     android:text="계정설정"
                     android:textColor="@color/black"
                     android:textSize="20sp"
