@@ -39,7 +39,6 @@ public class DetailFragment extends Fragment {
     DetailPageData detailPageData;
     DetailRecyclerAdapter adapter;
 
-
     LinearLayout ll_profile;
     LinearLayout ll_htmlInfo;
     LinearLayout ll_board_img;
@@ -71,7 +70,6 @@ public class DetailFragment extends Fragment {
     private int courseNo;
     private int board_userNo;
     LayoutInflater mInflater;
-
 
     public DetailFragment() {
         super();

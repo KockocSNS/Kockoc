@@ -39,6 +39,8 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class BaseActivity extends AppCompatActivity {
     private final String TAG = "BASE_ACTIVITY";
 
+    public static int SETTING_ACTIVITY_RESULT = 185738;
+
     protected DrawerLayout drawerLayout;
     protected NavigationView navigationView;
     protected ActionBar actionBar;
@@ -163,7 +165,7 @@ public class BaseActivity extends AppCompatActivity {
                     return true;
                 case R.id.nav_setting:
                     Intent setting_intent = new Intent(BaseActivity.this, SettingActivity.class);
-                    startActivity(setting_intent);
+                    startActivityForResult(setting_intent, SETTING_ACTIVITY_RESULT);
 
                     return true;
                 case R.id.nav_logout:
@@ -185,6 +187,15 @@ public class BaseActivity extends AppCompatActivity {
                     return true;
             }
             return false;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SETTING_ACTIVITY_RESULT && resultCode == RESULT_OK) {
+            finish();
         }
     }
 }
