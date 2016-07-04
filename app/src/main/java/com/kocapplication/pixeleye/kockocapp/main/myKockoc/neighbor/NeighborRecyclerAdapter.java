@@ -23,15 +23,18 @@ public class NeighborRecyclerAdapter extends RecyclerView.Adapter<NeighborRecycl
     private ArrayList<Neighbor> neighbors;
     private Context mContext;
     private BitmapPool bitmapPool;
+    View.OnClickListener listener;
 
-    public NeighborRecyclerAdapter(ArrayList<Neighbor> data, Context context){
+    public NeighborRecyclerAdapter(ArrayList<Neighbor> data, Context context, View.OnClickListener listener){
         this.mContext = context;
         this.neighbors = data;
+        this.listener = listener;
     }
 
     @Override
     public NeighborRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.neighbor_item, parent, false);
+        itemView.setOnClickListener(listener);
         return new NeighborRecyclerViewHolder(itemView);
     }
 
@@ -51,4 +54,6 @@ public class NeighborRecyclerAdapter extends RecyclerView.Adapter<NeighborRecycl
     public int getItemCount() {
         return neighbors.size();
     }
+
+    public ArrayList<Neighbor> getNeighbors() {return neighbors;}
 }

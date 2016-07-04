@@ -620,6 +620,61 @@ public class JspConn {
         return result;
     }
 
+    /**
+     * UserInfo
+     */
+
+    //set이 1이면 팔로우, 0이면 언팔로우
+    static public String setFollower(int userNo, int set) {
+        String result = "";
+        try {
+            passiveMethod();
+            HttpClient client = new DefaultHttpClient();
+            String postURL = BasicValue.getInstance().getUrlHead()+"Member/setFollower.jsp";
+            HttpPost post = new HttpPost(postURL);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
+            params.add(new BasicNameValuePair("followNo", "" + userNo));
+            params.add(new BasicNameValuePair("set", "" + set));
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    //팔로우가 존재하면 exist, 존재하지 않는다면 not_exist 반환
+    static public String checkFollow(int follower) {
+        String result = "";
+        try {
+            passiveMethod();
+            HttpClient client = new DefaultHttpClient();
+            String postURL = BasicValue.getInstance().getUrlHead()+"Member/CheckFollow.jsp";
+            HttpPost post = new HttpPost(postURL);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
+            params.add(new BasicNameValuePair("follower", "" + follower));
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
 
     static public void passiveMethod() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

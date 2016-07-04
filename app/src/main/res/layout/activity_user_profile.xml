@@ -33,12 +33,16 @@
                 android:layout_marginBottom="5dp"
                 android:textSize="25dp" />
 
-            <Button
+            <ToggleButton
                 android:id="@+id/btn_follow"
+                android:background="#E2695A"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:visibility="invisible" />
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textOff="unfollow"
+                android:textOn="follow"
+                android:visibility="visible" />
 
         </LinearLayout>
 

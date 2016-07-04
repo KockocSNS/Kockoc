@@ -1,20 +1,23 @@
 package com.kocapplication.pixeleye.kockocapp.navigation;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 
-import com.facebook.login.LoginManager;
-import com.kakao.usermgmt.UserManagement;
-import com.kakao.usermgmt.callback.LogoutResponseCallback;
+
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
+import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.CustomAlertDialog;
 
 /**
  * Created by pixeleye02 on 2016-06-30.
@@ -40,7 +43,7 @@ public class SettingActivity extends BaseActivityWithoutNav {
         serviceDropOutButton = (Button) containView.findViewById(R.id.service_drop_out_button);
         autoLoginSet = (Switch) containView.findViewById(R.id.auto_login_set);
 
-        listenerset();
+        listenerSet();
     }
 
     private void listenerSet() {
@@ -55,7 +58,6 @@ public class SettingActivity extends BaseActivityWithoutNav {
         @Override
         public void onClick(View v) {
             if (v.equals(passwordChange)){
-                Log.e("SET","AA");
                 Intent passchange_intent = new Intent(SettingActivity.this, PasswordChangeActivity.class);
                 startActivity(passchange_intent);
             } else if (v.equals(serviceDropOutButton)){
