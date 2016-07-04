@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +15,6 @@ import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 /**
@@ -62,7 +59,7 @@ public class PasswordChangeActivity extends BaseActivityWithoutNav {
 
                 if(newPass.equals(confirmPass)){
                     Toast.makeText(PasswordChangeActivity.this,"새로운 비밀번호로 다시 로그인 해주세요",Toast.LENGTH_LONG).show();
-                    JspConn.test(existingPass, newPass);
+                    JspConn.changePwd(existingPass, newPass);
                     UserManagement.requestLogout(new LogoutResponseCallback() {
                         @Override
                         public void onCompleteLogout() {
@@ -92,7 +89,7 @@ public class PasswordChangeActivity extends BaseActivityWithoutNav {
         public void onClick(View v) {
             if(newPass.equals(confirmPass)){
                 Toast.makeText(PasswordChangeActivity.this,"같다",Toast.LENGTH_SHORT).show();
-                JspConn.test(existingPass, newPass);
+                JspConn.changePwd(existingPass, newPass);
             } else{
                 Toast.makeText(PasswordChangeActivity.this,"다르다",Toast.LENGTH_SHORT).show();
             }

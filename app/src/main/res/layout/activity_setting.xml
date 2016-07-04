@@ -235,6 +235,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="2px"
                         android:background="@color/gray" />
+                    <Button
+                        android:id="@+id/nick_change"
+                        style="?attr/borderlessButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#eeeeee"
+                        android:gravity="left|center_vertical"
+                        android:paddingLeft="15dp"
+                        android:text="닉네임 변경"
+                        android:textColor="@color/black" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2px"
+                        android:background="@color/gray" />
 
                     <Button
                         android:id="@+id/service_drop_out_button"
