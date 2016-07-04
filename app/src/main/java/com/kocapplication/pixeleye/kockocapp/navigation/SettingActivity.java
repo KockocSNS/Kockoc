@@ -1,20 +1,22 @@
 package com.kocapplication.pixeleye.kockocapp.navigation;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
 
-import com.facebook.login.LoginManager;
-import com.kakao.usermgmt.UserManagement;
-import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
+import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.CustomAlertDialog;
 
 /**
  * Created by pixeleye02 on 2016-06-30.
@@ -38,25 +40,47 @@ public class SettingActivity extends BaseActivityWithoutNav {
         serviceDropOutButton = (Button) containView.findViewById(R.id.service_drop_out_button);
         autoLoginSet = (Switch) containView.findViewById(R.id.auto_login_set);
 
-        listenerset();
+        listenerSet();
     }
 
-    private void listenerset(){
+    private void listenerSet() {
         ButtonClickListener buttonClickListener = new ButtonClickListener();
         passwordChange.setOnClickListener(buttonClickListener);
         serviceDropOutButton.setOnClickListener(buttonClickListener);
     }
 
 
-    private class ButtonClickListener implements View.OnClickListener{
+    private class ButtonClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            if (v.equals(passwordChange)){
-                Log.e("SET","AA");
+            if (v.equals(passwordChange)) {
                 Intent passchange_intent = new Intent(SettingActivity.this, PasswordChangeActivity.class);
                 startActivity(passchange_intent);
-            } else if (v.equals(serviceDropOutButton)){
+            } else if (v.equals(serviceDropOutButton)) {
+                new CustomAlertDialog(SettingActivity.this, "계정을 삭제하시겠습니까?", new DialogButtonListener());
+            }
+        }
+    }
 
+    private class DialogButtonListener implements DialogInterface.OnClickListener {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            if (which == DialogInterface.BUTTON_POSITIVE) {
+                new UserDeleteThread(new DialogHandler(), BasicValue.getInstance().getUserNo()).start();
+            }
+        }
+    }
+
+    private class DialogHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            if (msg.what == 1) {
+                Snackbar.make(serviceDropOutButton, "탈퇴 되었습니다.", Snackbar.LENGTH_SHORT).show();
+                BasicValue.getInstance().setUserNo(-1);
+                finish();
+                setResult(RESULT_OK);
             }
         }
     }
