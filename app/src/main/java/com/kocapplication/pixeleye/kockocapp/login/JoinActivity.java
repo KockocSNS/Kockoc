@@ -168,7 +168,7 @@ public class JoinActivity extends BaseActivityWithoutNav {
             @Override
             public void onClick(View v) {
                 if(chk_allPass()){
-                    Log.e(TAG,"user :"+user.toString());
+                    Log.d(TAG,"user :"+user.toString());
                     JspConn.recordMember(user);
                     startActivity(new Intent(JoinActivity.this,LoginActivity.class));
                     Toast.makeText(JoinActivity.this, "회원가입 되었습니다.", Toast.LENGTH_SHORT).show();

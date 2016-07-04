@@ -19,6 +19,7 @@ import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseViewRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
+import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -159,6 +160,8 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 AlarmHelper manager = new AlarmHelper(getApplicationContext());
                 Courses courses = new Courses(courseTitle, new Date(), adapter.getItems());
                 manager.setCourseAlarm(courses);
+                JspConn.uploadCourse(courseTitle,courses.getCourses()); // 코스 디비 업로드
+                finish();
             }
         }
     }

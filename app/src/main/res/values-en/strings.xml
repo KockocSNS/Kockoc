@@ -10,7 +10,6 @@
     <string name="title_activity_magazine">MagazineActivity</string>
     <string name="title_activity_neighbor_manager">NeighborManagerActivity</string>
     <string name="title_activity_load_dialog">LoadDialog</string>
-    <string name="facebook_app_id">1029378753773531</string>
     <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
     <string name="custom_title">Select Photo</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

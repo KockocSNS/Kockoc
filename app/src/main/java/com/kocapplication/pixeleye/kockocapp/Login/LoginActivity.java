@@ -359,7 +359,7 @@ public class LoginActivity extends AppCompatActivity {
                 String tokenType = oAuthLogin.getTokenType(getApplicationContext());
 
                 Handler handler = new NaverHandler();
-                Log.i("test", accessToken + " / " + refreshToken + " / " + expiresAt + " / " + tokenType);
+                Log.i("changePwd", accessToken + " / " + refreshToken + " / " + expiresAt + " / " + tokenType);
                 Thread thread = new NaverUserInfoGetThread(getApplicationContext(),handler, oAuthLogin, accessToken);
                 thread.start();
             } else {

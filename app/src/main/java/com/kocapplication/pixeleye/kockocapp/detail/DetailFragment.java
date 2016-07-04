@@ -127,7 +127,7 @@ public class DetailFragment extends Fragment {
         View includeView = view.findViewById(R.id.detail_commentlist_layout);
         rv_comment_list = (RecyclerView) includeView.findViewById(R.id.rv_detail_commentlist);
 
-        profile_img.setOnClickListener(new ProfileClickListener());
+        ll_profile.setOnClickListener(new ProfileClickListener());
 
         btn_like.setOnClickListener(new LikeClickListener());
     }
