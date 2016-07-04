@@ -88,6 +88,7 @@ public class MyKocKocFragment extends Fragment {
         profileImage = (ImageView) profile.findViewById(R.id.profile_image);
         nickName = (TextView) profile.findViewById(R.id.nick_name);
         followButton = (Button) profile.findViewById(R.id.btn_follow);
+        followButton.setVisibility(View.INVISIBLE);
 
         scrapButton = (LinearLayout) profile.findViewById(R.id.scrap_button);
         neighborButton = (LinearLayout) profile.findViewById(R.id.neighbor_button);

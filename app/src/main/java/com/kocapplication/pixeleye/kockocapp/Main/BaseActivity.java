@@ -39,7 +39,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class BaseActivity extends AppCompatActivity {
     private final String TAG = "BASE_ACTIVITY";
 
-    public static int SETTING_ACTIVITY_RESULT = 185738;
+    public static int SETTING_ACTIVITY_RESULT = 1003;
 
     protected DrawerLayout drawerLayout;
     protected NavigationView navigationView;
@@ -166,7 +166,6 @@ public class BaseActivity extends AppCompatActivity {
                 case R.id.nav_setting:
                     Intent setting_intent = new Intent(BaseActivity.this, SettingActivity.class);
                     startActivityForResult(setting_intent, SETTING_ACTIVITY_RESULT);
-
                     return true;
                 case R.id.nav_logout:
                     UserManagement.requestLogout(new LogoutResponseCallback() {

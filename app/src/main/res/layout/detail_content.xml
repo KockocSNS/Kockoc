@@ -66,21 +66,19 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:orientation="vertical">
-
+                            <!--프로필 이름-->
                             <TextView
                                 android:id="@+id/tv_detail_inner_up_nickname"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="홍길동"
                                 android:textColor="@color/black"
                                 android:textSize="15dp"
                                 android:textStyle="bold" />
-
+                            <!--프로필 날짜-->
                             <TextView
                                 android:id="@+id/tv_detail_inner_up_date"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="2016-07-10"
                                 android:textColor="@color/gray" />
 
                         </LinearLayout>
@@ -92,13 +90,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp">
-
+                        <!--보드 텍스트-->
                         <TextView
                             android:id="@+id/tv_detail_content_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:autoLink="web"
-                            android:text="통영여행입니다. "
                             android:textColor="@color/black" />
 
                     </LinearLayout>

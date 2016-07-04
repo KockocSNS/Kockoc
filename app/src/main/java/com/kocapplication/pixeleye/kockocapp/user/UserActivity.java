@@ -10,25 +10,23 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
-import com.kocapplication.pixeleye.kockocapp.main.BaseActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
-import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.neighbor.NeighborActivity;
-import com.kocapplication.pixeleye.kockocapp.main.myKockoc.scrap.ScrapActivity;
 import com.kocapplication.pixeleye.kockocapp.main.story.BoardRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
 import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 import com.kocapplication.pixeleye.kockocapp.model.ProfileData;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 import java.util.ArrayList;
 
@@ -44,7 +42,7 @@ public class UserActivity extends BaseActivityWithoutNav {
 
     private ImageView profileImage;
     private TextView nickName;
-    private Button followButton;
+    private ToggleButton followButton;
 
     private TextView scrapCount;
     private TextView neighborCount;
@@ -54,7 +52,10 @@ public class UserActivity extends BaseActivityWithoutNav {
     private LinearLayout neighborButton;
     private LinearLayout courseButton;
 
+    View containView;
+
     private int userNo;
+    private String followChk;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,16 +65,28 @@ public class UserActivity extends BaseActivityWithoutNav {
         this.userNo = intent.getIntExtra("userNo",-1);
 
         container.setLayoutResource(R.layout.activity_user);
-        View containView = container.inflate();
+        containView = container.inflate();
         actionBarTitleSet("유저 정보", Color.WHITE);
 
+        getComponent();
+
+        Handler handler = new ProfileHandler();
+        Thread thread = new GetUserInfoThread(handler,userNo);
+        thread.start();
+
+        Handler handler1 = new BoardHandler();
+        Thread thread1 = new ProfileBoardThread(handler1,userNo);
+        thread1.start();
+    }
+
+    private void getComponent(){
         View profile = containView.findViewById(R.id.user_profile_container);
         View recycler = findViewById(R.id.recycler_layout_user);
 
         //profile
         profileImage = (ImageView) profile.findViewById(R.id.user_profile_image);
         nickName = (TextView) profile.findViewById(R.id.user_nickname);
-        followButton = (Button) profile.findViewById(R.id.btn_follow);
+        followButton = (ToggleButton) profile.findViewById(R.id.btn_follow);
 
         scrapButton = (LinearLayout) profile.findViewById(R.id.user_scrap_button);
         neighborButton = (LinearLayout) profile.findViewById(R.id.user_neighbor_button);
@@ -82,8 +95,6 @@ public class UserActivity extends BaseActivityWithoutNav {
         scrapCount = (TextView) profile.findViewById(R.id.user_scrap_count);
         neighborCount = (TextView) profile.findViewById(R.id.user_neighbor_count);
         courseCount = (TextView) profile.findViewById(R.id.user_course_count);
-
-        listenerSet();
 
         //recyclerView
         recyclerView = (RecyclerView) recycler.findViewById(R.id.recycler_view);
@@ -97,13 +108,16 @@ public class UserActivity extends BaseActivityWithoutNav {
 
         recyclerView.setHasFixedSize(true);
 
-        Handler handler = new ProfileHandler();
-        Thread thread = new GetUserInfoThread(handler,userNo);
-        thread.start();
+        //팔로우 버튼
+        if(JspConn.checkFollow(userNo).trim().equals("exist")){
+            followChk = "exist";
+            followButton.setChecked(false);
+        }else{
+            followChk = "not_exist";
+            followButton.setChecked(true);
+        }
 
-        Handler handler1 = new BoardHandler();
-        Thread thread1 = new ProfileBoardThread(handler1,userNo);
-        thread1.start();
+        listenerSet();
     }
 
     private void listenerSet() {
@@ -112,8 +126,8 @@ public class UserActivity extends BaseActivityWithoutNav {
         neighborButton.setOnClickListener(count_listener);
         courseButton.setOnClickListener(count_listener);
 
-        View.OnClickListener profile_listenrer = new ProfileClickListener();
-        profileImage.setOnClickListener(profile_listenrer);
+        followButton.setOnClickListener(new FollowClickListener());
+        profileImage.setOnClickListener(new ProfileClickListener());
     }
 
     private class CountClickListener implements View.OnClickListener {
@@ -139,6 +153,22 @@ public class UserActivity extends BaseActivityWithoutNav {
         @Override
         public void onClick(View v) {
             Toast.makeText(UserActivity.this, "사진선택", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    //친구 버튼 리스너
+    private class FollowClickListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            if(followChk.equals("not_exist")){
+                int set =1; //add
+                JspConn.setFollower(userNo,set);
+            }
+            else{
+                int set =0;//delete
+                JspConn.setFollower(userNo,set);
+            }
         }
     }
 
