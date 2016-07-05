@@ -1,6 +1,7 @@
 package com.kocapplication.pixeleye.kockocapp.model;
 
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +33,8 @@ public class BoardWithImage extends Board implements Serializable {
 
     private void imageFromServer(String mainImageURL) {
         try {
-            InputStream inputStream = (InputStream) new URL("http://221.160.54.160:8080/board_image/" + super.basicAttributes.getUserNo() + "/" + mainImageURL).getContent();
+            Log.i("BOARDWITHIMAGE", "http://221.160.54.160:8080/board_image/" + this.basicAttributes.getUserNo() + "/" + mainImageURL);
+            InputStream inputStream = (InputStream) new URL("http://221.160.54.160:8080/board_image/" + this.basicAttributes.getUserNo() + "/" + mainImageURL).getContent();
             this.boardImage = Drawable.createFromStream(inputStream, "board_image");
         } catch (IOException e) {
             e.printStackTrace();

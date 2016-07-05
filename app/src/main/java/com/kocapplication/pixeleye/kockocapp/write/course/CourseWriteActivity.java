@@ -148,7 +148,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 adapter.getItems().add(addCourse);
                 adapter.notifyDataSetChanged();
 
-                recyclerView.scrollToPosition(adapter.getItems().size());
+                recyclerView.smoothScrollToPosition(adapter.getItems().size() - 1);
                 courseInput.setText("");
 
             } else if (v.equals(confirm)) {
