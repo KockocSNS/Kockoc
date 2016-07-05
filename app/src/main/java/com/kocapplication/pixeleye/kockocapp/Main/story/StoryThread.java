@@ -34,7 +34,6 @@ import java.util.List;
  */
 public class StoryThread extends Thread {
     private String postURL = BasicValue.getInstance().getUrlHead() + "News/readNews.jsp";
-//    private String postURL = "http://115.68.14.27:8080/" + "News/readNews.jsp";
     private Handler handler;
     private int boardNo = -1;
 
@@ -90,8 +89,10 @@ public class StoryThread extends Thread {
 
             // TODO: 2016-06-23 TO Much Connection이 생긴닷
             // TODO: 요거 JSP 를 조금 수정해서 DB에서 한번에 들고 올수 있도록 하는게 좋을것 같다.
-//            String courseJsonString = courseJsonObject(object.get("Course_No").getAsInt());
-//
+            int courseNo = object.get("Course_No").getAsInt();
+            Log.i("STORYTHREAD", "COURSE No" + courseNo);
+            String courseJsonString = courseJsonObject(object.get("Course_No").getAsInt());
+
 //            JsonObject courseObject = parser.parse(courseJsonString).getAsJsonObject();
 //            int courseCount = 0;
 //
@@ -155,13 +156,14 @@ public class StoryThread extends Thread {
     private String courseJsonObject(int courseNo) {
         String result = "";
 
+        if (courseNo == 0) return result;
+
         postURL = BasicValue.getInstance().getUrlHead() + "Course/readCourseByCourseNo.jsp";
         try {
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<>();
-            // params.add(new BasicNameValuePair("UserNo",""));
             params.add(new BasicNameValuePair("courseNo", "" + courseNo));
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
@@ -178,6 +180,7 @@ public class StoryThread extends Thread {
             e.printStackTrace();
         }
 
+        Log.i("STORYTHREAD", "Course Count : " + result);
         return result;
     }
 

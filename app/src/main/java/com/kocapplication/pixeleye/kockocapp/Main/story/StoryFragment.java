@@ -127,8 +127,7 @@ public class StoryFragment extends Fragment {
     private class RefreshListener implements SwipeRefreshLayout.OnRefreshListener {
         @Override
         public void onRefresh() {
-            Toast.makeText(getActivity(), "refresh!", Toast.LENGTH_SHORT).show();
-            refreshLayout.setRefreshing(false);
+            new StoryThread(new StoryDataReceiveHandler()).start();
         }
     }
 
