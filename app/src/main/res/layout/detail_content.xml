@@ -144,7 +144,7 @@
                     </LinearLayout>
 
                     <!-- courseView -->
-                    <ImageView
+                    <android.support.v7.widget.RecyclerView
                         android:id="@+id/iv_detail_content_courses"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />

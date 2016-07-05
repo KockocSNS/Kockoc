@@ -220,6 +220,7 @@ public class JspConn {
      */
     //코스 넘버를 받아 course 반환
     static public String readCourseByCourseNo(int courseNo) {
+        Log.i("JSPCONN", courseNo + "");
         String result = "";
         try {
             passiveMethod();

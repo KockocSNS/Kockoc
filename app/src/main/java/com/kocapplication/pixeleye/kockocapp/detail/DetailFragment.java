@@ -69,7 +69,7 @@ public class DetailFragment extends Fragment {
     ImageView profile_img;
     ImageView html_img;
     ImageView board_mainimg;
-    ImageView board_courses;
+//    ImageView board_courses;
 
     private int boardNo;
     private int courseNo;
@@ -127,9 +127,12 @@ public class DetailFragment extends Fragment {
         profile_img = (ImageView) view.findViewById(R.id.img_detail_inner_up_profile);
         html_img = (ImageView) view.findViewById(R.id.tv_detail_content_htmlImg);
         board_mainimg = (ImageView) view.findViewById(R.id.img_detail_content_main_img);
-        board_courses = (ImageView) view.findViewById(R.id.iv_detail_content_courses);
+//        board_courses = (ImageView) view.findViewById(R.id.iv_detail_content_courses);
         fl_board_hashtag = (FlowLayout) view.findViewById(R.id.fl_detail_content_tag);
         View includeView = view.findViewById(R.id.detail_commentlist_layout);
+
+        setCourseRecyclerView(view);
+
         rv_comment_list = (RecyclerView) includeView.findViewById(R.id.rv_detail_commentlist);
 
         ll_profile.setOnClickListener(new ProfileClickListener());
@@ -137,7 +140,8 @@ public class DetailFragment extends Fragment {
         btn_like.setOnClickListener(new LikeClickListener());
     }
 
-    private void setCourseRecyclerView() {
+    private void setCourseRecyclerView(View view) {
+        course_recyclerView = (RecyclerView) view.findViewById(R.id.iv_detail_content_courses);
         course_adapter = new DetailCourseAdapter(new ArrayList<Course>());
         course_recyclerView.setAdapter(course_adapter);
 
@@ -146,6 +150,7 @@ public class DetailFragment extends Fragment {
         course_recyclerView.setLayoutManager(manager);
 
         course_recyclerView.setHasFixedSize(true);
+
     }
 
     private void setData(DetailPageData data) {

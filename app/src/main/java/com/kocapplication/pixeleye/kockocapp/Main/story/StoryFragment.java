@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,6 +139,8 @@ public class StoryFragment extends Fragment {
 
             if (writeContainer.getVisibility() == View.INVISIBLE) {
                 BoardWithImage boardWithImage = adapter.getItems().get(position);
+
+                Log.i(TAG, boardWithImage.getBasicAttributes().getCourseNo() + "");
 
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
                 intent.putExtra("boardNo", boardWithImage.getBasicAttributes().getBoardNo());
