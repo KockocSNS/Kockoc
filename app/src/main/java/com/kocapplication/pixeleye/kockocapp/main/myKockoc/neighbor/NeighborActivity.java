@@ -11,6 +11,7 @@ import android.view.View;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.model.Neighbor;
+import com.kocapplication.pixeleye.kockocapp.user.UserActivity;
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
@@ -21,6 +22,7 @@ public class NeighborActivity extends BaseActivityWithoutNav {
     RecyclerView followerRecyclerView;
 
     private int userNo;
+    View containView;
 
     NeighborRecyclerAdapter follow_adapter;
     NeighborRecyclerAdapter follower_adapter;
@@ -37,35 +39,61 @@ public class NeighborActivity extends BaseActivityWithoutNav {
         actionBarTitleSet("이웃", Color.WHITE);
 
         container.setLayoutResource(R.layout.activity_neighbor);
-        View containView = container.inflate();
+        containView = container.inflate();
 
-        ArrayList<Neighbor> following = JsonParser.getFollowInfo(JspConn.getFollowInfo(userNo));
-        ArrayList<Neighbor> follower = JsonParser.getFollowInfo(JspConn.getFollowerInfo(userNo));
+        getComponent();
 
+        getFollow();
+        getFollower();
+    }
+    private void getComponent(){
         View followingView = containView.findViewById(R.id.recycler_layout_following);
         followingRecyclerView = (RecyclerView) followingView.findViewById(R.id.recycler_view);
-
         View followerView = containView.findViewById(R.id.recycler_layout_follower);
         followerRecyclerView = (RecyclerView) followerView.findViewById(R.id.recycler_view) ;
+    }
 
-        follow_adapter = new NeighborRecyclerAdapter(following, NeighborActivity.this);
+    private void getFollow(){
+        ArrayList<Neighbor> following = JsonParser.getFollowInfo(JspConn.getFollowInfo(userNo));
+
+        follow_adapter = new NeighborRecyclerAdapter(following, NeighborActivity.this, new FollowClickListener());
         followingRecyclerView.setAdapter(follow_adapter);
+
         LinearLayoutManager manager_follow = new LinearLayoutManager(NeighborActivity.this , LinearLayoutManager.VERTICAL,false);
         followingRecyclerView.setLayoutManager(manager_follow);
         followingRecyclerView.setHasFixedSize(true);
+    }
 
+    private void getFollower(){
+        ArrayList<Neighbor> follower = JsonParser.getFollowInfo(JspConn.getFollowerInfo(userNo));
 
-        follower_adapter = new NeighborRecyclerAdapter(follower, NeighborActivity.this);
+        follower_adapter = new NeighborRecyclerAdapter(follower, NeighborActivity.this, new FollowerClickListener());
         followerRecyclerView.setAdapter(follower_adapter);
+
         LinearLayoutManager manager_follower = new LinearLayoutManager(NeighborActivity.this , LinearLayoutManager.VERTICAL,false);
         followerRecyclerView.setLayoutManager(manager_follower);
         followerRecyclerView.setHasFixedSize(true);
     }
-
-    private class ItemClickListener implements View.OnClickListener {
+    private class FollowClickListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
+            int position = followingRecyclerView.getChildLayoutPosition(v);
+            int follow = follow_adapter.getNeighbors().get(position).getUserNo();
 
+            Intent intent = new Intent(NeighborActivity.this, UserActivity.class);
+            intent.putExtra("userNo",follow);
+            startActivity(intent);
+        }
+    }
+    private class FollowerClickListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            int position = followerRecyclerView.getChildLayoutPosition(v);
+            int follow = follower_adapter.getNeighbors().get(position).getUserNo();
+
+            Intent intent = new Intent(NeighborActivity.this, UserActivity.class);
+            intent.putExtra("userNo",follow);
+            startActivity(intent);
         }
     }
 }

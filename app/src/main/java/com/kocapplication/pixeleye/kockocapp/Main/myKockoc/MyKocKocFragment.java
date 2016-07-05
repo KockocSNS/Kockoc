@@ -28,6 +28,7 @@ import com.kocapplication.pixeleye.kockocapp.main.myKockoc.scrap.ScrapActivity;
 import com.kocapplication.pixeleye.kockocapp.main.story.BoardRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 import com.kocapplication.pixeleye.kockocapp.model.ProfileData;
+import com.kocapplication.pixeleye.kockocapp.navigation.NicknameChangeActivity;
 import com.kocapplication.pixeleye.kockocapp.user.ProfileBoardThread;
 import com.kocapplication.pixeleye.kockocapp.user.GetUserInfoThread;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
@@ -42,7 +43,8 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 public class MyKocKocFragment extends Fragment {
     private final String TAG = "MyKocKocFragment";
-    private final int PROFILE_SET = 1;
+    private final int PROFILE_IMG_SET = 1001;
+    private final int NICKNAME_UPDATE = 1002;
     private RecyclerView recyclerView;
     private BoardRecyclerAdapter adapter;
 
@@ -86,6 +88,7 @@ public class MyKocKocFragment extends Fragment {
         profileImage = (ImageView) profile.findViewById(R.id.profile_image);
         nickName = (TextView) profile.findViewById(R.id.nick_name);
         followButton = (Button) profile.findViewById(R.id.btn_follow);
+        followButton.setVisibility(View.INVISIBLE);
 
         scrapButton = (LinearLayout) profile.findViewById(R.id.scrap_button);
         neighborButton = (LinearLayout) profile.findViewById(R.id.neighbor_button);
@@ -99,7 +102,7 @@ public class MyKocKocFragment extends Fragment {
 
         //recyclerView
         recyclerView = (RecyclerView) recycler.findViewById(R.id.recycler_view);
-        adapter = new BoardRecyclerAdapter(new ArrayList<BoardWithImage>(), new ItemClickListener());
+        adapter = new BoardRecyclerAdapter(new ArrayList<BoardWithImage>(), new BoardItemClickListener());
         recyclerView.setAdapter(adapter);
 
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
@@ -115,8 +118,9 @@ public class MyKocKocFragment extends Fragment {
         scrapButton.setOnClickListener(count_listener);
         neighborButton.setOnClickListener(count_listener);
         courseButton.setOnClickListener(count_listener);
+        nickName.setOnClickListener(new NicknameClickListener());
 
-        View.OnClickListener profile_listener = new ProfileClickListener();
+        View.OnClickListener profile_listener = new ProfileImgClickListener();
         profileImage.setOnClickListener(profile_listener);
     }
 
@@ -141,17 +145,23 @@ public class MyKocKocFragment extends Fragment {
      * ProfileClickListener
      * 프로필 사진 변경 -> 내장 갤러리
      */
-    private class ProfileClickListener implements View.OnClickListener{
+    private class ProfileImgClickListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
             intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, PROFILE_SET); // 메인 액티비티로 result 보냄
+            startActivityForResult(intent, PROFILE_IMG_SET); // 메인 액티비티로 result 보냄
+        }
+    }
+    private class NicknameClickListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            startActivityForResult(new Intent(getActivity(), NicknameChangeActivity.class),NICKNAME_UPDATE);
         }
     }
 
-    private class ItemClickListener implements View.OnClickListener {
+    private class BoardItemClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             int position = recyclerView.getChildLayoutPosition(v);
@@ -169,11 +179,16 @@ public class MyKocKocFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
-            case PROFILE_SET:
+            case PROFILE_IMG_SET:
                 //ProfileImgReceiveHandler 에서 서버로 프로필 이미지 전송
                 Handler handler = new ProfileImgReceiveHandler();
                 Thread thread = new MyProfileImgThread(handler,data,getActivity());
                 thread.start();
+                break;
+            case NICKNAME_UPDATE:
+                Handler userinfo_handler = new GetUserInfoHandler();
+                Thread userinfo_thread = new GetUserInfoThread(userinfo_handler);
+                userinfo_thread.start();
                 break;
         }
     }

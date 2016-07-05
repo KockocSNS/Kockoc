@@ -3,6 +3,7 @@ package com.kocapplication.pixeleye.kockocapp.util;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.User;
 
 import org.apache.http.HttpResponse;
@@ -29,6 +30,7 @@ public class JspConn {
     /**
      * DetailPage
      */
+    //상세보기 데이터 가져오기
     static public String loadDetailPage(String boardNo) {
         Log.e(TAG,"boardNo :"+boardNo);
         passiveMethod();
@@ -54,7 +56,7 @@ public class JspConn {
         Log.d(TAG,"loadDetailPage result :"+result);
         return result;
     }
-
+    //댓글 쓰기
     static public String WriteComment(String comment, int boardNo, int userNo) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
@@ -105,9 +107,10 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d("TAG", "pushGCM result :" + result);
+        Log.d(TAG, "pushGCM result :" + result);
         return result;
     }
+    //댓글 삭제
     static public String DeleteComment(int commentNo) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
@@ -132,6 +135,7 @@ public class JspConn {
         }
         return result;
     }
+    //보드넘버를 받아 좋아요 카운트
     static public String checkExpression(int boardNo){
         String result="";
         try {
@@ -156,10 +160,11 @@ public class JspConn {
         }
         return result;
     }
+    //좋아요
     static public String writeExpression(int boardNo, int Status) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead()+"Board/Expression/test/writeExpression.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead()+"Board/Expression/changePwd/writeExpression.jsp";
         HttpPost post = new HttpPost(postURL);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
 
@@ -182,6 +187,7 @@ public class JspConn {
         }
         return result;
     }
+    //관심글 추가
     static public String addScrap(int boardNo) {
 
         passiveMethod();
@@ -239,58 +245,45 @@ public class JspConn {
         return result;
     }
 
-    static public String getNeighborInfo(int userNo) {
-        String result = "";
-        try {
+    //코스 업로드
+    static public void uploadCourse(String title, List<Course> Arr){
+        String result="";
+        try
+        {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Member/HPgetNeighborInfo.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead()+"Course/HPinsertCourse.jsp";
             HttpPost post = new HttpPost(postURL);
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("userNo", "" + userNo));
+
+
+            List<NameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("userNo",""+ BasicValue.getInstance().getUserNo()));
+            params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(Arr.size())));
+            params.add(new BasicNameValuePair("title", title));
+
+            int i=0;
+            for(Course temp:Arr){
+                params.add(new BasicNameValuePair("course"+i++,""+temp.getTitle()+"/"+temp.getDataByMilSec()));
+            }
+
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
             HttpResponse response = client.execute(post);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
             String line;
-
-            while ((line = bufferedReader.readLine()) != null) {
-                result += line;
+            while((line = bufferedReader.readLine())!=null){
+                result+=line;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        Log.e(TAG,""+result);
-        return result;
+        catch (Exception e) {Log.e(TAG,"UploadCourse error :"+e.getMessage());}
+        Log.d(TAG, "UploadCourse result :" + result);
     }
 
-    static public String getFollowerInfo(int userNo) {
-        String result = "";
-        try {
-            passiveMethod();
-            HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Member/getFollowerInfo.jsp";
-            HttpPost post = new HttpPost(postURL);
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("userNo", "" + userNo));
-            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-            post.setEntity(ent);
-            HttpResponse response = client.execute(post);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
-            String line;
-
-            while ((line = bufferedReader.readLine()) != null) {
-                result += line;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
 
     /**
      * Board
      */
+    //글 삭제
     static public String boardDelete(int boardNo, int userNo) {
         String result = "";
         try {
@@ -319,6 +312,7 @@ public class JspConn {
         Log.d("Debug", "boardDelete complete");
         return result;
     }
+    //팔로우 목록
     static public String getFollowInfo(int userNo) {
         String result = "";
         try {
@@ -343,10 +337,35 @@ public class JspConn {
         Log.e(TAG,""+result);
         return result;
     }
+    //나를 팔로우한 사람 목록
+    static public String getFollowerInfo(int userNo) {
+        String result = "";
+        try {
+            passiveMethod();
+            HttpClient client = new DefaultHttpClient();
+            String postURL = BasicValue.getInstance().getUrlHead()+"Member/getFollowerInfo.jsp";
+            HttpPost post = new HttpPost(postURL);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userNo", "" + userNo));
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     /**
      * login
      */
+    //아이디 중복 체크
     static public boolean checkDuplID(String id) {
         String resultStr = "";
         try {
@@ -376,6 +395,7 @@ public class JspConn {
         if (resultStr.equals(" no duplication")) return true;
         else return false;
     }
+    //별명 중복 체크 ( 한글 안되는거같음)
     static public boolean checkDuplNickname(String nickname) {
         String resultStr = "";
         try {
@@ -402,6 +422,7 @@ public class JspConn {
         if (resultStr.equals(" no duplication")) {return true;}
         else {return false;}
     }
+    //회원 가입
     static public boolean recordMember(User user) {
         String resultStr = "";
         try {
@@ -440,34 +461,7 @@ public class JspConn {
         }
         return false;
     }
-    static public void updateUser(String nickName, String tel, String gender,String birth) {
-        String resultStr = "";
-        try {
-            passiveMethod();
-            HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Member/updateUser.jsp";
-            HttpPost post = new HttpPost(postURL);
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-
-            params.add(new BasicNameValuePair("userNo", ""+BasicValue.getInstance().getUserNo()));
-            params.add(new BasicNameValuePair("nickname", nickName));
-            params.add(new BasicNameValuePair("tel", tel));
-            params.add(new BasicNameValuePair("gender", gender));
-            params.add(new BasicNameValuePair("birth", birth));
-
-            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-            post.setEntity(ent);
-            HttpResponse response = client.execute(post);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                resultStr += line;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Log.d(TAG,"updateUser result :"+resultStr);
-    }
+    //로그인 시 비밀번호 대조
     static public int checkPwd(String id, String pwd) {
         String resultStr = "";
         try {
@@ -500,6 +494,7 @@ public class JspConn {
         } catch (Exception e) {}
         return 0;
     }
+    //ID로 유저넘버 반환
     static public int getUserNo(String emailID) { // 이메일 아이디를 받아 유저넘버 반환
         String result = "";
         try {
@@ -525,6 +520,7 @@ public class JspConn {
         result = result.trim();
         return Integer.parseInt(result);
     }
+    //카카오 로그인값이 있는지 체크
     static public int kakaoCheck(String kakaoID, String kakaoNickname) {
         String resultStr = "";
         try {
@@ -559,37 +555,18 @@ public class JspConn {
         } catch (Exception e) {Log.e(TAG,"kakaoCheck 캐치진입 :"+e.getMessage());}
         return -1;
     }
-    static public boolean kakaoRecordUser(String kakaoNickname,String kakaoID) {
-        String resultStr = "";
-        try {
-            passiveMethod();
-            HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Member/kakaoRecordUser.jsp";
-            HttpPost post = new HttpPost(postURL);
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
 
-            params.add(new BasicNameValuePair("kakaoNickname", kakaoNickname));
-            params.add(new BasicNameValuePair("kakaoID", kakaoID));
-
-            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-            post.setEntity(ent);
-            HttpResponse response = client.execute(post);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                resultStr += line;
-            }
-        } catch (Exception e) {Log.e(TAG,"kakaoRecordUser error :"+e.getMessage());}
-        return false;
-    }
-
-    static public String test(String password, String newPass) {
+    /**
+     * Setting
+     */
+    //비밀번호 변경
+    static public String changePwd(String password, String newPass) {
         String result = "";
 
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Member/test.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead()+"Member/changePwd.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<>();
@@ -613,6 +590,90 @@ public class JspConn {
         Log.e(TAG,result);
         return result;
     }
+    //닉네임 변경
+    static public String changeNickname(String nickname) {
+        String result = "";
+        try {
+            passiveMethod();
+            HttpClient client = new DefaultHttpClient();
+            String postURL = BasicValue.getInstance().getUrlHead()+"Member/updateNickname.jsp";
+            HttpPost post = new HttpPost(postURL);
+
+            List<NameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
+            params.add(new BasicNameValuePair("nickname", nickname));
+
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse response = client.execute(post);
+
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.e(TAG,result);
+        return result;
+    }
+
+    /**
+     * UserInfo
+     */
+
+    //set이 1이면 팔로우, 0이면 언팔로우
+    static public String setFollower(int userNo, int set) {
+        String result = "";
+        try {
+            passiveMethod();
+            HttpClient client = new DefaultHttpClient();
+            String postURL = BasicValue.getInstance().getUrlHead()+"Member/setFollower.jsp";
+            HttpPost post = new HttpPost(postURL);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
+            params.add(new BasicNameValuePair("followNo", "" + userNo));
+            params.add(new BasicNameValuePair("set", "" + set));
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    //팔로우가 존재하면 exist, 존재하지 않는다면 not_exist 반환
+    static public String checkFollow(int follower) {
+        String result = "";
+        try {
+            passiveMethod();
+            HttpClient client = new DefaultHttpClient();
+            String postURL = BasicValue.getInstance().getUrlHead()+"Member/CheckFollow.jsp";
+            HttpPost post = new HttpPost(postURL);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
+            params.add(new BasicNameValuePair("follower", "" + follower));
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 
 
     static public void passiveMethod() {
