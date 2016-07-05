@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:background="@color/gray" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/circle_gray" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/course_select_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/course_select_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/circle_image"
+            android:text="#용머리해안"
+            android:textColor="@color/black"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/course_select_memo"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:drawableLeft="@drawable/note_add"
+                android:drawablePadding="2dp"
+                android:minWidth="10dp"
+                android:minHeight="10dp"
+                android:padding="-5dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="10dp"
+                android:text="메모"
+                android:elevation="1dp"/>
+
+            <Button
+                android:id="@+id/course_select_date"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/course_date_gray"
+                android:drawablePadding="2dp"
+                android:minWidth="10dp"
+                android:padding="-5dp"
+                android:paddingLeft="1dp"
+                android:paddingRight="1dp"
+                android:layout_toStartOf="@+id/course_select_time" />
+
+            <Button
+                android:id="@+id/course_select_time"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/course_time_gray"
+                android:drawablePadding="2dp"
+                android:minWidth="10dp"
+                android:padding="-5dp"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"/>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
