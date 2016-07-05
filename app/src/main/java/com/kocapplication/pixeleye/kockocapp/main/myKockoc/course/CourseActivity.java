@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,7 +19,9 @@ import com.kocapplication.pixeleye.kockocapp.main.BaseActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseThread;
+import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
+import com.kocapplication.pixeleye.kockocapp.write.continuousWrite.CourseSelectActivity;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseTitleActivity;
 
 import java.util.ArrayList;
@@ -28,21 +31,42 @@ import java.util.List;
  * Created by pixeleye02 on 2016-06-28.
  */
 public class CourseActivity extends BaseActivityWithoutNav {
+    private final static String TAG = "CourseActivity";
     private SwipeRefreshLayout refreshLayout;
     private TextView courseAdd;
     private RecyclerView recyclerView ;
     private CourseRecyclerAdapter adapter;
+    private View containView;
+    private String flag;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getflag();
+
         init();
 
-        actionBarTitleSet("코스", Color.WHITE);
+        if(flag.equals("이어쓰기"))
+            actionBarTitleSet("코스 선택", Color.WHITE);
+        else
+            actionBarTitleSet("코스", Color.WHITE);
 
         container.setLayoutResource(R.layout.activity_course);
-        View containView = container.inflate();
+        containView = container.inflate();
+
+        getComponent();
+
+        Handler handler = new CourseHandler();
+        Thread thread = new CourseThread(handler);
+        thread.start();
+    }
+    private void getflag(){
+        Intent intent = getIntent();
+        flag = intent.getStringExtra("flag");
+    }
+
+    protected void getComponent(){
         courseAdd = (TextView) containView.findViewById(R.id.course_add);
         courseAdd.setOnClickListener(new ButtonListener());
 
@@ -59,10 +83,6 @@ public class CourseActivity extends BaseActivityWithoutNav {
         recyclerView.setLayoutManager(manager);
 
         recyclerView.setHasFixedSize(true);
-
-        Handler handler = new CourseHandler();
-        Thread thread = new CourseThread(handler);
-        thread.start();
     }
 
     private class ButtonListener implements View.OnClickListener {
@@ -73,10 +93,19 @@ public class CourseActivity extends BaseActivityWithoutNav {
         }
     }
 
-    private class ItemClickListener implements View.OnClickListener {
+    protected class ItemClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+            if(flag.equals("이어쓰기")){
+                int position = recyclerView.getChildLayoutPosition(v);
+                List<Courses> coursesArr = (List<Courses>) adapter.getItems();
+                Courses courses = (Courses) coursesArr.get(position);
 
+                Intent intent = new Intent(CourseActivity.this,CourseSelectActivity.class);
+                intent.putExtra("courses",courses);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 

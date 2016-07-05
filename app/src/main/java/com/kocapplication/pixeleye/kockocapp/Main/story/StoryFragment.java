@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
+import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity;
 import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseTitleActivity;
 import com.kocapplication.pixeleye.kockocapp.write.newWrite.NewWriteActivity;
@@ -181,9 +182,10 @@ public class StoryFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), CourseTitleActivity.class);
                 startActivity(intent);
             } else if (v.equals(continuousAdd)) {
-//                Intent intent = new Intent(getActivity(), );
-//                writeButton.callOnClick();
-//                startActivityForResult(intent);
+                Intent intent = new Intent(getActivity(), CourseActivity.class);
+                intent.putExtra("flag","이어쓰기");
+                writeButton.callOnClick();
+                startActivity(intent);
             }
         }
 

@@ -25,6 +25,8 @@ import org.apache.http.protocol.HTTP;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +35,7 @@ import java.util.List;
  * Created by Han_ on 2016-06-23.
  */
 public class CourseThread extends Thread {
+    private final static String TAG = "CourseThread";
     private final String postURL = BasicValue.getInstance().getUrlHead() + "Course/readMyCourse.jsp";
     private Handler handler;
 
@@ -94,11 +97,19 @@ public class CourseThread extends Thread {
                 String board = element.getAsString();
                 Log.i("CourseThread", board);
                 String[] split = board.split("/");
-                Date dateTime = new Date(split[1]);
+                Date dateTime = new Date(Long.parseLong(split[1]));
                 course.add(new Course(split[0], dateTime));
             }
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date coursesDate = new Date();
 
-            courses.add(new Courses(courseNo, title, new Date(date), course));
+            try {
+                coursesDate = format.parse(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            courses.add(new Courses(courseNo, title, coursesDate, course));
         }
 
         Message msg = Message.obtain();
