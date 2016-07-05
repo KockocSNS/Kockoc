@@ -23,6 +23,7 @@ import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.user.UserActivity;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
@@ -30,6 +31,8 @@ import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 import org.apmem.tools.layouts.FlowLayout;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by hp on 2016-06-21.
@@ -47,6 +50,8 @@ public class DetailFragment extends Fragment {
     LinearLayout ll_bgLayout;
     FlowLayout fl_board_hashtag;
     RecyclerView rv_comment_list;
+    RecyclerView course_recyclerView;
+    DetailCourseAdapter course_adapter;
 
     ToggleButton btn_like;
     Spinner course_spinner;
@@ -130,6 +135,17 @@ public class DetailFragment extends Fragment {
         ll_profile.setOnClickListener(new ProfileClickListener());
 
         btn_like.setOnClickListener(new LikeClickListener());
+    }
+
+    private void setCourseRecyclerView() {
+        course_adapter = new DetailCourseAdapter(new ArrayList<Course>());
+        course_recyclerView.setAdapter(course_adapter);
+
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        manager.scrollToPosition(0);
+        course_recyclerView.setLayoutManager(manager);
+
+        course_recyclerView.setHasFixedSize(true);
     }
 
     private void setData(DetailPageData data) {

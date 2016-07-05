@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.model.Board;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 
 import java.util.ArrayList;

@@ -4,31 +4,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <include
+        android:id="@+id/recycler_layout"
+        layout="@layout/recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_above="@+id/course_set_layout"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:orientation="vertical">
-
-        <include
-            android:id="@+id/recycler_layout"
-            layout="@layout/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
+        android:layout_marginTop="10dp" />
 
     <RelativeLayout
         android:id="@+id/course_set_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/confirm"
+        android:orientation="horizontal"
         android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:orientation="horizontal">
+        android:paddingRight="5dp">
 
         <TextView
             android:id="@+id/course"
@@ -50,7 +44,7 @@
             android:layout_toRightOf="@+id/course"
             android:background="@drawable/bg_rectangle_shape_silver"
             android:padding="5dp"
-            android:singleLine="true"/>
+            android:singleLine="true" />
 
         <Button
             android:id="@+id/course_note_set"
@@ -59,15 +53,15 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/course_date_set"
-            android:drawableTop="@drawable/note_add"
+            android:drawableTop="@drawable/course_memo"
             android:gravity="center"
-            android:padding="-1dp"
-            android:paddingLeft="3dp"
-            android:paddingRight="3dp"
-            android:minWidth="5dp"
             android:minHeight="5dp"
-            android:textSize="10dp"
-            android:text="메모"/>
+            android:minWidth="5dp"
+            android:padding="-1dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="3dp"
+            android:text="메모"
+            android:textSize="10dp" />
 
         <Button
             android:id="@+id/course_date_set"
@@ -78,11 +72,11 @@
             android:layout_toLeftOf="@+id/course_time_set"
             android:drawableTop="@drawable/course_date"
             android:gravity="center"
+            android:minHeight="10dp"
+            android:minWidth="5dp"
             android:padding="-1dp"
             android:paddingLeft="2dp"
             android:paddingRight="2dp"
-            android:minWidth="5dp"
-            android:minHeight="10dp"
             android:textSize="10dp" />
 
         <Button
@@ -94,11 +88,11 @@
             android:layout_toLeftOf="@+id/add_button"
             android:drawableTop="@drawable/course_time"
             android:gravity="center"
+            android:minHeight="10dp"
+            android:minWidth="5dp"
             android:padding="-1dp"
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
-            android:minWidth="5dp"
-            android:minHeight="10dp"
             android:textSize="10dp" />
 
         <Button
@@ -107,9 +101,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:minWidth="50dp"
-            android:minHeight="40dp"
             android:background="@drawable/bg_round_shape_silver"
+            android:minHeight="40dp"
+            android:minWidth="50dp"
             android:text="추가" />
 
     </RelativeLayout>
@@ -122,8 +116,8 @@
         android:layout_margin="5dp"
         android:background="@drawable/bg_round_shape_subbgcolor"
         android:text="완  료"
+        android:textColor="@color/white"
         android:textSize="25dp"
-        android:textStyle="bold"
-        android:textColor="@color/white"/>
+        android:textStyle="bold" />
 
 </RelativeLayout>

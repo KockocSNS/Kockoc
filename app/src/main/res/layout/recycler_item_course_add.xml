@@ -10,18 +10,31 @@
         android:layout_height="match_parent">
 
         <View
+            android:id="@+id/line_top"
             android:layout_width="5dp"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:background="@color/gray" />
+            android:layout_above="@+id/course_image"
+            android:layout_marginBottom="-4dp"
+            android:background="@color/line_gray" />
 
         <ImageView
             android:id="@+id/course_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="3dp"
             android:src="@drawable/circle_gray" />
+
+        <View
+            android:id="@+id/line_bottom"
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/course_image"
+            android:layout_marginTop="-2dp"
+            android:background="@color/line_gray" />
 
     </RelativeLayout>
 
@@ -53,8 +66,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
-                android:drawableLeft="@drawable/note_add"
+                android:drawableLeft="@drawable/course_memo_gray"
                 android:drawablePadding="2dp"
+                android:layout_marginLeft="10dp"
                 android:minWidth="10dp"
                 android:minHeight="10dp"
                 android:padding="-5dp"
@@ -69,8 +83,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/course_note"
-                android:drawableLeft="@drawable/note_add"
+                android:drawableLeft="@drawable/course_search_gray"
                 android:drawablePadding="2dp"
+                android:layout_marginLeft="10dp"
                 android:minWidth="10dp"
                 android:minHeight="10dp"
                 android:padding="-5dp"

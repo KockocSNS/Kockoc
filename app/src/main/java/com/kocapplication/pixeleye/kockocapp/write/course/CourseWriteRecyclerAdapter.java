@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,11 +42,20 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
     @Override
     public void onBindViewHolder(CourseWriteRecyclerViewHolder holder, int position) {
         Course item = items.get(position);
-        View.OnClickListener listener = new ItemButtonListener(holder, position);
+
+        if (position == 0) holder.getLineTop().setVisibility(View.GONE);
+        else holder.getLineTop().setVisibility(View.VISIBLE);
+
+        if (position == (items.size() - 1)) {
+            holder.getLineBottom().setVisibility(View.GONE);
+        }
+        else holder.getLineBottom().setVisibility(View.VISIBLE);
+
         holder.getCourseName().setText("# " + item.getTitle());
         holder.getDateButton().setText(item.getDate());
         holder.getTimeButton().setText(item.getTime());
 
+        View.OnClickListener listener = new ItemButtonListener(holder, position);
         holder.getDateButton().setOnClickListener(listener);
         holder.getTimeButton().setOnClickListener(listener);
         holder.getDelete().setOnClickListener(listener);
