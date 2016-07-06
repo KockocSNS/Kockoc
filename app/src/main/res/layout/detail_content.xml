@@ -18,13 +18,6 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white">
 
-                <Spinner
-                    android:id="@+id/course_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/spinner_background"
-                    android:gravity="right" />
-
                 <TextView
                     android:id="@+id/course_title"
                     android:layout_width="wrap_content"

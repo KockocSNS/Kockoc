@@ -2,13 +2,13 @@ package com.kocapplication.pixeleye.kockocapp.detail;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,6 +23,7 @@ import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.detail.scrapuser.ScrapUserAcitivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.user.UserActivity;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
@@ -54,7 +55,6 @@ public class DetailFragment extends Fragment {
     DetailCourseAdapter course_adapter;
 
     ToggleButton btn_like;
-    Spinner course_spinner;
 
     TextView course_title;
     TextView profile_nickname;
@@ -114,7 +114,6 @@ public class DetailFragment extends Fragment {
         ll_bgLayout = (LinearLayout) view.findViewById(R.id.ll_bg_detail_up);
 
         btn_like = (ToggleButton) view.findViewById(R.id.toggle_detail_content_like);
-        course_spinner = (Spinner) view.findViewById(R.id.course_spinner);
         course_title = (TextView) view.findViewById(R.id.course_title);
         profile_nickname = (TextView) view.findViewById(R.id.tv_detail_inner_up_nickname);
         profile_date = (TextView) view.findViewById(R.id.tv_detail_inner_up_date);
@@ -134,6 +133,8 @@ public class DetailFragment extends Fragment {
         setCourseRecyclerView(view);
 
         rv_comment_list = (RecyclerView) includeView.findViewById(R.id.rv_detail_commentlist);
+
+        comment_scrap.setOnClickListener(new CommentScrapListener());
 
         ll_profile.setOnClickListener(new ProfileClickListener());
 
@@ -280,6 +281,15 @@ public class DetailFragment extends Fragment {
         @Override
         public void onClick(View v) {
             JspConn.writeExpression(detailPageData.getBoardNo(), 0);
+        }
+    }
+
+    private class CommentScrapListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            Intent scrap_user_intent = new Intent(v.getContext(), ScrapUserAcitivity.class);
+            scrap_user_intent.putExtra("boardNo", boardNo);
+            startActivity(scrap_user_intent);
         }
     }
 

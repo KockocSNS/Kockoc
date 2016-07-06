@@ -73,6 +73,13 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <Spinner
+        android:id="@+id/course_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/spinner_background"
+        android:gravity="right" />
+
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
