@@ -23,11 +23,7 @@ public class BoardBasicAttr implements Serializable {
 
     // 새글 작성 시에 사용되는 생성자
     public BoardBasicAttr(int userNo) {
-        this.userNo = userNo;
-        this.boardNo = 0;
-        this.courseNo = 0;
-        this.coursePosition = 0;
-        this.courseCount = 0;
+        this(userNo, 0, 0, 0, 0);
     }
 
     public int getUserNo() {

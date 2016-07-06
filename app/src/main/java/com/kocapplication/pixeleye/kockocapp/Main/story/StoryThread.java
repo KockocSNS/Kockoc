@@ -92,6 +92,7 @@ public class StoryThread extends Thread {
             int courseNo = object.get("Course_No").getAsInt();
             Log.i("STORYTHREAD", "COURSE No" + courseNo);
             String courseJsonString = courseJsonObject(object.get("Course_No").getAsInt());
+            Log.i("STORYTHREAD", "COURSE : " + courseJsonString);
 
 //            JsonObject courseObject = parser.parse(courseJsonString).getAsJsonObject();
 //            int courseCount = 0;

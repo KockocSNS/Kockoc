@@ -11,6 +11,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,19 @@ public class StoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_story, container, false);
 
         init(view);
+
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (writeContainer.getVisibility() == View.VISIBLE) {
+                    buttonLayoutDownAnimation();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         if (initialData == null) {
             Handler handler = new StoryDataReceiveHandler();
@@ -186,7 +200,7 @@ public class StoryFragment extends Fragment {
                 startActivity(intent);
             } else if (v.equals(continuousAdd)) {
                 Intent intent = new Intent(getActivity(), CourseActivity.class);
-                intent.putExtra("flag","이어쓰기");
+                intent.putExtra("flag",CourseActivity.CONTINUOUS_FLAG);
                 writeButton.callOnClick();
                 startActivity(intent);
             }
@@ -222,5 +236,10 @@ public class StoryFragment extends Fragment {
             adapter.notifyDataSetChanged();
             refreshLayout.setRefreshing(false);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
