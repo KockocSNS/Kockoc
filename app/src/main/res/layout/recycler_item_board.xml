@@ -50,6 +50,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:textColor="@color/innerTagColor"
             android:textSize="10dp" />
 

@@ -7,6 +7,8 @@ import android.os.Message;
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
+import java.util.ArrayList;
+
 /**
  * Created by hp on 2016-06-23.
  */
@@ -18,7 +20,7 @@ public class DetailThread extends Thread {
     private int boardNo;
     private int courseNo;
 
-    public DetailThread(Handler handler,int boardNo, int courseNo){
+    public DetailThread(Handler handler, int boardNo, int courseNo) {
         super();
         this.handler = handler;
         this.boardNo = boardNo;
@@ -30,11 +32,15 @@ public class DetailThread extends Thread {
         super.run();
         detailPageData = new DetailPageData();
         detailPageData = JsonParser.detailPageLoad(JspConn.loadDetailPage(String.valueOf(boardNo)));
-        detailPageData.setCourse(JsonParser.readCourse(JspConn.readCourseByCourseNo(courseNo)));
+
+        if (courseNo != 0) {
+            String courseResult = JspConn.readCourseByCourseNo(courseNo);
+            detailPageData.setCourse(JsonParser.readCourse(courseResult));
+        } else detailPageData.setCourse(new ArrayList<String>());
 
         Message msg = Message.obtain();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("THREAD",detailPageData);
+        bundle.putSerializable("THREAD", detailPageData);
         msg.setData(bundle);
         handler.sendMessage(msg);
     }

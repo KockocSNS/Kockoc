@@ -70,6 +70,7 @@ public class CourseThread extends Thread {
             e.printStackTrace();
         }
 
+        Log.i("COURSE_THREAD", result);
         JsonParser parser = new JsonParser();
         JsonObject upperObject = parser.parse(result).getAsJsonObject();
         JsonArray array = upperObject.getAsJsonArray("courseArr");
@@ -98,7 +99,7 @@ public class CourseThread extends Thread {
                 Log.i("CourseThread", board);
                 String[] split = board.split("/");
                 Date dateTime = new Date(Long.parseLong(split[1]));
-                course.add(new Course(split[0], dateTime));
+                course.add(new Course(split[0], dateTime, innerI));
             }
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             Date coursesDate = new Date();

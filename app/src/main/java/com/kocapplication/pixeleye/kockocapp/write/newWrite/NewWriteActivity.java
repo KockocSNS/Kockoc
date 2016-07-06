@@ -37,7 +37,11 @@ import java.util.List;
  */
 public class NewWriteActivity extends BaseActivityWithoutNav {
     private final String TAG = "NEW_WRITE_ACTIVITY";
-    public static final int MAP_REQUESTCODE = 50233;
+    public static final int MAP_REQUEST_CODE = 50233;
+
+    public static final int CONTINUOUS_FLAG = 387;
+    public static final int DEFAULT_FLAG = 5326;
+    private int flag;
 
     private EditText boardText;
     private LinearLayout imageContainer;
@@ -51,7 +55,6 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
     private Button photoAdd;
     private Button mapAdd;
 
-    private Board newWriteBoard;
     private Coordinate coordinate;
     private ArrayList<String> imagePaths;
 
@@ -59,15 +62,27 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getFlag();
         init();
 
+        container.setLayoutResource(R.layout.activity_new_write);
+        View containView = container.inflate();
+
+        getComponent(containView);
+
+
+    }
+
+    private void getFlag() {
+        Intent intent = getIntent();
+        flag = intent.getIntExtra("FLAG", DEFAULT_FLAG);
+    }
+
+    private void getComponent(View containView) {
         View titleView = getLayoutInflater().inflate(R.layout.actionbar_new_write_activity, null);
         confirm = (Button) titleView.findViewById(R.id.confirm);
         confirm.setOnClickListener(new ButtonListener());
         actionBarTitleSet(titleView);
-
-        container.setLayoutResource(R.layout.activity_new_write);
-        View containView = container.inflate();
 
         imageContainer = (LinearLayout) containView.findViewById(R.id.image_container);
         mapContainer = (LinearLayout) containView.findViewById(R.id.map_container);
@@ -114,19 +129,29 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
 
             BoardBasicAttr attributes = new BoardBasicAttr(BasicValue.getInstance().getUserNo());
 
+            if (flag == CONTINUOUS_FLAG)
+                attributes =
+                        new BoardBasicAttr(
+                                /*userNo*/          BasicValue.getInstance().getUserNo(),
+                                /*boardNo*/         0,
+                                /*courseNo*/        getIntent().getIntExtra("COURSE_NO", 0),
+                                /*coursePosition*/  getIntent().getIntExtra("COURSE_PO", 0),
+                                /*courseCount*/     0);
+
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 
             String date = dateFormat.format(new Date());
             String time = timeFormat.format(new Date());
 
-            newWriteBoard = new Board(attributes, coordinate, text, date, time, imagePaths, tagList);
+            Board newWriteBoard = new Board(attributes, coordinate, text, date, time, imagePaths, tagList);
 
             Log.i(TAG, newWriteBoard.toString());
 
             Handler handler = new Handler();
 
             // TODO: 2016-06-29 작성된 내용을 Server에 보내는 기능 만들어야한다.
+            Snackbar.make(confirm, "Server로 보내는 기능 작성", Snackbar.LENGTH_SHORT).show();
             Thread thread = new NewWriteThread(handler, newWriteBoard);
             thread.start();
         }
@@ -139,7 +164,7 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
 
         private void mapAddClicked() {
             Intent mapIntent = new Intent(getApplicationContext(), MapActivity.class);
-            startActivityForResult(mapIntent, MAP_REQUESTCODE);
+            startActivityForResult(mapIntent, MAP_REQUEST_CODE);
         }
 
         private void tagConfirmClicked() {
@@ -210,7 +235,7 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == MAP_REQUESTCODE && resultCode == RESULT_OK) {
+        if (requestCode == MAP_REQUEST_CODE && resultCode == RESULT_OK) {
             double latitude = data.getDoubleExtra("LATITUDE", 0);
             double longitude = data.getDoubleExtra("LONGITUDE", 0);
 

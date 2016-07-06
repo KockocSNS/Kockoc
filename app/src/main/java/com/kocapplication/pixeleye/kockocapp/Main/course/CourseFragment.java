@@ -1,11 +1,14 @@
 package com.kocapplication.pixeleye.kockocapp.main.course;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseTitleActivity;
 
@@ -69,10 +73,32 @@ public class CourseFragment extends Fragment {
         }
     }
 
-    private class ItemClickListener implements View.OnClickListener {
+    private class ItemClickListener implements View.OnClickListener, View.OnLongClickListener {
         @Override
         public void onClick(View v) {
 
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                    .setTitle("코스 삭제")
+                    .setMessage("코스를 삭제하시겠습니까")
+                    .setPositiveButton("예", new DialogClickListener())
+                    .setNegativeButton("아니오", new DialogClickListener())
+                    .create();
+            dialog.show();
+
+            return true;
+        }
+    }
+
+    private class DialogClickListener implements DialogInterface.OnClickListener {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            if (which == Dialog.BUTTON_POSITIVE) {
+                new CourseDeleteThread().start();
+            }
         }
     }
 

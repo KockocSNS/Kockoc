@@ -138,7 +138,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                     return;
                 }
 
-                Course addCourse = new Course(title, courseDate);
+                Course addCourse = new Course(title, courseDate, (adapter.getItemCount() + 1));
                 if (adapter.contain(addCourse)) {
                     Snackbar.make(addButton, "이미 포함된 코스입니다.", Snackbar.LENGTH_SHORT).show();
                     courseInput.setText("");
