@@ -94,10 +94,10 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
     private class ButtonListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-                 if (v.equals(confirm))     confirmClicked();
-            else if (v.equals(photoAdd))    photoAddClicked();
-            else if (v.equals(mapAdd))      mapAddClicked();
-            else if (v.equals(tagConfirm))  tagConfirmClicked();
+            if (v.equals(confirm)) confirmClicked();
+            else if (v.equals(photoAdd)) photoAddClicked();
+            else if (v.equals(mapAdd)) mapAddClicked();
+            else if (v.equals(tagConfirm)) tagConfirmClicked();
         }
 
         private void confirmClicked() {

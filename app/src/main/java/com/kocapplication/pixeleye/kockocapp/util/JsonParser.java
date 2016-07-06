@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.kocapplication.pixeleye.kockocapp.detail.DetailPageData;
 import com.kocapplication.pixeleye.kockocapp.model.Neighbor;
+import com.kocapplication.pixeleye.kockocapp.model.NoticeItem;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -129,6 +130,27 @@ public class JsonParser {
         }
 
         return neighborList;
+    }
+
+    static public ArrayList<NoticeItem> getNoticeItem(String msg){
+        ArrayList<NoticeItem> NoticeItemList = new ArrayList<>();
+        try{
+            JSONArray noticeItemArr = new JSONArray(msg);
+            int length = noticeItemArr.length();
+            for(int i=0; i<length; i++){
+                JSONObject temp = noticeItemArr.getJSONObject(i);
+                int userNo = temp.getInt("User_No");
+                int boardNo = temp.getInt("Board_No");
+                String date = temp.getString("Date");
+
+                NoticeItemList.add(new NoticeItem(userNo, boardNo, date));
+            }
+        }catch (Exception e){
+            e.getMessage();
+        }
+
+        Log.e(TAG,NoticeItemList.toString());
+        return NoticeItemList;
     }
 
 }

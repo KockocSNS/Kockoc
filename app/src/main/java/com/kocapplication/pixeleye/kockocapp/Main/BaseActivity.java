@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -27,7 +26,7 @@ import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.neighbor.NeighborActivity;
 import com.kocapplication.pixeleye.kockocapp.main.search.SearchActivity;
-import com.kocapplication.pixeleye.kockocapp.navigation.NoticeActivity;
+import com.kocapplication.pixeleye.kockocapp.navigation.notice.NoticeActivity;
 import com.kocapplication.pixeleye.kockocapp.navigation.SettingActivity;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 
