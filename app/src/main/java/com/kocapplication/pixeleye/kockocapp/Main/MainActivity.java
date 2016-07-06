@@ -1,28 +1,17 @@
 package com.kocapplication.pixeleye.kockocapp.main;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseFragment;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.MyKocKocFragment;
-import com.kocapplication.pixeleye.kockocapp.main.myKockoc.MyProfileImgThread;
 import com.kocapplication.pixeleye.kockocapp.main.recommend.RecommendFragment;
-import com.kocapplication.pixeleye.kockocapp.main.story.StoryFragment;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 
 import java.util.ArrayList;
 import java.util.List;
