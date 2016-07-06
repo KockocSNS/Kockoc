@@ -39,6 +39,7 @@
         <activity android:name=".login.Kakao.KakaoSignupActivity"/>
 
         <activity android:name=".detail.DetailActivity"/>
+        <activity android:name=".detail.scrapuser.ScrapUserAcitivity"/>
 
         <activity android:name=".main.MainActivity" />
         <activity android:name=".main.AdviceActivity"/>
@@ -52,7 +53,7 @@
 
         <activity android:name=".navigation.SettingActivity"/>
         <activity android:name=".navigation.PasswordChangeActivity"/>
-        <activity android:name=".navigation.NoticeActivity"/>
+        <activity android:name=".navigation.notice.NoticeActivity"/>
         <activity android:name=".navigation.NicknameChangeActivity" android:windowSoftInputMode="stateAlwaysVisible|adjustResize"/>
 
         <activity android:name=".write.newWrite.NewWriteActivity"   android:windowSoftInputMode="stateAlwaysVisible|adjustResize"/>

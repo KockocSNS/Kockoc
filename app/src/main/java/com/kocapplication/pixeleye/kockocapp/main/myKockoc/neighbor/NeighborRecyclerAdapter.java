@@ -22,7 +22,6 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class NeighborRecyclerAdapter extends RecyclerView.Adapter<NeighborRecyclerViewHolder> {
     private ArrayList<Neighbor> neighbors;
     private Context mContext;
-    private BitmapPool bitmapPool;
     View.OnClickListener listener;
 
     public NeighborRecyclerAdapter(ArrayList<Neighbor> data, Context context, View.OnClickListener listener){
@@ -33,7 +32,7 @@ public class NeighborRecyclerAdapter extends RecyclerView.Adapter<NeighborRecycl
 
     @Override
     public NeighborRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.neighbor_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_neighbor, parent, false);
         itemView.setOnClickListener(listener);
         return new NeighborRecyclerViewHolder(itemView);
     }

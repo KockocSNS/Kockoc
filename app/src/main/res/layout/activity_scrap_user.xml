@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/recycler_layout_notice"
+        android:id="@+id/recycler_layout_scrap_user"
         layout="@layout/recyclerview" />
 
 </LinearLayout>

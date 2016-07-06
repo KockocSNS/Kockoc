@@ -23,6 +23,9 @@ import android.widget.Toast;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
+import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
+import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseTitleActivity;
 import com.kocapplication.pixeleye.kockocapp.write.newWrite.NewWriteActivity;
 
@@ -58,6 +61,8 @@ public class StoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_story, container, false);
 
         init(view);
+
+        JsonParser.getNoticeItem(JspConn.notice(BasicValue.getInstance().getUserNo()));
 
         if (initialData == null) {
             Handler handler = new StoryDataReceiveHandler();

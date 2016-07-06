@@ -6,26 +6,35 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by hp on 2016-06-20.
  */
-public class DetailActivity extends Activity {
+public class DetailActivity extends AppCompatActivity {
     final static String TAG = "DetailActivity";
     DetailFragment detailFragment;
 
@@ -35,6 +44,7 @@ public class DetailActivity extends Activity {
     private Button scrap_btn;
     private ImageButton back_btn;
     private ImageView menu_btn;
+    private Spinner course_spinner;
 
     private int boardNo;
     private int courseNo;
@@ -48,7 +58,7 @@ public class DetailActivity extends Activity {
 
         getIntentValue();
         init();
-        getFragmentManager().beginTransaction().replace(R.id.container,detailFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container,detailFragment).commit();
     }
 
     protected void init(){
@@ -60,6 +70,7 @@ public class DetailActivity extends Activity {
         scrap_btn = (Button)findViewById(R.id.btn_detail_interest);
         back_btn = (ImageButton)findViewById(R.id.btn_detail_back);
         menu_btn = (ImageView)findViewById(R.id.detail_menu);
+        course_spinner = (Spinner) findViewById(R.id.course_spinner);
 
         commentSend_btn.setOnClickListener(new CommentSendListener());
         courseCopy_btn.setOnClickListener(new CourseCopyListener());
@@ -71,6 +82,19 @@ public class DetailActivity extends Activity {
             courseCopy_btn.setVisibility(View.GONE);
             scrap_btn.setVisibility(View.GONE);
         }
+
+        course_spinner.setOnItemSelectedListener(new SpinnerListener());
+
+        List<String> list = new ArrayList<String>();
+        list.add("AAA");
+        list.add("BBB");
+        list.add("CCC");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(DetailActivity.this, R.layout.spinner_item,list);
+        dataAdapter.setDropDownViewResource(R.layout.spinner_item);
+
+        course_spinner.setAdapter(dataAdapter);
+        course_spinner.setSelection(0);
+
     }
 
     private void getIntentValue(){
@@ -139,6 +163,31 @@ public class DetailActivity extends Activity {
         @Override
         public void onClick(View v) {
             DetailActivity.this.openOptionsMenu();
+        }
+    }
+
+    //스피너 리스너
+    private class SpinnerListener implements AdapterView.OnItemSelectedListener{
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            switch (position){
+                case 0:
+                    Toast.makeText(DetailActivity.this,""+position,Toast.LENGTH_LONG).show();
+                    break;
+                case 1:
+                    detailFragment = new DetailFragment(125,courseNo,board_userNo);
+                    DetailActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.container,detailFragment).commit();
+                    break;
+                case 2:
+                    detailFragment = new DetailFragment(121,courseNo,board_userNo);
+                    DetailActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.container,detailFragment).commit();
+                    break;
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
         }
     }
 

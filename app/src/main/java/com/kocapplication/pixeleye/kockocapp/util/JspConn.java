@@ -3,6 +3,7 @@ package com.kocapplication.pixeleye.kockocapp.util;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.User;
 
@@ -265,7 +266,6 @@ public class JspConn {
             for(Course temp:Arr){
                 params.add(new BasicNameValuePair("course"+i++,""+temp.getTitle()+"/"+temp.getDataByMilSec()));
             }
-
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
             HttpResponse response = client.execute(post);
@@ -671,6 +671,59 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return result;
+    }
+
+    static public String notice(int userNo) {
+        passiveMethod();
+        HttpClient client = new DefaultHttpClient();
+        String postURL = BasicValue.getInstance().getUrlHead()+"Board/Comment/test.jsp";
+        HttpPost post = new HttpPost(postURL);
+
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("UserNo", "" + userNo));
+        String result = "";
+
+        try {
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.e(TAG,result);
+        return result;
+    }
+
+    // 보드넘버를 받아 스크랩한 유저넘버 반환
+    static public String getScrapUser(int boardNo) {
+        String result = "";
+        try {
+            passiveMethod();
+            HttpClient client = new DefaultHttpClient();
+            //getScrapUser.jsp에 이미지경로 불러오는 부분 빼기 => 추후수정
+            String postURL = BasicValue.getInstance().getUrlHead()+"Scrap/getScrapUser.jsp";
+            HttpPost post = new HttpPost(postURL);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("boardNo", "" + boardNo));
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "result :" + result);
         return result;
     }
 
