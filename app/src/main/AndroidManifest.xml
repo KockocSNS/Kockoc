@@ -61,6 +61,7 @@
         <activity android:name=".write.course.CourseTitleActivity"  android:windowSoftInputMode="adjustPan" />
         <activity android:name=".write.course.CourseWriteActivity"  android:windowSoftInputMode="adjustResize" />
         <activity android:name=".write.course.AlarmDialogActivity" />
+        <activity android:name=".write.continuousWrite.CourseSelectActivity"/>
 
         <!-- 네이버 로그인-->
         <activity
