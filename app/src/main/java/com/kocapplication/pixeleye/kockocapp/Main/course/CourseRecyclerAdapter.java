@@ -17,18 +17,21 @@ import java.util.List;
 public class CourseRecyclerAdapter extends RecyclerView.Adapter<CourseRecyclerViewHolder> {
     private List<Courses> items;
     private View.OnClickListener listener;
+    private View.OnLongClickListener longClickListener;
 
-    public CourseRecyclerAdapter(List<Courses> data, View.OnClickListener listener) {
+    public CourseRecyclerAdapter(List<Courses> data, View.OnClickListener listener, View.OnLongClickListener longClickListener) {
         super();
         if (data == null) throw new IllegalArgumentException("Data Must Not Be Null");
         this.items = data;
         this.listener = listener;
+        this.longClickListener = longClickListener;
     }
 
     @Override
     public CourseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_course, parent, false);
         itemView.setOnClickListener(listener);
+        itemView.setOnLongClickListener(longClickListener);
         return new CourseRecyclerViewHolder(itemView);
     }
 

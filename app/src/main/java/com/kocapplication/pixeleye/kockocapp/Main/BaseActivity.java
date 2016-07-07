@@ -57,8 +57,8 @@ public class BaseActivity extends AppCompatActivity {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         View nav_header = navigationView.inflateHeaderView(R.layout.navigation_header);
-        nav_profile_img = (ImageView)nav_header.findViewById(R.id.header_profile_image);
-        nav_profile_name = (TextView)nav_header.findViewById(R.id.header_profile_text);
+        nav_profile_img = (ImageView) nav_header.findViewById(R.id.header_profile_image);
+        nav_profile_name = (TextView) nav_header.findViewById(R.id.header_profile_text);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
 
@@ -72,7 +72,7 @@ public class BaseActivity extends AppCompatActivity {
 
         navigationView.setNavigationItemSelectedListener(navigationListener);
         //네비게이션 프로필 이미지
-        Glide.with(this).load(BasicValue.getInstance().getUrlHead()+"board_image/"+ BasicValue.getInstance().getUserNo() + "/profile.jpg")
+        Glide.with(this).load(BasicValue.getInstance().getUrlHead() + "board_image/" + BasicValue.getInstance().getUserNo() + "/profile.jpg")
                 .error(R.drawable.default_profile).bitmapTransform(new CropCircleTransformation(Glide.get(this).getBitmapPool())).into(nav_profile_img);
     }
 
@@ -80,19 +80,21 @@ public class BaseActivity extends AppCompatActivity {
      * set_navProfile
      * 프로필 사진과 이름 설정
      */
-    protected void set_navProfileImg(){
+    protected void set_navProfileImg() {
         Glide.with(BaseActivity.this)
-                .load(BasicValue.getInstance().getUrlHead()+"board_image/"+ BasicValue.getInstance().getUserNo() + "/profile.jpg")
+                .load(BasicValue.getInstance().getUrlHead() + "board_image/" + BasicValue.getInstance().getUserNo() + "/profile.jpg")
                 .diskCacheStrategy(DiskCacheStrategy.NONE) // glide 캐시 초기화
                 .skipMemoryCache(true)
                 .error(R.drawable.default_profile)
                 .bitmapTransform(new CropCircleTransformation(Glide.get(BaseActivity.this).getBitmapPool())).into(nav_profile_img);
     }
-    protected void set_navProfileName(String name){
+
+    protected void set_navProfileName(String name) {
         nav_profile_name.setText(name);
     }
 
-    protected void onRefresh() {}
+    protected void onRefresh() {
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -105,20 +107,18 @@ public class BaseActivity extends AppCompatActivity {
                 return true;
             case R.id.menu_neighbor:
                 Intent neighbor_intent = new Intent(BaseActivity.this, NeighborActivity.class);
-                neighbor_intent.putExtra("userNo",BasicValue.getInstance().getUserNo());
+                neighbor_intent.putExtra("userNo", BasicValue.getInstance().getUserNo());
                 startActivity(neighbor_intent);
                 return true;
-
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) drawerLayout.closeDrawers();
-        else finish();
-        super.onBackPressed();
+        else super.onBackPressed();
+
     }
 
     protected void actionBarTitleSet(String title, int color) {
@@ -141,9 +141,10 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * softKeyboardHide
      * 키보드를 숨기고 edittext 초기화
+     *
      * @param editText
      */
-    protected void softKeyboardHide(EditText editText){
+    protected void softKeyboardHide(EditText editText) {
         InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         editText.setText("");
@@ -176,9 +177,9 @@ public class BaseActivity extends AppCompatActivity {
                     intent.putExtra("logout", 0);
                     startActivity(intent);
                     finish();
-                    try{
+                    try {
                         LoginManager.getInstance().logOut();
-                    } catch(Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 

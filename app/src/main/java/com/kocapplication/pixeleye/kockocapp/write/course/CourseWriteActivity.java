@@ -6,8 +6,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -32,6 +34,11 @@ import java.util.Date;
  */
 public class CourseWriteActivity extends BaseActivityWithoutNav {
     private final String TAG = "COURSE_WRITE_ACTIVITY";
+    public static int ADJUST_FLAG = 779128;
+    public static int DEFAULT_FLAG = 12221;
+    private int flag;
+
+    private int courseNo;
     private String courseTitle;
 
     private RecyclerView recyclerView;
@@ -43,19 +50,17 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
     private Button addButton;
     private Button confirm;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        courseTitle = getIntent().getStringExtra("COURSE_TITLE");
         init();
-        actionBarTitleSet(courseTitle, Color.WHITE);
 
         container.setLayoutResource(R.layout.activity_course_write);
         View containView = container.inflate();
 
         declare(containView);
+        getDataFromBeforeActivity();
     }
 
     private void declare(View containView) {
@@ -100,6 +105,27 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
         recyclerView.setLayoutManager(manager);
 
         recyclerView.setHasFixedSize(true);
+    }
+
+    private void getDataFromBeforeActivity() {
+        flag = getIntent().getIntExtra("FLAG", DEFAULT_FLAG);
+
+        if (flag == ADJUST_FLAG) {
+            Courses courses = (Courses) getIntent().getSerializableExtra("COURSES");
+
+            courseNo = courses.getCourseNo();
+            courseTitle = courses.getTitle();
+            actionBarTitleSet(courseTitle, Color.WHITE);
+
+            adapter.setItems(courses.getCourses());
+            adapter.notifyDataSetChanged();
+        }
+
+        else if (flag == DEFAULT_FLAG) {
+            courseNo = 0;
+            courseTitle = getIntent().getStringExtra("COURSE_TITLE");
+            actionBarTitleSet(courseTitle, Color.WHITE);
+        }
     }
 
     private class ButtonListener implements View.OnClickListener {
@@ -160,7 +186,12 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 AlarmHelper manager = new AlarmHelper(getApplicationContext());
                 Courses courses = new Courses(courseTitle, new Date(), adapter.getItems());
                 manager.setCourseAlarm(courses);
-                JspConn.uploadCourse(courseTitle,courses.getCourses()); // 코스 디비 업로드
+
+                Log.i(TAG, courses.getCourseNo() + "");
+
+                if (flag == DEFAULT_FLAG) JspConn.uploadCourse(courseTitle,courses.getCourses()); // 코스 디비 업로드
+                else if (flag == ADJUST_FLAG) JspConn.editCourse(courseNo, courses.getTitle(), courses.getCourses());
+
                 finish();
             }
         }

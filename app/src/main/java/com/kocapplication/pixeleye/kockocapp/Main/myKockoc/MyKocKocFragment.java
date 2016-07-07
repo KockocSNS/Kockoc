@@ -60,8 +60,6 @@ public class MyKocKocFragment extends Fragment {
     private LinearLayout neighborButton;
     private LinearLayout courseButton;
 
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

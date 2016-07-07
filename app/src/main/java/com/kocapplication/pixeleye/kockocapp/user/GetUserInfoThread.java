@@ -80,8 +80,6 @@ public class GetUserInfoThread extends Thread {
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            // TODO: 2016-06-23
-//            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
             params.add(new BasicNameValuePair("userNo", "" + userNo));
 
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
