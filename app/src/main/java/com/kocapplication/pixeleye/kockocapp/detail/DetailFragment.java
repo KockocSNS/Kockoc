@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -130,9 +129,12 @@ public class DetailFragment extends Fragment {
         profile_img = (ImageView) view.findViewById(R.id.img_detail_inner_up_profile);
         html_img = (ImageView) view.findViewById(R.id.tv_detail_content_htmlImg);
         board_mainimg = (ImageView) view.findViewById(R.id.img_detail_content_main_img);
-        board_courses = (ImageView) view.findViewById(R.id.iv_detail_content_courses);
+//        board_courses = (ImageView) view.findViewById(R.id.iv_detail_content_courses);
         fl_board_hashtag = (FlowLayout) view.findViewById(R.id.fl_detail_content_tag);
         View includeView = view.findViewById(R.id.detail_commentlist_layout);
+
+        setCourseRecyclerView(view);
+
         rv_comment_list = (RecyclerView) includeView.findViewById(R.id.rv_detail_commentlist);
 
         comment_scrap.setOnClickListener(new CommentScrapListener());
@@ -143,12 +145,8 @@ public class DetailFragment extends Fragment {
         btn_like.setOnClickListener(new LikeClickListener());
     }
 
-    public void addScrapCount(int count) {
-        int scrapCount = Integer.parseInt(comment_scrap.getText().toString()) + count;
-        comment_scrap.setText(String.valueOf(scrapCount));
-    }
-
-    private void setCourseRecyclerView() {
+    private void setCourseRecyclerView(View view) {
+        course_recyclerView = (RecyclerView) view.findViewById(R.id.iv_detail_content_courses);
         course_adapter = new DetailCourseAdapter(new ArrayList<Course>());
         course_recyclerView.setAdapter(course_adapter);
 
@@ -157,6 +155,12 @@ public class DetailFragment extends Fragment {
         course_recyclerView.setLayoutManager(manager);
 
         course_recyclerView.setHasFixedSize(true);
+
+    }
+
+    public void addScrapCount(int count) {
+        int scrapCount = Integer.parseInt(comment_scrap.getText().toString()) + count;
+        comment_scrap.setText(String.valueOf(scrapCount));
     }
 
     private void setData(DetailPageData data) {

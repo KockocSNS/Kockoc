@@ -24,8 +24,8 @@ import java.util.List;
 public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWriteRecyclerViewHolder> {
     private List<Course> items;
     private Activity activity;
+    private View.OnClickListener itemClickListener;
 
-    // TODO: 2016-07-04 하나씩 등록시에 마지막 아이템 보이도록 하기 icon 바꾸기
     public CourseWriteRecyclerAdapter(List<Course> data, Activity activity) {
         super();
         if (data == null) throw new IllegalArgumentException("DATA MUST NOT BE NULL");
@@ -33,9 +33,15 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
         this.activity = activity;
     }
 
+    public CourseWriteRecyclerAdapter(List<Course> data, Activity activity, View.OnClickListener itemClickListener) {
+        this(data, activity);
+        this.itemClickListener = itemClickListener;
+    }
+
     @Override
     public CourseWriteRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_course_add, parent, false);
+        if (itemClickListener != null) itemView.setOnClickListener(itemClickListener);
         return new CourseWriteRecyclerViewHolder(itemView);
     }
 

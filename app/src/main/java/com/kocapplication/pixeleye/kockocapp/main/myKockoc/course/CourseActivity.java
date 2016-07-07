@@ -10,16 +10,13 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.main.BaseActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseThread;
-import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
 import com.kocapplication.pixeleye.kockocapp.write.continuousWrite.CourseSelectActivity;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseTitleActivity;
@@ -32,22 +29,25 @@ import java.util.List;
  */
 public class CourseActivity extends BaseActivityWithoutNav {
     private final static String TAG = "CourseActivity";
+    public final static int DEFAULT_FLAG = 12422;
+    public final static int CONTINUOUS_FLAG = 125322;
+
     private SwipeRefreshLayout refreshLayout;
     private TextView courseAdd;
-    private RecyclerView recyclerView ;
+    private RecyclerView recyclerView;
     private CourseRecyclerAdapter adapter;
     private View containView;
-    private String flag;
+    private int flag;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getflag();
+        getFlagFromBeforeActivity();
 
         init();
 
-        if(flag.equals("이어쓰기"))
+        if (flag == CONTINUOUS_FLAG)
             actionBarTitleSet("코스 선택", Color.WHITE);
         else
             actionBarTitleSet("코스", Color.WHITE);
@@ -61,12 +61,13 @@ public class CourseActivity extends BaseActivityWithoutNav {
         Thread thread = new CourseThread(handler);
         thread.start();
     }
-    private void getflag(){
+
+    private void getFlagFromBeforeActivity() {
         Intent intent = getIntent();
-        flag = intent.getStringExtra("flag");
+        flag = intent.getIntExtra("flag", DEFAULT_FLAG);
     }
 
-    protected void getComponent(){
+    protected void getComponent() {
         courseAdd = (TextView) containView.findViewById(R.id.course_add);
         courseAdd.setOnClickListener(new ButtonListener());
 
@@ -96,15 +97,18 @@ public class CourseActivity extends BaseActivityWithoutNav {
     protected class ItemClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            if(flag.equals("이어쓰기")){
+            if (flag == CONTINUOUS_FLAG) {
                 int position = recyclerView.getChildLayoutPosition(v);
-                List<Courses> coursesArr = (List<Courses>) adapter.getItems();
-                Courses courses = (Courses) coursesArr.get(position);
+                Courses courses = adapter.getItems().get(position);
 
-                Intent intent = new Intent(CourseActivity.this,CourseSelectActivity.class);
-                intent.putExtra("courses",courses);
+                Intent intent = new Intent(CourseActivity.this, CourseSelectActivity.class);
+                intent.putExtra("courses", courses);
                 startActivity(intent);
                 finish();
+            }
+
+            else if (flag == DEFAULT_FLAG) {
+
             }
         }
     }

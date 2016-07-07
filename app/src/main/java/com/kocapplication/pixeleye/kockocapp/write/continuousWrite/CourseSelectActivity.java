@@ -4,25 +4,27 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
+import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
+import com.kocapplication.pixeleye.kockocapp.write.course.CourseWriteRecyclerAdapter;
+import com.kocapplication.pixeleye.kockocapp.write.newWrite.NewWriteActivity;
 
 /**
  * Created by hp on 2016-07-05.
  */
 public class CourseSelectActivity extends BaseActivityWithoutNav {
-    private final static String TAG ="CourseSelectActivity";
+    private final static String TAG = "CourseSelectActivity";
 
     View containView;
     private RecyclerView recyclerView;
-    private CourseSelectRecyclerAdapter adapter;
+    private CourseWriteRecyclerAdapter adapter;
     private Courses courses;
 
     @Override
@@ -38,12 +40,12 @@ public class CourseSelectActivity extends BaseActivityWithoutNav {
 
     }
 
-    private void getComponent(){
+    private void getComponent() {
         //코스 데이터 받아옴
-        courses = (Courses)getIntent().getSerializableExtra("courses");
+        courses = (Courses) getIntent().getSerializableExtra("courses");
 
-        recyclerView = (RecyclerView)containView.findViewById(R.id.recycler_layout_course_select);
-        adapter = new CourseSelectRecyclerAdapter(courses.getCourses());
+        recyclerView = (RecyclerView) containView.findViewById(R.id.recycler_layout_course_select);
+        adapter = new CourseWriteRecyclerAdapter(courses.getCourses(), this, new ItemClickListener());
         recyclerView.setAdapter(adapter);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -54,6 +56,18 @@ public class CourseSelectActivity extends BaseActivityWithoutNav {
         recyclerView.setHasFixedSize(true);
     }
 
+    private class ItemClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            int position = recyclerView.getChildLayoutPosition(v);
 
+            Intent intent = new Intent(CourseSelectActivity.this, NewWriteActivity.class);
+            intent.putExtra("FLAG", NewWriteActivity.CONTINUOUS_FLAG);
+            intent.putExtra("COURSE_NO", courses.getCourseNo());
+            intent.putExtra("COURSE_PO", (position + 1));
+            startActivity(intent);
+            finish();
+        }
+    }
 
 }

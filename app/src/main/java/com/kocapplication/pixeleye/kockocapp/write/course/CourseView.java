@@ -23,8 +23,6 @@ public class CourseView extends SurfaceView implements SurfaceHolder.Callback {
 
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
-
-
     }
 
 
