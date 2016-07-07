@@ -46,7 +46,7 @@
                 android:textSize="12dp"
                 android:layout_weight="0.75"/>
 
-            <Button
+            <ToggleButton
                 android:id="@+id/btn_detail_interest"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
@@ -56,7 +56,8 @@
                 android:drawablePadding="3dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:text="관심글 등록"
+                android:textOff=""
+                android:textOn=""
                 android:textSize="12dp"
                 android:layout_weight="0.75"/>
 

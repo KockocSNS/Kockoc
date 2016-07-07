@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,10 +16,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
@@ -34,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by hp on 2016-06-21.
@@ -132,10 +136,16 @@ public class DetailFragment extends Fragment {
         rv_comment_list = (RecyclerView) includeView.findViewById(R.id.rv_detail_commentlist);
 
         comment_scrap.setOnClickListener(new CommentScrapListener());
+        comment_link.setOnClickListener(new CommentLinkListener());
 
         ll_profile.setOnClickListener(new ProfileClickListener());
 
         btn_like.setOnClickListener(new LikeClickListener());
+    }
+
+    public void addScrapCount(int count) {
+        int scrapCount = Integer.parseInt(comment_scrap.getText().toString()) + count;
+        comment_scrap.setText(String.valueOf(scrapCount));
     }
 
     private void setCourseRecyclerView() {
@@ -315,6 +325,13 @@ public class DetailFragment extends Fragment {
             } catch (Exception e) {
                 Log.e(TAG, "댓글 삭제 오류" + e.getMessage());
             }
+        }
+    }
+
+    private class CommentLinkListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(v.getContext(),"공유하기",Toast.LENGTH_LONG).show();
         }
     }
 }

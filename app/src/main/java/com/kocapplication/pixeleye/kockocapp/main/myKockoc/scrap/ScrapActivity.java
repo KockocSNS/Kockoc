@@ -11,6 +11,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
@@ -76,6 +77,11 @@ public class ScrapActivity extends BaseActivityWithoutNav {
 
             intent.putExtra("board_userNo",boardWithImage.getBasicAttributes().getUserNo());
             startActivity(intent);
+
+            Handler handler = new ScrapDataReceiveHandler();
+            Thread thread = new ScrapThread(handler);
+            refreshLayout.setRefreshing(true);
+            thread.start();
 
         }
     }

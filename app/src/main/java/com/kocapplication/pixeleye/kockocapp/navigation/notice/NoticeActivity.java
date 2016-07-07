@@ -1,5 +1,6 @@
 package com.kocapplication.pixeleye.kockocapp.navigation.notice;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.model.Neighbor;
 import com.kocapplication.pixeleye.kockocapp.model.NoticeItem;
@@ -51,7 +53,12 @@ public class NoticeActivity extends BaseActivityWithoutNav {
     private class NoticeClickListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
+            int position = noticeRecyclerView.getChildLayoutPosition(v);
+            int boardNo = noticeRecyclerAdapter.getNotices().get(position).getBoardNo();
 
+            Intent detail_intent = new Intent(NoticeActivity.this, DetailActivity.class);
+            detail_intent.putExtra("boardNo",boardNo);
+            startActivity(detail_intent);
         }
     }
 }
