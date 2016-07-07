@@ -3,14 +3,21 @@ package com.kocapplication.pixeleye.kockocapp.intro;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Base64;
+import android.util.Log;
 
 import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+
+import java.security.MessageDigest;
 
 /**
  * Created by pixeleye02 on 2016-06-27.
@@ -20,6 +27,7 @@ public class IntroActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
+
     }
     private void autologin(){
         SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);

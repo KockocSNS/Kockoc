@@ -1,5 +1,6 @@
 package com.kocapplication.pixeleye.kockocapp.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -12,17 +13,21 @@ import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseFragment;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.MyKocKocFragment;
 import com.kocapplication.pixeleye.kockocapp.main.recommend.RecommendFragment;
+import com.kocapplication.pixeleye.kockocapp.main.story.StoryFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
     private final String TAG = "MainActivity";
+
+    public static final int DETAIL_ACTIVITY_REQUEST_CODE = 1222;
+    public static final int COURSE_WRITE_ACTIVITY_REQUEST_CODE = 575;
+    public static final int NEW_WRITE_REQUEST_CODE = 12433;
+
     private final int PROFILE_SET = 1;
 
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private ViewPageAdapter adapter;
+    ViewPageAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +54,8 @@ public class MainActivity extends BaseActivity {
         titles.add("코스");
         titles.add("내콕콕");
 
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         adapter = new ViewPageAdapter(getSupportFragmentManager(), fragments, titles);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -99,6 +104,23 @@ public class MainActivity extends BaseActivity {
      * set_navProfile
      * myKocKocFragment의 핸들러에서 데이터를 받아 BaseActivity에 set
      */
-    public void set_navProfileImg(){super.set_navProfileImg();} // 프사 변경 할때
-    public void set_navProfileName(String name){super.set_navProfileName(name);}
+    public void set_navProfileImg() {
+        super.set_navProfileImg();
+    } // 프사 변경 할때
+
+    public void set_navProfileName(String name) {
+        super.set_navProfileName(name);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == DETAIL_ACTIVITY_REQUEST_CODE || requestCode == NEW_WRITE_REQUEST_CODE)
+            ((StoryFragment) adapter.getItem(0)).refresh();
+
+        else if (requestCode == COURSE_WRITE_ACTIVITY_REQUEST_CODE)
+            ((CourseFragment) adapter.getItem(2)).refresh();
+
+    }
 }

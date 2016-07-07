@@ -19,7 +19,6 @@ public class advice_page_2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View relativeLayout = inflater.inflate(R.layout.activity_adapter_advice2,container,false);
 
-
         return relativeLayout;
     }
 

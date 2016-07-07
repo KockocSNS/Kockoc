@@ -57,6 +57,7 @@ public class JspConn {
         Log.d(TAG,"loadDetailPage result :"+result);
         return result;
     }
+
     //댓글 쓰기
     static public String WriteComment(String comment, int boardNo, int userNo) {
         passiveMethod();
@@ -85,6 +86,7 @@ public class JspConn {
         }
         return result;
     }
+
     //gcm 메시지 보내기
     static public String pushGcm(String msg, int userNo) {
         String result = "";
@@ -111,6 +113,7 @@ public class JspConn {
         Log.d(TAG, "pushGCM result :" + result);
         return result;
     }
+
     //댓글 삭제
     static public String DeleteComment(int commentNo) {
         passiveMethod();
@@ -136,6 +139,7 @@ public class JspConn {
         }
         return result;
     }
+
     //보드넘버를 받아 좋아요 카운트
     static public String checkExpression(int boardNo){
         String result="";
@@ -161,6 +165,7 @@ public class JspConn {
         }
         return result;
     }
+
     //좋아요
     static public String writeExpression(int boardNo, int Status) {
         passiveMethod();
@@ -188,6 +193,7 @@ public class JspConn {
         }
         return result;
     }
+
     //관심글 추가
     static public String addScrap(int boardNo) {
 
@@ -300,8 +306,10 @@ public class JspConn {
             while((line = bufferedReader.readLine())!=null){
                 result+=line;
             }
+        } catch (Exception e) {
+            Log.e(TAG, "UploadCourse error :" + e.getMessage());
         }
-        catch (Exception e) {Log.e(TAG,"UploadCourse error :"+e.getMessage());}
+
         Log.d(TAG, "UploadCourse result :" + result);
     }
 
@@ -338,6 +346,7 @@ public class JspConn {
         Log.d("Debug", "boardDelete complete");
         return result;
     }
+
     //팔로우 목록
     static public String getFollowInfo(int userNo) {
         String result = "";
@@ -363,6 +372,7 @@ public class JspConn {
         Log.e(TAG,""+result);
         return result;
     }
+
     //나를 팔로우한 사람 목록
     static public String getFollowerInfo(int userNo) {
         String result = "";
@@ -421,6 +431,7 @@ public class JspConn {
         if (resultStr.equals(" no duplication")) return true;
         else return false;
     }
+
     //별명 중복 체크 ( 한글 안되는거같음)
     static public boolean checkDuplNickname(String nickname) {
         String resultStr = "";
@@ -448,6 +459,7 @@ public class JspConn {
         if (resultStr.equals(" no duplication")) {return true;}
         else {return false;}
     }
+
     //회원 가입
     static public boolean recordMember(User user) {
         String resultStr = "";
@@ -487,6 +499,7 @@ public class JspConn {
         }
         return false;
     }
+
     //로그인 시 비밀번호 대조
     static public int checkPwd(String id, String pwd) {
         String resultStr = "";
@@ -520,6 +533,7 @@ public class JspConn {
         } catch (Exception e) {}
         return 0;
     }
+
     //ID로 유저넘버 반환
     static public int getUserNo(String emailID) { // 이메일 아이디를 받아 유저넘버 반환
         String result = "";
@@ -546,6 +560,7 @@ public class JspConn {
         result = result.trim();
         return Integer.parseInt(result);
     }
+
     //카카오 로그인값이 있는지 체크
     static public int kakaoCheck(String kakaoID, String kakaoNickname) {
         String resultStr = "";
@@ -616,6 +631,7 @@ public class JspConn {
         Log.e(TAG,result);
         return result;
     }
+
     //닉네임 변경
     static public String changeNickname(String nickname) {
         String result = "";
@@ -675,6 +691,7 @@ public class JspConn {
         }
         return result;
     }
+
     //팔로우가 존재하면 exist, 존재하지 않는다면 not_exist 반환
     static public String checkFollow(int follower) {
         String result = "";
@@ -703,7 +720,7 @@ public class JspConn {
     static public String notice(int userNo) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead()+"Board/Comment/Notice.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead()+"Board/Comment/test.jsp";
         HttpPost post = new HttpPost(postURL);
 
         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -753,7 +770,71 @@ public class JspConn {
         return result;
     }
 
+    // 코스 삭제
+    static public String DeleteCourse(int userNo, int courseNo, String title) {
+        passiveMethod();
+        HttpClient client = new DefaultHttpClient();
+        String postURL = BasicValue.getInstance().getUrlHead() + "/Course/DeleteCourse.jsp";
+        HttpPost post = new HttpPost(postURL);
 
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("courseNo", "" + courseNo));
+        params.add(new BasicNameValuePair("userNo", "" + userNo));
+        params.add(new BasicNameValuePair("title", title));
+        String result = "";
+
+        try {
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    //코스 수정
+    static public void editCourse(int courseNo, String title, List<Course> courses) {
+        String result = "";
+        try {
+            passiveMethod();
+
+            HttpClient client = new DefaultHttpClient();
+            String postURL = "http://221.160.54.160:8080/Course/editCourse.jsp";
+            HttpPost post = new HttpPost(postURL);
+
+            List<NameValuePair> params = new ArrayList<>();
+
+            Log.i("JSPCONN", BasicValue.getInstance().getUserNo() + " / " + courses.size() + " / " + courseNo);
+
+            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
+            params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(courses.size())));
+            params.add(new BasicNameValuePair("courseNo", "" + courseNo));
+            int i = 1;
+            for (Course course : courses)
+                params.add(new BasicNameValuePair("course" + i++, course.getTitle() + "/" + course.getDateTime().getTime()));
+
+            params.add(new BasicNameValuePair("title", title));
+
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.e("JSP_UPDATE_COURSE", result);
+    }
 
     static public void passiveMethod() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
