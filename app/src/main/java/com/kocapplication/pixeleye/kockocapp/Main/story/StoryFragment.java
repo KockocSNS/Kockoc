@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
+import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity;
 import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
@@ -55,8 +56,6 @@ public class StoryFragment extends Fragment {
     private TextView continuousAdd; //이어쓰기
 
     private ArrayList<BoardWithImage> initialData;
-
-    public static final int NEW_WRITE_REQUEST_CODE = 12433;
 
     @Nullable
     @Override
@@ -107,7 +106,8 @@ public class StoryFragment extends Fragment {
 
         refreshLayout.setOnRefreshListener(new RefreshListener());
 
-        if (initialData == null) adapter = new BoardRecyclerAdapter(new ArrayList<BoardWithImage>(), new ItemClickListener());
+        if (initialData == null)
+            adapter = new BoardRecyclerAdapter(new ArrayList<BoardWithImage>(), new ItemClickListener());
         else adapter = new BoardRecyclerAdapter(initialData, new ItemClickListener());
 
         recyclerView.setAdapter(adapter);
@@ -120,6 +120,11 @@ public class StoryFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
 
         recyclerView.setOnScrollListener(new BottomRefreshListener());
+    }
+
+    public void refresh() {
+        refreshLayout.setRefreshing(true);
+        new StoryThread(new StoryDataReceiveHandler()).start();
     }
 
     private void buttonListenerSet() {
@@ -147,7 +152,7 @@ public class StoryFragment extends Fragment {
     private class RefreshListener implements SwipeRefreshLayout.OnRefreshListener {
         @Override
         public void onRefresh() {
-            new StoryThread(new StoryDataReceiveHandler()).start();
+            refresh();
         }
     }
 
@@ -165,7 +170,7 @@ public class StoryFragment extends Fragment {
                 intent.putExtra("boardNo", boardWithImage.getBasicAttributes().getBoardNo());
                 intent.putExtra("courseNo", boardWithImage.getBasicAttributes().getCourseNo());
                 intent.putExtra("board_userNo", boardWithImage.getBasicAttributes().getUserNo());
-                startActivity(intent);
+                getActivity().startActivityForResult(intent, MainActivity.DETAIL_ACTIVITY_REQUEST_CODE);
             } else {
                 buttonLayoutDownAnimation();
             }
@@ -198,13 +203,13 @@ public class StoryFragment extends Fragment {
             } else if (v.equals(boardAdd)) {
                 Intent intent = new Intent(getActivity(), NewWriteActivity.class);
                 writeButton.callOnClick();
-                startActivityForResult(intent, NEW_WRITE_REQUEST_CODE);
+                getActivity().startActivityForResult(intent, MainActivity.NEW_WRITE_REQUEST_CODE);
             } else if (v.equals(courseAdd)) {
                 Intent intent = new Intent(getActivity(), CourseTitleActivity.class);
                 startActivity(intent);
             } else if (v.equals(continuousAdd)) {
                 Intent intent = new Intent(getActivity(), CourseActivity.class);
-                intent.putExtra("flag",CourseActivity.CONTINUOUS_FLAG);
+                intent.putExtra("flag", CourseActivity.CONTINUOUS_FLAG);
                 writeButton.callOnClick();
                 startActivity(intent);
             }

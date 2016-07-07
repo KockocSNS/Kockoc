@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,9 +20,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity;
+import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
+import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseTitleActivity;
+import com.kocapplication.pixeleye.kockocapp.write.course.CourseWriteActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +34,7 @@ import java.util.List;
  */
 public class CourseFragment extends Fragment {
     private TextView courseAdd;
+    private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
     private CourseRecyclerAdapter adapter;
 
@@ -52,9 +57,13 @@ public class CourseFragment extends Fragment {
         courseAdd.setOnClickListener(new ButtonListener());
 
         View container = view.findViewById(R.id.recycler_layout);
+        refreshLayout = (SwipeRefreshLayout) container.findViewById(R.id.refresh_layout);
         recyclerView = (RecyclerView) container.findViewById(R.id.recycler_view);
 
-        adapter = new CourseRecyclerAdapter(new ArrayList<Courses>(), new ItemClickListener());
+        refreshLayout.setOnRefreshListener(new RefreshListener());
+
+        ItemClickListener listener = new ItemClickListener();
+        adapter = new CourseRecyclerAdapter(new ArrayList<Courses>(), listener, listener);
         recyclerView.setAdapter(adapter);
 
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
@@ -63,6 +72,20 @@ public class CourseFragment extends Fragment {
         recyclerView.setLayoutManager(manager);
 
         recyclerView.setHasFixedSize(true);
+    }
+
+    public void refresh() {
+        refreshLayout.setRefreshing(true);
+        Handler handler = new CourseHandler();
+        Thread thread = new CourseThread(handler);
+        thread.start();
+    }
+
+    private class RefreshListener implements SwipeRefreshLayout.OnRefreshListener {
+        @Override
+        public void onRefresh() {
+            refresh();
+        }
     }
 
     private class ButtonListener implements View.OnClickListener {
@@ -76,16 +99,23 @@ public class CourseFragment extends Fragment {
     private class ItemClickListener implements View.OnClickListener, View.OnLongClickListener {
         @Override
         public void onClick(View v) {
+            int position = recyclerView.getChildAdapterPosition(v);
 
+            Intent intent = new Intent(getActivity(), CourseWriteActivity.class);
+            intent.putExtra("FLAG", CourseWriteActivity.ADJUST_FLAG);
+            intent.putExtra("COURSES", adapter.getItems().get(position));
+            getActivity().startActivityForResult(intent, MainActivity.COURSE_WRITE_ACTIVITY_REQUEST_CODE);
         }
 
         @Override
         public boolean onLongClick(View v) {
+            int position = recyclerView.getChildAdapterPosition(v);
+
             AlertDialog dialog = new AlertDialog.Builder(getActivity())
                     .setTitle("코스 삭제")
                     .setMessage("코스를 삭제하시겠습니까")
-                    .setPositiveButton("예", new DialogClickListener())
-                    .setNegativeButton("아니오", new DialogClickListener())
+                    .setPositiveButton("예", new DialogClickListener(position))
+                    .setNegativeButton("아니오", new DialogClickListener(position))
                     .create();
             dialog.show();
 
@@ -94,10 +124,37 @@ public class CourseFragment extends Fragment {
     }
 
     private class DialogClickListener implements DialogInterface.OnClickListener {
+        int position;
+        public DialogClickListener(int position) {
+            super();
+            this.position = position;
+        }
+
         @Override
         public void onClick(DialogInterface dialog, int which) {
             if (which == Dialog.BUTTON_POSITIVE) {
-                new CourseDeleteThread().start();
+                Courses course = adapter.getItems().get(position);
+                Handler handler = new CourseDeleteHandler(position);
+                new CourseDeleteThread(handler, BasicValue.getInstance().getUserNo(), course.getCourseNo(), course.getTitle()).start();
+            }
+        }
+    }
+
+    private class CourseDeleteHandler extends Handler {
+        int position;
+        public CourseDeleteHandler(int position) {
+            super();
+            this.position = position;
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            if (msg.what == 1) {
+                adapter.getItems().remove(position);
+                adapter.notifyDataSetChanged();
+                Snackbar.make(recyclerView, "코스가 삭제되었습니다", Snackbar.LENGTH_SHORT).show();
             }
         }
     }
@@ -111,6 +168,8 @@ public class CourseFragment extends Fragment {
 
             adapter.setItems(courses);
             adapter.notifyDataSetChanged();
+
+            refreshLayout.setRefreshing(false);
         }
     }
 }

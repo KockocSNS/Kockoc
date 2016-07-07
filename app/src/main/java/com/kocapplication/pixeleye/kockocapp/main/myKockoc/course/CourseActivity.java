@@ -75,7 +75,8 @@ public class CourseActivity extends BaseActivityWithoutNav {
         refreshLayout = (SwipeRefreshLayout) recyclerContainer.findViewById(R.id.refresh_layout);
         recyclerView = (RecyclerView) recyclerContainer.findViewById(R.id.recycler_view);
 
-        adapter = new CourseRecyclerAdapter(new ArrayList<Courses>(), new ItemClickListener());
+        ItemClickListener listener = new ItemClickListener();
+        adapter = new CourseRecyclerAdapter(new ArrayList<Courses>(), listener, listener);
         recyclerView.setAdapter(adapter);
 
         GridLayoutManager manager = new GridLayoutManager(CourseActivity.this, 2);
@@ -94,7 +95,7 @@ public class CourseActivity extends BaseActivityWithoutNav {
         }
     }
 
-    protected class ItemClickListener implements View.OnClickListener {
+    protected class ItemClickListener implements View.OnClickListener, View.OnLongClickListener{
         @Override
         public void onClick(View v) {
             if (flag == CONTINUOUS_FLAG) {
@@ -102,6 +103,7 @@ public class CourseActivity extends BaseActivityWithoutNav {
                 Courses courses = adapter.getItems().get(position);
 
                 Intent intent = new Intent(CourseActivity.this, CourseSelectActivity.class);
+                intent.putExtra("FLAG", CourseSelectActivity.CONTINUOUS_FLAG);
                 intent.putExtra("courses", courses);
                 startActivity(intent);
                 finish();
@@ -110,6 +112,11 @@ public class CourseActivity extends BaseActivityWithoutNav {
             else if (flag == DEFAULT_FLAG) {
 
             }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            return false;
         }
     }
 
