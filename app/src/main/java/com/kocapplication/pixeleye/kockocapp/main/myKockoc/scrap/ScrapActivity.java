@@ -25,6 +25,7 @@ import java.util.ArrayList;
  * Created by pixeleye02 on 2016-06-27.
  */
 public class ScrapActivity extends BaseActivityWithoutNav {
+    private static final int SCRAP_REQUEST_CODE = 12433;
 
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
@@ -76,7 +77,7 @@ public class ScrapActivity extends BaseActivityWithoutNav {
             intent.putExtra("courseNo", boardWithImage.getBasicAttributes().getCourseNo());
 
             intent.putExtra("board_userNo",boardWithImage.getBasicAttributes().getUserNo());
-            startActivity(intent);
+            startActivityForResult(intent, SCRAP_REQUEST_CODE);
 
             Handler handler = new ScrapDataReceiveHandler();
             Thread thread = new ScrapThread(handler);
@@ -97,6 +98,20 @@ public class ScrapActivity extends BaseActivityWithoutNav {
             adapter.setItems(boardWithImages);
             adapter.notifyDataSetChanged();
             refreshLayout.setRefreshing(false);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode){
+            case SCRAP_REQUEST_CODE:
+                Handler handler = new ScrapDataReceiveHandler();
+                Thread thread = new ScrapThread(handler);
+                refreshLayout.setRefreshing(true);
+                thread.start();
+                break;
         }
     }
 }

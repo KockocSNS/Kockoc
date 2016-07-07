@@ -149,7 +149,6 @@ public class JsonParser {
             e.getMessage();
         }
 
-        Log.e(TAG,NoticeItemList.toString());
         return NoticeItemList;
     }
 

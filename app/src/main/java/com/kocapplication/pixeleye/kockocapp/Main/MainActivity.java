@@ -7,7 +7,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseFragment;
@@ -36,6 +39,14 @@ public class MainActivity extends BaseActivity {
 
         init();
         actionBarTitleSet();
+
+        ImageView logo = (ImageView) findViewById(R.id.actionbar_image_title);
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e(TAG,"AAA");
+            }
+        });
     }
 
     @Override
@@ -116,11 +127,20 @@ public class MainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == DETAIL_ACTIVITY_REQUEST_CODE || requestCode == NEW_WRITE_REQUEST_CODE)
-            ((StoryFragment) adapter.getItem(0)).refresh();
+        switch (requestCode){
+            case DETAIL_ACTIVITY_REQUEST_CODE:
+                ((StoryFragment) adapter.getItem(0)).refresh();
+                break;
+            case NEW_WRITE_REQUEST_CODE:
+                ((StoryFragment) adapter.getItem(0)).refresh();
+                break;
+            case COURSE_WRITE_ACTIVITY_REQUEST_CODE:
+                ((CourseFragment) adapter.getItem(2)).refresh();
+                break;
+            default:
+                break;
+        }
 
-        else if (requestCode == COURSE_WRITE_ACTIVITY_REQUEST_CODE)
-            ((CourseFragment) adapter.getItem(2)).refresh();
 
     }
 }

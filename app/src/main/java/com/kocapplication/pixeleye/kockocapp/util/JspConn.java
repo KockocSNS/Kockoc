@@ -628,7 +628,6 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.e(TAG,result);
         return result;
     }
 
@@ -658,7 +657,6 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.e(TAG,result);
         return result;
     }
 
@@ -740,7 +738,6 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.e(TAG,result);
         return result;
     }
 
@@ -766,7 +763,6 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d(TAG, "result :" + result);
         return result;
     }
 
@@ -833,7 +829,6 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.e("JSP_UPDATE_COURSE", result);
     }
 
     static public void passiveMethod() {

@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,10 @@ public class MyKocKocFragment extends Fragment {
     private final String TAG = "MyKocKocFragment";
     private final int PROFILE_IMG_SET = 1001;
     private final int NICKNAME_UPDATE = 1002;
+    private final int SCRAP_REQUEST_CODE = 1003;
+    private final int NEIGHBOR_REQUEST_CODE = 1004;
+    private final int COURSE_REQUEST_CODE = 1005;
+
     private RecyclerView recyclerView;
     private BoardRecyclerAdapter adapter;
 
@@ -117,24 +122,22 @@ public class MyKocKocFragment extends Fragment {
         neighborButton.setOnClickListener(count_listener);
         courseButton.setOnClickListener(count_listener);
         nickName.setOnClickListener(new NicknameClickListener());
-
-        View.OnClickListener profile_listener = new ProfileImgClickListener();
-        profileImage.setOnClickListener(profile_listener);
+        profileImage.setOnClickListener(new ProfileImgClickListener());
     }
 
     private class CountClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             if (v.equals(scrapButton)) {
-                Intent scrap_intent = new Intent(getContext(), ScrapActivity.class);
-                startActivity(scrap_intent);
+                Intent scrap_intent = new Intent(getActivity(), ScrapActivity.class);
+                startActivityForResult(scrap_intent, SCRAP_REQUEST_CODE);
             } else if (v.equals(neighborButton)) {
                 Intent neighbor_intent = new Intent(getContext(), NeighborActivity.class);
                 neighbor_intent.putExtra("userNo",BasicValue.getInstance().getUserNo());
-                startActivity(neighbor_intent);
+                startActivityForResult(neighbor_intent, NEIGHBOR_REQUEST_CODE);
             } else if (v.equals(courseButton)) {
                 Intent course_intent = new Intent(getContext(), CourseActivity.class);
-                startActivity(course_intent);
+                startActivityForResult(course_intent, COURSE_REQUEST_CODE);
             }
         }
     }
@@ -176,18 +179,37 @@ public class MyKocKocFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Handler handler;
+        Thread thread;
+
         switch (requestCode){
             case PROFILE_IMG_SET:
                 //ProfileImgReceiveHandler 에서 서버로 프로필 이미지 전송
-                Handler handler = new ProfileImgReceiveHandler();
-                Thread thread = new MyProfileImgThread(handler,data,getActivity());
+                handler = new ProfileImgReceiveHandler();
+                thread = new MyProfileImgThread(handler,data,getActivity());
                 thread.start();
                 break;
             case NICKNAME_UPDATE:
-                Handler userinfo_handler = new GetUserInfoHandler();
-                Thread userinfo_thread = new GetUserInfoThread(userinfo_handler);
-                userinfo_thread.start();
+                handler = new GetUserInfoHandler();
+                thread = new GetUserInfoThread(handler);
+                thread.start();
                 break;
+            case SCRAP_REQUEST_CODE:
+                handler = new GetUserInfoHandler();
+                thread = new GetUserInfoThread(handler);
+                thread.start();
+                break;
+            case NEIGHBOR_REQUEST_CODE:
+                handler = new GetUserInfoHandler();
+                thread = new GetUserInfoThread(handler);
+                thread.start();
+                break;
+            case COURSE_REQUEST_CODE:
+                handler = new GetUserInfoHandler();
+                thread = new GetUserInfoThread(handler);
+                thread.start();
+                break;
+
         }
     }
 
