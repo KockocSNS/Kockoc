@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,6 +27,7 @@ import android.widget.ToggleButton;
 import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.scrapuser.ScrapUserAcitivity;
+import com.kocapplication.pixeleye.kockocapp.detail.share.SharingHelper;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.user.UserActivity;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
@@ -335,7 +337,9 @@ public class DetailFragment extends Fragment {
     private class CommentLinkListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            Toast.makeText(v.getContext(),"공유하기",Toast.LENGTH_LONG).show();
+            SharingHelper helper = new SharingHelper(getActivity(), detailPageData);
+            List<ResolveInfo> data = helper.checkSharableApp();
+            helper.showShareDialog(data);
         }
     }
 }
