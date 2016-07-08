@@ -11,6 +11,7 @@ public class BoardBasicAttr implements Serializable {
     private int courseNo;
     private int coursePosition;
     private int courseCount;
+    private String courseName; // 추가해야함
 
     // 데이터를 받아올 때 사용되는 생성자
     public BoardBasicAttr(int userNo, int boardNo, int courseNo, int coursePosition, int courseCount) {
@@ -45,5 +46,7 @@ public class BoardBasicAttr implements Serializable {
     public int getCourseCount() {
         return courseCount;
     }
+
+
 }
 
