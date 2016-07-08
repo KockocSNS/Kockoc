@@ -209,6 +209,8 @@ public class MyKocKocFragment extends Fragment {
                 thread = new GetUserInfoThread(handler);
                 thread.start();
                 break;
+            default:
+                break;
 
         }
     }
