@@ -126,10 +126,26 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
             List<String> tagList = new ArrayList<>(Arrays.asList(tags));
             String text = boardText.getText().toString();
 
-            if (imagePaths == null || tagList.isEmpty() || text.isEmpty()) {
-                Snackbar.make(boardText, "빈칸이 있습니다. (사진, 태그, 본문)", Snackbar.LENGTH_SHORT).show();
+//            if (imagePaths == null || tagList.isEmpty() || text.isEmpty()) {
+//                Snackbar.make(boardText, "빈칸이 있습니다. (사진, 태그, 본문)", Snackbar.LENGTH_SHORT).show();
+//                return;
+//            }
+            if ( tagList.isEmpty()) {
+                Snackbar.make(boardText, "빈칸이 있습니다. (태그)", Snackbar.LENGTH_SHORT).show();
                 return;
             }
+            if (imagePaths == null) {
+                Snackbar.make(boardText, "빈칸이 있습니다. (사진)", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
+
+            if ( text.isEmpty()) {
+                Snackbar.make(boardText, "빈칸이 있습니다. (본문)", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
+
+
+
 
             BoardBasicAttr attributes = new BoardBasicAttr(BasicValue.getInstance().getUserNo());
 
