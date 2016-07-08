@@ -12,8 +12,11 @@ import java.util.StringTokenizer;
 public class Thumbnail {
     final static String TAG = "Thumnail";
     public static int width1280=1280, width720 = 720;
+    int mainimg;
     public static String createThumbnail(String targetPath,String targetName)
     {
+        Log.e("Thumbnail","targetPath :"+targetPath);
+        Log.e("Thumbnail","targetName :"+targetName);
         String result="";
         int degree =0;
         String makePath=null;
@@ -23,7 +26,6 @@ public class Thumbnail {
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         options.inDither = true;
 
-        Log.e("Thumbnail","targetPath :"+targetPath);
 
         Bitmap bitmap = BitmapFactory.decodeFile(targetPath + targetName,options);
         File f = new File(targetPath,targetName);
@@ -109,4 +111,5 @@ public class Thumbnail {
         File tempDir = new File(String.valueOf(Environment.getExternalStorageDirectory())+"/KocKoc");
         tempDir.mkdirs();
     }
+    public void setMainimg(){mainimg=1;}
 }
