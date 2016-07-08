@@ -29,6 +29,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.4'
     //Json library
     compile group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
+    compile group: 'com.kakao.sdk', name: 'kakaolink', version: project.KAKAO_SDK_VERSION
     //kakao Library
     compile 'com.facebook.android:facebook-android-sdk:4.7.0'
     compile 'org.apmem.tools:layouts:1.10@aar'
