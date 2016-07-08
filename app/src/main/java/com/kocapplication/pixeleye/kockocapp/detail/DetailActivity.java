@@ -1,16 +1,12 @@
 package com.kocapplication.pixeleye.kockocapp.detail;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -80,8 +76,8 @@ public class DetailActivity extends AppCompatActivity {
         menu_btn.setOnClickListener(new MenuListener());
         //작성자와 유저번호가 같으면 코스 복사와 관심글 숨김
         if(board_userNo == BasicValue.getInstance().getUserNo()){
-            courseCopy_btn.setVisibility(View.GONE);
-            scrap_btn.setVisibility(View.GONE);
+            courseCopy_btn.setVisibility(View.INVISIBLE);
+            scrap_btn.setVisibility(View.INVISIBLE);
         } else{
             scrap_btn.setChecked(true);
             scrap_btn.setTextOff("관심글 등록");

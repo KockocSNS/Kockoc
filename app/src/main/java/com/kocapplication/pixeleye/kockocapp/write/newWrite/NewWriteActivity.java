@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
@@ -21,6 +22,7 @@ import com.kocapplication.pixeleye.kockocapp.model.Board;
 import com.kocapplication.pixeleye.kockocapp.model.BoardBasicAttr;
 import com.kocapplication.pixeleye.kockocapp.model.Coordinate;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.FilePopUp;
 import com.kocapplication.pixeleye.kockocapp.write.newWrite.map.MapActivity;
 
 import net.yazeed44.imagepicker.model.ImageEntry;
@@ -38,6 +40,7 @@ import java.util.List;
 public class NewWriteActivity extends BaseActivityWithoutNav {
     private final String TAG = "NEW_WRITE_ACTIVITY";
     public static final int MAP_REQUEST_CODE = 50233;
+    public static final int IMAGE_TRANSMISSION = 1022;
 
     public static final int CONTINUOUS_FLAG = 387;
     public static final int DEFAULT_FLAG = 5326;
@@ -98,6 +101,7 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
         tagConfirm.setOnClickListener(new ButtonListener());
         photoAdd.setOnClickListener(new ButtonListener());
         mapAdd.setOnClickListener(new ButtonListener());
+        coordinate = new Coordinate(0,0);
     }
 
     @Override
@@ -148,12 +152,36 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
 
             Log.i(TAG, newWriteBoard.toString());
 
-            Handler handler = new Handler();
+            // 이미지 삽입
+            if (newWriteBoard.getImagePaths() != null) {
+                for (int i = 0; i < newWriteBoard.getImagePaths().size(); i++) {
 
-            // TODO: 2016-06-29 작성된 내용을 Server에 보내는 기능 만들어야한다.
-            Snackbar.make(confirm, "Server로 보내는 기능 작성", Snackbar.LENGTH_SHORT).show();
-            Thread thread = new NewWriteThread(handler, newWriteBoard);
-            thread.start();
+                    String path = newWriteBoard.getImagePaths().get(i).toString();
+                    int split = newWriteBoard.getImagePaths().get(i).toString().lastIndexOf("/");
+
+                    String name = path.substring(split + 1);
+                    path = path.substring(0, split + 1);
+
+                    newWriteBoard.imageAdd(path, name);
+                    if (i == 0) {
+                        newWriteBoard.setMainImg(name);
+                    }
+                }
+                newWriteBoard.setImageNo(newWriteBoard.getImagePaths().size());
+            } else
+                newWriteBoard.setImageNo(0);
+
+
+            Intent uploadDialog = new Intent(NewWriteActivity.this, FilePopUp.class);
+            uploadDialog.putExtra("board", newWriteBoard);
+
+            startActivityForResult(uploadDialog,IMAGE_TRANSMISSION);
+
+//            Handler handler = new Handler();
+//            // TODO: 2016-06-29 작성된 내용을 Server에 보내는 기능 만들어야한다.
+//            Snackbar.make(confirm, "Server로 보내는 기능 작성", Snackbar.LENGTH_SHORT).show();
+//            Thread thread = new NewWriteThread(handler, newWriteBoard);
+//            thread.start();
         }
 
         private void photoAddClicked() {
@@ -254,6 +282,10 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
                     return false;
                 }
             });
+        }
+        else if (requestCode == IMAGE_TRANSMISSION){
+            Toast.makeText(NewWriteActivity.this, "완료 후 디테일 페이지로 보내야함", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 }
