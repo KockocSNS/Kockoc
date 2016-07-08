@@ -1,25 +1,34 @@
 package com.kocapplication.pixeleye.kockocapp.main.myKockoc.course;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
+import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
+import com.kocapplication.pixeleye.kockocapp.main.course.CourseDeleteThread;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseThread;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
+import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.write.continuousWrite.CourseSelectActivity;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseTitleActivity;
+import com.kocapplication.pixeleye.kockocapp.write.course.CourseWriteActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +40,7 @@ public class CourseActivity extends BaseActivityWithoutNav {
     private final static String TAG = "CourseActivity";
     public final static int DEFAULT_FLAG = 12422;
     public final static int CONTINUOUS_FLAG = 125322;
+    public static final int COURSE_WRITE_ACTIVITY_REQUEST_CODE = 575;
 
     private SwipeRefreshLayout refreshLayout;
     private TextView courseAdd;
@@ -91,7 +101,7 @@ public class CourseActivity extends BaseActivityWithoutNav {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(CourseActivity.this, CourseTitleActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, COURSE_WRITE_ACTIVITY_REQUEST_CODE);
         }
     }
 
@@ -110,13 +120,64 @@ public class CourseActivity extends BaseActivityWithoutNav {
             }
 
             else if (flag == DEFAULT_FLAG) {
+                int position = recyclerView.getChildAdapterPosition(v);
 
+                Intent intent = new Intent(CourseActivity.this, CourseWriteActivity.class);
+                intent.putExtra("FLAG", CourseWriteActivity.ADJUST_FLAG);
+                intent.putExtra("COURSES", adapter.getItems().get(position));
+                startActivityForResult(intent, COURSE_WRITE_ACTIVITY_REQUEST_CODE);
             }
         }
 
         @Override
         public boolean onLongClick(View v) {
-            return false;
+            int position = recyclerView.getChildAdapterPosition(v);
+
+            AlertDialog dialog = new AlertDialog.Builder(CourseActivity.this)
+                    .setTitle("코스 삭제")
+                    .setMessage("코스를 삭제하시겠습니까")
+                    .setPositiveButton("예", new DialogClickListener(position))
+                    .setNegativeButton("아니오", new DialogClickListener(position))
+                    .create();
+            dialog.show();
+
+            return true;
+        }
+    }
+
+    private class DialogClickListener implements DialogInterface.OnClickListener {
+        int position;
+        public DialogClickListener(int position) {
+            super();
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            if (which == Dialog.BUTTON_POSITIVE) {
+                Courses course = adapter.getItems().get(position);
+                Handler handler = new CourseDeleteHandler(position);
+                new CourseDeleteThread(handler, BasicValue.getInstance().getUserNo(), course.getCourseNo(), course.getTitle()).start();
+            }
+        }
+    }
+
+    private class CourseDeleteHandler extends Handler {
+        int position;
+        public CourseDeleteHandler(int position) {
+            super();
+            this.position = position;
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            if (msg.what == 1) {
+                adapter.getItems().remove(position);
+                adapter.notifyDataSetChanged();
+                Snackbar.make(recyclerView, "코스가 삭제되었습니다", Snackbar.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -132,4 +193,14 @@ public class CourseActivity extends BaseActivityWithoutNav {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == COURSE_WRITE_ACTIVITY_REQUEST_CODE){
+            Handler handler = new CourseHandler();
+            Thread thread = new CourseThread(handler);
+            thread.start();
+        }
+    }
 }

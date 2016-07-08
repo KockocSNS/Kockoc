@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.kocapplication.pixeleye.kockocapp.R;
@@ -18,6 +19,8 @@ import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 import java.util.ArrayList;
 
 public class NeighborActivity extends BaseActivityWithoutNav {
+    public static final int USER_FOLLOW_REQUEST_CODE = 12345;
+
     RecyclerView followingRecyclerView;
     RecyclerView followerRecyclerView;
 
@@ -82,7 +85,7 @@ public class NeighborActivity extends BaseActivityWithoutNav {
 
             Intent intent = new Intent(NeighborActivity.this, UserActivity.class);
             intent.putExtra("userNo",follow);
-            startActivity(intent);
+            startActivityForResult(intent, USER_FOLLOW_REQUEST_CODE);
         }
     }
     private class FollowerClickListener implements View.OnClickListener{
@@ -93,7 +96,18 @@ public class NeighborActivity extends BaseActivityWithoutNav {
 
             Intent intent = new Intent(NeighborActivity.this, UserActivity.class);
             intent.putExtra("userNo",follow);
-            startActivity(intent);
+            startActivityForResult(intent, USER_FOLLOW_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == USER_FOLLOW_REQUEST_CODE){   //유저정보를 본 뒤 리프레쉬
+            getComponent();
+            getFollow();
+            getFollower();
         }
     }
 }

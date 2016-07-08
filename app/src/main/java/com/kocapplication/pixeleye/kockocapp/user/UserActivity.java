@@ -127,7 +127,6 @@ public class UserActivity extends BaseActivityWithoutNav {
         courseButton.setOnClickListener(count_listener);
 
         followButton.setOnClickListener(new FollowClickListener());
-        profileImage.setOnClickListener(new ProfileClickListener());
     }
 
     private class CountClickListener implements View.OnClickListener {
@@ -148,14 +147,6 @@ public class UserActivity extends BaseActivityWithoutNav {
             }
         }
     }
-
-    private class ProfileClickListener implements View.OnClickListener{
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(UserActivity.this, "사진선택", Toast.LENGTH_SHORT).show();
-        }
-    }
-
 
     //친구 버튼 리스너
     private class FollowClickListener implements View.OnClickListener{

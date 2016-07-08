@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
@@ -41,7 +42,7 @@ public class DetailActivity extends AppCompatActivity {
     private EditText comment_et;
     private Button commentSend_btn;
     private Button courseCopy_btn;
-    private Button scrap_btn;
+    private ToggleButton scrap_btn;
     private ImageButton back_btn;
     private ImageView menu_btn;
     private Spinner course_spinner;
@@ -67,7 +68,7 @@ public class DetailActivity extends AppCompatActivity {
         comment_et = (EditText) findViewById(R.id.edit_comment);
         commentSend_btn = (Button) findViewById(R.id.btn_send_comment);
         courseCopy_btn = (Button)findViewById(R.id.btn_detail_course_copy);
-        scrap_btn = (Button)findViewById(R.id.btn_detail_interest);
+        scrap_btn = (ToggleButton)findViewById(R.id.btn_detail_interest);
         back_btn = (ImageButton)findViewById(R.id.btn_detail_back);
         menu_btn = (ImageView)findViewById(R.id.detail_menu);
         course_spinner = (Spinner) findViewById(R.id.course_spinner);
@@ -81,6 +82,11 @@ public class DetailActivity extends AppCompatActivity {
         if(board_userNo == BasicValue.getInstance().getUserNo()){
             courseCopy_btn.setVisibility(View.GONE);
             scrap_btn.setVisibility(View.GONE);
+        } else{
+            scrap_btn.setChecked(true);
+            scrap_btn.setTextOff("관심글 등록");
+            scrap_btn.setTextOn("관심글 해제");
+            scrap_btn.setText("관심글 등록");
         }
 
         course_spinner.setOnItemSelectedListener(new SpinnerListener());
@@ -151,8 +157,15 @@ public class DetailActivity extends AppCompatActivity {
     private class ScrapListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            JspConn.addScrap(boardNo);
-            Toast.makeText(v.getContext(), "관심글 등록되었습니다.", Toast.LENGTH_SHORT).show();
+            if (scrap_btn.isChecked()) {
+                JspConn.addScrap(boardNo);
+                Toast.makeText(v.getContext(), "관심글 등록되었습니다.", Toast.LENGTH_SHORT).show();
+                detailFragment.addScrapCount(1);
+            } else{
+                JspConn.deleteScrap(boardNo);
+                Toast.makeText(v.getContext(), "관심글 해제되었습니다.", Toast.LENGTH_SHORT).show();
+                detailFragment.addScrapCount(-1);
+            }
         }
     }
     private class BackListener implements View.OnClickListener{
