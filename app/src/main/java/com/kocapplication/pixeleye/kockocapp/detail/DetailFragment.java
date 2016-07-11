@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -375,8 +377,6 @@ public class DetailFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            Log.i(TAG, "TEST" + courseBoardNo);
-
             if (!courseBoardNo.equals("")) {
                 DetailFragment detailFragment = new DetailFragment(Integer.parseInt(courseBoardNo), courseNo, board_userNo);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, detailFragment).commit();
@@ -384,6 +384,7 @@ public class DetailFragment extends Fragment {
                 Toast.makeText(getActivity(), "해당 코스에 글이 없습니다.", Toast.LENGTH_SHORT).show();
         }
     }
+
     private class MapClickListener implements View.OnClickListener{
         DetailPageData data;
         public MapClickListener(DetailPageData data) {this.data = data;}

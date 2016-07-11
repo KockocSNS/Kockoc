@@ -17,6 +17,7 @@ import android.widget.TimePicker;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
+import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
@@ -49,6 +50,8 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
     private Button addButton;
     private Button confirm;
 
+    private String memo;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +63,11 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
 
         declare(containView);
         getDataFromBeforeActivity();
+    }
+
+    public void setMemo(String memo) {
+        Log.i(TAG, memo);
+        this.memo = memo;
     }
 
     private void declare(View containView) {
@@ -79,7 +87,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
         String minute = String.valueOf(calendar.get(Calendar.MINUTE));
 
         String date = year.substring(2) + "/";
-        date += month.length() < 2 ? "0" + month + "/" : month+ "/" ;
+        date += month.length() < 2 ? "0" + month + "/" : month + "/";
         date += day.length() < 2 ? "0" + day : day;
 
         String time = hour.length() < 2 ? "0" + hour + ":" : hour + ":";
@@ -120,9 +128,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
 
             adapter.setItems(courses.getCourses());
             adapter.notifyDataSetChanged();
-        }
-
-        else if (flag == DEFAULT_FLAG) {
+        } else if (flag == DEFAULT_FLAG) {
             courseNo = 0;
             courseTitle = getIntent().getStringExtra("COURSE_TITLE");
             actionBarTitleSet(courseTitle, Color.WHITE);
@@ -190,15 +196,16 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
 
                 Log.i(TAG, courses.getCourseNo() + "");
 
-                if (flag == DEFAULT_FLAG) JspConn.uploadCourse(courseTitle,courses.getCourses()); // 코스 디비 업로드
-                else if (flag == ADJUST_FLAG) JspConn.editCourse(courseNo, courses.getTitle(), courses.getCourses());
+                // TODO: 2016-07-11 메모 넣어야되는데 어떻게 할지 아이디어가 안떠오른다
+                // TODO: 2016-07-11 글 작성을 할때 바로 메모를 넣는 방법!
+                if (flag == DEFAULT_FLAG)
+                    JspConn.uploadCourse(courseTitle, courses.getCourses()); // 코스 디비 업로드
+                else if (flag == ADJUST_FLAG)
+                    JspConn.editCourse(courseNo, courses.getTitle(), courses.getCourses());
 
                 finish();
-            }
-
-            else if (v.equals(memoButton)) {
-                new MemoDialog(CourseWriteActivity.this);
-            }
+            } else if (v.equals(memoButton))
+                new MemoDialog(CourseWriteActivity.this, courseNo);
         }
     }
 
@@ -227,5 +234,4 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
             timeButton.setText(time);
         }
     }
-
 }
