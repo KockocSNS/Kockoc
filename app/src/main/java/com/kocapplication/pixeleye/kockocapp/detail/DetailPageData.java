@@ -1,5 +1,7 @@
 package com.kocapplication.pixeleye.kockocapp.detail;
 
+import com.kocapplication.pixeleye.kockocapp.model.Course;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -23,12 +25,8 @@ public class DetailPageData implements Serializable{
     private double mLongitude;
     private String boardTime;
 
-
-
     private int recommend_No;
     private int scrapNumber;
-
-
 
     public void setBoardNo(int boardNo){this.boardNo = boardNo;}
     public void setBoardTime(String boardTime) {this.boardTime = boardTime;}

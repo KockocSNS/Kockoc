@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Han_ on 2016-06-29.
  */
-public class Board implements Serializable{
+public class Board implements Serializable {
     protected BoardBasicAttr basicAttributes;
     protected ExpressionCount expressionCount;
     protected Coordinate coordinate;
@@ -79,6 +79,8 @@ public class Board implements Serializable{
     }
 
     public String getHashTagByString() {
+        if (hashTags.size() == 0) return "";
+
         String returnValue = "";
         for (String temp : hashTags)
             returnValue += (temp + ", ");
@@ -100,24 +102,39 @@ public class Board implements Serializable{
         return coordinate;
     }
 
-    public List<String> getHashTags() {return hashTags;}
+    public List<String> getHashTags() {
+        return hashTags;
+    }
 
-    public List<String> getImageNames() {return imageNames;}
+    public List<String> getImageNames() {
+        return imageNames;
+    }
 
-    public List<String> getImagePaths() {return imagePaths;}
+    public List<String> getImagePaths() {
+        return imagePaths;
+    }
 
-    public void setMainImg(String mainImg) {this.mainImg = mainImg;}
-    public String getMainImg() {return mainImg;}
+    public void setMainImg(String mainImg) {
+        this.mainImg = mainImg;
+    }
 
-    public void setImageNo(int imageNo) {this.imageNo = imageNo;}
+    public String getMainImg() {
+        return mainImg;
+    }
 
-    public List<String> getImagePathArr() {return imagePathArr;}
+    public void setImageNo(int imageNo) {
+        this.imageNo = imageNo;
+    }
 
-    public boolean imageAdd(String ImagePath, String ImageName){
-        if(checkImage(this.imageNames, this.imagePaths, ImagePath, ImageName)) {
-            Log.d("insert Image","enter record");
+    public List<String> getImagePathArr() {
+        return imagePathArr;
+    }
+
+    public boolean imageAdd(String ImagePath, String ImageName) {
+        if (checkImage(this.imageNames, this.imagePaths, ImagePath, ImageName)) {
+            Log.d("insert Image", "enter record");
             if (imageNum < 10) {
-                Log.d("insert",ImagePath +"  "+ImageName);
+                Log.d("insert", ImagePath + "  " + ImageName);
                 imageNames.add(ImageName);
                 imagePathArr.add(ImagePath);
                 imageNum++;
@@ -126,15 +143,16 @@ public class Board implements Serializable{
                 Log.e("Image", "The imageNum overflow");
                 return false;
             }
-        }else{
-            Log.e("Image","Existed Image");
+        } else {
+            Log.e("Image", "Existed Image");
             return false;
         }
     }
-    public boolean checkImage(List<String> ImagePathArr, List<String> ImageNameArr, String path, String name){
-        boolean result=true;
-        for(int i = 0; i< imageNum; i++){
-            if((ImagePathArr.get(i)+ImageNameArr.get(i)).equals(path+name)){
+
+    public boolean checkImage(List<String> ImagePathArr, List<String> ImageNameArr, String path, String name) {
+        boolean result = true;
+        for (int i = 0; i < imageNum; i++) {
+            if ((ImagePathArr.get(i) + ImageNameArr.get(i)).equals(path + name)) {
                 result = false;
             }
         }
