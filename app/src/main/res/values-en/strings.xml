@@ -131,6 +131,8 @@
     <string name="adapter_advice8">Copy the shared course</string>
     <string name="adapter_advice9">Input the title you want to travel courses</string>
     <string name="adapter_advice10_1">Save the travel course modified</string>
-    <string name="adapter_advice10_2">Finally saved</string> 
-
+    <string name="adapter_advice10_2">Finally saved</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
 </resources>

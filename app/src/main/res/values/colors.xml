@@ -30,5 +30,7 @@
     <color name="title_background">#1c1c1c</color>
     <color name="title_text">#ffff00</color>
 
+    <color name="dot_inactive">#f66c5b</color>
+    <color name="dot_active">#F39D92</color>
 
 </resources>
