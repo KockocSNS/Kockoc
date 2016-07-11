@@ -52,6 +52,8 @@ public class DetailRecyclerAdapter extends RecyclerView.Adapter<DetailRecyclerVi
         return commentArr.size();
     }
 
+
+
     public void removeItem(int position){
         commentArr.remove(position);
         notifyItemRemoved(position);
