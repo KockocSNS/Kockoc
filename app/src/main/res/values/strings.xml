@@ -136,4 +136,7 @@
     <string name="adapter_advice9">가고 싶은 여행 코스 제목입력</string>
     <string name="adapter_advice10_1">코스 수정하여 저장</string>
     <string name="adapter_advice10_2">코스 저장</string>
+    <string name="next">다음페이지</string>
+    <string name="skip">종료</string>
+    <string name="start">알겠어요!</string>
 </resources>
