@@ -126,7 +126,7 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
             List<String> tagList = new ArrayList<>(Arrays.asList(tags));
             String text = boardText.getText().toString();
 
-            if (imagePaths == null || tagList.isEmpty() || text.isEmpty()) {
+            if (imagePaths == null || tagList.isEmpty() || text.isEmpty()) {    //태그가 없어도 글이 들어감
                 Snackbar.make(boardText, "빈칸이 있습니다. (사진, 태그, 본문)", Snackbar.LENGTH_SHORT).show();
                 return;
             }

@@ -22,6 +22,5 @@ public class NewWriteThread extends Thread {
     public void run() {
         super.run();
 
-
     }
 }
