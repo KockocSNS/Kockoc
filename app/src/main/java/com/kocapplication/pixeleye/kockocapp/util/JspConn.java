@@ -276,6 +276,7 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.e(TAG,result);
         return result;
     }
 
@@ -412,7 +413,7 @@ public class JspConn {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
             params.add(new BasicNameValuePair("text", "" + board.getText()));
-            params.add(new BasicNameValuePair("courseName", " "));// 베이직 밸류 애트리뷰트에 추가해야함
+            params.add(new BasicNameValuePair("courseName", board.getBasicAttributes().getCourseName()));// 베이직 밸류 애트리뷰트에 추가해야함
             params.add(new BasicNameValuePair("mainImg", "" + board.getMainImg()));
 
             //send ImageArr
@@ -855,7 +856,7 @@ public class JspConn {
             passiveMethod();
 
             HttpClient client = new DefaultHttpClient();
-            String postURL = "http://221.160.54.160:8080/Course/editCourse.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Course/editCourse.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<>();
@@ -882,6 +883,34 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    static public String getBoardNoForEdit(int courseNo, String courseName) { // 코스넘버와 코스 이름을 받아 보드넘버 반환
+        String result = "";
+        try {
+            passiveMethod();
+            HttpClient client = new DefaultHttpClient();
+            Log.e("jspconn","courseNo :"+courseNo);
+            Log.e("jspconn","courseName :"+courseName);
+
+            String postURL = BasicValue.getInstance().getUrlHead()+"Board/getBoardNoForEdit.jsp";
+            HttpPost post = new HttpPost(postURL);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("courseNo", "" + courseNo));
+            params.add(new BasicNameValuePair("courseName", courseName));
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d("TAG", "getBoardNoForEdit result :" + result);
+        return result;
     }
 
     static public void passiveMethod() {

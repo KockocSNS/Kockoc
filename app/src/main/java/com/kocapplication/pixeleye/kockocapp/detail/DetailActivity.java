@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,7 @@ import android.widget.ToggleButton;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 import java.util.ArrayList;
@@ -42,6 +44,7 @@ public class DetailActivity extends AppCompatActivity {
     private ImageButton back_btn;
     private ImageView menu_btn;
     private Spinner course_spinner;
+    private ArrayList<String> course;
 
     private int boardNo;
     private int courseNo;
@@ -87,10 +90,15 @@ public class DetailActivity extends AppCompatActivity {
 
         course_spinner.setOnItemSelectedListener(new SpinnerListener());
 
+        //스피너 리스트 값 설정
         List<String> list = new ArrayList<String>();
-        list.add("AAA");
-        list.add("BBB");
-        list.add("CCC");
+        list.add("코스선택");
+        course = JsonParser.readCourse(JspConn.readCourseByCourseNo(courseNo));
+        for (int i = 0; i < 10; i++) {
+            if (course.get(i).equals("null"))
+                break;
+            list.add(course.get(i).split("/")[0] + "(" + i + ")");
+        }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(DetailActivity.this, R.layout.spinner_item,list);
         dataAdapter.setDropDownViewResource(R.layout.spinner_item);
 
@@ -177,19 +185,26 @@ public class DetailActivity extends AppCompatActivity {
 
     //스피너 리스너
     private class SpinnerListener implements AdapterView.OnItemSelectedListener{
+        String courseBoardNo = "";
+
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            try {
+                courseBoardNo = JspConn.getBoardNoForEdit(courseNo, course.get(position-1).split("/")[0]);
+                Log.e(TAG,""+courseBoardNo+"/"+course.get(position-1).split("/")[0]);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+
             switch (position){
                 case 0:
                     Toast.makeText(DetailActivity.this,""+position,Toast.LENGTH_LONG).show();
                     break;
-                case 1:
-                    detailFragment = new DetailFragment(125,courseNo,board_userNo);
-                    DetailActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.container,detailFragment).commit();
-                    break;
-                case 2:
-                    detailFragment = new DetailFragment(121,courseNo,board_userNo);
-                    DetailActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.container,detailFragment).commit();
+                default:
+                    if(!courseBoardNo.equals("")) {
+                        detailFragment = new DetailFragment(Integer.parseInt(courseBoardNo), courseNo, board_userNo);
+                        DetailActivity.this.getSupportFragmentManager().beginTransaction().replace(R.id.container, detailFragment).commit();
+                    } else Toast.makeText(DetailActivity.this, "해당 코스에 글이 없습니다.", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
