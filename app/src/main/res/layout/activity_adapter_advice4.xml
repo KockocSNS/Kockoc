@@ -9,18 +9,5 @@
         android:layout_height="match_parent"
         android:background="@drawable/advice_4" />
 
-    <TextView
-        android:id="@+id/page_text5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/adapter_advice4"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:textColor="#FFFF00"
-        android:layout_marginBottom="171dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-
 
 </RelativeLayout>
