@@ -107,9 +107,12 @@ public class UserActivity extends BaseActivityWithoutNav {
         recyclerView.setLayoutManager(manager);
 
         recyclerView.setHasFixedSize(true);
+        //본인이면 팔로우버튼 숨김
+        if(userNo == BasicValue.getInstance().getUserNo())
+            followButton.setVisibility(View.INVISIBLE);
 
-        //팔로우 버튼
-        if(JspConn.checkFollow(userNo).trim().equals("exist")){
+        //팔로우 버튼 초기값 설정
+        if(JspConn.checkFollow(userNo).trim().equals("exist")){ // 체크 팔로우는 DB값을 조사해서 친구 등록이 되어있으면 exist 반환
             followChk = "exist";
             followButton.setChecked(false);
         }else{
