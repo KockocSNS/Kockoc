@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.main.search.SearchActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 
 import java.util.Calendar;
@@ -25,7 +27,7 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
     private List<Course> items;
     private Activity activity;
     private View.OnClickListener itemClickListener;
-    private String flag;
+    private String flag = "CourseWrite";
 
     public CourseWriteRecyclerAdapter(List<Course> data, Activity activity) {
         super();
@@ -59,6 +61,7 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
             holder.getDateButton().setOnClickListener(listener);
             holder.getTimeButton().setOnClickListener(listener);
             holder.getDelete().setOnClickListener(listener);
+            holder.getSearch().setOnClickListener(listener);
         }
 
         if (position == 0) holder.getLineTop().setVisibility(View.GONE);
@@ -122,6 +125,12 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
                 items.remove(position);
                 notifyDataSetChanged();
             }
+            else if (v.equals(holder.getSearch())){
+                Intent searchIntent = new Intent(activity, SearchActivity.class);
+                searchIntent.putExtra("keyword",items.get(position).getTitle());
+                activity.startActivity(searchIntent);
+            }
+
         }
     }
 

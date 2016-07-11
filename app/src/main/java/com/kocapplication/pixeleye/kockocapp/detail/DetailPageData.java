@@ -48,6 +48,7 @@ public class DetailPageData implements Serializable{
     public void setCourseNo(int courseNo) {this.courseNo = courseNo;}
     public void setRecommend_No(int recommend_No) {this.recommend_No = recommend_No;}
 
+
     public int getBoardNo(){return this.boardNo;}
     public String getUserName(){return this.userName;}
     public String getProfileImage(){return this.profileImage;}

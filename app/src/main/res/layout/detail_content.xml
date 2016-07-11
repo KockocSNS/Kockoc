@@ -142,19 +142,34 @@
 
 
                     <!-- mapView -->
-                    <LinearLayout
-                        android:id="@+id/ll_detail_content_maps"
+                    <RelativeLayout
+                        android:id="@+id/rl_detail_content_map_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal"></LinearLayout>
+                        android:layout_marginTop="10dp">
+                        <ImageView
+                            android:id="@+id/detail_map_img"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/map_image"
+                            android:layout_alignParentRight="true"/>
+                        <LinearLayout
+                            android:id="@+id/ll_detail_map"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/detail_map_img"
+                            android:orientation="vertical"
+                            android:visibility="invisible">
+                        </LinearLayout>
+                    </RelativeLayout>
 
                     <org.apmem.tools.layouts.FlowLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:f="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/fl_detail_content_tag"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        f:layout_newLine="true"></org.apmem.tools.layouts.FlowLayout>
+                        f:layout_newLine="true">
+                    </org.apmem.tools.layouts.FlowLayout>
 
                 </LinearLayout>
 
