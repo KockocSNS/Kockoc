@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
@@ -47,7 +48,7 @@ public class CourseSelectActivity extends BaseActivityWithoutNav {
         courses = (Courses) getIntent().getSerializableExtra("courses");
 
         recyclerView = (RecyclerView) containView.findViewById(R.id.recycler_layout_course_select);
-        adapter = new CourseWriteRecyclerAdapter(courses.getCourses(), this, new ContinuousItemClickListener());
+        adapter = new CourseWriteRecyclerAdapter(courses.getCourses(), this, new ContinuousItemClickListener(),"CourseSelect");
         recyclerView.setAdapter(adapter);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -70,6 +71,8 @@ public class CourseSelectActivity extends BaseActivityWithoutNav {
                 intent.putExtra("FLAG", NewWriteActivity.CONTINUOUS_FLAG);
                 intent.putExtra("COURSE_NO", courses.getCourseNo());
                 intent.putExtra("COURSE_PO", (position + 1));
+                intent.putExtra("COURSE_NAME",courses.getCourses().get(position).getTitle());
+                Toast.makeText(CourseSelectActivity.this, ""+courses.getCourses().get(position).getTitle()+"선택", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
                 finish();
             }

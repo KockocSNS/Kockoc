@@ -103,7 +103,8 @@ public class ScrapThread extends Thread {
                             object.get("Course_No").getAsInt(),
                             // TODO: 2016-06-23 coursePo 가 JSP 에서 던져주지 않는다.
                             0,
-                            0
+                            0,
+                            ""
                     );
 
             ExpressionCount expressionCount =
