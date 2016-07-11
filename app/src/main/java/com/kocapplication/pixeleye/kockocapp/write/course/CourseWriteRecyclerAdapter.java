@@ -51,6 +51,9 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
     public void onBindViewHolder(CourseWriteRecyclerViewHolder holder, int position) {
         Course item = items.get(position);
 
+        // TODO: 2016-07-11 일단 코스 하나마다 메모는 달지 않았다.
+        holder.getMemo().setVisibility(View.GONE);
+
         if(flag.equals("CourseSelect")){
             holder.getDelete().setVisibility(View.INVISIBLE);
             holder.getSearch().setVisibility(View.INVISIBLE);

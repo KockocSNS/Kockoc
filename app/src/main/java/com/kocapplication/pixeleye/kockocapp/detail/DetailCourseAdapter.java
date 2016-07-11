@@ -1,5 +1,6 @@
 package com.kocapplication.pixeleye.kockocapp.detail;
 
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,9 +20,11 @@ import java.util.List;
  */
 public class DetailCourseAdapter extends RecyclerView.Adapter<DetailCourseViewHolder> {
     private List<Course> items;
+    private View.OnClickListener listener;
 
-    public DetailCourseAdapter(List<String> data) {
+    public DetailCourseAdapter(List<String> data, View.OnClickListener listener) {
         super();
+        this.listener = listener;
         if (data == null) throw new IllegalArgumentException("DATA MUST NOT BE NULL");
 
         setItems(data);
@@ -30,7 +33,7 @@ public class DetailCourseAdapter extends RecyclerView.Adapter<DetailCourseViewHo
     @Override
     public DetailCourseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_detail_course, parent, false);
-
+        itemView.setOnClickListener(listener);
         return new DetailCourseViewHolder(itemView);
     }
 
@@ -40,9 +43,6 @@ public class DetailCourseAdapter extends RecyclerView.Adapter<DetailCourseViewHo
 
         holder.getCourseName().setText(item.getTitle());
         holder.getCourseTime().setText(item.getTime());
-
-        Log.i("COURSEADAPTER", position + "");
-        Log.i("COURSEADAPTER", (items.size() - 1) + "");
 
         if (position == 0) holder.getLineTop().setVisibility(View.GONE);
         else holder.getLineTop().setVisibility(View.VISIBLE);
@@ -69,5 +69,9 @@ public class DetailCourseAdapter extends RecyclerView.Adapter<DetailCourseViewHo
                 items.add(new Course(split[0], new Date(dateMilSec), i));
             } else break;
         }
+    }
+
+    public List<Course> getItems() {
+        return items;
     }
 }

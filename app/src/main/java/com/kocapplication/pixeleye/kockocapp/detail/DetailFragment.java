@@ -149,7 +149,7 @@ public class DetailFragment extends Fragment {
 
     private void setCourseRecyclerView(View view) {
         course_recyclerView = (RecyclerView) view.findViewById(R.id.iv_detail_content_courses);
-        course_adapter = new DetailCourseAdapter(new ArrayList<String>());
+        course_adapter = new DetailCourseAdapter(new ArrayList<String>(), new CourseClickListener());
         course_recyclerView.setAdapter(course_adapter);
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -342,6 +342,29 @@ public class DetailFragment extends Fragment {
             SharingHelper helper = new SharingHelper(getActivity(), detailPageData);
             List<ResolveInfo> data = helper.checkSharableApp();
             helper.showShareDialog(data);
+        }
+    }
+
+    private class CourseClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            int position = course_recyclerView.getChildAdapterPosition(v);
+            String courseBoardNo = "";
+
+            try {
+                courseBoardNo = JspConn.getBoardNoForEdit(courseNo, course_adapter.getItems().get(position).getTitle());
+                Log.e(TAG, "" + courseBoardNo + "/" + course_adapter.getItems().get(position).getTitle());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            Log.i(TAG, "TEST" + courseBoardNo);
+
+            if (!courseBoardNo.equals("")) {
+                DetailFragment detailFragment = new DetailFragment(Integer.parseInt(courseBoardNo), courseNo, board_userNo);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, detailFragment).commit();
+            } else
+                Toast.makeText(getActivity(), "해당 코스에 글이 없습니다.", Toast.LENGTH_SHORT).show();
         }
     }
 }
