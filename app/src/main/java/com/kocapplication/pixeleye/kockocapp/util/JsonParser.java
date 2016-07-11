@@ -3,6 +3,7 @@ package com.kocapplication.pixeleye.kockocapp.util;
 import android.util.Log;
 
 import com.kocapplication.pixeleye.kockocapp.detail.DetailPageData;
+import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Neighbor;
 import com.kocapplication.pixeleye.kockocapp.model.NoticeItem;
 

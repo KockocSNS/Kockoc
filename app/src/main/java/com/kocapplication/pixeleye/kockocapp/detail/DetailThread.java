@@ -3,6 +3,7 @@ package com.kocapplication.pixeleye.kockocapp.detail;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
@@ -35,6 +36,7 @@ public class DetailThread extends Thread {
 
         if (courseNo != 0) {
             String courseResult = JspConn.readCourseByCourseNo(courseNo);
+            Log.i(TAG, "COURSE : " + courseResult);
             detailPageData.setCourse(JsonParser.readCourse(courseResult));
         } else detailPageData.setCourse(new ArrayList<String>());
 

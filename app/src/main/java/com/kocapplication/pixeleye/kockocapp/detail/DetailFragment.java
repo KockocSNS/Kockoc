@@ -157,7 +157,7 @@ public class DetailFragment extends Fragment {
 
     private void setCourseRecyclerView(View view) {
         course_recyclerView = (RecyclerView) view.findViewById(R.id.iv_detail_content_courses);
-        course_adapter = new DetailCourseAdapter(new ArrayList<Course>());
+        course_adapter = new DetailCourseAdapter(new ArrayList<String>());
         course_recyclerView.setAdapter(course_adapter);
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -165,7 +165,6 @@ public class DetailFragment extends Fragment {
         course_recyclerView.setLayoutManager(manager);
 
         course_recyclerView.setHasFixedSize(true);
-
     }
 
     public void addScrapCount(int count) {
@@ -244,6 +243,9 @@ public class DetailFragment extends Fragment {
             setData(detailPageData);
             setImg(detailPageData);
             setCommentList();
+            course_adapter.setItems(detailPageData.getCourse());
+
+            course_adapter.notifyDataSetChanged();
             //DetailData를 받아 오면 좋아요 수 얻어옴
             Handler ex_handler = new ExpressionCheckHandler();
             Thread ex_thread = new ExpressionCheckThread(ex_handler, boardNo);
@@ -309,7 +311,7 @@ public class DetailFragment extends Fragment {
         }
     }
 
-    private class CommentScrapListener implements View.OnClickListener{
+    private class CommentScrapListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             Intent scrap_user_intent = new Intent(v.getContext(), ScrapUserAcitivity.class);
@@ -348,7 +350,7 @@ public class DetailFragment extends Fragment {
         }
     }
 
-    private class CommentLinkListener implements View.OnClickListener{
+    private class CommentLinkListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             SharingHelper helper = new SharingHelper(getActivity(), detailPageData);
