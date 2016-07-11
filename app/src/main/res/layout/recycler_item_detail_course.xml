@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="25dp" >
 
     <RelativeLayout
         android:id="@+id/container"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true" >
 
         <View
             android:id="@+id/line_top"
             android:layout_width="5dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
             android:layout_above="@+id/course_image"
+            android:layout_marginBottom="-2dp"
             android:background="@color/line_gray" />
 
         <ImageView
             android:id="@+id/course_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:src="@drawable/circle_gray" />
 
         <View
             android:id="@+id/line_bottom"
             android:layout_width="5dp"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/course_image"
+            android:layout_marginTop="-2dp"
             android:background="@color/line_gray" />
 
     </RelativeLayout>
@@ -43,6 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/container"
+        android:paddingLeft="5dp"
         android:textColor="@color/black" />
 
     <TextView
@@ -51,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/course_name"
+        android:paddingLeft="5dp"
         android:textColor="@color/line_gray" />
 
 </RelativeLayout>
