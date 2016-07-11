@@ -25,6 +25,7 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
     private List<Course> items;
     private Activity activity;
     private View.OnClickListener itemClickListener;
+    private String flag;
 
     public CourseWriteRecyclerAdapter(List<Course> data, Activity activity) {
         super();
@@ -33,9 +34,10 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
         this.activity = activity;
     }
 
-    public CourseWriteRecyclerAdapter(List<Course> data, Activity activity, View.OnClickListener itemClickListener) {
+    public CourseWriteRecyclerAdapter(List<Course> data, Activity activity, View.OnClickListener itemClickListener, String flag) {
         this(data, activity);
         this.itemClickListener = itemClickListener;
+        this.flag = flag;
     }
 
     @Override
@@ -49,6 +51,16 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
     public void onBindViewHolder(CourseWriteRecyclerViewHolder holder, int position) {
         Course item = items.get(position);
 
+        if(flag.equals("CourseSelect")){
+            holder.getDelete().setVisibility(View.INVISIBLE);
+            holder.getSearch().setVisibility(View.INVISIBLE);
+        }else {
+            View.OnClickListener listener = new ItemButtonListener(holder, position);
+            holder.getDateButton().setOnClickListener(listener);
+            holder.getTimeButton().setOnClickListener(listener);
+            holder.getDelete().setOnClickListener(listener);
+        }
+
         if (position == 0) holder.getLineTop().setVisibility(View.GONE);
         else holder.getLineTop().setVisibility(View.VISIBLE);
 
@@ -60,11 +72,6 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
         holder.getCourseName().setText("# " + item.getTitle());
         holder.getDateButton().setText(item.getDate());
         holder.getTimeButton().setText(item.getTime());
-
-        View.OnClickListener listener = new ItemButtonListener(holder, position);
-        holder.getDateButton().setOnClickListener(listener);
-        holder.getTimeButton().setOnClickListener(listener);
-        holder.getDelete().setOnClickListener(listener);
     }
 
     @Override

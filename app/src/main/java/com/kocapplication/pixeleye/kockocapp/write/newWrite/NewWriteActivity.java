@@ -140,7 +140,8 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
                                 /*boardNo*/         0,
                                 /*courseNo*/        getIntent().getIntExtra("COURSE_NO", 0),
                                 /*coursePosition*/  getIntent().getIntExtra("COURSE_PO", 0),
-                                /*courseCount*/     0);
+                                /*courseCount*/     0,
+                                /*courseName*/      getIntent().getStringExtra("COURSE_NAME"));
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
@@ -172,10 +173,14 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
                 newWriteBoard.setImageNo(0);
 
 
-            Intent uploadDialog = new Intent(NewWriteActivity.this, FilePopUp.class);
-            uploadDialog.putExtra("board", newWriteBoard);
+            /**
+             * FilePopUp
+             * 사진을 ftp로 서버에 전송하고 글을 올림
+             */
+            Intent writeBoard = new Intent(NewWriteActivity.this, FilePopUp.class);
+            writeBoard.putExtra("board", newWriteBoard);
 
-            startActivityForResult(uploadDialog,IMAGE_TRANSMISSION);
+            startActivityForResult(writeBoard,IMAGE_TRANSMISSION);
 
 //            Handler handler = new Handler();
 //            // TODO: 2016-06-29 작성된 내용을 Server에 보내는 기능 만들어야한다.
@@ -250,7 +255,6 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
                     });
                 }
             }
-
         }
 
         @Override

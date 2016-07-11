@@ -14,17 +14,18 @@ public class BoardBasicAttr implements Serializable {
     private String courseName; // 추가해야함
 
     // 데이터를 받아올 때 사용되는 생성자
-    public BoardBasicAttr(int userNo, int boardNo, int courseNo, int coursePosition, int courseCount) {
+    public BoardBasicAttr(int userNo, int boardNo, int courseNo, int coursePosition, int courseCount, String courseName) {
         this.userNo = userNo;
         this.boardNo = boardNo;
         this.courseNo = courseNo;
         this.coursePosition = coursePosition;
         this.courseCount = courseCount;
+        this.courseName = courseName;
     }
 
     // 새글 작성 시에 사용되는 생성자
     public BoardBasicAttr(int userNo) {
-        this(userNo, 0, 0, 0, 0);
+        this(userNo, 0, 0, 0, 0,"");
     }
 
     public int getUserNo() {
@@ -47,6 +48,6 @@ public class BoardBasicAttr implements Serializable {
         return courseCount;
     }
 
-
+    public String getCourseName() {return courseName;}
 }
 

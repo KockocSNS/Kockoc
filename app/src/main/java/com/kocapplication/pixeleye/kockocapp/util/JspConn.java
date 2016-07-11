@@ -413,7 +413,7 @@ public class JspConn {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
             params.add(new BasicNameValuePair("text", "" + board.getText()));
-            params.add(new BasicNameValuePair("courseName", " "));// 베이직 밸류 애트리뷰트에 추가해야함
+            params.add(new BasicNameValuePair("courseName", board.getBasicAttributes().getCourseName()));// 베이직 밸류 애트리뷰트에 추가해야함
             params.add(new BasicNameValuePair("mainImg", "" + board.getMainImg()));
 
             //send ImageArr
