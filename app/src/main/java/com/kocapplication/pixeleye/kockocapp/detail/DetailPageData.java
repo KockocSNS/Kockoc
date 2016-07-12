@@ -17,6 +17,7 @@ public class DetailPageData implements Serializable{
     private String boardDate;
     private String boardText;
     private ArrayList<String> boardImgArr = new ArrayList<String>();
+    private ArrayList<String> boardImgPathArr = new ArrayList<String>();
     private ArrayList<String> course = new ArrayList<String>();
     private ArrayList<String> hashTagArr = new ArrayList<String>();
     private ArrayList<Comment> commentArr = new ArrayList<Comment>();
