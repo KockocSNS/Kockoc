@@ -29,10 +29,6 @@ import java.text.SimpleDateFormat;
 public class AlarmDialogActivity extends AppCompatActivity {
     public static int broadcastCode = 0;    //알람을 구분하기 위한 ID;
 
-    private TextView courseTitle;
-    private TextView alarmTime;
-    private TextView alarmDetail;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +47,9 @@ public class AlarmDialogActivity extends AppCompatActivity {
     }
 
     private void init() {
-        courseTitle = (TextView) findViewById(R.id.course_title);
-        alarmTime = (TextView) findViewById(R.id.course_alarm_time);
-        alarmDetail = (TextView) findViewById(R.id.course_alarm_detail);
+        TextView courseTitle = (TextView) findViewById(R.id.course_title);
+        TextView alarmTime = (TextView) findViewById(R.id.course_alarm_time);
+        TextView alarmDetail = (TextView) findViewById(R.id.course_alarm_detail);
 
         Bundle bundle = getIntent().getExtras();
         Courses courses = (Courses) bundle.getSerializable("COURSES");
@@ -135,7 +131,7 @@ public class AlarmDialogActivity extends AppCompatActivity {
             super.run();
 
             try {
-                sleep(5000);
+                sleep(15000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

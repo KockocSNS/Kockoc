@@ -184,6 +184,7 @@ public class DetailActivity extends AppCompatActivity {
 
             switch (position){
                 case 0:
+                    Toast.makeText(DetailActivity.this,""+position,Toast.LENGTH_LONG).show();
                     break;
                 default:
                     if(!courseBoardNo.equals("")) {
@@ -196,6 +197,7 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
+
         }
     }
 

@@ -1,13 +1,10 @@
 package com.kocapplication.pixeleye.kockocapp.write.course;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity;
 
 /**
  * Created by Han on 2016-07-11.
@@ -18,10 +15,16 @@ public class MemoDialog {
     private CourseWriteActivity activity;
     private EditText messageEditText;
     private int courseNo;
+    private boolean isUpdate = false;
 
-    public MemoDialog(CourseWriteActivity activity, int courseNo) {
+    public MemoDialog(CourseWriteActivity activity, int courseNo, String memo) {
         this.activity = activity;
+
+        isUpdate = memo.equals("") ? false : true;
+
         this.messageEditText = new EditText(activity);
+        this.messageEditText.setText(memo);
+        messageEditText.setSelection(memo.length());
         this.courseNo = courseNo;
 
         dialog = new AlertDialog.Builder(activity)
@@ -49,7 +52,6 @@ public class MemoDialog {
                 Log.i("MEMODIALOG", courseNo + "");
                 new MemoWriteThread(message, courseNo).start();
                 activity.setMemo(message);
-
             }
         }
     }

@@ -12,6 +12,7 @@ public class Course implements Serializable {
     private int coursePosition;
     private String title;
     private Date dateTime;
+    private String memo;
 
 //    public Course(String title, Date dateTime) {
 //        this.title = title;
@@ -69,9 +70,19 @@ public class Course implements Serializable {
         return dateTime.getTime();
     }
 
-    //    public String getDateByFormat() {
-//
-//    }
+    public String getMemo() {
+        return memo;
+    }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
+    public void setDateTime(Date dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
 }

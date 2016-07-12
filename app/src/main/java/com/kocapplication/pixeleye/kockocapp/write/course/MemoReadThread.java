@@ -1,5 +1,8 @@
 package com.kocapplication.pixeleye.kockocapp.write.course;
 
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
@@ -19,33 +22,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Han on 2016-07-11.
+ * Created by Han on 2016-07-12.
  */
-public class MemoWriteThread extends Thread {
-    private String message;
+public class MemoReadThread extends Thread {
+    private Handler handler;
     private int courseNo;
-    private boolean isUpdate;
 
-    public MemoWriteThread(String message, int courseNo, boolean isUpdate) {
+    public MemoReadThread(Handler handler, int courseNo) {
         super();
-        this.message = message;
+        this.handler = handler;
         this.courseNo = courseNo;
-        this.isUpdate = isUpdate;
     }
 
     @Override
     public void run() {
         super.run();
 
-        Log.i("MEMOWRITETHREAD", "memo : " + message);
-
         HttpClient client = new DefaultHttpClient();
-        String postURL = isUpdate ? BasicValue.getInstance().getUrlHead() + "CourseMemoUpdate.jsp" : BasicValue.getInstance().getUrlHead() + "Course/MemoWrite.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead() + "Course/GetMemoByCourseNo.jsp";
         HttpPost post = new HttpPost(postURL);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("courseNo", "" + courseNo));
-        params.add(new BasicNameValuePair("memo", message));
         String result = "";
+
         try {
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
@@ -59,6 +58,13 @@ public class MemoWriteThread extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d("MEMOWRITETHREAD", "result : " + result);
+
+        Log.i("MEMOREAD", result);
+
+        Message msg = Message.obtain();
+        Bundle bundle = new Bundle();
+        bundle.putString("THREAD", result);
+        msg.setData(bundle);
+        handler.sendMessage(msg);
     }
 }
