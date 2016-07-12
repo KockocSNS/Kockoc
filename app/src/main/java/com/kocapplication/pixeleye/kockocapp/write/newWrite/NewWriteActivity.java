@@ -3,6 +3,7 @@ package com.kocapplication.pixeleye.kockocapp.write.newWrite;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -19,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailPageData;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
+import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
 import com.kocapplication.pixeleye.kockocapp.model.BoardBasicAttr;
 import com.kocapplication.pixeleye.kockocapp.model.Coordinate;
@@ -33,7 +35,9 @@ import org.apmem.tools.layouts.FlowLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Han_ on 2016-06-24.
@@ -42,7 +46,7 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
     private final String TAG = "NEW_WRITE_ACTIVITY";
     public static final int MAP_REQUEST_CODE = 50233;
     public static final int IMAGE_TRANSMISSION = 1022;
-
+    public static final int CONTINUOUS_EDIT_FLAG = 1241;
     public static final int CONTINUOUS_FLAG = 387;
     public static final int DEFAULT_FLAG = 5326;
     public static final int EDIT_FLAG = 2222;
@@ -116,7 +120,7 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
 
         imagePaths = new ArrayList<>();
 
-        if(flag == EDIT_FLAG){set_editData();}
+        if(flag == EDIT_FLAG || flag == CONTINUOUS_EDIT_FLAG){set_editData();}
     }
 
     /**
@@ -171,7 +175,7 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
 
             BoardBasicAttr attributes = new BoardBasicAttr(BasicValue.getInstance().getUserNo());
 
-            if (flag == CONTINUOUS_FLAG)
+            if (flag == CONTINUOUS_FLAG || flag == CONTINUOUS_EDIT_FLAG)
                 attributes =
                         new BoardBasicAttr(
                                 /*userNo*/          BasicValue.getInstance().getUserNo(),
@@ -221,7 +225,7 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
              */
             Intent writeBoard = new Intent(NewWriteActivity.this, FilePopUp.class);
             writeBoard.putExtra("board", newWriteBoard);
-            if(flag == EDIT_FLAG) { //수정 플래그
+            if(flag == EDIT_FLAG || flag == CONTINUOUS_EDIT_FLAG) { //수정 플래그
                 writeBoard.putExtra("flag", "edit");
                 newWriteBoard.setBoardNo(data.getBoardNo()); // 수정 시 보드넘버 추가
             }else writeBoard.putExtra("flag", "default");
@@ -330,8 +334,21 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
             });
         }
         else if (requestCode == IMAGE_TRANSMISSION){
-            Toast.makeText(NewWriteActivity.this, "완료 후 디테일 페이지로 보내야함", Toast.LENGTH_SHORT).show();
-            finish();
+            int result_boardNo = data.getIntExtra("result_boardNo",0);
+            int courseNo = getIntent().getIntExtra("COURSE_NO", 0);
+            int userNo = BasicValue.getInstance().getUserNo();
+            Log.e(TAG,"boardNo :"+result_boardNo);
+            Intent intent = new Intent();
+            intent.putExtra("boardNo", result_boardNo);
+            intent.putExtra("courseNo", courseNo);
+            intent.putExtra("board_userNo", userNo);
+            if(flag == CONTINUOUS_FLAG || flag == CONTINUOUS_EDIT_FLAG) {
+                setResult(MainActivity.CONTINUOUS_WRITE_REQUEST_CODE, intent);
+                finish();
+            } else {
+                setResult(MainActivity.NEW_WRITE_REQUEST_CODE,intent);
+                finish();
+            }
         }
     }
 

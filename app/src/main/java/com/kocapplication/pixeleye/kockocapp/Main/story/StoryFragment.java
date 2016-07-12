@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -218,7 +219,7 @@ public class StoryFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), CourseActivity.class);
                 intent.putExtra("flag", CourseActivity.CONTINUOUS_FLAG);
                 writeButton.callOnClick();
-                startActivity(intent);
+                getActivity().startActivityForResult(intent, MainActivity.CONTINUOUS_WRITE_REQUEST_CODE);
             }
         }
 
@@ -228,6 +229,11 @@ public class StoryFragment extends Fragment {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+
+            if (msg.what == 0) {
+                Snackbar.make(refreshLayout, "데이터를 불러오는데 실패하였습니다. 새로고침을 해주세요", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
 
             ArrayList<BoardWithImage> boardWithImages = (ArrayList<BoardWithImage>) msg.getData().getSerializable("THREAD");
 
@@ -253,10 +259,5 @@ public class StoryFragment extends Fragment {
             adapter.notifyDataSetChanged();
             refreshLayout.setRefreshing(false);
         }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }

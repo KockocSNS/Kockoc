@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,7 +52,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
     private Button addButton;
     private Button confirm;
 
-    private String memo;
+    private String memo = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +65,8 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
 
         declare(containView);
         getDataFromBeforeActivity();
+
+        new MemoReadThread(new MemoReadHandler(), courseNo).start();
     }
 
     public void setMemo(String memo) {
@@ -191,21 +195,25 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 }
 
                 AlarmHelper manager = new AlarmHelper(getApplicationContext());
-                Courses courses = new Courses(courseTitle, new Date(), adapter.getItems());
+                Courses courses = new Courses(courseNo, courseTitle, new Date(), adapter.getItems());
                 manager.setCourseAlarm(courses);
 
                 Log.i(TAG, courses.getCourseNo() + "");
 
                 // TODO: 2016-07-11 메모 넣어야되는데 어떻게 할지 아이디어가 안떠오른다
                 // TODO: 2016-07-11 글 작성을 할때 바로 메모를 넣는 방법!
+                // TODO: 2016-07-12 각각 코스 마다 메모를 붙이는 방법!
+                String result = "";
                 if (flag == DEFAULT_FLAG)
-                    JspConn.uploadCourse(courseTitle, courses.getCourses()); // 코스 디비 업로드
-                else if (flag == ADJUST_FLAG)
-                    JspConn.editCourse(courseNo, courses.getTitle(), courses.getCourses());
+                    result = JspConn.uploadCourse(courseTitle, courses.getCourses()); // 코스 디비 업로드
+                else if (flag == ADJUST_FLAG) {
+                    result = JspConn.editCourse(courseNo, courses.getTitle(), courses.getCourses());
+                    courseNo = Integer.parseInt(result);
+                }
 
                 finish();
             } else if (v.equals(memoButton))
-                new MemoDialog(CourseWriteActivity.this, courseNo);
+                new MemoDialog(CourseWriteActivity.this, courseNo, memo);
         }
     }
 
@@ -232,6 +240,15 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
             String time = _hour + ":" + _minute;
 
             timeButton.setText(time);
+        }
+    }
+
+    private class MemoReadHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            memo = msg.getData().getString("THREAD");
         }
     }
 }
