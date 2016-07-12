@@ -73,6 +73,7 @@ public class SearchBoardActivity extends BaseActivityWithoutNav {
             Intent intent = new Intent(SearchBoardActivity.this, DetailActivity.class);
             intent.putExtra("boardNo", boardWithImage.getBasicAttributes().getBoardNo());
             intent.putExtra("courseNo", boardWithImage.getBasicAttributes().getCourseNo());
+            intent.putExtra("board_userNo",boardWithImage.getBasicAttributes().getUserNo());
             startActivity(intent);
 
         }

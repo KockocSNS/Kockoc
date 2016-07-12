@@ -43,9 +43,7 @@ public class NoticeRecyclerAdapter extends RecyclerView.Adapter<NoticeRecyclerVi
     public void onBindViewHolder(NoticeRecyclerViewHolder holder, int position) {
         NoticeItem data = noticeItems.get(position);
 
-        holder.getNotice_name().setText(""+data.getUserNo());
-//        Glide.with(mContext).load(BasicValue.getInstance().getUrlHead()+"board_image/"+ (data.getUserNo() + "/profile.jpg"))
-//                .error(R.drawable.detail_comment_empty).into(holder.getNeighbor_img());
+        holder.getNotice_name().setText(data.getNickName());
 
         Glide.with(mContext).load(BasicValue.getInstance().getUrlHead()+"board_image/"+ (data.getUserNo() + "/profile.jpg"))
                 .error(R.drawable.default_profile).override(100,100).bitmapTransform(new CropCircleTransformation(Glide.get(mContext).getBitmapPool())).into(holder.getNotice_img());

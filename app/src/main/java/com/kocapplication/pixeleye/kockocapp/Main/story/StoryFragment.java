@@ -1,5 +1,6 @@
 package com.kocapplication.pixeleye.kockocapp.main.story;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -54,8 +55,15 @@ public class StoryFragment extends Fragment {
     private LinearLayout writeContainer;
     private TextView boardAdd;      //새글 버튼
     private TextView continuousAdd; //이어쓰기
+    private ProgressDialog dialog;
 
     private ArrayList<BoardWithImage> initialData;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dialog = ProgressDialog.show(getActivity(),"","잠시만 기다려주세요");
+    }
 
     @Nullable
     @Override
@@ -76,14 +84,13 @@ public class StoryFragment extends Fragment {
                 return false;
             }
         });
-        JsonParser.getNoticeItem(JspConn.notice(BasicValue.getInstance().getUserNo()));
 
         if (initialData == null) {
             Handler handler = new StoryDataReceiveHandler();
             Thread thread = new StoryThread(handler);
             refreshLayout.setRefreshing(true);
             thread.start();
-        }
+        } else dialog.cancel();
 
         return view;
     }
@@ -228,6 +235,7 @@ public class StoryFragment extends Fragment {
             adapter.setItems(boardWithImages);
             adapter.notifyDataSetChanged();
             refreshLayout.setRefreshing(false);
+            dialog.cancel();
         }
     }
 

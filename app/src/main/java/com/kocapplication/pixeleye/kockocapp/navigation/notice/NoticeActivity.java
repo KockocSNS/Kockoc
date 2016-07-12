@@ -55,9 +55,15 @@ public class NoticeActivity extends BaseActivityWithoutNav {
         public void onClick(View v) {
             int position = noticeRecyclerView.getChildLayoutPosition(v);
             int boardNo = noticeRecyclerAdapter.getNotices().get(position).getBoardNo();
+            int board_userNo = noticeRecyclerAdapter.getNotices().get(position).getBoard_userNo();
+            int courseNo = noticeRecyclerAdapter.getNotices().get(position).getCourseNo();
 
+            //TODO 노티스 액티비티에 코스넘버와 상대이름을 모두 올려야함.
             Intent detail_intent = new Intent(NoticeActivity.this, DetailActivity.class);
             detail_intent.putExtra("boardNo",boardNo);
+            detail_intent.putExtra("board_userNo",board_userNo);
+            detail_intent.putExtra("courseNo",courseNo);
+
             startActivity(detail_intent);
         }
     }

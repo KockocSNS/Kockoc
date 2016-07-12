@@ -475,6 +475,7 @@ public class JspConn {
             //Send Hash Arr
             i = 0;
             List<String> HashArr = board.getHashTags();
+            Log.e(TAG,"editboard hashtags :"+board.getHashTags());
             for (String temp : HashArr) {
                 params.add(new BasicNameValuePair("hashTag" + (i++), temp));
                 Log.d("해시배열", "arr : " + temp);
@@ -815,10 +816,11 @@ public class JspConn {
         return result;
     }
 
+    //알림
     static public String notice(int userNo) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead()+"Board/Comment/test.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead()+"Board/Comment/test2.jsp";
         HttpPost post = new HttpPost(postURL);
 
         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -838,6 +840,7 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.e(TAG,"notice : "+result);
         return result;
     }
 
@@ -936,8 +939,6 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            Log.e("jspconn","courseNo :"+courseNo);
-            Log.e("jspconn","courseName :"+courseName);
 
             String postURL = BasicValue.getInstance().getUrlHead()+"Board/getBoardNoForEdit.jsp";
             HttpPost post = new HttpPost(postURL);

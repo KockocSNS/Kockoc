@@ -8,6 +8,7 @@ import com.kocapplication.pixeleye.kockocapp.model.Neighbor;
 import com.kocapplication.pixeleye.kockocapp.model.NoticeItem;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -140,11 +141,19 @@ public class JsonParser {
             int length = noticeItemArr.length();
             for(int i=0; i<length; i++){
                 JSONObject temp = noticeItemArr.getJSONObject(i);
+                String nickName = temp.getString("Nickname");
                 int userNo = temp.getInt("User_No");
                 int boardNo = temp.getInt("Board_No");
+                int board_userNo = temp.getInt("BoardUser_No");
+                int courseNo = 0;
+                try {
+                    courseNo = temp.getInt("Course_No");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 String date = temp.getString("Date");
 
-                NoticeItemList.add(new NoticeItem(userNo, boardNo, date));
+                NoticeItemList.add(new NoticeItem(userNo, boardNo, board_userNo, courseNo, nickName, date));
             }
         }catch (Exception e){
             e.getMessage();

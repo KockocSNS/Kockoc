@@ -9,12 +9,22 @@ import java.util.Date;
 public class NoticeItem implements Serializable {
     private int userNo;
     private int boardNo;
+    private int board_userNo;
+    private int courseNo;
     private String date;
+    private String nickName;
 
-    public NoticeItem(int userNo, int boardNo, String date){
+    public NoticeItem(int userNo, int boardNo, int board_userNo, int courseNo, String nickName, String date){
         this.userNo = userNo;
         this.boardNo = boardNo;
         this.date = date;
+        this.board_userNo = board_userNo;
+        this.courseNo = courseNo;
+        this.nickName = nickName;
+    }
+
+    public String getNickName() {
+        return nickName;
     }
 
     public int getUserNo() {
@@ -27,6 +37,14 @@ public class NoticeItem implements Serializable {
 
     public int getBoardNo() {
         return boardNo;
+    }
+
+    public int getBoard_userNo() {
+        return board_userNo;
+    }
+
+    public int getCourseNo() {
+        return courseNo;
     }
 }
 

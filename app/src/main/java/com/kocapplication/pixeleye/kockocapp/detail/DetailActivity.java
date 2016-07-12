@@ -114,6 +114,7 @@ public class DetailActivity extends AppCompatActivity {
 
             JspConn.WriteComment(commentString, boardNo, BasicValue.getInstance().getUserNo());
             JspConn.pushGcm(commentString+"|"+boardNo+"&"+courseNo, board_userNo); //gcm
+
             detailFragment.addComment();
             softKeyboardHide(comment_et);
         }
@@ -180,6 +181,7 @@ public class DetailActivity extends AppCompatActivity {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             try {
                 courseBoardNo = JspConn.getBoardNoForEdit(courseNo, course.get(position-1).split("/")[0]);
+                Log.e(TAG,"코스넘버 코스이름 :"+courseNo+"/"+course.get(position-1).split("/")[0]+"/"+courseBoardNo);
             } catch (Exception e){}
 
             switch (position){
