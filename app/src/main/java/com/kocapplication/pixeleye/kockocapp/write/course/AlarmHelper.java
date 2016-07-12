@@ -37,6 +37,8 @@ public class AlarmHelper {
         for (Course course : courses.getCourses()) {
             if (course.getDataByMilSec() > currentMil) {
 
+                Log.i(TAG, "SET ALARM -> " + course.getTime());
+
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("COURSES", courses);
                 bundle.putSerializable("COURSE", course);

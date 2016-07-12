@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +18,10 @@ import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.search.SearchActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -114,20 +118,21 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
         public void onClick(View v) {
             if (v.equals(holder.getDateButton())) {
                 Calendar currentDate = Calendar.getInstance();
-                new DatePickerDialog(activity, new TimeSetListener(holder),
+                new DatePickerDialog(activity, new TimeSetListener(holder, position),
                         currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DAY_OF_MONTH)).show();
             }
 
             else if (v.equals(holder.getTimeButton())) {
                 String time = holder.getTimeButton().getText().toString();
                 String[] _time = time.split(":");
-                new TimePickerDialog(activity, new TimeSetListener(holder), Integer.parseInt(_time[0]), Integer.parseInt(_time[1]), false).show();
+                new TimePickerDialog(activity, new TimeSetListener(holder, position), Integer.parseInt(_time[0]), Integer.parseInt(_time[1]), false).show();
             }
 
             else if (v.equals(holder.getDelete())) {
                 items.remove(position);
                 notifyDataSetChanged();
             }
+
             else if (v.equals(holder.getSearch())){
                 Intent searchIntent = new Intent(activity, SearchActivity.class);
                 searchIntent.putExtra("keyword",items.get(position).getTitle());
@@ -139,19 +144,34 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
 
     private class TimeSetListener implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
         private CourseWriteRecyclerViewHolder holder;
+        private int position;
 
-        public TimeSetListener(CourseWriteRecyclerViewHolder holder) {
+        public TimeSetListener(CourseWriteRecyclerViewHolder holder, int position) {
             super();
             this.holder = holder;
+            this.position = position;
         }
 
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            String _year = String.valueOf(year);
+            String _year = String.valueOf(year).substring(2);
             String _month = String.valueOf(monthOfYear + 1);
             String _day = String.valueOf(dayOfMonth);
 
+            _year = _year.length() < 2 ? "0" + _year : _year;
+            _month = _month.length() < 2 ? "0" + _month : _month;
+            _day = _day.length() < 2 ? "0" + _day : _day;
+
             String date = _year + "/" + _month + "/" + _day;
+            String time = holder.getTimeButton().getText().toString();
+
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm");
+                Date selectedDate = format.parse(date + " " + time);
+                items.get(position).setDateTime(selectedDate);
+            } catch (ParseException e) {
+                Snackbar.make(view, "날짜를 다시 설정해주세요.", Snackbar.LENGTH_SHORT).show();
+            }
 
             holder.getDateButton().setText(date);
         }
@@ -164,7 +184,16 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
             _hour = _hour.length() < 2 ? "0" + _hour : _hour;
             _minute = _minute.length() < 2 ? "0" + _minute : _minute;
 
+            String date = holder.getDateButton().getText().toString();
             String time = _hour + ":" + _minute;
+
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm");
+                Date selectedDate = format.parse(date + " " + time);
+                items.get(position).setDateTime(selectedDate);
+            } catch (ParseException e) {
+                Snackbar.make(view, "시간을 다시 설정해주세요.", Snackbar.LENGTH_SHORT).show();
+            }
 
             holder.getTimeButton().setText(time);
         }
