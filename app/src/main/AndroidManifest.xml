@@ -54,7 +54,7 @@
         <activity android:name=".navigation.notice.NoticeActivity"/>
         <activity android:name=".navigation.NicknameChangeActivity" android:windowSoftInputMode="stateAlwaysVisible|adjustResize"/>
 
-        <activity android:name=".write.newWrite.NewWriteActivity"   android:windowSoftInputMode="stateAlwaysVisible|adjustResize"/>
+        <activity android:name=".write.newWrite.NewWriteActivity"/>
         <activity android:name=".util.FilePopUp"/>
         <activity android:name=".write.newWrite.map.MapActivity"    android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity android:name=".write.course.CourseTitleActivity"  android:windowSoftInputMode="adjustPan" />

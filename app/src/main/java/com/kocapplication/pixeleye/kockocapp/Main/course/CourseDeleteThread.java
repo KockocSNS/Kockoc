@@ -1,10 +1,8 @@
 package com.kocapplication.pixeleye.kockocapp.main.course;
 
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 /**
@@ -29,7 +27,7 @@ public class CourseDeleteThread extends Thread {
     public void run() {
         super.run();
 
-        String result = JspConn.DeleteCourse(userNo, courseNo, title);
+        String result = JspConn.deleteCourse(userNo, courseNo, title);
         Log.i("COURSE_DELETE", result);
 
         handler.sendEmptyMessage(1);

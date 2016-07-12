@@ -80,8 +80,9 @@ public class FilePopUp extends Activity {
     }
     private  void ActivityEnd(){
         String result = "";
+        int result_boardNo = 0;
         if(flag.equals("default")) {
-            int result_boardNo = Integer.parseInt(JspConn.boardWrite(board));
+            result_boardNo = Integer.parseInt(JspConn.writeBoard(board));
         }else if(flag.equals("edit")){
             result = JspConn.editBoard(board);
         }

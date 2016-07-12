@@ -446,8 +446,9 @@ public class JspConn {
             }
         } catch (Exception e) {e.printStackTrace();}
         Log.d("Jspconn", "writeBoard result :"+result);
-        return result;
+        return result.trim();
     }
+    //글 수정
     static public String editBoard(Board board){
         String result = "";
         try {
@@ -866,10 +867,10 @@ public class JspConn {
     }
 
     // 코스 삭제
-    static public String DeleteCourse(int userNo, int courseNo, String title) {
+    static public String deleteCourse(int userNo, int courseNo, String title) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead() + "/Course/DeleteCourse.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead() + "/Course/deleteCourse.jsp";
         HttpPost post = new HttpPost(postURL);
 
         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -930,13 +931,12 @@ public class JspConn {
         }
     }
 
-    static public String getBoardNoForEdit(int courseNo, String courseName) { // 코스넘버와 코스 이름을 받아 보드넘버 반환
+    // 코스넘버와 코스 이름을 받아 보드넘버 반환
+    static public String getBoardNoForEdit(int courseNo, String courseName) {
         String result = "";
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            Log.e("jspconn","courseNo :"+courseNo);
-            Log.e("jspconn","courseName :"+courseName);
 
             String postURL = BasicValue.getInstance().getUrlHead()+"Board/getBoardNoForEdit.jsp";
             HttpPost post = new HttpPost(postURL);
@@ -955,8 +955,10 @@ public class JspConn {
             e.printStackTrace();
         }
         Log.d("TAG", "getBoardNoForEdit result :" + result);
-        return result;
+        return result.trim();
     }
+
+
 
     static public void passiveMethod() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

@@ -24,7 +24,6 @@ import java.util.List;
 
 public class MainActivity extends BaseActivity {
     private final String TAG = "MainActivity";
-
     public static final int DETAIL_ACTIVITY_REQUEST_CODE = 1222;
     public static final int COURSE_WRITE_ACTIVITY_REQUEST_CODE = 575;
     public static final int NEW_WRITE_REQUEST_CODE = 12433;
@@ -136,22 +135,28 @@ public class MainActivity extends BaseActivity {
                 break;
             case NEW_WRITE_REQUEST_CODE:
                 ((StoryFragment) adapter.getItem(0)).refresh();
-                Intent detail_intent = new Intent(MainActivity.this, DetailActivity.class);
-                detail_intent.putExtra("boardNo",data.getIntExtra("boardNo",0));
-                detail_intent.putExtra("courseNo",data.getIntExtra("courseNo",0));
-                detail_intent.putExtra("board_userNo",data.getIntExtra("board_userNo",0));
-                startActivity(detail_intent);
+                detail_intent(data);
                 break;
             case COURSE_WRITE_ACTIVITY_REQUEST_CODE:
                 ((CourseFragment) adapter.getItem(2)).refresh();
                 break;
             case CONTINUOUS_WRITE_REQUEST_CODE:
-
+                ((StoryFragment) adapter.getItem(0)).refresh();
+                detail_intent(data);
                 break;
             default:
                 break;
         }
-
-
+    }
+    void detail_intent(Intent data){
+        try {
+            Intent detail_intent = new Intent(MainActivity.this, DetailActivity.class);
+            detail_intent.putExtra("boardNo",data.getIntExtra("boardNo",0));
+            detail_intent.putExtra("courseNo",data.getIntExtra("courseNo",0));
+            detail_intent.putExtra("board_userNo",data.getIntExtra("board_userNo",0));
+            startActivity(detail_intent);
+        } catch (NullPointerException e) {
+            Log.d(TAG,"onActivityResult null");
+        }
     }
 }

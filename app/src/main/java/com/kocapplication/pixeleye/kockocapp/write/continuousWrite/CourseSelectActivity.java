@@ -6,12 +6,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.detail.DetailPageData;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
+import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
+import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
+import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseWriteRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.write.newWrite.NewWriteActivity;
 
@@ -60,23 +65,45 @@ public class CourseSelectActivity extends BaseActivityWithoutNav {
     }
 
     private class ContinuousItemClickListener implements View.OnClickListener {
+        Intent intent = new Intent(CourseSelectActivity.this, NewWriteActivity.class);
         @Override
         public void onClick(View v) {
-            if (flag == DEFAULT_FLAG) {
-
-            } else if (flag == CONTINUOUS_FLAG) {
-                int position = recyclerView.getChildLayoutPosition(v);
-
-                Intent intent = new Intent(CourseSelectActivity.this, NewWriteActivity.class);
-                intent.putExtra("FLAG", NewWriteActivity.CONTINUOUS_FLAG);
-                intent.putExtra("COURSE_NO", courses.getCourseNo());
-                intent.putExtra("COURSE_PO", (position + 1));
-                intent.putExtra("COURSE_NAME",courses.getCourses().get(position).getTitle());
-                Toast.makeText(CourseSelectActivity.this, ""+courses.getCourses().get(position).getTitle()+"선택", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-                finish();
+            int position = recyclerView.getChildLayoutPosition(v);
+            int boardNo = 0;
+            try {
+                boardNo = Integer.parseInt(JspConn.getBoardNoForEdit(courses.getCourseNo(),courses.getCourses().get(position).getTitle()));
+            } catch (NumberFormatException e) {e.printStackTrace();}
+            Log.e(TAG,"boardNo :"+boardNo);
+            if (boardNo >0){ // 글이 있으면 이어쓰기 수정
+                DetailPageData detailPageData;
+                detailPageData = JsonParser.detailPageLoad(JspConn.loadDetailPage(String.valueOf(boardNo)));
+                intent.putExtra("DATA",detailPageData);
+                intent_newWrite(position,NewWriteActivity.CONTINUOUS_EDIT_FLAG);
+            } else{ // 글이 없다면
+                intent_newWrite(position,NewWriteActivity.CONTINUOUS_FLAG);
             }
+        }
+        void intent_newWrite(int position, int flag){
+
+            intent.putExtra("FLAG", flag);
+            intent.putExtra("COURSE_NO", courses.getCourseNo());
+            intent.putExtra("COURSE_PO", (position + 1));
+            intent.putExtra("COURSE_NAME",courses.getCourses().get(position).getTitle());
+            Toast.makeText(CourseSelectActivity.this, ""+courses.getCourses().get(position).getTitle()+"선택", Toast.LENGTH_SHORT).show();
+            startActivityForResult(intent, MainActivity.CONTINUOUS_WRITE_REQUEST_CODE);
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case MainActivity.CONTINUOUS_WRITE_REQUEST_CODE:
+                try {
+                    setResult(MainActivity.CONTINUOUS_WRITE_REQUEST_CODE, data);
+                    finish();
+                } catch (NullPointerException e) {Log.d(TAG,"onActivityResult null");}
+                break;
+        }
+    }
 }
