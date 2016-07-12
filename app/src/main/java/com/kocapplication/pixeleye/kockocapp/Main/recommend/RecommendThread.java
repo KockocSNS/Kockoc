@@ -110,7 +110,7 @@ public class RecommendThread extends Thread {
 
             JsonArray hashTagArr = object.get("HashTagArr").getAsJsonArray();
 
-            List<String> hashTags = new ArrayList<>();
+            ArrayList<String> hashTags = new ArrayList<>();
 
             for (int ti = 0; ti < hashTagArr.size(); ti++)
                 hashTags.add(hashTagArr.get(ti).getAsString());
