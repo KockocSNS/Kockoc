@@ -15,6 +15,7 @@ public class FilePopUp extends Activity {
     boolean end = false;
     Thread sendThread;
     Board board;
+    String flag = "default";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +23,7 @@ public class FilePopUp extends Activity {
         setContentView(R.layout.activity_file_pop_up);
         Intent intent = getIntent();
         board = (Board)intent.getSerializableExtra("board");
+        flag = intent.getStringExtra("flag");
         FileSend fileSend = new FileSend(BasicValue.getInstance().getUserNo());
         for(int i = 0; i<board.getImageNames().size(); i++){
             String temp;
@@ -77,7 +79,12 @@ public class FilePopUp extends Activity {
 
     }
     private  void ActivityEnd(){
-        int result_boardNo = Integer.parseInt(JspConn.boardWrite(board));
+        String result = "";
+        if(flag.equals("default")) {
+            int result_boardNo = Integer.parseInt(JspConn.boardWrite(board));
+        }else if(flag.equals("edit")){
+            result = JspConn.editBoard(board);
+        }
         Intent intent = new Intent();
         intent.putExtra("result_boardNo",result_boardNo);
         setResult(1022,intent);
