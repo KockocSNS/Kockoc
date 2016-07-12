@@ -171,7 +171,7 @@ public class JspConn {
     static public String writeExpression(int boardNo, int Status) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead()+"Board/Expression/changePwd/writeExpression.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead()+"Board/Expression/writeExpression.jsp";
         HttpPost post = new HttpPost(postURL);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
 
@@ -192,6 +192,7 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.e(TAG+"expression",result);
         return result;
     }
 

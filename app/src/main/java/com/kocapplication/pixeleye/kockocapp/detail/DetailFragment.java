@@ -31,6 +31,7 @@ import com.kocapplication.pixeleye.kockocapp.detail.share.SharingHelper;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.user.UserActivity;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 import org.apmem.tools.layouts.FlowLayout;
@@ -165,6 +166,8 @@ public class DetailFragment extends Fragment {
     }
 
     private void setData(DetailPageData data) {
+//        ArrayList<String> course = JsonParser.readCourse(JspConn.readCourseByCourseNo(courseNo));
+//        course_title.setText(course.get(1));
         profile_nickname.setText(data.getUserName());
         profile_date.setText(data.getBoardDate());
         board_text.setText(data.getBoardText());
