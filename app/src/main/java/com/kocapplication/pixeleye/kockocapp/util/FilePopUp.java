@@ -77,9 +77,9 @@ public class FilePopUp extends Activity {
 
     }
     private  void ActivityEnd(){
-        String result = JspConn.boardWrite(board);
+        int result_boardNo = Integer.parseInt(JspConn.boardWrite(board));
         Intent intent = new Intent();
-        intent.putExtra("result",result);
+        intent.putExtra("result_boardNo",result_boardNo);
         setResult(1022,intent);
         finish();
     }

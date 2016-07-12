@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseFragment;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.MyKocKocFragment;
 import com.kocapplication.pixeleye.kockocapp.main.recommend.RecommendFragment;
@@ -27,7 +28,7 @@ public class MainActivity extends BaseActivity {
     public static final int DETAIL_ACTIVITY_REQUEST_CODE = 1222;
     public static final int COURSE_WRITE_ACTIVITY_REQUEST_CODE = 575;
     public static final int NEW_WRITE_REQUEST_CODE = 12433;
-
+    public static final int CONTINUOUS_WRITE_REQUEST_CODE = 1234;
     private final int PROFILE_SET = 1;
 
     ViewPageAdapter adapter;
@@ -127,15 +128,25 @@ public class MainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Log.i(TAG, "REQUEST CODE" + requestCode);
+
         switch (requestCode){
             case DETAIL_ACTIVITY_REQUEST_CODE:
                 ((StoryFragment) adapter.getItem(0)).refresh();
                 break;
             case NEW_WRITE_REQUEST_CODE:
                 ((StoryFragment) adapter.getItem(0)).refresh();
+                Intent detail_intent = new Intent(MainActivity.this, DetailActivity.class);
+                detail_intent.putExtra("boardNo",data.getIntExtra("boardNo",0));
+                detail_intent.putExtra("courseNo",data.getIntExtra("courseNo",0));
+                detail_intent.putExtra("board_userNo",data.getIntExtra("board_userNo",0));
+                startActivity(detail_intent);
                 break;
             case COURSE_WRITE_ACTIVITY_REQUEST_CODE:
                 ((CourseFragment) adapter.getItem(2)).refresh();
+                break;
+            case CONTINUOUS_WRITE_REQUEST_CODE:
+
                 break;
             default:
                 break;

@@ -449,7 +449,7 @@ public class JspConn {
             }
         } catch (Exception e) {e.printStackTrace();}
         Log.e("Jspconn", "writeBoard result :"+result);
-        return result;
+        return result.trim();
     }
 
     /**

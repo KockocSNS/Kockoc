@@ -17,7 +17,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
+import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
 import com.kocapplication.pixeleye.kockocapp.model.BoardBasicAttr;
 import com.kocapplication.pixeleye.kockocapp.model.Coordinate;
@@ -41,7 +43,7 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
     private final String TAG = "NEW_WRITE_ACTIVITY";
     public static final int MAP_REQUEST_CODE = 50233;
     public static final int IMAGE_TRANSMISSION = 1022;
-
+    public static final int NEW_WRITE_REQUEST_CODE = 12433;
     public static final int CONTINUOUS_FLAG = 387;
     public static final int DEFAULT_FLAG = 5326;
     private int flag;
@@ -288,7 +290,20 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
             });
         }
         else if (requestCode == IMAGE_TRANSMISSION){
-            Toast.makeText(NewWriteActivity.this, "완료 후 디테일 페이지로 보내야함", Toast.LENGTH_SHORT).show();
+
+            if(flag==CONTINUOUS_FLAG){
+
+            }else if(flag == DEFAULT_FLAG){
+
+            }
+            int result_boardNo = data.getIntExtra("result_boardNo",0);
+            int courseNo = getIntent().getIntExtra("COURSE_NO", 0);
+            int userNo = BasicValue.getInstance().getUserNo();
+            Intent intent = new Intent();
+            intent.putExtra("boardNo", result_boardNo);
+            intent.putExtra("courseNo", courseNo);
+            intent.putExtra("board_userNo", userNo);
+            setResult(NEW_WRITE_REQUEST_CODE,intent);
             finish();
         }
     }
