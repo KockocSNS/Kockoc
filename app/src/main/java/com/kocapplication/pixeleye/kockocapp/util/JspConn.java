@@ -883,7 +883,7 @@ public class JspConn {
     }
 
     // 코스 삭제
-    static public String DeleteCourse(int userNo, int courseNo, String title) {
+    static public String deleteCourse(int userNo, int courseNo, String title) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
         String postURL = BasicValue.getInstance().getUrlHead() + "/Course/DeleteCourse.jsp";
@@ -954,8 +954,6 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            Log.e("jspconn", "courseNo :" + courseNo);
-            Log.e("jspconn", "courseName :" + courseName);
 
             String postURL = BasicValue.getInstance().getUrlHead() + "Board/getBoardNoForEdit.jsp";
             HttpPost post = new HttpPost(postURL);
