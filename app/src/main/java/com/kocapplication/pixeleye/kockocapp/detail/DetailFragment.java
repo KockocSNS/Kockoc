@@ -54,7 +54,7 @@ import java.util.List;
  */
 public class DetailFragment extends Fragment {
     final static String TAG = "DetailFragment";
-    DetailPageData detailPageData;
+    public DetailPageData detailPageData;
     DetailRecyclerAdapter adapter;
 
     LinearLayout ll_profile;

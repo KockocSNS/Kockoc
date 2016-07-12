@@ -254,7 +254,6 @@ public class JspConn {
      */
     //코스 넘버를 받아 course 반환
     static public String readCourseByCourseNo(int courseNo) {
-        Log.i("JSPCONN", courseNo + "");
         String result = "";
         try {
             passiveMethod();
@@ -277,7 +276,6 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.e(TAG,result);
         return result;
     }
 
@@ -402,7 +400,7 @@ public class JspConn {
     }
 
     //글 쓰기
-    static public String boardWrite(Board board) {
+    static public String writeBoard(Board board) {
         String result = "";
         try {
             passiveMethod();
@@ -421,7 +419,6 @@ public class JspConn {
             List<String> ImageArr = board.getImageNames();
             int i = 0;
             for (String temp : ImageArr) {
-                //Log.d("entered","Image for"+i);
                 params.add(new BasicNameValuePair("imgPath" + (i++), temp));
             }
             params.add(new BasicNameValuePair("imgPathCount", "" + ImageArr.size()));
@@ -449,7 +446,55 @@ public class JspConn {
                 result += line;
             }
         } catch (Exception e) {e.printStackTrace();}
-        Log.e("Jspconn", "writeBoard result :"+result);
+        Log.d("Jspconn", "writeBoard result :"+result);
+        return result;
+    }
+    static public String editBoard(Board board){
+        String result = "";
+        try {
+            passiveMethod();
+            HttpClient client = new DefaultHttpClient();
+
+            String postURL = BasicValue.getInstance().getUrlHead()+"Board/new_editBoard.jsp";
+            String map = Double.toString(board.getCoordinate().getmLatitude())+" "+Double.toString(board.getCoordinate().getmLongitude());
+            HttpPost post = new HttpPost(postURL);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
+            params.add(new BasicNameValuePair("boardNo", "" + board.getBoardNo()));
+            params.add(new BasicNameValuePair("text", "" + board.getText()));
+            params.add(new BasicNameValuePair("mainImg", "" + board.getMainImg()));
+
+            //send ImageArr
+            List<String> ImageArr = board.getImageNames();
+            int i = 0;
+            for (String temp : ImageArr) {
+                params.add(new BasicNameValuePair("imgPath" + (i++), temp));
+            }
+            params.add(new BasicNameValuePair("imgPathCount", "" + ImageArr.size()));
+
+            //Send Hash Arr
+            i = 0;
+            List<String> HashArr = board.getHashTags();
+            for (String temp : HashArr) {
+                params.add(new BasicNameValuePair("hashTag" + (i++), temp));
+                Log.d("해시배열", "arr : " + temp);
+            }
+            params.add(new BasicNameValuePair("hashNum", "" + HashArr.size()));
+
+            params.add(new BasicNameValuePair("map", "" + map));
+
+
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {e.printStackTrace();}
+        Log.d("Jspconn", "editBoard result :"+result);
         return result;
     }
 
