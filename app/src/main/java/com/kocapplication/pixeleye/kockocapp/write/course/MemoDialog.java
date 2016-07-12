@@ -50,7 +50,7 @@ public class MemoDialog {
                 }
 
                 Log.i("MEMODIALOG", courseNo + "");
-                new MemoWriteThread(message, courseNo).start();
+                new MemoWriteThread(message, courseNo,true).start();
                 activity.setMemo(message);
             }
         }

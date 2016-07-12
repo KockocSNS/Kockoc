@@ -37,6 +37,7 @@ public class Board implements Serializable {
         imagePaths = new ArrayList<>();
         imageNames = new ArrayList<>();
         imagePathArr = new ArrayList<>();
+        this.coordinate = new Coordinate(0, 0);
     }
 
     // 지도 없는 데이터를 받아올 때 사용되는 생성자.
