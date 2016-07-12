@@ -26,6 +26,7 @@ import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.write.newWrite.NewWriteActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ import java.util.List;
  */
 public class DetailActivity extends AppCompatActivity {
     final static String TAG = "DetailActivity";
+    public static final int EDIT_FLAG = 2222;
     DetailFragment detailFragment;
 
     private EditText comment_et;
@@ -72,6 +74,7 @@ public class DetailActivity extends AppCompatActivity {
         menu_btn = (ImageView)findViewById(R.id.detail_menu);
         course_spinner = (Spinner) findViewById(R.id.course_spinner);
 
+
         commentSend_btn.setOnClickListener(new CommentSendListener());
         courseCopy_btn.setOnClickListener(new CourseCopyListener());
         scrap_btn.setOnClickListener(new ScrapListener());
@@ -87,23 +90,9 @@ public class DetailActivity extends AppCompatActivity {
             scrap_btn.setTextOn("관심글 해제");
             scrap_btn.setText("관심글 등록");
         }
-
-        course_spinner.setOnItemSelectedListener(new SpinnerListener());
-
-        //스피너 리스트 값 설정
-        List<String> list = new ArrayList<String>();
-        list.add("코스선택");
-        course = JsonParser.readCourse(JspConn.readCourseByCourseNo(courseNo));
-        for (int i = 0; i < 10; i++) {
-            if (course.get(i).equals("null"))
-                break;
-            list.add(course.get(i).split("/")[0] + "(" + i + ")");
-        }
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(DetailActivity.this, R.layout.spinner_item,list);
-        dataAdapter.setDropDownViewResource(R.layout.spinner_item);
-
-        course_spinner.setAdapter(dataAdapter);
-        course_spinner.setSelection(0);
+        //코스가 있을때만 스피너 띄움
+        if(courseNo>0) {set_spinner();}
+        else course_spinner.setVisibility(View.GONE);
 
     }
 
@@ -191,14 +180,10 @@ public class DetailActivity extends AppCompatActivity {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             try {
                 courseBoardNo = JspConn.getBoardNoForEdit(courseNo, course.get(position-1).split("/")[0]);
-                Log.e(TAG,""+courseBoardNo+"/"+course.get(position-1).split("/")[0]);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
+            } catch (Exception e){}
 
             switch (position){
                 case 0:
-                    Toast.makeText(DetailActivity.this,""+position,Toast.LENGTH_LONG).show();
                     break;
                 default:
                     if(!courseBoardNo.equals("")) {
@@ -211,7 +196,6 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
-
         }
     }
 
@@ -233,14 +217,19 @@ public class DetailActivity extends AppCompatActivity {
         int id = item.getItemId();
         if(id == R.id.menu_delete)
             openDeleteDialog();
-        else if(id == R.id.menu_edit)
-            Toast.makeText(DetailActivity.this, "글 수정 구현해야함", Toast.LENGTH_SHORT).show();
-//                editBoard();
+        else if(id == R.id.menu_edit) {
+            Intent edit_intent = new Intent(DetailActivity.this, NewWriteActivity.class);
+            edit_intent.putExtra("DATA",detailFragment.detailPageData);
+            edit_intent.putExtra("FLAG",EDIT_FLAG);
+            startActivity(edit_intent);
+            finish();
+        }
         else if (id == R.id.menu_report)
             Toast.makeText(this, "신고 기능 구현 해야함", Toast.LENGTH_SHORT).show();
 
         return super.onOptionsItemSelected(item);
     }
+
     private void openDeleteDialog() {
 
         new AlertDialog.Builder(this)
@@ -266,6 +255,23 @@ public class DetailActivity extends AppCompatActivity {
         InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         editText.setText("");
+    }
+    private void set_spinner(){
+        course_spinner.setOnItemSelectedListener(new SpinnerListener());
+        //스피너 리스트 값 설정
+        List<String> list = new ArrayList<String>();
+        list.add("코스선택");
+        course = JsonParser.readCourse(JspConn.readCourseByCourseNo(courseNo));
+        for (int i = 0; i < 10; i++) {
+            if (course.get(i).equals("null"))
+                break;
+            list.add(course.get(i).split("/")[0] + "(" + i + ")");
+        }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(DetailActivity.this, R.layout.spinner_item, list);
+        dataAdapter.setDropDownViewResource(R.layout.spinner_item);
+
+        course_spinner.setAdapter(dataAdapter);
+        course_spinner.setSelection(0);
     }
 
 }

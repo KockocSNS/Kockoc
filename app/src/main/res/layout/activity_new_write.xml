@@ -19,7 +19,7 @@
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/board_text"
+        android:layout_above="@+id/ll_new_write_down"
         android:scrollbars="none">
 
         <LinearLayout
@@ -31,6 +31,7 @@
     </HorizontalScrollView>
 
     <LinearLayout
+        android:id="@+id/ll_new_write_down"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -55,14 +56,23 @@
 
         </HorizontalScrollView>
 
-        <TextView
-            android:id="@+id/tag_text"
-            android:layout_width="wrap_content"
+        <org.apmem.tools.layouts.FlowLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:f="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/fl_new_write_tag_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="#'태그'를 입력해주세요."
-            android:textColor="@color/innerTagColor"
-            android:textSize="20dp" />
+            f:layout_newLine="true">
+
+            <TextView
+                android:textColor="@color/innerTagColor"
+                android:id="@+id/tv_new_write_tag_temp"
+                android:text="#'태그'를 입력해주세요."
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </org.apmem.tools.layouts.FlowLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

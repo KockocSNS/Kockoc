@@ -74,8 +74,6 @@ public class StoryThread extends Thread {
             e.printStackTrace();
         }
 
-        Log.i("StoryThread", result);
-
         JsonParser parser = new JsonParser();
         JsonObject upperObject = parser.parse(result).getAsJsonObject();
         JsonArray array = upperObject.getAsJsonArray("boardArr");
@@ -90,9 +88,7 @@ public class StoryThread extends Thread {
             // TODO: 2016-06-23 TO Much Connection이 생긴닷
             // TODO: 요거 JSP 를 조금 수정해서 DB에서 한번에 들고 올수 있도록 하는게 좋을것 같다.
             int courseNo = object.get("Course_No").getAsInt();
-            Log.i("STORYTHREAD", "COURSE No" + courseNo);
             String courseJsonString = courseJsonObject(object.get("Course_No").getAsInt());
-            Log.i("STORYTHREAD", "COURSE : " + courseJsonString);
 
 //            JsonObject courseObject = parser.parse(courseJsonString).getAsJsonObject();
 //            int courseCount = 0;
@@ -133,7 +129,7 @@ public class StoryThread extends Thread {
 
             JsonArray hashTagArr = object.get("HashTagArr").getAsJsonArray();
 
-            List<String> hashTags = new ArrayList<>();
+            ArrayList<String> hashTags = new ArrayList<>();
 
             for (int ti = 0; ti < hashTagArr.size(); ti++)
                 hashTags.add(hashTagArr.get(ti).getAsString());
@@ -182,7 +178,6 @@ public class StoryThread extends Thread {
             e.printStackTrace();
         }
 
-        Log.i("STORYTHREAD", "Course Count : " + result);
         return result;
     }
 
