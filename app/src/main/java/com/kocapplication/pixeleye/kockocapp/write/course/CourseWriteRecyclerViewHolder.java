@@ -18,6 +18,8 @@ public class CourseWriteRecyclerViewHolder  extends RecyclerView.ViewHolder {
     private Button dateButton;
     private Button timeButton;
     private Button delete;
+
+    private Button memo;
     private Button search;
 
     public CourseWriteRecyclerViewHolder(View itemView) {
@@ -29,6 +31,8 @@ public class CourseWriteRecyclerViewHolder  extends RecyclerView.ViewHolder {
         this.dateButton = (Button) itemView.findViewById(R.id.course_date);
         this.timeButton = (Button) itemView.findViewById(R.id.course_time);
         this.delete = (Button) itemView.findViewById(R.id.delete);
+
+        this.memo = (Button) itemView.findViewById(R.id.course_note);
         this.search = (Button) itemView.findViewById(R.id.course_search);
     }
 
@@ -57,4 +61,8 @@ public class CourseWriteRecyclerViewHolder  extends RecyclerView.ViewHolder {
     }
 
     public Button getSearch() {return search;}
+
+    public Button getMemo() {
+        return memo;
+    }
 }

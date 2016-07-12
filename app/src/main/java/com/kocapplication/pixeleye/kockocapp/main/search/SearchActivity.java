@@ -6,6 +6,7 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -40,6 +41,7 @@ public class SearchActivity extends AppCompatActivity {
     SearchRun searchRun;
     ListView searchList;
     Button searchBtn;
+    String intentKeyword = "";
 
     private ImageButton backButton;
 
@@ -50,6 +52,15 @@ public class SearchActivity extends AppCompatActivity {
         editText = (EditText)findViewById(R.id.searchText);
         searchList = (ListView)findViewById(R.id.searchList);
         searchBtn = (Button)findViewById(R.id.searchBtn);
+        //코스에서 키워드 넘겨주는지 확인
+        try {
+            intentKeyword = getIntent().getStringExtra("keyword");
+            if (!intentKeyword.equals("")){
+                Keyword.mainStr = "#"+intentKeyword;
+                startActivity(new Intent(SearchActivity.this, SearchBoardActivity.class));
+                finish();
+            }
+        } catch (NullPointerException e) {Log.d(TAG,"intentKeyword null"+e.getMessage());}
     }
     void setEvents(){
         editText.addTextChangedListener(new TextWatcher() {

@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +35,12 @@ import com.kocapplication.pixeleye.kockocapp.user.UserActivity;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+
+import net.daum.mf.map.api.CameraUpdateFactory;
+import net.daum.mf.map.api.MapPOIItem;
+import net.daum.mf.map.api.MapPoint;
+import net.daum.mf.map.api.MapPointBounds;
+import net.daum.mf.map.api.MapView;
 
 import org.apmem.tools.layouts.FlowLayout;
 import org.json.JSONArray;
@@ -52,9 +60,10 @@ public class DetailFragment extends Fragment {
     LinearLayout ll_profile;
     LinearLayout ll_htmlInfo;
     LinearLayout ll_board_img;
-    LinearLayout ll_board_map;
+    RelativeLayout rl_board_map_container;
     LinearLayout ll_comment_menu;
     LinearLayout ll_bgLayout;
+    LinearLayout ll_board_map;
     FlowLayout fl_board_hashtag;
     RecyclerView rv_comment_list;
     RecyclerView course_recyclerView;
@@ -76,6 +85,7 @@ public class DetailFragment extends Fragment {
     ImageView html_img;
     ImageView board_mainimg;
     ImageView board_courses;
+    ImageView board_map_img;
 
     private int boardNo;
     private int courseNo;
@@ -115,9 +125,10 @@ public class DetailFragment extends Fragment {
         ll_profile = (LinearLayout) view.findViewById(R.id.ll_profile);
         ll_htmlInfo = (LinearLayout) view.findViewById(R.id.ll_htmlInfo);
         ll_board_img = (LinearLayout) view.findViewById(R.id.ll_detail_content_imgViewList);
-        ll_board_map = (LinearLayout) view.findViewById(R.id.ll_detail_content_maps);
+        rl_board_map_container = (RelativeLayout) view.findViewById(R.id.rl_detail_content_map_container);
         ll_comment_menu = (LinearLayout) view.findViewById(R.id.ll_comment_menu);
         ll_bgLayout = (LinearLayout) view.findViewById(R.id.ll_bg_detail_up);
+        ll_board_map = (LinearLayout) view.findViewById(R.id.ll_detail_map);
 
         btn_like = (ToggleButton) view.findViewById(R.id.toggle_detail_content_like);
         course_title = (TextView) view.findViewById(R.id.course_title);
@@ -133,6 +144,7 @@ public class DetailFragment extends Fragment {
         html_img = (ImageView) view.findViewById(R.id.tv_detail_content_htmlImg);
         board_mainimg = (ImageView) view.findViewById(R.id.img_detail_content_main_img);
 //        board_courses = (ImageView) view.findViewById(R.id.iv_detail_content_courses);
+        board_map_img = (ImageView) view.findViewById(R.id.detail_map_img);
         fl_board_hashtag = (FlowLayout) view.findViewById(R.id.fl_detail_content_tag);
         View includeView = view.findViewById(R.id.detail_commentlist_layout);
 
@@ -146,11 +158,12 @@ public class DetailFragment extends Fragment {
         ll_profile.setOnClickListener(new ProfileClickListener());
 
         btn_like.setOnClickListener(new LikeClickListener());
+
     }
 
     private void setCourseRecyclerView(View view) {
         course_recyclerView = (RecyclerView) view.findViewById(R.id.iv_detail_content_courses);
-        course_adapter = new DetailCourseAdapter(new ArrayList<String>());
+        course_adapter = new DetailCourseAdapter(new ArrayList<String>(), new CourseClickListener());
         course_recyclerView.setAdapter(course_adapter);
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -181,6 +194,12 @@ public class DetailFragment extends Fragment {
             textTemp.setText(data.getHashTagArr().get(l));
             fl_board_hashtag.addView(textTemp);
         }
+
+        //지도
+        if(data.getLatitude()==0 && data.getLongitude() == 0) {
+            rl_board_map_container.setVisibility(View.GONE);
+            ll_board_map.setVisibility(View.GONE);
+        }else board_map_img.setOnClickListener(new MapClickListener(data));
     }
 
     private void setImg(DetailPageData data) {
@@ -345,6 +364,54 @@ public class DetailFragment extends Fragment {
             SharingHelper helper = new SharingHelper(getActivity(), detailPageData);
             List<ResolveInfo> data = helper.checkSharableApp();
             helper.showShareDialog(data);
+        }
+    }
+
+    private class CourseClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            int position = course_recyclerView.getChildAdapterPosition(v);
+            String courseBoardNo = "";
+
+            try {
+                courseBoardNo = JspConn.getBoardNoForEdit(courseNo, course_adapter.getItems().get(position).getTitle());
+                Log.e(TAG, "" + courseBoardNo + "/" + course_adapter.getItems().get(position).getTitle());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (!courseBoardNo.equals("")) {
+                DetailFragment detailFragment = new DetailFragment(Integer.parseInt(courseBoardNo), courseNo, board_userNo);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, detailFragment).commit();
+            } else
+                Toast.makeText(getActivity(), "해당 코스에 글이 없습니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class MapClickListener implements View.OnClickListener{
+        DetailPageData data;
+        public MapClickListener(DetailPageData data) {this.data = data;}
+        @Override
+        public void onClick(View v) {
+            ll_board_map.setVisibility(View.VISIBLE);
+            board_map_img.setVisibility(View.GONE);
+            MapPointBounds mapPointBounds = new MapPointBounds();
+            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(data.getLatitude(), data.getLongitude());
+            MapPOIItem poiItem = new MapPOIItem();
+            poiItem.setItemName("현재 위치");
+            poiItem.setMapPoint(mapPoint);
+            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
+            poiItem.setCustomImageAutoscale(false);
+            poiItem.setCustomImageAnchor(0.5f, 1.0f);
+            mapPointBounds.add(mapPoint);
+
+            MapView mapView = new MapView(mInflater.getContext());
+            ViewGroup.LayoutParams layoutParams = new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 600);
+            mapView.setLayoutParams(layoutParams);
+            mapView.setDaumMapApiKey(BasicValue.getInstance().getDAUM_MAP_API_KEY());
+            mapView.addPOIItem(poiItem);
+            mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
+            ll_board_map.addView(mapView);
         }
     }
 }
