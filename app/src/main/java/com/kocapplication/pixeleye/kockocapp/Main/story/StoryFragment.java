@@ -212,7 +212,7 @@ public class StoryFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), CourseActivity.class);
                 intent.putExtra("flag", CourseActivity.CONTINUOUS_FLAG);
                 writeButton.callOnClick();
-                startActivity(intent);
+                getActivity().startActivityForResult(intent, MainActivity.CONTINUOUS_WRITE_REQUEST_CODE);
             }
         }
 
@@ -251,10 +251,5 @@ public class StoryFragment extends Fragment {
             adapter.notifyDataSetChanged();
             refreshLayout.setRefreshing(false);
         }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }

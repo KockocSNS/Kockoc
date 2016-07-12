@@ -115,8 +115,7 @@ public class CourseActivity extends BaseActivityWithoutNav {
                 Intent intent = new Intent(CourseActivity.this, CourseSelectActivity.class);
                 intent.putExtra("FLAG", CourseSelectActivity.CONTINUOUS_FLAG);
                 intent.putExtra("courses", courses);
-                startActivity(intent);
-                finish();
+                startActivityForResult(intent, MainActivity.CONTINUOUS_WRITE_REQUEST_CODE);
             }
 
             else if (flag == DEFAULT_FLAG) {
@@ -201,6 +200,13 @@ public class CourseActivity extends BaseActivityWithoutNav {
             Handler handler = new CourseHandler();
             Thread thread = new CourseThread(handler);
             thread.start();
+        } else if(requestCode == MainActivity.CONTINUOUS_WRITE_REQUEST_CODE){
+            try {
+                setResult(MainActivity.CONTINUOUS_WRITE_REQUEST_CODE, data);
+                finish();
+            } catch (NullPointerException e) {
+                Log.d(TAG,"onActivityResult null");
+            }
         }
     }
 }
