@@ -15,10 +15,16 @@ public class MemoDialog {
     private CourseWriteActivity activity;
     private EditText messageEditText;
     private int courseNo;
+    private boolean isUpdate = false;
 
-    public MemoDialog(CourseWriteActivity activity, int courseNo) {
+    public MemoDialog(CourseWriteActivity activity, int courseNo, String memo) {
         this.activity = activity;
+
+        isUpdate = memo.equals("") ? false : true;
+
         this.messageEditText = new EditText(activity);
+        this.messageEditText.setText(memo);
+        messageEditText.setSelection(memo.length());
         this.courseNo = courseNo;
 
         dialog = new AlertDialog.Builder(activity)

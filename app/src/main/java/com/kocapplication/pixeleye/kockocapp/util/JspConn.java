@@ -34,10 +34,10 @@ public class JspConn {
      */
     //상세보기 데이터 가져오기
     static public String loadDetailPage(String boardNo) {
-        Log.e(TAG,"boardNo :"+boardNo);
+        Log.e(TAG, "boardNo :" + boardNo);
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead()+"Board/LoadDetailPage.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead() + "Board/LoadDetailPage.jsp";
         HttpPost post = new HttpPost(postURL);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("boardNo", "" + boardNo));
@@ -55,7 +55,7 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d(TAG,"loadDetailPage result :"+result);
+        Log.d(TAG, "loadDetailPage result :" + result);
         return result;
     }
 
@@ -63,7 +63,7 @@ public class JspConn {
     static public String WriteComment(String comment, int boardNo, int userNo) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead()+"Board/Comment/WriteComment.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead() + "Board/Comment/WriteComment.jsp";
         HttpPost post = new HttpPost(postURL);
 
         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -95,7 +95,7 @@ public class JspConn {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
 
-            String postURL = BasicValue.getInstance().getUrlHead()+"GCM/GCM.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "GCM/GCM.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userNo", "" + userNo));
@@ -119,11 +119,11 @@ public class JspConn {
     static public String DeleteComment(int commentNo) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead()+"Board/Comment/DeleteComment.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead() + "Board/Comment/DeleteComment.jsp";
         HttpPost post = new HttpPost(postURL);
 
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("commentNo", "" +commentNo));
+        params.add(new BasicNameValuePair("commentNo", "" + commentNo));
         String result = "";
         try {
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
@@ -142,12 +142,12 @@ public class JspConn {
     }
 
     //보드넘버를 받아 좋아요 카운트
-    static public String checkExpression(int boardNo){
-        String result="";
+    static public String checkExpression(int boardNo) {
+        String result = "";
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Board/Expression/checkExpression.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Board/Expression/checkExpression.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -161,7 +161,7 @@ public class JspConn {
             while ((line = bufferedReader.readLine()) != null) {
                 result += line;
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
@@ -171,7 +171,7 @@ public class JspConn {
     static public String writeExpression(int boardNo, int Status) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead()+"Board/Expression/changePwd/writeExpression.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead() + "Board/Expression/changePwd/writeExpression.jsp";
         HttpPost post = new HttpPost(postURL);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
 
@@ -200,7 +200,7 @@ public class JspConn {
 
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead()+"Scrap/AddScrap.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead() + "Scrap/AddScrap.jsp";
         HttpPost post = new HttpPost(postURL);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("boardNo", "" + String.valueOf(boardNo)));
@@ -228,7 +228,7 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Scrap/DeleteScrap.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Scrap/DeleteScrap.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
@@ -257,7 +257,7 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Course/readCourseByCourseNo.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Course/readCourseByCourseNo.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<>();
@@ -279,32 +279,31 @@ public class JspConn {
     }
 
     //코스 업로드
-    static public String uploadCourse(String title, List<Course> Arr){
-        String result="";
-        try
-        {
+    static public String uploadCourse(String title, List<Course> Arr) {
+        String result = "";
+        try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Course/HPinsertCourse.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Course/InsertCourse.jsp";
             HttpPost post = new HttpPost(postURL);
 
 
             List<NameValuePair> params = new ArrayList<>();
-            params.add(new BasicNameValuePair("userNo",""+ BasicValue.getInstance().getUserNo()));
+            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
             params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(Arr.size())));
             params.add(new BasicNameValuePair("title", title));
 
-            int i=0;
-            for(Course temp:Arr){
-                params.add(new BasicNameValuePair("course"+i++,""+temp.getTitle()+"/"+temp.getDataByMilSec()));
+            int i = 0;
+            for (Course temp : Arr) {
+                params.add(new BasicNameValuePair("course" + i++, "" + temp.getTitle() + "/" + temp.getDataByMilSec()));
             }
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
             HttpResponse response = client.execute(post);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
             String line;
-            while((line = bufferedReader.readLine())!=null){
-                result+=line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
             }
         } catch (Exception e) {
             Log.e(TAG, "UploadCourse error :" + e.getMessage());
@@ -325,7 +324,7 @@ public class JspConn {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
 
-            String postURL =BasicValue.getInstance().getUrlHead()+"Board/HPdeleteBoard.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Board/HPdeleteBoard.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("boardNo", "" + boardNo));
@@ -354,7 +353,7 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Member/HPgetNeighborInfo.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Member/HPgetNeighborInfo.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userNo", "" + userNo));
@@ -370,7 +369,7 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.e(TAG,""+result);
+        Log.e(TAG, "" + result);
         return result;
     }
 
@@ -380,7 +379,7 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Member/getFollowerInfo.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Member/getFollowerInfo.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userNo", "" + userNo));
@@ -406,8 +405,8 @@ public class JspConn {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
 
-            String postURL = BasicValue.getInstance().getUrlHead()+"Board/new_writeBoard.jsp";
-            String map = Double.toString(board.getCoordinate().getmLatitude())+" "+Double.toString(board.getCoordinate().getmLongitude());
+            String postURL = BasicValue.getInstance().getUrlHead() + "Board/new_writeBoard.jsp";
+            String map = Double.toString(board.getCoordinate().getmLatitude()) + " " + Double.toString(board.getCoordinate().getmLongitude());
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
@@ -445,18 +444,21 @@ public class JspConn {
             while ((line = bufferedReader.readLine()) != null) {
                 result += line;
             }
-        } catch (Exception e) {e.printStackTrace();}
-        Log.d("Jspconn", "writeBoard result :"+result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d("Jspconn", "writeBoard result :" + result);
         return result;
     }
-    static public String editBoard(Board board){
+
+    static public String editBoard(Board board) {
         String result = "";
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
 
-            String postURL = BasicValue.getInstance().getUrlHead()+"Board/new_editBoard.jsp";
-            String map = Double.toString(board.getCoordinate().getmLatitude())+" "+Double.toString(board.getCoordinate().getmLongitude());
+            String postURL = BasicValue.getInstance().getUrlHead() + "Board/new_editBoard.jsp";
+            String map = Double.toString(board.getCoordinate().getmLatitude()) + " " + Double.toString(board.getCoordinate().getmLongitude());
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
@@ -493,8 +495,10 @@ public class JspConn {
             while ((line = bufferedReader.readLine()) != null) {
                 result += line;
             }
-        } catch (Exception e) {e.printStackTrace();}
-        Log.d("Jspconn", "editBoard result :"+result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d("Jspconn", "editBoard result :" + result);
         return result;
     }
 
@@ -507,7 +511,7 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Member/CheckDuplID.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Member/CheckDuplID.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -538,7 +542,7 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Member/CheckDuplNickname.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Member/CheckDuplNickname.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -556,8 +560,11 @@ public class JspConn {
             e.printStackTrace();
         }
         Log.d("duplication", "nickname:" + resultStr);
-        if (resultStr.equals(" no duplication")) {return true;}
-        else {return false;}
+        if (resultStr.equals(" no duplication")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     //회원 가입
@@ -566,7 +573,7 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Member/recordUser2.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Member/recordUser2.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
 
@@ -586,7 +593,9 @@ public class JspConn {
             while ((line = bufferedReader.readLine()) != null) {
                 resultStr += line;
             }
-        } catch (Exception e) {Log.e(TAG,"recordMember error"+e.getMessage());}
+        } catch (Exception e) {
+            Log.e(TAG, "recordMember error" + e.getMessage());
+        }
         try {
             if ((!resultStr.equals("not exist ID")) && !resultStr.equals("false")) {
                 JSONObject jsonResult = new JSONObject(resultStr);
@@ -595,7 +604,7 @@ public class JspConn {
                 }
             }
         } catch (Exception e) {
-            Log.e(TAG,"recordMember error :"+ e.getMessage());
+            Log.e(TAG, "recordMember error :" + e.getMessage());
         }
         return false;
     }
@@ -606,7 +615,7 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Member/HPloginCheck.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Member/HPloginCheck.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -621,7 +630,9 @@ public class JspConn {
             while ((line = bufferedReader.readLine()) != null) {
                 resultStr += line;
             }
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             Log.d("loginCheck result", resultStr);
             if ((!resultStr.equals("not exist ID")) && !resultStr.equals("false")) {
@@ -630,7 +641,8 @@ public class JspConn {
                     return jsonResult.getInt("No");
                 }
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         return 0;
     }
 
@@ -641,7 +653,7 @@ public class JspConn {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
 
-            String postURL = BasicValue.getInstance().getUrlHead()+"Member/getUserNo.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Member/getUserNo.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("emailID", "" + emailID));
@@ -667,12 +679,12 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Member/kakaoCheck.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Member/kakaoCheck.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("kakaoID",kakaoID));
-            params.add(new BasicNameValuePair("kakaoNickname",kakaoNickname));
+            params.add(new BasicNameValuePair("kakaoID", kakaoID));
+            params.add(new BasicNameValuePair("kakaoNickname", kakaoNickname));
 
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
@@ -684,7 +696,9 @@ public class JspConn {
             while ((line = bufferedReader.readLine()) != null) {
                 resultStr += line;
             }
-        } catch (Exception e) {Log.e(TAG,"kakaoCheck 캐치진입 :"+e.getMessage());}
+        } catch (Exception e) {
+            Log.e(TAG, "kakaoCheck 캐치진입 :" + e.getMessage());
+        }
         try {
             Log.d(TAG, "kakaoCheck result :" + resultStr);
             if ((!resultStr.equals("not exist ID")) && !resultStr.equals("false")) {
@@ -693,7 +707,9 @@ public class JspConn {
                     return jsonResult.getInt("No");
                 }
             }
-        } catch (Exception e) {Log.e(TAG,"kakaoCheck 캐치진입 :"+e.getMessage());}
+        } catch (Exception e) {
+            Log.e(TAG, "kakaoCheck 캐치진입 :" + e.getMessage());
+        }
         return -1;
     }
 
@@ -707,7 +723,7 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Member/changePwd.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Member/changePwd.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<>();
@@ -737,7 +753,7 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Member/updateNickname.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Member/updateNickname.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<>();
@@ -770,7 +786,7 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Member/setFollower.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Member/setFollower.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
@@ -796,7 +812,7 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Member/CheckFollow.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Member/CheckFollow.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
@@ -818,7 +834,7 @@ public class JspConn {
     static public String notice(int userNo) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead()+"Board/Comment/test.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead() + "Board/Comment/test.jsp";
         HttpPost post = new HttpPost(postURL);
 
         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -848,7 +864,7 @@ public class JspConn {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
             //getScrapUser.jsp에 이미지경로 불러오는 부분 빼기 => 추후수정
-            String postURL = BasicValue.getInstance().getUrlHead()+"Scrap/getScrapUser.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Scrap/getScrapUser.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("boardNo", "" + boardNo));
@@ -938,10 +954,10 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            Log.e("jspconn","courseNo :"+courseNo);
-            Log.e("jspconn","courseName :"+courseName);
+            Log.e("jspconn", "courseNo :" + courseNo);
+            Log.e("jspconn", "courseName :" + courseName);
 
-            String postURL = BasicValue.getInstance().getUrlHead()+"Board/getBoardNoForEdit.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Board/getBoardNoForEdit.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("courseNo", "" + courseNo));
