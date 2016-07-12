@@ -69,9 +69,11 @@ public class Course implements Serializable {
         return dateTime.getTime();
     }
 
-    //    public String getDateByFormat() {
-//
-//    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-
+    public void setDateTime(Date dateTime) {
+        this.dateTime = dateTime;
+    }
 }

@@ -104,7 +104,6 @@ public class DetailActivity extends AppCompatActivity {
 
         course_spinner.setAdapter(dataAdapter);
         course_spinner.setSelection(0);
-
     }
 
     private void getIntentValue(){

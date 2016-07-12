@@ -281,7 +281,7 @@ public class JspConn {
     }
 
     //코스 업로드
-    static public void uploadCourse(String title, List<Course> Arr){
+    static public String uploadCourse(String title, List<Course> Arr){
         String result="";
         try
         {
@@ -313,6 +313,7 @@ public class JspConn {
         }
 
         Log.d(TAG, "UploadCourse result :" + result);
+        return result;
     }
 
 
@@ -850,7 +851,7 @@ public class JspConn {
     }
 
     //코스 수정
-    static public void editCourse(int courseNo, String title, List<Course> courses) {
+    static public String editCourse(int courseNo, String title, List<Course> courses) {
         String result = "";
         try {
             passiveMethod();
@@ -883,6 +884,8 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return result;
     }
 
     static public String getBoardNoForEdit(int courseNo, String courseName) { // 코스넘버와 코스 이름을 받아 보드넘버 반환

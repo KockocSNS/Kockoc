@@ -94,18 +94,21 @@ public class StoryThread extends Thread {
             String courseJsonString = courseJsonObject(object.get("Course_No").getAsInt());
             Log.i("STORYTHREAD", "COURSE : " + courseJsonString);
 
-//            JsonObject courseObject = parser.parse(courseJsonString).getAsJsonObject();
-//            int courseCount = 0;
-//
-//            for (int innerI = 1; innerI < 10; innerI++) {
-//                String temp = "Course" + innerI;
-//                JsonElement courseElement = courseObject.get(temp);
-//                if (courseElement.isJsonNull()) {
-//                    Log.i("COURSE_THREAD", "COURSE COUNT IS NOT 9 / CURRENT COUNT IS " + (innerI));
-//                    break;
-//                }
-//                courseCount++;
-//            }
+            int courseCount = 0;
+
+            if (!courseJsonString.equals("")) {
+                JsonObject courseObject = parser.parse(courseJsonString).getAsJsonObject();
+
+                for (int innerI = 1; innerI < 10; innerI++) {
+                    String temp = "Course" + innerI;
+                    JsonElement courseElement = courseObject.get(temp);
+                    if (courseElement.isJsonNull()) {
+                        Log.i("COURSE_THREAD", "COURSE COUNT IS NOT 9 / CURRENT COUNT IS " + (innerI));
+                        break;
+                    }
+                    courseCount++;
+                }
+            }
 
             BoardBasicAttr attributes =
                     new BoardBasicAttr(
@@ -114,7 +117,7 @@ public class StoryThread extends Thread {
                             object.get("Course_No").getAsInt(),
                             // TODO: 2016-06-23 coursePo 가 JSP 에서 던져주지 않는다.
                             0,
-                            0,
+                            courseCount,
                             ""
                     );
 

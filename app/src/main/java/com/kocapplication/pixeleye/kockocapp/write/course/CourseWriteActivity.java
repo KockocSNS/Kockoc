@@ -191,17 +191,20 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 }
 
                 AlarmHelper manager = new AlarmHelper(getApplicationContext());
-                Courses courses = new Courses(courseTitle, new Date(), adapter.getItems());
+                Courses courses = new Courses(courseNo, courseTitle, new Date(), adapter.getItems());
                 manager.setCourseAlarm(courses);
 
                 Log.i(TAG, courses.getCourseNo() + "");
 
                 // TODO: 2016-07-11 메모 넣어야되는데 어떻게 할지 아이디어가 안떠오른다
                 // TODO: 2016-07-11 글 작성을 할때 바로 메모를 넣는 방법!
+                String result = "";
                 if (flag == DEFAULT_FLAG)
-                    JspConn.uploadCourse(courseTitle, courses.getCourses()); // 코스 디비 업로드
+                    result = JspConn.uploadCourse(courseTitle, courses.getCourses()); // 코스 디비 업로드
                 else if (flag == ADJUST_FLAG)
-                    JspConn.editCourse(courseNo, courses.getTitle(), courses.getCourses());
+                    result = JspConn.editCourse(courseNo, courses.getTitle(), courses.getCourses());
+
+                Log.i(TAG, "TEST" + result);
 
                 finish();
             } else if (v.equals(memoButton))
