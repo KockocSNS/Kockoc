@@ -176,6 +176,7 @@ public class UserActivity extends BaseActivityWithoutNav {
             Intent intent = new Intent(UserActivity.this, DetailActivity.class);
             intent.putExtra("boardNo", board.getBasicAttributes().getBoardNo());
             intent.putExtra("courseNo", board.getBasicAttributes().getCourseNo());
+            intent.putExtra("board_userNo",board.getBasicAttributes().getUserNo());
             startActivity(intent);
         }
     }

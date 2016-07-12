@@ -72,6 +72,7 @@ public class RecommendFragment extends Fragment {
             Intent intent = new Intent(getActivity(), DetailActivity.class);
             intent.putExtra("boardNo", boardWithImage.getBasicAttributes().getBoardNo());
             intent.putExtra("courseNo", boardWithImage.getBasicAttributes().getCourseNo());
+            intent.putExtra("board_userNo",boardWithImage.getBasicAttributes().getUserNo());
             startActivity(intent);
         }
     }

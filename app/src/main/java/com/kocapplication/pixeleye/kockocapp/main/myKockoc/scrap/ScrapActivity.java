@@ -75,7 +75,6 @@ public class ScrapActivity extends BaseActivityWithoutNav {
             Intent intent = new Intent(ScrapActivity.this, DetailActivity.class);
             intent.putExtra("boardNo", boardWithImage.getBasicAttributes().getBoardNo());
             intent.putExtra("courseNo", boardWithImage.getBasicAttributes().getCourseNo());
-
             intent.putExtra("board_userNo",boardWithImage.getBasicAttributes().getUserNo());
             startActivityForResult(intent, SCRAP_REQUEST_CODE);
 

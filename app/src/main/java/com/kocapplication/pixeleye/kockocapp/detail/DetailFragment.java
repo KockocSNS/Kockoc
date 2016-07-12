@@ -2,6 +2,7 @@ package com.kocapplication.pixeleye.kockocapp.detail;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
@@ -20,8 +21,8 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -33,6 +34,7 @@ import com.kocapplication.pixeleye.kockocapp.detail.share.SharingHelper;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.user.UserActivity;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 import net.daum.mf.map.api.CameraUpdateFactory;
@@ -91,6 +93,8 @@ public class DetailFragment extends Fragment {
     private int board_userNo;
     LayoutInflater mInflater;
 
+    private ProgressDialog dialog;
+
     public DetailFragment() {
         super();
     }
@@ -105,6 +109,7 @@ public class DetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        dialog = ProgressDialog.show(getActivity(),"","잠시만 기다려주세요");
         View view = inflater.inflate(R.layout.detail_content, container, false);
         this.mInflater = inflater;
 
@@ -119,6 +124,7 @@ public class DetailFragment extends Fragment {
     }
 
     private void init(View view) {
+
         detailPageData = new DetailPageData();
 
         ll_profile = (LinearLayout) view.findViewById(R.id.ll_profile);
@@ -178,6 +184,8 @@ public class DetailFragment extends Fragment {
     }
 
     private void setData(DetailPageData data) {
+//        ArrayList<String> course = JsonParser.readCourse(JspConn.readCourseByCourseNo(courseNo));
+//        course_title.setText(course.get(1));
         profile_nickname.setText(data.getUserName());
         profile_date.setText(data.getBoardDate());
         board_text.setText(data.getBoardText());
@@ -255,6 +263,7 @@ public class DetailFragment extends Fragment {
             Handler ex_handler = new ExpressionCheckHandler();
             Thread ex_thread = new ExpressionCheckThread(ex_handler, boardNo);
             ex_thread.start();
+            dialog.cancel();
         }
     }
 

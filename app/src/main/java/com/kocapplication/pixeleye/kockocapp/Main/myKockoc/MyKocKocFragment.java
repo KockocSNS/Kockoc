@@ -1,5 +1,6 @@
 package com.kocapplication.pixeleye.kockocapp.main.myKockoc;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -64,10 +65,12 @@ public class MyKocKocFragment extends Fragment {
     private LinearLayout scrapButton;
     private LinearLayout neighborButton;
     private LinearLayout courseButton;
+    private ProgressDialog dialog;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        dialog = ProgressDialog.show(getActivity(),"","잠시만 기다려주세요");
         View view = inflater.inflate(R.layout.fragment_mykockoc, container, false);
 
         init(view);
@@ -172,6 +175,8 @@ public class MyKocKocFragment extends Fragment {
             Intent intent = new Intent(getActivity(), DetailActivity.class);
             intent.putExtra("boardNo", boardWithImage.getBasicAttributes().getBoardNo());
             intent.putExtra("courseNo", boardWithImage.getBasicAttributes().getCourseNo());
+            intent.putExtra("board_userNo", BasicValue.getInstance().getUserNo());
+
             startActivity(intent);
         }
     }
@@ -243,6 +248,7 @@ public class MyKocKocFragment extends Fragment {
 
             adapter.setItems(boardWithImages);
             adapter.notifyDataSetChanged();
+            dialog.cancel();
         }
     }
 

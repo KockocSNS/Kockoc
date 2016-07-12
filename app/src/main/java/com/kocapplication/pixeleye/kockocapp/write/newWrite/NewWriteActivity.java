@@ -1,5 +1,6 @@
 package com.kocapplication.pixeleye.kockocapp.write.newWrite;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -68,6 +69,7 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
     private Coordinate coordinate;
     private ArrayList<String> imagePaths;
     private DetailPageData data;
+    private ProgressDialog dialog;
     Board newWriteBoard;
 
     @Override
@@ -162,6 +164,8 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
         }
 
         private void confirmClicked() {
+            confirm.setEnabled(false);
+            dialog = ProgressDialog.show(NewWriteActivity.this,"","잠시만 기다려주세요");
             String text = boardText.getText().toString();
 
             if (imagePaths == null || newWriteBoard.getHashSize() == 0 || text.isEmpty()) {    //태그가 없어도 글이 들어감
