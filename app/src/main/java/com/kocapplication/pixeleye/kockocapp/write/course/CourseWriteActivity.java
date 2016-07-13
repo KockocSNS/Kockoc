@@ -205,8 +205,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 // TODO: 2016-07-12 각각 코스 마다 메모를 붙이는 방법!
                 String result = "";
                 if (flag == DEFAULT_FLAG) {
-                    result = JspConn.uploadCourse(courseTitle, courses.getCourses()); // 코스 디비 업로드
-                    courseNo = Integer.parseInt(result);
+                    JspConn.uploadCourse(courseTitle, courses.getCourses()); // 코스 디비 업로드
                 }
                 else if (flag == ADJUST_FLAG) {
                     result = JspConn.editCourse(courseNo, courses.getTitle(), courses.getCourses());
