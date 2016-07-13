@@ -27,8 +27,8 @@ public class IntroActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
-
     }
+
     private void autologin(){
         SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
         if (pref.getInt("login", -1) != -1) {

@@ -204,11 +204,12 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 // TODO: 2016-07-11 글 작성을 할때 바로 메모를 넣는 방법!
                 // TODO: 2016-07-12 각각 코스 마다 메모를 붙이는 방법!
                 String result = "";
-                if (flag == DEFAULT_FLAG)
+                if (flag == DEFAULT_FLAG) {
                     result = JspConn.uploadCourse(courseTitle, courses.getCourses()); // 코스 디비 업로드
+                    courseNo = Integer.parseInt(result);
+                }
                 else if (flag == ADJUST_FLAG) {
                     result = JspConn.editCourse(courseNo, courses.getTitle(), courses.getCourses());
-                    courseNo = Integer.parseInt(result);
                 }
 
                 finish();
