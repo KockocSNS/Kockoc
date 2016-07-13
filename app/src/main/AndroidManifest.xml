@@ -79,11 +79,11 @@
         <!-- 카카오톡 debug key -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="@string/kakao_app_id"/>
+            android:value="9b6bb8886ea6b7a8ae3e05ff6b989ea6"/>
         <!-- 페이스북 debug key -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
+            android:value="1550213591953523" />
         <!-- Gcm Service -->
         <service android:name=".util.GCM.RegistrationIntentService"
             android:exported="false"/>

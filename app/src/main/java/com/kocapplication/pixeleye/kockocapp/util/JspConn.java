@@ -673,6 +673,36 @@ public class JspConn {
         return Integer.parseInt(result);
     }
 
+    //카카오 회원가입
+    static public boolean kakaoRecordUser(String kakaoID,String kakaoNickname) {
+        String resultStr = "";
+        Log.d("JSP", "Called kakaoRecordUser");
+        try {
+            passiveMethod();
+            HttpClient client = new DefaultHttpClient();
+            String postURL = BasicValue.getInstance().getUrlHead()+"Member/kakaoRecordUser.jsp";
+            HttpPost post = new HttpPost(postURL);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+            params.add(new BasicNameValuePair("kakaoNickname", kakaoNickname));
+            params.add(new BasicNameValuePair("kakaoID", kakaoID));
+
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                resultStr += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     //카카오 로그인값이 있는지 체크
     static public int kakaoCheck(String kakaoID, String kakaoNickname) {
         String resultStr = "";

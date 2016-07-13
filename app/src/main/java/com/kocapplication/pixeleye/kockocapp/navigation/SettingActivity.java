@@ -14,7 +14,9 @@ import android.widget.Button;
 import android.widget.Switch;
 
 
+import com.facebook.login.LoginManager;
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.CustomAlertDialog;
@@ -89,8 +91,17 @@ public class SettingActivity extends BaseActivityWithoutNav {
             if (msg.what == 1) {
                 Snackbar.make(serviceDropOutButton, "탈퇴 되었습니다.", Snackbar.LENGTH_SHORT).show();
                 BasicValue.getInstance().setUserNo(-1);
+                Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
+                intent.putExtra("logout", 0);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                try{
+                    LoginManager.getInstance().logOut();
+                } catch(Exception e){
+                    e.printStackTrace();
+                }
                 finish();
-                setResult(RESULT_OK);
+//                setResult(RESULT_OK);
             }
         }
     }

@@ -45,7 +45,7 @@
     <string name="get_title_input">Input</string>
     <string name="get_userinfo_extra_input">Input extra information</string>
     <string name="get_userinfo_nick">Nickname</string>
-    <string name="get_userinfo_exist">Redundancy check</string>
+    <!--<string name="get_userinfo_exist">Redundancy check</string>-->
     <string name="get_userinfo_tel">Phone number</string>
     <string name="get_userinfo_birth">Birthday</string>
     <string name="get_userinfo_gender">Gender</string>
@@ -135,4 +135,7 @@
     <string name="next">NEXT</string>
     <string name="skip">SKIP</string>
     <string name="start">GOT IT</string>
+    <!--<string name="facebook_app_id">1550213591953523</string>-->
+    <!--<string name="kakao_app_id">9b6bb8886ea6b7a8ae3e05ff6b989ea6</string>-->
+    <string name="get_userinfo_check">confirm</string>
 </resources>

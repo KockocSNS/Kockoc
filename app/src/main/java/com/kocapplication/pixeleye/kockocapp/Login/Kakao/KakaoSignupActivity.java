@@ -79,9 +79,11 @@ public class KakaoSignupActivity extends Activity {
                     BasicValue.getInstance().setUserNo(userNo);
                     redirectMainActivity();
                 } else if(userNo == -1){
-                    Toast.makeText(KakaoSignupActivity.this, "카카오 로그인 오류", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(KakaoSignupActivity.this,LoginActivity.class));
-                }else {redirecGetUserActivity(kakaoID);}
+//                    JspConn.kakaoRecordUser(kakaoID,kakaoNickname);
+//                    userNo = JspConn.kakaoCheck(kakaoID, kakaoNickname);
+//                    BasicValue.getInstance().setUserNo(userNo);
+                    redirectGetUserActivity(kakaoID);
+                }else {redirectGetUserActivity(kakaoID);}
             }
         });
     }
@@ -103,7 +105,7 @@ public class KakaoSignupActivity extends Activity {
         startActivity(intent);
         finish();
     }
-    protected void redirecGetUserActivity(String name) {
+    protected void redirectGetUserActivity(String name) {
         Intent intent = new Intent(this, GetExtraInfoActivity.class);
 
         User user = new User();

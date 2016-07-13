@@ -18,6 +18,7 @@ import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by pixeleye02 on 2016-06-27.
@@ -27,21 +28,20 @@ public class IntroActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
-
     }
-    private void autologin(){
+
+    private void autologin() {
         SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
         if (pref.getInt("login", -1) != -1) {
             int login = pref.getInt("login", -1);
-            if (login != -1){
+            if (login != -1) {
                 BasicValue.getInstance().setUserNo(login);
 
                 // TODO: 2016-06-30 이 부분에 카카오 링크랑 gcm링크 구현
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             }
-        }
-        else{
+        } else {
             initialize();
         }
     }

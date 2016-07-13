@@ -214,7 +214,8 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "빈칸을 입력해주세요", Toast.LENGTH_SHORT).show();
 
             } else if (v.equals(facebookButton)) {
-                facebookLogin.performClick();
+//                facebookLogin.performClick();
+                Toast.makeText(LoginActivity.this, "준비중입니다.", Toast.LENGTH_SHORT).show();
             } else if (v.equals(naverButton)) {
                 oAuthLogin.startOauthLoginActivity(LoginActivity.this, new NaverLoginHandler());
             } else if (v.equals(kakaoButton)) {

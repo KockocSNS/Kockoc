@@ -234,7 +234,7 @@ public class MyKocKocFragment extends Fragment {
             neighborCount.setText(data.getNeighborCount() + "");
             courseCount.setText(data.getCourseCount() + "");
             Glide.with(getContext()).load(BasicValue.getInstance().getUrlHead()+"board_image/"+ BasicValue.getInstance().getUserNo() + "/profile.jpg")
-                    .error(R.drawable.default_profile).bitmapTransform(new CropCircleTransformation(Glide.get(getContext()).getBitmapPool())).into(profileImage);
+                    .error(R.drawable.default_profile).skipMemoryCache(true).bitmapTransform(new CropCircleTransformation(Glide.get(getContext()).getBitmapPool())).into(profileImage);
             ((MainActivity)getActivity()).set_navProfileName(data.getNickName());
         }
     }
