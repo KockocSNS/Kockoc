@@ -15,6 +15,7 @@ import com.kocapplication.pixeleye.kockocapp.detail.DetailPageData;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
+import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseWriteRecyclerAdapter;
@@ -29,6 +30,7 @@ public class CourseSelectActivity extends BaseActivityWithoutNav {
     public final static int CONTINUOUS_FLAG = 387;
     public final static int DEFAULT_FLAG = 88771;
     private int flag;
+    int boardNo = 0;
 
     private View containView;
     private RecyclerView recyclerView;
@@ -69,7 +71,7 @@ public class CourseSelectActivity extends BaseActivityWithoutNav {
         @Override
         public void onClick(View v) {
             int position = recyclerView.getChildLayoutPosition(v);
-            int boardNo = 0;
+
             try {
                 boardNo = Integer.parseInt(JspConn.getBoardNoForEdit(courses.getCourseNo(),courses.getCourses().get(position).getTitle()));
             } catch (NumberFormatException e) {e.printStackTrace();}
@@ -99,8 +101,13 @@ public class CourseSelectActivity extends BaseActivityWithoutNav {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case MainActivity.CONTINUOUS_WRITE_REQUEST_CODE:
+                //todo 데이터안보내줘서 이어쓰기에 있는 글 안뜸
                 try {
-                    setResult(MainActivity.CONTINUOUS_WRITE_REQUEST_CODE, data);
+                    Intent intent = new Intent();
+                    intent.putExtra("boardNo",boardNo);
+                    intent.putExtra("courseNo", courses.getCourseNo());
+                    intent.putExtra("board_userNo", BasicValue.getInstance().getUserNo());
+                    setResult(MainActivity.CONTINUOUS_WRITE_REQUEST_CODE, intent);
                     finish();
                 } catch (NullPointerException e) {Log.d(TAG,"onActivityResult null");}
                 break;

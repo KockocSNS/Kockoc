@@ -447,8 +447,8 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d("Jspconn", "writeBoard result :" + result);
-        return result;
+        Log.d("Jspconn", "writeBoard result :" + result.trim());
+        return result.trim();
     }
 
     static public String editBoard(Board board) {
