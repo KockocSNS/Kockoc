@@ -200,7 +200,7 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
 
 
             // 이미지 삽입
-            if (newWriteBoard.getImagePaths() != null) {
+            if (!newWriteBoard.getImagePaths().isEmpty()) {
                 for (int i = 0; i < newWriteBoard.getImagePaths().size(); i++) {
 
                     String path = newWriteBoard.getImagePaths().get(i).toString();

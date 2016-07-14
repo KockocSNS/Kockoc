@@ -44,7 +44,7 @@ public class SearchBoardActivity extends BaseActivityWithoutNav {
         recyclerView = (RecyclerView) containView.findViewById(R.id.recycler_view);
         refreshLayout = (SwipeRefreshLayout) containView.findViewById(R.id.refresh_layout);
 
-        adapter = new BoardRecyclerAdapter(new ArrayList<BoardWithImage>(), new ItemClickListener());
+        adapter = new BoardRecyclerAdapter(new ArrayList<BoardWithImage>(), new ItemClickListener(),SearchBoardActivity.this);
 
         recyclerView.setAdapter(adapter);
 

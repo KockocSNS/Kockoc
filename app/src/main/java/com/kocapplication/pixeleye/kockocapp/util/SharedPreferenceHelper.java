@@ -16,6 +16,11 @@ public class SharedPreferenceHelper {
         editor = preferences.edit();
     }
 
+    public SharedPreferenceHelper(Context context, String preferenceName) {
+        preferences = context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE);
+        editor = preferences.edit();
+    }
+
     public SharedPreferenceHelper(Context context, Type type) {
         String name = "PREFERENCE";
 
@@ -58,5 +63,10 @@ public class SharedPreferenceHelper {
 
     public boolean get(String key, boolean defaultValue) {
         return preferences.getBoolean(key, defaultValue);
+    }
+
+    public void clear() {
+        editor.clear();
+        editor.commit();
     }
 }

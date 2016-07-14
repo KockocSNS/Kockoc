@@ -50,7 +50,7 @@ public class RecommendFragment extends Fragment {
         refreshLayout.setOnRefreshListener(new RefreshListener());
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        adapter = new BoardRecyclerAdapter(new ArrayList<BoardWithImage>(), new ItemClickListener());
+        adapter = new BoardRecyclerAdapter(new ArrayList<BoardWithImage>(), new ItemClickListener(),getActivity());
 
         recyclerView.setAdapter(adapter);
 

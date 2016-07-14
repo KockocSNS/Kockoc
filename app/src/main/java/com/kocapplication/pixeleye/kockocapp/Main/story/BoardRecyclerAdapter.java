@@ -1,5 +1,6 @@
 package com.kocapplication.pixeleye.kockocapp.main.story;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +18,14 @@ import java.util.List;
 public class BoardRecyclerAdapter extends RecyclerView.Adapter<BoardRecyclerViewHolder> {
     private List<BoardWithImage> items;
     private View.OnClickListener listener;
+    private Context mContext;
 
-    public BoardRecyclerAdapter(List<BoardWithImage> data, View.OnClickListener listener) {
+    public BoardRecyclerAdapter(List<BoardWithImage> data, View.OnClickListener listener, Context mContext) {
         super();
         if (data == null) throw new IllegalArgumentException("DATA MUST NOT BE NULL");
         this.items = data;
         this.listener = listener;
+        this.mContext = mContext;
     }
 
     @Override
@@ -42,7 +45,15 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<BoardRecyclerView
         holder.getScrap().setText(String.valueOf(data.getExpressionCount().getScrapCount()));
         holder.getComment().setText(String.valueOf(data.getExpressionCount().getCommentCount()));
 
-        holder.getBoardImage().setImageDrawable(data.getBoardImage());
+        if (data.getBoardImage() != null){
+            holder.getBoardImage().setImageDrawable(data.getBoardImage());
+        } else
+            holder.getBoardImage().setImageDrawable(mContext.getResources().getDrawable(R.drawable.board_background));
+
+//        try {
+//        } catch (Exception e) {
+//            holder.getBoardImage().setImageDrawable(mContext.getResources().getDrawable(R.drawable.advice_1));
+//        }
         holder.getDate().setText(data.getDate());
         holder.getTitle().setText(data.getText());
         holder.getTag().setText(data.getHashTagByString());

@@ -30,6 +30,7 @@ import com.kocapplication.pixeleye.kockocapp.main.search.SearchActivity;
 import com.kocapplication.pixeleye.kockocapp.navigation.notice.NoticeActivity;
 import com.kocapplication.pixeleye.kockocapp.navigation.SettingActivity;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.SharedPreferenceHelper;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -195,6 +196,25 @@ public class BaseActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == SETTING_ACTIVITY_RESULT && resultCode == RESULT_OK) {
+            UserManagement.requestLogout(new LogoutResponseCallback() {
+                @Override
+                public void onCompleteLogout() {
+                }
+            });
+
+            SharedPreferenceHelper helper = new SharedPreferenceHelper(BaseActivity.this, "pref");
+            helper.clear();
+
+            Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
+            intent.putExtra("logout", 0);
+            startActivity(intent);
+            finish();
+            try {
+                LoginManager.getInstance().logOut();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             finish();
         }
     }
