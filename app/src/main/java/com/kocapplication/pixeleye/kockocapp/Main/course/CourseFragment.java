@@ -33,6 +33,8 @@ import java.util.List;
  * Created by Han_ on 2016-06-21.
  */
 public class CourseFragment extends Fragment {
+    private static final int COURSE_ADD_REQUEST_CODE = 1009;
+
     private TextView courseAdd;
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
@@ -92,7 +94,7 @@ public class CourseFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getActivity(), CourseTitleActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, COURSE_ADD_REQUEST_CODE);
         }
     }
 
@@ -170,6 +172,16 @@ public class CourseFragment extends Fragment {
             adapter.notifyDataSetChanged();
 
             refreshLayout.setRefreshing(false);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case COURSE_ADD_REQUEST_CODE:
+                refresh();
+                break;
         }
     }
 }

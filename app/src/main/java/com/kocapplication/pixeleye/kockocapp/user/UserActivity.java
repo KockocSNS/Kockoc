@@ -98,7 +98,7 @@ public class UserActivity extends BaseActivityWithoutNav {
 
         //recyclerView
         recyclerView = (RecyclerView) recycler.findViewById(R.id.recycler_view);
-        adapter = new BoardRecyclerAdapter(new ArrayList<BoardWithImage>(), new ItemClickListener());
+        adapter = new BoardRecyclerAdapter(new ArrayList<BoardWithImage>(), new ItemClickListener(),UserActivity.this);
         recyclerView.setAdapter(adapter);
 
         GridLayoutManager manager = new GridLayoutManager(UserActivity.this, 2);

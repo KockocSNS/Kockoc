@@ -33,7 +33,7 @@ public class FacebookJoinThread extends Thread {
         Message msg = Message.obtain();
         msg.what = 0;
 
-        if (JspConn.recordMember(user)) {
+        if (JspConn.recordMember(user) != 0) {
             msg.what = 1;
         }
 

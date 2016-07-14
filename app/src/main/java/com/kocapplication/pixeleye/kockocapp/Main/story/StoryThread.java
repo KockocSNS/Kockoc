@@ -137,12 +137,22 @@ public class StoryThread extends Thread {
                 for (int ti = 0; ti < hashTagArr.size(); ti++)
                     hashTags.add(hashTagArr.get(ti).getAsString());
 
-                BoardWithImage boardWithImage = new BoardWithImage(attributes, expressionCount, coordinate,
-                        object.get("Text").getAsString(),
-                        object.get("Date").getAsString(),
-                        object.get("Time").getAsString(),
-                        object.get("mainImg").getAsString(),
-                        hashTags);
+                BoardWithImage boardWithImage = null;
+                try {
+                    boardWithImage = new BoardWithImage(attributes, expressionCount, coordinate,
+                            object.get("Text").getAsString(),
+                            object.get("Date").getAsString(),
+                            object.get("Time").getAsString(),
+                            object.get("mainImg").getAsString(),
+                            hashTags);
+                } catch (Exception e) {
+                    boardWithImage = new BoardWithImage(attributes, expressionCount, coordinate,
+                            object.get("Text").getAsString(),
+                            object.get("Date").getAsString(),
+                            object.get("Time").getAsString(),
+                            null,
+                            hashTags);
+                }
 
                 receiveData.add(boardWithImage);
             }
@@ -153,9 +163,7 @@ public class StoryThread extends Thread {
             msg.setData(bundle);
             msg.what = 1;
             handler.sendMessage(msg);
-        } catch (JsonSyntaxException e) {
-            handler.sendEmptyMessage(0);
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             handler.sendEmptyMessage(0);
         }
     }

@@ -567,13 +567,14 @@ public class JspConn {
         }
     }
 
+
     //회원 가입
-    static public boolean recordMember(User user) {
+    static public int recordMember(User user) {
         String resultStr = "";
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead() + "Member/recordUser2.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Member/recordUser3.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
 
@@ -593,20 +594,13 @@ public class JspConn {
             while ((line = bufferedReader.readLine()) != null) {
                 resultStr += line;
             }
+
+            Log.i(TAG, "Insert User" + resultStr);
+            return Integer.parseInt(resultStr.trim());
         } catch (Exception e) {
             Log.e(TAG, "recordMember error" + e.getMessage());
+            return 0;
         }
-        try {
-            if ((!resultStr.equals("not exist ID")) && !resultStr.equals("false")) {
-                JSONObject jsonResult = new JSONObject(resultStr);
-                if (jsonResult.get("result").equals("true")) {
-                    return true;
-                }
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "recordMember error :" + e.getMessage());
-        }
-        return false;
     }
 
     //로그인 시 비밀번호 대조

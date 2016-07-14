@@ -1,11 +1,16 @@
 package com.kocapplication.pixeleye.kockocapp.intro;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -28,6 +33,26 @@ public class IntroActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
+
+        ConnectivityManager manager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE); // 3G나 LTE등 데이터 네트워크에 연결된 상태
+        NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI); // 와이파이에 연결된 상태
+
+        if (wifi.isConnected() || mobile.isConnected()) { // 와이파이에 연결된 경우
+            autologin();
+        } else { // 인터넷에 연결되지 않은 경우
+            Log.e("intro","intro network not connect");
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle("안내");
+            dialog.setMessage("인터넷 연결상태를 확인해주세요");
+            dialog.setPositiveButton("예", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            dialog.show();
+        }
     }
 
     private void autologin() {
@@ -61,6 +86,6 @@ public class IntroActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        autologin();
+
     }
 }

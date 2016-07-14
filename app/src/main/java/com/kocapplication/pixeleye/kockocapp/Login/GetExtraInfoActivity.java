@@ -109,11 +109,11 @@ public class GetExtraInfoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (chk_allPass()) {
                     if (flag.equals("naver"))
-                        JspConn.recordMember(user);
+                        BasicValue.getInstance().setUserNo(JspConn.recordMember(user));
                     else if (flag.equals("kakao"))
-                        JspConn.recordMember(user); // 카카오 사인업에서 만든 User 업데이트
+                        BasicValue.getInstance().setUserNo(JspConn.recordMember(user)); // 카카오 사인업에서 만든 User 업데이트
                     else if (flag.equals("facebook"))
-                        JspConn.recordMember(user);
+                        BasicValue.getInstance().setUserNo(JspConn.recordMember(user));
                     startActivity(new Intent(GetExtraInfoActivity.this, MainActivity.class));
                     finish();
                 }

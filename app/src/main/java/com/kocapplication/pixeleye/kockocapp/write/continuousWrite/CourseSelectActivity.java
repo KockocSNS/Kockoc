@@ -101,7 +101,6 @@ public class CourseSelectActivity extends BaseActivityWithoutNav {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case MainActivity.CONTINUOUS_WRITE_REQUEST_CODE:
-                //todo 데이터안보내줘서 이어쓰기에 있는 글 안뜸
                 try {
                     Intent intent = new Intent();
                     intent.putExtra("boardNo",boardNo);

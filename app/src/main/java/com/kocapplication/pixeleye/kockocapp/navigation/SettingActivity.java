@@ -91,17 +91,8 @@ public class SettingActivity extends BaseActivityWithoutNav {
             if (msg.what == 1) {
                 Snackbar.make(serviceDropOutButton, "탈퇴 되었습니다.", Snackbar.LENGTH_SHORT).show();
                 BasicValue.getInstance().setUserNo(-1);
-                Intent intent = new Intent(SettingActivity.this, LoginActivity.class);
-                intent.putExtra("logout", 0);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                try{
-                    LoginManager.getInstance().logOut();
-                } catch(Exception e){
-                    e.printStackTrace();
-                }
+                setResult(RESULT_OK);
                 finish();
-//                setResult(RESULT_OK);
             }
         }
     }
