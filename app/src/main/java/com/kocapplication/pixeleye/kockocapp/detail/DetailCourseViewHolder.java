@@ -39,6 +39,10 @@ public class DetailCourseViewHolder extends RecyclerView.ViewHolder {
         return lineBottom;
     }
 
+    public ImageView getCourseImage() {
+        return courseImage;
+    }
+
     public TextView getCourseName() {
         return courseName;
     }

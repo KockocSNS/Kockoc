@@ -19,12 +19,13 @@ import java.util.List;
  */
 public class JsonParser {
     final static String TAG = "JsonParser";
+
     /**
      * Course
      */
-    static public ArrayList<String> readCourse(String MSG){
+    static public ArrayList<String> readCourse(String MSG) {
         ArrayList<String> result = new ArrayList<>();
-        try{
+        try {
             JSONObject courses = new JSONObject(MSG);
             ArrayList<String> tempArr = new ArrayList<>();
             tempArr.add(courses.getString("Course1"));
@@ -37,18 +38,21 @@ public class JsonParser {
             tempArr.add(courses.getString("Course8"));
             tempArr.add(courses.getString("Course9"));
             tempArr.add(courses.getString("Course10"));
-            for(String temp:tempArr){
-                if(temp!=null){
+
+            for (String temp : tempArr) {
+                if (temp != null)
                     result.add(temp);
-                }else{break;}
+                else break;
             }
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
         return result;
     }
+
     //DetailPage Data
     static public DetailPageData detailPageLoad(String MSG) {
         DetailPageData detailPageData = new DetailPageData();
-        try{
+        try {
             JSONObject getObject = new JSONObject(MSG);
             JSONArray Details = getObject.getJSONArray("boardArr");
             JSONObject temp = Details.getJSONObject(0);
@@ -77,7 +81,7 @@ public class JsonParser {
             //hash tag list
             ArrayList<String> hashTagList = new ArrayList<String>();
             JSONArray hashTagArr = temp.getJSONArray("hashList");
-            for(int n =0; n<hashTagArr.length(); n++) {
+            for (int n = 0; n < hashTagArr.length(); n++) {
                 hashTagList.add(hashTagArr.get(n).toString());
             }
             detailPageData.setHashTagArr(hashTagList);
@@ -86,16 +90,16 @@ public class JsonParser {
             detailPageData.setRecommend_No(expressionArr.length());
 
 
-            ArrayList<String>imagePathArr = new ArrayList<String>();
+            ArrayList<String> imagePathArr = new ArrayList<String>();
             JSONArray imageArr = temp.getJSONArray("imageArr");
-            for(int k=0; k<imageArr.length(); k++) {
+            for (int k = 0; k < imageArr.length(); k++) {
                 imagePathArr.add((imageArr.get(k)).toString());
             }
             detailPageData.setBoardImgArr(imagePathArr);
 
             JSONArray commentArr = temp.getJSONArray("commentArr");
             ArrayList<DetailPageData.Comment> comments = new ArrayList<DetailPageData.Comment>();
-            for(int l=0; l<commentArr.length(); l++) {
+            for (int l = 0; l < commentArr.length(); l++) {
                 JSONObject commentObject = commentArr.getJSONObject(l);
                 DetailPageData.Comment temp_Comment = detailPageData.getCommentClass();
                 temp_Comment.setComment_date(commentObject.getString("Date"));
@@ -107,39 +111,38 @@ public class JsonParser {
                 comments.add(temp_Comment);
             }
             detailPageData.setCommentArr(comments);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return detailPageData;
     }
 
-    static public ArrayList<Neighbor> getFollowInfo(String msg){
+    static public ArrayList<Neighbor> getFollowInfo(String msg) {
         ArrayList<Neighbor> neighborList = new ArrayList<>();
-        Log.e(TAG,""+msg);
-        try{
+        Log.e(TAG, "" + msg);
+        try {
             JSONArray neighborArr = new JSONArray(msg);
             int length = neighborArr.length();
-            for(int i=0; i<length; i++){
+            for (int i = 0; i < length; i++) {
                 JSONObject temp = neighborArr.getJSONObject(i);
                 int userNo = temp.getInt("userNo");
                 String nickName = temp.getString("nickname");
 
                 neighborList.add(new Neighbor(userNo, nickName));
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.getMessage();
         }
 
         return neighborList;
     }
 
-    static public ArrayList<NoticeItem> getNoticeItem(String msg){
+    static public ArrayList<NoticeItem> getNoticeItem(String msg) {
         ArrayList<NoticeItem> NoticeItemList = new ArrayList<>();
-        try{
+        try {
             JSONArray noticeItemArr = new JSONArray(msg);
             int length = noticeItemArr.length();
-            for(int i=0; i<length; i++){
+            for (int i = 0; i < length; i++) {
                 JSONObject temp = noticeItemArr.getJSONObject(i);
                 String nickName = temp.getString("Nickname");
                 int userNo = temp.getInt("User_No");
@@ -155,7 +158,7 @@ public class JsonParser {
 
                 NoticeItemList.add(new NoticeItem(userNo, boardNo, board_userNo, courseNo, nickName, date));
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.getMessage();
         }
 

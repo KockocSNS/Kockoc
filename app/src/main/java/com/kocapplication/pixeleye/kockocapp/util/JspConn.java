@@ -668,13 +668,13 @@ public class JspConn {
     }
 
     //카카오 회원가입
-    static public boolean kakaoRecordUser(String kakaoID,String kakaoNickname) {
+    static public boolean kakaoRecordUser(String kakaoID, String kakaoNickname) {
         String resultStr = "";
         Log.d("JSP", "Called kakaoRecordUser");
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Member/kakaoRecordUser.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Member/kakaoRecordUser.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
 
@@ -996,6 +996,70 @@ public class JspConn {
             e.printStackTrace();
         }
         Log.d("TAG", "getBoardNoForEdit result :" + result);
+        return result;
+    }
+
+    //코스 번호와 코스 이름을 받아 Course_i 의 i값 리턴
+    static public int getCoursePo(int Course_No, String Course) {
+        passiveMethod();
+        HttpClient client = new DefaultHttpClient();
+        String postURL = BasicValue.getInstance().getUrlHead() + "/Course/getCoursePo.jsp";
+        HttpPost post = new HttpPost(postURL);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("courseNo", "" + Course_No));
+        Course = Course.trim();
+        Course = Course + "%'"; // 자바스크립트에서 뒤에 문자가 안붙어서 안드로이드에서 붙여서 넘겨줌
+        params.add(new BasicNameValuePair("course", Course));
+        String result = "";
+
+        try {
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        result = result.substring(12); // DB에서 값을 받아올 때 공백을 제거함
+//        result = result.replaceAll("\\s+$", "");
+        result = result.trim();     // DB에서 값을 받아올 때 공백을 제거함
+        Log.e("jspconn", "getCoursePo result :" + result);
+
+        int coursePo = Integer.parseInt(result);
+        return coursePo; // 코스포지션은 0부터 시작하므로 1을 지워줌
+    }
+
+    static public String getCourseName(int Board_No) {
+        passiveMethod();
+        HttpClient client = new DefaultHttpClient();
+        String postURL = BasicValue.getInstance().getUrlHead() + "/Course/getCourseName.jsp";
+        HttpPost post = new HttpPost(postURL);
+        Log.e("jspconn", "getCourseName Board_No :" + Board_No);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("board_No", "" + Board_No));
+        String result = "";
+
+        try {
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        result = result.substring(4); // DB에서 값을 받아올 때 공백을 제거함
+        Log.e("jspconn", "getCourseName result :" + result);
         return result;
     }
 
