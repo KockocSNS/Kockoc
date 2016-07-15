@@ -18,10 +18,9 @@
         android:allowBackup="true"
         android:icon="@mipmap/app_icon"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:largeHeap="true">
-
+        android:theme="@style/AppTheme">
 
         <!-- 페이스북 debug key -->
         <meta-data
@@ -30,10 +29,11 @@
         <!-- 카카오톡 debug key -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="9b6bb8886ea6b7a8ae3e05ff6b989ea6"/>
+            android:value="9b6bb8886ea6b7a8ae3e05ff6b989ea6" />
 
 
-        <activity android:name=".intro.IntroActivity"
+        <activity
+            android:name=".intro.IntroActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,36 +42,46 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".login.LoginActivity"/>
-        <activity android:name=".login.JoinActivity"/>
-        <activity android:name=".login.GetExtraInfoActivity"/>
-        <activity android:name=".login.Kakao.KakaoSignupActivity"/>
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".login.JoinActivity" />
+        <activity android:name=".login.GetExtraInfoActivity" />
+        <activity android:name=".login.Kakao.KakaoSignupActivity" />
 
-        <activity android:name=".detail.DetailActivity"/>
-        <activity android:name=".detail.scrapuser.ScrapUserAcitivity"/>
+        <activity android:name=".detail.DetailActivity" />
+        <activity android:name=".detail.scrapuser.ScrapUserAcitivity" />
 
         <activity android:name=".main.MainActivity" />
-        <activity android:name=".main.AdviceActivity"/>
-        <activity android:name=".main.myKockoc.scrap.ScrapActivity"/>
-        <activity android:name=".main.search.SearchActivity"/>
-        <activity android:name=".main.search.SearchBoardActivity"/>
-        <activity android:name=".main.myKockoc.neighbor.NeighborActivity"/>
-        <activity android:name=".main.myKockoc.course.CourseActivity"/>
+        <activity android:name=".main.AdviceActivity" />
+        <activity android:name=".main.myKockoc.scrap.ScrapActivity" />
+        <activity android:name=".main.search.SearchActivity" />
+        <activity android:name=".main.search.SearchBoardActivity" />
+        <activity android:name=".main.myKockoc.neighbor.NeighborActivity" />
+        <activity android:name=".main.myKockoc.course.CourseActivity" />
 
-        <activity android:name=".user.UserActivity"/>
+        <activity android:name=".user.UserActivity" />
 
-        <activity android:name=".navigation.SettingActivity"/>
-        <activity android:name=".navigation.PasswordChangeActivity"/>
-        <activity android:name=".navigation.notice.NoticeActivity"/>
-        <activity android:name=".navigation.NicknameChangeActivity" android:windowSoftInputMode="stateAlwaysVisible|adjustResize"/>
+        <activity android:name=".navigation.SettingActivity" />
+        <activity android:name=".navigation.PasswordChangeActivity" />
+        <activity android:name=".navigation.notice.NoticeActivity" />
+        <activity
+            android:name=".navigation.NicknameChangeActivity"
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
 
-        <activity android:name=".write.newWrite.NewWriteActivity"/>
-        <activity android:name=".util.FilePopUp"/>
-        <activity android:name=".write.newWrite.map.MapActivity"    android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
-        <activity android:name=".write.course.CourseTitleActivity"  android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".write.course.CourseWriteActivity"  android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".write.course.AlarmDialogActivity"  android:theme="@style/Theme.Transparent"/>
-        <activity android:name=".write.continuousWrite.CourseSelectActivity"/>
+        <activity android:name=".write.newWrite.NewWriteActivity" />
+        <activity android:name=".util.FilePopUp" />
+        <activity
+            android:name=".write.newWrite.map.MapActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name=".write.course.CourseTitleActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".write.course.CourseWriteActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".write.course.AlarmDialogActivity"
+            android:theme="@style/Theme.Transparent" />
+        <activity android:name=".write.continuousWrite.CourseSelectActivity" />
 
         <!-- 네이버 로그인-->
         <activity
@@ -88,8 +98,9 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- Gcm Service -->
-        <service android:name=".util.GCM.RegistrationIntentService"
-            android:exported="false"/>
+        <service
+            android:name=".util.GCM.RegistrationIntentService"
+            android:exported="false" />
         <service
             android:name=".util.GCM.MyGcmListenerService"
             android:exported="false">
@@ -97,6 +108,7 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
+
     </application>
 
 </manifest>

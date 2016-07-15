@@ -118,7 +118,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
-//        AppEventsLogger.activateApp(this);
         setContentView(R.layout.activity_login);
 
         init();
@@ -208,8 +207,8 @@ public class LoginActivity extends AppCompatActivity {
                 } else
                     Toast.makeText(getApplicationContext(), "빈칸을 입력해주세요", Toast.LENGTH_SHORT).show();
             } else if (v.equals(facebookButton)) {
-                if (FacebookSdk.isInitialized())
-                    facebookLogin.performClick();
+                Toast.makeText(getApplicationContext(), "준비중입니다", Toast.LENGTH_SHORT).show();
+//                    facebookLogin.performClick();
             } else if (v.equals(naverButton))
                 oAuthLogin.startOauthLoginActivity(LoginActivity.this, new NaverLoginHandler());
             else if (v.equals(kakaoButton)) kakaoLogin.performClick();
