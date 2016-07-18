@@ -36,8 +36,9 @@ import java.util.List;
  */
 public class CourseThread extends Thread {
     private final static String TAG = "CourseThread";
-    private final String postURL = BasicValue.getInstance().getUrlHead() + "Course/readMyCourse.jsp";
+    private final String postURL = BasicValue.getInstance().getUrlHead() + "Course/readMyCourseWithMemo.jsp";
     private Handler handler;
+    public static String memo;
 
     public CourseThread(Handler handler) {
         super();
@@ -84,6 +85,7 @@ public class CourseThread extends Thread {
             String title = object.get("title").getAsString();
             String date = object.get("Date").getAsString();
             String time = object.get("Time").getAsString();
+            memo = object.get("Memo").getAsString();
 
             ArrayList<Course> course = new ArrayList<Course>();
 

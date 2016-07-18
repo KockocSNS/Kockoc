@@ -11,6 +11,7 @@ public class Courses implements Serializable {
     private int courseNo;
     private String title;
     private Date dateTime;
+    private String memo;
 
     private List<Course> courses;
 
@@ -19,6 +20,14 @@ public class Courses implements Serializable {
         this.title = title;
         this.dateTime = dateTime;
         this.courses = courses;
+    }
+
+    public Courses(int courseNo, String title, Date dateTime, List<Course> courses, String memo) { //메모 있는 코스
+        this.courseNo = courseNo;
+        this.title = title;
+        this.dateTime = dateTime;
+        this.courses = courses;
+        this.memo = memo;
     }
 
     public Courses(String title, Date dateTime, List<Course> courses) {
@@ -41,4 +50,5 @@ public class Courses implements Serializable {
         return courses;
     }
 
+    public String getMemo() {return memo;}
 }

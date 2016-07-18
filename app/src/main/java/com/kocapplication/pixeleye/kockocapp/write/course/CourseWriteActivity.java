@@ -53,6 +53,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
     private Button confirm;
 
     private String memo = "";
+    public static int mNumCheck;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
     }
 
     public void setMemo(String memo) {
-        Log.i(TAG, memo);
+        //Log.i(TAG, memo);
         this.memo = memo;
     }
 
@@ -128,6 +129,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
 
             courseNo = courses.getCourseNo();
             courseTitle = courses.getTitle();
+            memo=courses.getMemo();
             actionBarTitleSet(courseTitle, Color.WHITE);
 
             adapter.setItems(courses.getCourses());
@@ -200,20 +202,46 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
 
                 Log.i(TAG, courses.getCourseNo() + "");
 
-                // TODO: 2016-07-11 메모 넣어야되는데 어떻게 할지 아이디어가 안떠오른다
-                // TODO: 2016-07-11 글 작성을 할때 바로 메모를 넣는 방법!
-                // TODO: 2016-07-12 각각 코스 마다 메모를 붙이는 방법!
-                String result = "";
-                if (flag == DEFAULT_FLAG) {
-                    JspConn.uploadCourse(courseTitle, courses.getCourses()); // 코스 디비 업로드
+                int memoNum = MemoWriteThread.memoNum;
+                mNumCheck = memoNum;
+                Log.e("mNumCheck = memoNum", ""+mNumCheck+" "+memoNum);
+                if (flag == DEFAULT_FLAG && memoNum!=0) { //메모를 건든 코스
+                    JspConn.uploadCourseAndMemo(courseTitle, courses.getCourses(), memoNum);
+                    Log.e("JspConnuploadCourse", "off");
+//                    CourseFragment.memo = MemoWriteThread.message; // nam
+                    MemoWriteThread.memoClickCount=0;
+                    MemoWriteThread.message="";
+                    MemoWriteThread.resultmemoNo=0;
+                    MemoWriteThread.resultuserNo=0;
+                    MemoWriteThread.resultcourseNo=0;
+                    MemoWriteThread.memoNum=0;
                 }
-                else if (flag == ADJUST_FLAG) {
-                    result = JspConn.editCourse(courseNo, courses.getTitle(), courses.getCourses());
+                else if (flag == DEFAULT_FLAG && memoNum == 0 ) { //메모를 건들지 않은 코스
+                    JspConn.uploadCourse(courseTitle, courses.getCourses()); // 코스 디비 업로드
+                    Log.e("JspConnuploadCourse","on");
+                }
+                else if (flag ==ADJUST_FLAG && memoNum !=0) { //메모를 수정했으면 또는 메모가 있는 코스
+                    Log.e("editCourseMemo", "in");
+                    JspConn.editCourseAndMemo(courseNo, courses.getTitle(), courses.getCourses(), memo);
+                }
+                else if (flag == ADJUST_FLAG && memoNum == 0) { //메모가 없던 코스
+                    JspConn.editCourse(courseNo, courses.getTitle(), courses.getCourses());
+                    Log.e("editCourse","in");
                 }
 
                 finish();
-            } else if (v.equals(memoButton))
-                new MemoDialog(CourseWriteActivity.this, courseNo, memo);
+            } else if (v.equals(memoButton)) {
+                Log.e("MmemoNum: ", ""+courseNo);
+                if (mNumCheck == 0 && memo =="") {
+                    Log.e("MemoDialog","null");
+                    new MemoDialog(CourseWriteActivity.this, courseNo, "");
+                }
+                else if(memo != "") {
+                    Log.e("MemoDialog","not null");
+                    new MemoDialog(CourseWriteActivity.this, courseNo, memo);
+                }
+
+            }
         }
     }
 
