@@ -7,6 +7,7 @@ import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.User;
+import com.kocapplication.pixeleye.kockocapp.write.course.MemoWriteThread;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -312,6 +313,57 @@ public class JspConn {
         Log.d(TAG, "UploadCourse result :" + result);
         return result;
     }
+
+    //코스랑 메모 업로드
+    static public void uploadCourseAndMemo(String title, List<Course> Arr,int memoNum){
+        String result="";
+        try
+        {
+            passiveMethod();
+            HttpClient client = new DefaultHttpClient();
+            String postURL = BasicValue.getInstance().getUrlHead()+"Course/insertCourseWithMemo.jsp";
+            HttpPost post = new HttpPost(postURL);
+
+
+            List<NameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("userNo",""+ BasicValue.getInstance().getUserNo()));
+            params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(Arr.size())));
+            params.add(new BasicNameValuePair("title", title));
+            params.add(new BasicNameValuePair("memoNo", String.valueOf(memoNum)));
+
+
+            int i=0;
+            for(Course temp:Arr){
+                params.add(new BasicNameValuePair("course"+i++,""+temp.getTitle()+"/"+temp.getDataByMilSec()));
+            }
+
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while((line = bufferedReader.readLine())!=null){
+                result+=line;
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "UploadCourse error :" + e.getMessage());
+        }
+
+        Log.d(TAG, "UploadCourse result :" + result);
+
+        String[] array;
+        array = result.split(" ");
+        MemoWriteThread.resultcourseNo = Integer.parseInt(array[1]);
+        MemoWriteThread.resultuserNo = Integer.parseInt(array[2]);
+        MemoWriteThread.message = array[3];
+        MemoWriteThread.resultmemoNo= Integer.parseInt(array[4]);
+
+        Log.d("return courseNo = ", ""+MemoWriteThread.resultcourseNo);
+        Log.d("return userNo = ", ""+MemoWriteThread.resultuserNo);
+        Log.d("return message = ", ""+MemoWriteThread.message);
+        Log.d("return memoNo = ", ""+MemoWriteThread.resultmemoNo);
+    }
+
 
 
     /**
@@ -913,6 +965,8 @@ public class JspConn {
         String postURL = BasicValue.getInstance().getUrlHead() + "/Course/DeleteCourse.jsp";
         HttpPost post = new HttpPost(postURL);
 
+        Log.e("deletecourseno",""+courseNo);
+
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("courseNo", "" + courseNo));
         params.add(new BasicNameValuePair("userNo", "" + userNo));
@@ -971,6 +1025,44 @@ public class JspConn {
         }
 
         return result;
+    }
+
+    //코스와 메모 수정
+    static public void editCourseAndMemo(int courseNo, String title, List<Course> courses, String memo) {
+        String result = "";
+        try {
+            passiveMethod();
+
+            HttpClient client = new DefaultHttpClient();
+            String postURL = BasicValue.getInstance().getUrlHead() + "Course/editCourseWithMemo.jsp";
+            HttpPost post = new HttpPost(postURL);
+
+            List<NameValuePair> params = new ArrayList<>();
+
+            Log.i("JSPCONN", BasicValue.getInstance().getUserNo() + " / " + courses.size() + " / " + courseNo);
+
+            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
+            params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(courses.size())));
+            params.add(new BasicNameValuePair("courseNo", "" + courseNo));
+            params.add(new BasicNameValuePair("memo", memo));
+            int i = 1;
+            for (Course course : courses)
+                params.add(new BasicNameValuePair("course" + i++, course.getTitle() + "/" + course.getDateTime().getTime()));
+
+            params.add(new BasicNameValuePair("title", title));
+
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+            // Log.e("editCourse_Test rs: ", "" + result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     static public String getBoardNoForEdit(int courseNo, String courseName) { // 코스넘버와 코스 이름을 받아 보드넘버 반환

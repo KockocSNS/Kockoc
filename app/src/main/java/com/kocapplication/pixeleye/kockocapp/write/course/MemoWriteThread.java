@@ -22,15 +22,20 @@ import java.util.List;
  * Created by Han on 2016-07-11.
  */
 public class MemoWriteThread extends Thread {
-    private String message;
+    public static String message="";
     private int courseNo;
-    private boolean isUpdate;
+    public static int memoNum=0; // memo 넘버
+    public static int memoClickCount=0; // memo 아이콘 클릭 횟수
+    public static int resultmemoNo=0;
+    public static int resultcourseNo=0;
+    public static int resultuserNo=0;
 
-    public MemoWriteThread(String message, int courseNo, boolean isUpdate) {
+
+    public MemoWriteThread(String message, int courseNo) {
         super();
         this.message = message;
         this.courseNo = courseNo;
-        this.isUpdate = isUpdate;
+
     }
 
     @Override
@@ -39,12 +44,14 @@ public class MemoWriteThread extends Thread {
 
         Log.i("MEMOWRITETHREAD", "memo : " + message);
 
+
         HttpClient client = new DefaultHttpClient();
-        String postURL = isUpdate ? BasicValue.getInstance().getUrlHead() + "CourseMemoUpdate.jsp" : BasicValue.getInstance().getUrlHead() + "Course/MemoWrite.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead() + "Course/CourseMemoWrite.jsp";
         HttpPost post = new HttpPost(postURL);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("courseNo", "" + courseNo));
         params.add(new BasicNameValuePair("memo", message));
+        params.add(new BasicNameValuePair("memoClickCount","" +memoClickCount));
         String result = "";
         try {
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
@@ -56,9 +63,14 @@ public class MemoWriteThread extends Thread {
             while ((line = bufferedReader.readLine()) != null) {
                 result += line;
             }
+            memoNum = Integer.parseInt(result);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d("MEMOWRITETHREAD", "result : " + result);
+        
+        Log.d("MEMOWRITETHREAD", "result :" + memoNum + "memoClickCount :" + memoClickCount);
+        memoClickCount++;
     }
 }
