@@ -2,14 +2,10 @@ package com.kocapplication.pixeleye.kockocapp.login;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -27,15 +23,15 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.util.exception.KakaoException;
-
-import com.kocapplication.pixeleye.kockocapp.login.Kakao.KakaoSignupActivity;
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.login.Kakao.KakaoSignupActivity;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.User;
 import com.kocapplication.pixeleye.kockocapp.util.GCM.RegistrationIntentService;
@@ -45,8 +41,6 @@ import com.nhn.android.naverlogin.OAuthLoginHandler;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 
 import org.json.JSONObject;
-
-import java.security.MessageDigest;
 
 /**
  * Created by Han_ on 2016-04-01.
@@ -92,20 +86,20 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         try {
             Intent intent = getIntent();
-            intentValue = intent.getIntExtra("intentValue",0);
-            if(intentValue == 1) { // 카카오 intent
+            intentValue = intent.getIntExtra("intentValue", 0);
+            if (intentValue == 1) { // 카카오 intent
                 KakaoLinkBoardNo = intent.getIntExtra("kakaoLinkBoardNo", 0);
                 KakaoLinkCourseNo = intent.getIntExtra("kakaoLinkCourseNo", 0);
-            }else if(intentValue == 2){ // gcm intent
+            } else if (intentValue == 2) { // gcm intent
                 gcmBoardNo = intent.getIntExtra("gcmBoardNo", 0);
                 gcmCourseNo = intent.getIntExtra("gcmCourseNo", 0);
             }
-        }catch(Exception e){
-            Log.d(TAG,"getintent값 없음");
+        } catch (Exception e) {
+            Log.d(TAG, "getIntent 값 없음");
         }
 
         try {
-            if (getIntent().getIntExtra("logout",0) == 0) {
+            if (getIntent().getIntExtra("logout", 0) == 0) {
                 Handler handler = new LoginHandler();
                 Thread thread = new LoginThread(getApplicationContext(), handler, "-1", "", false);
                 thread.start();
@@ -130,6 +124,8 @@ public class LoginActivity extends AppCompatActivity {
 
         kakaoCallBack();
         facebookCallBack();
+
+        Log.i(TAG, "onCreateFinish");
     }
 
     private void init() {
@@ -163,21 +159,18 @@ public class LoginActivity extends AppCompatActivity {
         oAuthLogin.init(LoginActivity.this, "DJy3asjXdzqH_xK5WNt4", "QEpiUBFAQb", "KocKoc");
     }
 
-    // TODO: 2016-04-01 kakao login
     private void kakaoCallBack() {
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
         Session.getCurrentSession().checkAndImplicitOpen();
     }
 
-    // TODO: 2016-04-01 facebook login
     private void facebookCallBack() {
         callbackManager = CallbackManager.Factory.create();
         facebookLogin.registerCallback(callbackManager, new com.facebook.FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d("Facebook Login", "Success");
-
                 if (AccessToken.getCurrentAccessToken() != null) {
                     GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new FacebookCallbackGraph());
                     Bundle parameter = new Bundle();
@@ -186,6 +179,7 @@ public class LoginActivity extends AppCompatActivity {
                     request.executeAsync();
                 }
             }
+
             @Override
             public void onCancel() {
                 Log.d("Facebook Login", "Cancel");
@@ -212,15 +206,13 @@ public class LoginActivity extends AppCompatActivity {
                     thread.start();
                 } else
                     Toast.makeText(getApplicationContext(), "빈칸을 입력해주세요", Toast.LENGTH_SHORT).show();
-
             } else if (v.equals(facebookButton)) {
-//                facebookLogin.performClick();
-                Toast.makeText(LoginActivity.this, "준비중입니다.", Toast.LENGTH_SHORT).show();
-            } else if (v.equals(naverButton)) {
+                Toast.makeText(getApplicationContext(), "준비중입니다", Toast.LENGTH_SHORT).show();
+//                    facebookLogin.performClick();
+            } else if (v.equals(naverButton))
                 oAuthLogin.startOauthLoginActivity(LoginActivity.this, new NaverLoginHandler());
-            } else if (v.equals(kakaoButton)) {
-                kakaoLogin.performClick();
-            } else if (v.equals(signUpButton)) {
+            else if (v.equals(kakaoButton)) kakaoLogin.performClick();
+            else if (v.equals(signUpButton)) {
                 Intent intent = new Intent(LoginActivity.this, JoinActivity.class);
                 startActivity(intent);
             }
@@ -250,7 +242,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private class FacebookCallbackGraph implements GraphRequest.GraphJSONObjectCallback {
-
         @Override
         public void onCompleted(JSONObject object, GraphResponse response) {
             User userData;
@@ -265,8 +256,8 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
 //                    // Email이 없는 경우이므로 회원가입
                     Intent intent = new Intent(LoginActivity.this, GetExtraInfoActivity.class);
-                    intent.putExtra("user",userData);
-                    intent.putExtra("flag","facebook");
+                    intent.putExtra("user", userData);
+                    intent.putExtra("flag", "facebook");
                     startActivity(intent);
                     finish();
                 }
@@ -283,10 +274,10 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, KakaoSignupActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             getInstanceIdToken();
-            if(KakaoLinkBoardNo != 0) {
+            if (KakaoLinkBoardNo != 0) {
                 intent.putExtra("boardNo", KakaoLinkBoardNo);
                 intent.putExtra("courseNo", KakaoLinkCourseNo);
-            }else if(gcmBoardNo != 0){
+            } else if (gcmBoardNo != 0) {
                 intent.putExtra("boardNo", gcmBoardNo);
                 intent.putExtra("courseNo", gcmCourseNo);
             }
@@ -313,16 +304,15 @@ public class LoginActivity extends AppCompatActivity {
             if (msg.what == 1) {
                 getInstanceIdToken(); // gcm 토큰값 가져오기
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                if(KakaoLinkBoardNo != 0) {
+                if (KakaoLinkBoardNo != 0) {
                     intent.putExtra("boardNo", KakaoLinkBoardNo);
                     intent.putExtra("courseNo", KakaoLinkCourseNo);
                     startActivity(intent);
-                } else if(gcmBoardNo != 0){
+                } else if (gcmBoardNo != 0) {
                     intent.putExtra("boardNo", gcmBoardNo);
                     intent.putExtra("courseNo", gcmCourseNo);
                     startActivity(intent);
-                }else{
+                } else {
                     startActivity(intent);
                 }
             }
@@ -342,9 +332,9 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 Intent intent = new Intent(LoginActivity.this, GetExtraInfoActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("user",userData);
-                intent.putExtra("user",bundle);
-                intent.putExtra("flag","naver");
+                bundle.putSerializable("user", userData);
+                intent.putExtra("user", bundle);
+                intent.putExtra("flag", "naver");
                 startActivity(intent);
             }
         }
@@ -361,7 +351,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 Handler handler = new NaverHandler();
                 Log.i("changePwd", accessToken + " / " + refreshToken + " / " + expiresAt + " / " + tokenType);
-                Thread thread = new NaverUserInfoGetThread(getApplicationContext(),handler, oAuthLogin, accessToken);
+                Thread thread = new NaverUserInfoGetThread(getApplicationContext(), handler, oAuthLogin, accessToken);
                 thread.start();
             } else {
                 String errorCode = oAuthLogin.getLastErrorCode(getApplicationContext()).getCode();
@@ -389,6 +379,7 @@ public class LoginActivity extends AppCompatActivity {
             startService(intent);
         }
     }
+
     private boolean checkPlayServices(Context context) { // gcm 사용을 위해서는 구글 플레이 서비스가 있어야 한다.
         int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
         if (resultCode != ConnectionResult.SUCCESS) {

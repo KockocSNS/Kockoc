@@ -166,12 +166,14 @@ public class DetailFragment extends Fragment {
         ll_profile.setOnClickListener(new ProfileClickListener());
 
         btn_like.setOnClickListener(new LikeClickListener());
-
     }
 
     private void setCourseRecyclerView(View view) {
+        String courseName = JspConn.getCourseName(boardNo);
+        int coursePo = JspConn.getCoursePo(courseNo, courseName) - 1;
+
         course_recyclerView = (RecyclerView) view.findViewById(R.id.iv_detail_content_courses);
-        course_adapter = new DetailCourseAdapter(new ArrayList<String>(), new CourseClickListener());
+        course_adapter = new DetailCourseAdapter(new ArrayList<String>(), new CourseClickListener(), coursePo, getActivity());
         course_recyclerView.setAdapter(course_adapter);
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -260,8 +262,8 @@ public class DetailFragment extends Fragment {
             setImg(detailPageData);
             setCommentList();
             course_adapter.setItems(detailPageData.getCourse());
-
             course_adapter.notifyDataSetChanged();
+
             //DetailData를 받아 오면 좋아요 수 얻어옴
             Handler ex_handler = new ExpressionCheckHandler();
             Thread ex_thread = new ExpressionCheckThread(ex_handler, boardNo);

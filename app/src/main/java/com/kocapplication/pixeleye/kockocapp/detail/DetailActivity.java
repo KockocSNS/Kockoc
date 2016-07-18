@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -111,6 +112,11 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             String commentString = comment_et.getText().toString();
+
+            if (commentString.isEmpty()) {
+                Snackbar.make(comment_et, "댓글을 작성해 주세요.", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
 
             JspConn.WriteComment(commentString, boardNo, BasicValue.getInstance().getUserNo());
             JspConn.pushGcm(commentString+"|"+boardNo+"&"+courseNo, board_userNo); //gcm
