@@ -171,6 +171,7 @@ public class DetailFragment extends Fragment {
     private void setCourseRecyclerView(View view) {
         String courseName = JspConn.getCourseName(boardNo);
         int coursePo = JspConn.getCoursePo(courseNo, courseName) - 1;
+        coursePo = coursePo == -1 ? 0 : coursePo;
 
         course_recyclerView = (RecyclerView) view.findViewById(R.id.iv_detail_content_courses);
         course_adapter = new DetailCourseAdapter(new ArrayList<String>(), new CourseClickListener(), coursePo, getActivity());

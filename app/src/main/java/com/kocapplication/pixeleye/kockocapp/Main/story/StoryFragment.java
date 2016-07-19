@@ -131,6 +131,7 @@ public class StoryFragment extends Fragment {
     }
 
     public void refresh() {
+        if (refreshLayout == null) return;
         refreshLayout.setRefreshing(true);
         new StoryThread(new StoryDataReceiveHandler()).start();
     }

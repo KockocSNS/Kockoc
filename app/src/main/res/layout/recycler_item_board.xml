@@ -26,6 +26,8 @@
         android:gravity="center"
         android:background="@color/mainBgColor"
         android:textSize="16dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
         android:text="course_count"/>
 
     <LinearLayout

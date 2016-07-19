@@ -96,7 +96,7 @@ public class JspConn {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
 
-            String postURL = BasicValue.getInstance().getUrlHead() + "GCM/GCM.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "GCM/GCMTest.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userNo", "" + userNo));
@@ -1118,12 +1118,16 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        result = result.substring(12); // DB에서 값을 받아올 때 공백을 제거함
-//        result = result.replaceAll("\\s+$", "");
+
         result = result.trim();     // DB에서 값을 받아올 때 공백을 제거함
         Log.e("jspconn", "getCoursePo result :" + result);
 
-        int coursePo = Integer.parseInt(result);
+        int coursePo = 0;
+        try {
+            coursePo = Integer.parseInt(result);
+        } catch (NumberFormatException e) {
+            Log.e(TAG, "THIS BOARD IS NOT COURSE");
+        }
         return coursePo; // 코스포지션은 0부터 시작하므로 1을 지워줌
     }
 

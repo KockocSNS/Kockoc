@@ -90,7 +90,9 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
             Intent intent = getIntent();
             flag = intent.getIntExtra("FLAG", DEFAULT_FLAG);
             data = (DetailPageData) intent.getSerializableExtra("DATA");
-        }catch (NullPointerException e){Log.e(TAG,"getIntentdata null :"+e.getMessage());}
+        } catch (NullPointerException e) {
+            Log.e(TAG, "getIntentdata null :" + e.getMessage());
+        }
     }
 
     private void getComponent(View containView) {
@@ -101,7 +103,7 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
 
         imageContainer = (LinearLayout) containView.findViewById(R.id.image_container);
         mapContainer = (LinearLayout) containView.findViewById(R.id.map_container);
-        tagContainer = (FlowLayout)containView.findViewById(R.id.fl_new_write_tag_container);
+        tagContainer = (FlowLayout) containView.findViewById(R.id.fl_new_write_tag_container);
 
         boardText = (EditText) containView.findViewById(R.id.board_text);
         tagInput = (EditText) containView.findViewById(R.id.tag_input);
@@ -114,24 +116,26 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
         tagConfirm.setOnClickListener(new ButtonListener());
         photoAdd.setOnClickListener(new ButtonListener());
         mapAdd.setOnClickListener(new ButtonListener());
-        coordinate = new Coordinate(0,0);
+        coordinate = new Coordinate(0, 0);
         mapImage = new ImageView(getApplicationContext());
         mapImage.setImageDrawable(getResources().getDrawable(R.drawable.map_image));
 
         imagePaths = new ArrayList<>();
 
-        if(flag == EDIT_FLAG || flag == CONTINUOUS_EDIT_FLAG){set_editData();}
+        if (flag == EDIT_FLAG || flag == CONTINUOUS_EDIT_FLAG) {
+            set_editData();
+        }
     }
 
     /**
      * set_editData
      * 수정 데이터 set
      */
-    private void set_editData(){
+    private void set_editData() {
         ArrayList<String> paths = new ArrayList<>(); // 이미지 경로 temp 초기화
         boardText.setText(data.getBoardText()); // 글
 
-        for (int i = 0; i < data.getHashTagArr().size(); i++){ // 해시태그
+        for (int i = 0; i < data.getHashTagArr().size(); i++) { // 해시태그
             TextView t = addTagTextView(data.getHashTagArr().get(i));
             t.setText(data.getHashTagArr().get(i));
             tagContainer.removeView(tagTemp);
@@ -171,7 +175,7 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
                 return;
             }
 
-            dialog = ProgressDialog.show(NewWriteActivity.this,"","잠시만 기다려주세요");
+            dialog = ProgressDialog.show(NewWriteActivity.this, "", "잠시만 기다려주세요");
 
             BoardBasicAttr attributes = new BoardBasicAttr(BasicValue.getInstance().getUserNo());
 
@@ -204,7 +208,7 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
                 for (int i = 0; i < newWriteBoard.getImagePaths().size(); i++) {
 
                     String path = newWriteBoard.getImagePaths().get(i).toString();
-                    int split = newWriteBoard.getImagePaths().get(i).toString().lastIndexOf("/");
+                    int split = path.lastIndexOf("/");
 
                     String name = path.substring(split + 1);
                     path = path.substring(0, split + 1);
@@ -225,12 +229,12 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
              */
             Intent writeBoard = new Intent(NewWriteActivity.this, FilePopUp.class);
             writeBoard.putExtra("board", newWriteBoard);
-            if(flag == EDIT_FLAG || flag == CONTINUOUS_EDIT_FLAG) { //수정 플래그
+            if (flag == EDIT_FLAG || flag == CONTINUOUS_EDIT_FLAG) { //수정 플래그
                 writeBoard.putExtra("flag", "edit");
                 newWriteBoard.setBoardNo(data.getBoardNo()); // 수정 시 보드넘버 추가
-            }else writeBoard.putExtra("flag", "default");
+            } else writeBoard.putExtra("flag", "default");
 
-            startActivityForResult(writeBoard,IMAGE_TRANSMISSION);
+            startActivityForResult(writeBoard, IMAGE_TRANSMISSION);
         }
 
         private void photoAddClicked() {
@@ -250,12 +254,12 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
          */
         private void tagConfirmClicked() {
             if (!(tagInput.getText().length() == 0)) {
-                Log.e(TAG,"tagInput.getText().toString() :"+tagInput.getText().toString());
-                TextView t = addTagTextView("#"+ tagInput.getText().toString());
+                Log.e(TAG, "tagInput.getText().toString() :" + tagInput.getText().toString());
+                TextView t = addTagTextView("#" + tagInput.getText().toString());
                 t.setText("#" + tagInput.getText().toString());
                 tagContainer.removeView(tagTemp);
                 tagContainer.addView(t);
-                Log.e(TAG,"tagContainer :"+tagContainer.toString());
+                Log.e(TAG, "tagContainer :" + tagContainer.toString());
                 tagInput.setText("");
             } else {
                 Toast.makeText(getApplicationContext(), "태그를 추가해주세요", Toast.LENGTH_SHORT).show();
@@ -281,7 +285,7 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
         }
     }
 
-    private void setImg(ArrayList<String> paths){
+    private void setImg(ArrayList<String> paths) {
         imageContainer.removeAllViews();
         imagePaths = paths;
 
@@ -332,29 +336,27 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
                     return false;
                 }
             });
-        }
-        else if (requestCode == IMAGE_TRANSMISSION){
-            int result_boardNo = data.getIntExtra("result_boardNo",0);
+
+        } else if (requestCode == IMAGE_TRANSMISSION) {
+            int boardNo = data.getIntExtra("result_boardNo", 0);
             int courseNo = getIntent().getIntExtra("COURSE_NO", 0);
             int userNo = BasicValue.getInstance().getUserNo();
-            Log.e(TAG,"boardNo :"+result_boardNo);
-            Intent intent = new Intent();
-            intent.putExtra("boardNo", result_boardNo);
-            intent.putExtra("courseNo", courseNo);
-            intent.putExtra("board_userNo", userNo);
-            if(flag == CONTINUOUS_FLAG || flag == CONTINUOUS_EDIT_FLAG) {
-                setResult(MainActivity.CONTINUOUS_WRITE_REQUEST_CODE, intent);
-                finish();
-            } else {
-                setResult(MainActivity.NEW_WRITE_REQUEST_CODE,intent);
-                finish();
-            }
+
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("boardNo", boardNo);
+            resultIntent.putExtra("courseNo", courseNo);
+            resultIntent.putExtra("board_userNo", userNo);
+            setResult(RESULT_OK, resultIntent);
+
+            dialog.cancel();
+            finish();
         }
     }
 
     /**
      * addTagTextView
      * 보드에 hashtag를 추가하고 텍스트뷰를 삽입
+     *
      * @param text
      * @return TextView
      */
