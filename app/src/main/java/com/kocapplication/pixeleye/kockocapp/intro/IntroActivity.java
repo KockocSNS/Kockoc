@@ -11,14 +11,15 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Base64;
 import android.util.Log;
 
-import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 
@@ -28,6 +29,7 @@ import java.security.MessageDigest;
  * Created by pixeleye02 on 2016-06-27.
  */
 public class IntroActivity extends Activity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +53,9 @@ public class IntroActivity extends Activity {
         NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI); // 와이파이에 연결된 상태
 
         if (wifi.isConnected() || mobile.isConnected()) { // 와이파이에 연결된 경우
-            autologin();
+            autoLogin();
         } else { // 인터넷에 연결되지 않은 경우
-            Log.e("intro","intro network not connect");
+            Log.e("intro", "intro network not connect");
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle("안내");
             dialog.setMessage("인터넷 연결상태를 확인해주세요");
@@ -67,15 +69,21 @@ public class IntroActivity extends Activity {
         }
     }
 
-    private void autologin() {
+    private void autoLogin() {
         SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
         if (pref.getInt("login", -1) != -1) {
             int login = pref.getInt("login", -1);
             if (login != -1) {
                 BasicValue.getInstance().setUserNo(login);
 
-                // TODO: 2016-06-30 이 부분에 카카오 링크랑 gcm링크 구현
                 Intent intent = new Intent(this, MainActivity.class);
+                Uri uri = getIntent().getData();
+                try {
+                    intent.putExtra("kakaoLinkBoardNo", Integer.parseInt(uri.getQueryParameter("boardNo")));
+                    intent.putExtra("kakaoLinkCourseNo", Integer.parseInt(uri.getQueryParameter("courseNo")));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 startActivity(intent);
             }
         } else {

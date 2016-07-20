@@ -15,8 +15,11 @@ import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.facebook.login.LoginManager;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.intro.IntroActivity;
+import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -38,6 +41,7 @@ public class MyGcmListenerService extends GcmListenerService {
         int courseNo = 0;
         try {
             message = URLDecoder.decode(message, "UTF-8");
+            Log.i(TAG, message);
             boardNo = Integer.parseInt(message.substring(message.indexOf("|")+1,message.indexOf("&"))); // 메세지에서 보드넘버 추출
             courseNo = Integer.parseInt(message.substring(message.indexOf("&")+1));
             message = message.substring(0,message.indexOf("|")); // 메세지에서 보드넘버 제거
@@ -65,29 +69,28 @@ public class MyGcmListenerService extends GcmListenerService {
      */
     private void sendNotification(String title, String message, int boardNo, int courseNo) {
         int id = (int) (Math.random()*10)+1; // id값
-// TODO: 2016-06-21 gcm 링크 구현
-//        Intent intent = new Intent(this, IntroActivity.class);
-//        intent.putExtra("gcmBoardNo",boardNo);
-//        intent.putExtra("gcmCourseNo",courseNo);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, id /* Request code */, intent,
-//                PendingIntent.FLAG_ONE_SHOT);
-//
-//        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-//        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-//                .setSmallIcon(R.drawable.app_icon)
-//                .setContentTitle(title)
-//                .setContentText(message)
-//                .setAutoCancel(true)
-//                .setSound(defaultSoundUri)
-//                .setContentIntent(pendingIntent);
-//
-//        NotificationManager notificationManager =
-//                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//
-//        notificationManager.notify(id /* ID of notification */, notificationBuilder.build());
-//        Vibrator vibrator =(Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
-//        vibrator.vibrate(1000); // 1초간 진동
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra("gcmBoardNo",boardNo);
+        intent.putExtra("gcmCourseNo",courseNo);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, id /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.app_icon)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(id /* ID of notification */, notificationBuilder.build());
+        Vibrator vibrator =(Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(1000); // 1초간 진동
     }
 
 }

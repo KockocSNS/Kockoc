@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 23
@@ -25,7 +26,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:design:23.3.0'
     compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.google.android.gms:play-services-gcm:8.4.0'
+    compile 'com.google.android.gms:play-services-gcm:8.3.0'
     compile 'com.google.code.gson:gson:2.4'
     //Json library
     compile group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
@@ -47,4 +48,3 @@ dependencies {
     compile 'jp.wasabeef:glide-transformations:1.0.6@aar'
     compile files('lib/3rdparty_login_library_android_4.1.4.jar')
 }
-apply plugin: 'com.google.gms.google-services'

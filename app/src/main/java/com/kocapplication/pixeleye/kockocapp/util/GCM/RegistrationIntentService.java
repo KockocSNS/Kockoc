@@ -61,9 +61,8 @@ public class RegistrationIntentService  extends IntentService {
                 // Instance ID에 해당하는 토큰을 생성하여 가져온다.
                 token = instanceID.getToken(default_senderId, scope, null);
                 // TODO: 2016-06-21 gcmKey DB 입력  userNo값 가져와야함
-                setGcmKey(token);
-
                 Log.i(TAG, "GCM Registration Token: " + token);
+                setGcmKey(token);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -72,14 +71,13 @@ public class RegistrationIntentService  extends IntentService {
 
     static public String setGcmKey(String gcmKey) {
         String result = "";
-        int userNo = BasicValue.getInstance().getUserNo();
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"GCM/setGcmKey.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead()+"GCM/setGcmKeyTest.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("userNo", "" + userNo));
+            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
             params.add(new BasicNameValuePair("gcmKey", "" + gcmKey));
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
@@ -92,7 +90,7 @@ public class RegistrationIntentService  extends IntentService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d("TAG", "setGcmKey result :" + result);
+        Log.d("GCM_SET", "setGcmKey result :" + result);
         return result;
     }
     static public void passiveMethod() {

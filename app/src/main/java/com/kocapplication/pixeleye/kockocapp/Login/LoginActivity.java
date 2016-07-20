@@ -91,8 +91,10 @@ public class LoginActivity extends AppCompatActivity {
                 KakaoLinkBoardNo = intent.getIntExtra("kakaoLinkBoardNo", 0);
                 KakaoLinkCourseNo = intent.getIntExtra("kakaoLinkCourseNo", 0);
             } else if (intentValue == 2) { // gcm intent
-                gcmBoardNo = intent.getIntExtra("gcmBoardNo", 0);
-                gcmCourseNo = intent.getIntExtra("gcmCourseNo", 0);
+//                gcmBoardNo = intent.getIntExtra("gcmBoardNo", 0);
+                KakaoLinkBoardNo= intent.getIntExtra("gcmBoardNo", 0);
+//                gcmCourseNo = intent.getIntExtra("gcmCourseNo", 0);
+                KakaoLinkCourseNo = intent.getIntExtra("gcmCourseNo", 0);
             }
         } catch (Exception e) {
             Log.d(TAG, "getIntent 값 없음");

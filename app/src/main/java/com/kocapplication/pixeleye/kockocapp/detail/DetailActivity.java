@@ -75,13 +75,13 @@ public class DetailActivity extends AppCompatActivity {
         menu_btn = (ImageView)findViewById(R.id.detail_menu);
         course_spinner = (Spinner) findViewById(R.id.course_spinner);
 
-
         commentSend_btn.setOnClickListener(new CommentSendListener());
         courseCopy_btn.setOnClickListener(new CourseCopyListener());
         scrap_btn.setOnClickListener(new ScrapListener());
         back_btn.setOnClickListener(new BackListener());
         menu_btn.setOnClickListener(new MenuListener());
         //작성자와 유저번호가 같으면 코스 복사와 관심글 숨김
+        Log.i(TAG, board_userNo + " / " + BasicValue.getInstance().getUserNo());
         if(board_userNo == BasicValue.getInstance().getUserNo()){
             courseCopy_btn.setVisibility(View.INVISIBLE);
             scrap_btn.setVisibility(View.INVISIBLE);
@@ -94,7 +94,6 @@ public class DetailActivity extends AppCompatActivity {
         //코스가 있을때만 스피너 띄움
         if(courseNo>0) {set_spinner();}
         else course_spinner.setVisibility(View.GONE);
-
     }
 
     private void getIntentValue(){
