@@ -70,6 +70,7 @@ public class MyGcmListenerService extends GcmListenerService {
     private void sendNotification(String title, String message, int boardNo, int courseNo) {
         int id = (int) (Math.random()*10)+1; // id값
         Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra("intentValue",2);
         intent.putExtra("gcmBoardNo",boardNo);
         intent.putExtra("gcmCourseNo",courseNo);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
