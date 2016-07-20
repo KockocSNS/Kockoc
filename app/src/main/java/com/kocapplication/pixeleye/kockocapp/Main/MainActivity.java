@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
@@ -38,7 +39,6 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
 
-
         init();
         actionBarTitleSet();
 
@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity {
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e(TAG,"AAA");
+                Log.e(TAG, "AAA");
             }
         });
     }
@@ -129,9 +129,7 @@ public class MainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.i(TAG, "REQUEST CODE" + requestCode);
-
-        switch (requestCode){
+        switch (requestCode) {
             case DETAIL_ACTIVITY_REQUEST_CODE:
                 ((StoryFragment) adapter.getItem(0)).refresh();
                 break;
@@ -150,15 +148,20 @@ public class MainActivity extends BaseActivity {
                 break;
         }
     }
-    void detail_intent(Intent data){
-        try {
-            Intent detail_intent = new Intent(MainActivity.this, DetailActivity.class);
-            detail_intent.putExtra("boardNo",data.getIntExtra("boardNo",0));
-            detail_intent.putExtra("courseNo",data.getIntExtra("courseNo",0));
-            detail_intent.putExtra("board_userNo",data.getIntExtra("board_userNo",0));
-            startActivity(detail_intent);
-        } catch (NullPointerException e) {
-            Log.d(TAG,"onActivityResult null");
-        }
+
+    void detail_intent(Intent data) {
+        if (data == null) return;
+
+        int boardNo = data.getIntExtra("boardNo", 0);
+        int courseNo = data.getIntExtra("courseNo", 0);
+        int userNo = data.getIntExtra("board_userNo", 0);
+
+        if (boardNo == 0 || courseNo == 0 || userNo == 0) return;
+
+        Intent detail_intent = new Intent(MainActivity.this, DetailActivity.class);
+        detail_intent.putExtra("boardNo", boardNo);
+        detail_intent.putExtra("courseNo", courseNo);
+        detail_intent.putExtra("board_userNo", userNo);
+        startActivity(detail_intent);
     }
 }

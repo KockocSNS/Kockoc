@@ -102,11 +102,7 @@ public class CourseSelectActivity extends BaseActivityWithoutNav {
         switch (requestCode){
             case MainActivity.CONTINUOUS_WRITE_REQUEST_CODE:
                 try {
-                    Intent intent = new Intent();
-                    intent.putExtra("boardNo",boardNo);
-                    intent.putExtra("courseNo", courses.getCourseNo());
-                    intent.putExtra("board_userNo", BasicValue.getInstance().getUserNo());
-                    setResult(MainActivity.CONTINUOUS_WRITE_REQUEST_CODE, intent);
+                    setResult(MainActivity.CONTINUOUS_WRITE_REQUEST_CODE, data);
                     finish();
                 } catch (NullPointerException e) {Log.d(TAG,"onActivityResult null");}
                 break;

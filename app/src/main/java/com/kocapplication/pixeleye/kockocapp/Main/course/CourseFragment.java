@@ -77,6 +77,7 @@ public class CourseFragment extends Fragment {
     }
 
     public void refresh() {
+        if (refreshLayout == null) return;
         refreshLayout.setRefreshing(true);
         Handler handler = new CourseHandler();
         Thread thread = new CourseThread(handler);

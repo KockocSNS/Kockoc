@@ -23,14 +23,12 @@
         android:theme="@style/AppTheme">
 
         <!-- 페이스북 debug key -->
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="1550213591953523" />
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="1550213591953523" />
+
         <!-- 카카오톡 debug key -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="9b6bb8886ea6b7a8ae3e05ff6b989ea6" />
-
 
         <activity
             android:name=".intro.IntroActivity"
@@ -91,11 +89,7 @@
             android:name="com.nhn.android.naverlogin.ui.OAuthLoginInAppBrowserActivity"
             android:label="OAuth2.0 In-app" />
         <!-- 페이스북 로그인 -->
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name="com.facebook.FacebookActivity" />
 
         <!-- Gcm Service -->
         <service

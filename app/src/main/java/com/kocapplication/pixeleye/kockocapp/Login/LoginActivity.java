@@ -118,8 +118,10 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+
         setContentView(R.layout.activity_login);
 
+        callbackManager = CallbackManager.Factory.create();
         init();
 
         kakaoCallBack();
@@ -166,7 +168,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void facebookCallBack() {
-        callbackManager = CallbackManager.Factory.create();
         facebookLogin.registerCallback(callbackManager, new com.facebook.FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -207,8 +208,8 @@ public class LoginActivity extends AppCompatActivity {
                 } else
                     Toast.makeText(getApplicationContext(), "빈칸을 입력해주세요", Toast.LENGTH_SHORT).show();
             } else if (v.equals(facebookButton)) {
-                Toast.makeText(getApplicationContext(), "준비중입니다", Toast.LENGTH_SHORT).show();
-//                    facebookLogin.performClick();
+//                Toast.makeText(getApplicationContext(), "준비중입니다", Toast.LENGTH_SHORT).show();
+                facebookLogin.performClick();
             } else if (v.equals(naverButton))
                 oAuthLogin.startOauthLoginActivity(LoginActivity.this, new NaverLoginHandler());
             else if (v.equals(kakaoButton)) kakaoLogin.performClick();
