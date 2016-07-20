@@ -77,8 +77,7 @@ public class LoginActivity extends AppCompatActivity {
 
     int KakaoLinkBoardNo;
     int KakaoLinkCourseNo;
-    int gcmBoardNo;
-    int gcmCourseNo;
+
     int intentValue;
 
     @Override
@@ -91,9 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                 KakaoLinkBoardNo = intent.getIntExtra("kakaoLinkBoardNo", 0);
                 KakaoLinkCourseNo = intent.getIntExtra("kakaoLinkCourseNo", 0);
             } else if (intentValue == 2) { // gcm intent
-//                gcmBoardNo = intent.getIntExtra("gcmBoardNo", 0);
                 KakaoLinkBoardNo= intent.getIntExtra("gcmBoardNo", 0);
-//                gcmCourseNo = intent.getIntExtra("gcmCourseNo", 0);
                 KakaoLinkCourseNo = intent.getIntExtra("gcmCourseNo", 0);
             }
         } catch (Exception e) {
@@ -280,9 +277,6 @@ public class LoginActivity extends AppCompatActivity {
             if (KakaoLinkBoardNo != 0) {
                 intent.putExtra("boardNo", KakaoLinkBoardNo);
                 intent.putExtra("courseNo", KakaoLinkCourseNo);
-            } else if (gcmBoardNo != 0) {
-                intent.putExtra("boardNo", gcmBoardNo);
-                intent.putExtra("courseNo", gcmCourseNo);
             }
             startActivity(intent);
 
@@ -310,10 +304,6 @@ public class LoginActivity extends AppCompatActivity {
                 if (KakaoLinkBoardNo != 0) {
                     intent.putExtra("boardNo", KakaoLinkBoardNo);
                     intent.putExtra("courseNo", KakaoLinkCourseNo);
-                    startActivity(intent);
-                } else if (gcmBoardNo != 0) {
-                    intent.putExtra("boardNo", gcmBoardNo);
-                    intent.putExtra("courseNo", gcmCourseNo);
                     startActivity(intent);
                 } else {
                     startActivity(intent);

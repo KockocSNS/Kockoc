@@ -12,6 +12,7 @@ import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.MeResponseCallback;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.helper.log.Logger;
+import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.login.GetExtraInfoActivity;
 import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
@@ -90,13 +91,13 @@ public class KakaoSignupActivity extends Activity {
 
     private void redirectMainActivity() {
         // TODO: 2016-06-29 카카오링크 추가해야함
-//        if(getBoardNo != 0) {
-//            Intent detailIntent = new Intent(this, DetailPageActivity.class);
-//            detailIntent.putExtra("boardNo", getBoardNo);
-//            detailIntent.putExtra("courseNo", getCourseNo);
-//            startActivity(detailIntent);
-//        }
         startActivity(new Intent(this, MainActivity.class));
+        if(getBoardNo != 0) {
+            Intent detailIntent = new Intent(this, DetailActivity.class);
+            detailIntent.putExtra("boardNo", getBoardNo);
+            detailIntent.putExtra("courseNo", getCourseNo);
+            startActivity(detailIntent);
+        }
         finish();
     }
     protected void redirectLoginActivity() {
