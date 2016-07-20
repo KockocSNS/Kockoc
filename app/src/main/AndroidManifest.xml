@@ -3,6 +3,7 @@
     package="com.kocapplication.pixeleye.kockocapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <!--핸드폰 내장 데이터 읽고 쓰기-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -37,6 +38,18 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="kakaolink"
+                    android:scheme="kakao677998a98a447b3f9746ae205b85eb73" />
+
             </intent-filter>
         </activity>
 
@@ -91,7 +104,18 @@
         <!-- 페이스북 로그인 -->
         <activity android:name="com.facebook.FacebookActivity" />
 
+
         <!-- Gcm Service -->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="net.saltfactory.demo.gcm" />
+            </intent-filter>
+        </receiver>
+
         <service
             android:name=".util.GCM.RegistrationIntentService"
             android:exported="false" />
