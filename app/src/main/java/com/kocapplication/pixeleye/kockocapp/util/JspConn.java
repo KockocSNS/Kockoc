@@ -172,7 +172,7 @@ public class JspConn {
     static public String writeExpression(int boardNo, int Status) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead() + "Board/Expression/changePwd/writeExpression.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead() + "Board/Expression/writeExpression.jsp";
         HttpPost post = new HttpPost(postURL);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
 
@@ -287,7 +287,6 @@ public class JspConn {
             HttpClient client = new DefaultHttpClient();
             String postURL = BasicValue.getInstance().getUrlHead() + "Course/InsertCourse.jsp";
             HttpPost post = new HttpPost(postURL);
-
 
             List<NameValuePair> params = new ArrayList<>();
             params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
@@ -1158,6 +1157,32 @@ public class JspConn {
         Log.e("jspconn", "getCourseName result :" + result);
         return result;
     }
+
+    static public String getCourseTitle(int courseNo) {
+        HttpClient client = new DefaultHttpClient();
+        String postURL = BasicValue.getInstance().getUrlHead() + "/Course/getCourseTitle.jsp";
+        HttpPost post = new HttpPost(postURL);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("courseNo", "" + courseNo));
+        String result = "";
+
+        try {
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.e(TAG, "Course Title : " + result);
+        return result;
+    }
+
 
     static public void passiveMethod() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

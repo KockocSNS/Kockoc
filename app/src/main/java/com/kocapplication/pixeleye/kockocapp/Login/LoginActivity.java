@@ -81,6 +81,20 @@ public class LoginActivity extends AppCompatActivity {
     int intentValue;
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+
+        setContentView(R.layout.activity_login);
+
+        init();
+
+        kakaoCallBack();
+        facebookCallBack();
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         try {
@@ -90,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                 KakaoLinkBoardNo = intent.getIntExtra("kakaoLinkBoardNo", 0);
                 KakaoLinkCourseNo = intent.getIntExtra("kakaoLinkCourseNo", 0);
             } else if (intentValue == 2) { // gcm intent
-                KakaoLinkBoardNo= intent.getIntExtra("gcmBoardNo", 0);
+                KakaoLinkBoardNo = intent.getIntExtra("gcmBoardNo", 0);
                 KakaoLinkCourseNo = intent.getIntExtra("gcmCourseNo", 0);
             }
         } catch (Exception e) {
@@ -111,22 +125,6 @@ public class LoginActivity extends AppCompatActivity {
         if (facebookToken != null) {
             Log.i("facebook token user id", facebookToken.getUserId());
         }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-
-        setContentView(R.layout.activity_login);
-
-        callbackManager = CallbackManager.Factory.create();
-        init();
-
-        kakaoCallBack();
-        facebookCallBack();
-
-        Log.i(TAG, "onCreateFinish");
     }
 
     private void init() {
@@ -208,6 +206,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "빈칸을 입력해주세요", Toast.LENGTH_SHORT).show();
             } else if (v.equals(facebookButton)) {
 //                Toast.makeText(getApplicationContext(), "준비중입니다", Toast.LENGTH_SHORT).show();
+                facebookLogin = (com.facebook.login.widget.LoginButton) findViewById(R.id.facebook_login_button);
                 facebookLogin.performClick();
             } else if (v.equals(naverButton))
                 oAuthLogin.startOauthLoginActivity(LoginActivity.this, new NaverLoginHandler());
