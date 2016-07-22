@@ -150,7 +150,15 @@ public class DetailActivity extends AppCompatActivity {
                 Log.i(TAG, courseName);
                 courseList.add(new Course(courseName, new Date(), i));
             }
-            JspConn.uploadCourse(courseTitle, courseList);
+
+            try {
+                Integer.parseInt(JspConn.uploadCourse(courseTitle, courseList));
+                Toast.makeText(DetailActivity.this, "코스가 복사 되었습니다.", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(DetailActivity.this, "복사 되지 않았습니다.", Toast.LENGTH_SHORT).show();
+            }
+
 
         }
     }
