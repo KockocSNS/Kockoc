@@ -24,7 +24,9 @@
         android:theme="@style/AppTheme">
 
         <!-- 페이스북 debug key -->
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="1550213591953523" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_key" />
 
         <!-- 카카오톡 debug key -->
         <meta-data
@@ -33,7 +35,8 @@
 
         <activity
             android:name=".intro.IntroActivity"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,56 +56,105 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".login.LoginActivity" />
-        <activity android:name=".login.JoinActivity" />
-        <activity android:name=".login.GetExtraInfoActivity" />
-        <activity android:name=".login.Kakao.KakaoSignupActivity" />
+        <activity
+            android:name=".login.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".login.JoinActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".login.GetExtraInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".login.Kakao.KakaoSignupActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".detail.DetailActivity" />
-        <activity android:name=".detail.scrapuser.ScrapUserAcitivity" />
+        <activity
+            android:name=".detail.DetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".detail.scrapuser.ScrapUserAcitivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".main.MainActivity" />
-        <activity android:name=".main.AdviceActivity" />
-        <activity android:name=".main.myKockoc.scrap.ScrapActivity" />
-        <activity android:name=".main.search.SearchActivity" />
-        <activity android:name=".main.search.SearchBoardActivity" />
-        <activity android:name=".main.myKockoc.neighbor.NeighborActivity" />
-        <activity android:name=".main.myKockoc.course.CourseActivity" />
+        <activity
+            android:name=".main.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".main.AdviceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".main.myKockoc.scrap.ScrapActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".main.search.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".main.search.SearchBoardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".main.myKockoc.neighbor.NeighborActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".main.myKockoc.course.CourseActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".user.UserActivity" />
+        <activity
+            android:name=".user.UserActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".navigation.SettingActivity" />
-        <activity android:name=".navigation.PasswordChangeActivity" />
-        <activity android:name=".navigation.notice.NoticeActivity" />
+        <activity
+            android:name=".navigation.SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".navigation.PasswordChangeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".navigation.notice.NoticeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".navigation.NicknameChangeActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
 
-        <activity android:name=".write.newWrite.NewWriteActivity" />
-        <activity android:name=".util.FilePopUp" />
+        <activity
+            android:name=".write.newWrite.NewWriteActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".util.FilePopUp"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".write.newWrite.map.MapActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".write.course.CourseTitleActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".write.course.CourseWriteActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".write.course.AlarmDialogActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Transparent" />
-        <activity android:name=".write.continuousWrite.CourseSelectActivity" />
+        <activity
+            android:name=".write.continuousWrite.CourseSelectActivity"
+            android:screenOrientation="portrait" />
 
         <!-- 네이버 로그인-->
         <activity
             android:name="com.nhn.android.naverlogin.ui.OAuthLoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.nhn.android.naverlogin.ui.OAuthLoginInAppBrowserActivity"
-            android:label="OAuth2.0 In-app" />
+            android:label="OAuth2.0 In-app"
+            android:screenOrientation="portrait" />
         <!-- 페이스북 로그인 -->
-        <activity android:name="com.facebook.FacebookActivity" />
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:screenOrientation="portrait" />
 
 
         <!-- Gcm Service -->

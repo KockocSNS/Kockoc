@@ -96,7 +96,8 @@ public class JspConn {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
 
-            String postURL = BasicValue.getInstance().getUrlHead() + "GCM/GCMTest.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "GCM/GCMTest.jsp"; //테스트 빼기
+//            String postURL = BasicValue.getInstance().getUrlHead() + "GCM/GCMTest.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userNo", "" + userNo));
@@ -172,7 +173,7 @@ public class JspConn {
     static public String writeExpression(int boardNo, int Status) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead() + "Board/Expression/changePwd/writeExpression.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead() + "Board/Expression/writeExpression.jsp";
         HttpPost post = new HttpPost(postURL);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
 
@@ -376,7 +377,8 @@ public class JspConn {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
 
-            String postURL = BasicValue.getInstance().getUrlHead() + "Board/HPdeleteBoard.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Board/HPdeleteBoard.jsp"; //deleteBoard로 변경
+            // String postURL = BasicValue.getInstance().getUrlHead() + "Board/deleteBoard.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("boardNo", "" + boardNo));
@@ -799,7 +801,7 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead() + "Member/changePwd.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Member/changePwd.jsp";    //어디감????
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<>();
@@ -910,7 +912,7 @@ public class JspConn {
     static public String notice(int userNo) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead() + "Board/Comment/test.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead() + "Board/Comment/test.jsp";  //Notice로 바꾸기
         HttpPost post = new HttpPost(postURL);
 
         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -1156,6 +1158,31 @@ public class JspConn {
         }
         result = result.substring(4); // DB에서 값을 받아올 때 공백을 제거함
         Log.e("jspconn", "getCourseName result :" + result);
+        return result;
+    }
+
+    static public String test() {
+        passiveMethod();
+        HttpClient client = new DefaultHttpClient();
+        String postURL = "http://115.68.14.27:8080/test.jsp";
+        HttpPost post = new HttpPost(postURL);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        String result = "";
+
+        try {
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.e("jspconn", "서버서버 :" + result);
         return result;
     }
 
