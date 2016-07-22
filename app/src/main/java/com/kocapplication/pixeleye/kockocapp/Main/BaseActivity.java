@@ -64,7 +64,6 @@ public class BaseActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
 
-
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         assert actionBar != null;
