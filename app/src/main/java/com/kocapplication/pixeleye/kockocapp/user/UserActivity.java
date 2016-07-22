@@ -123,6 +123,7 @@ public class UserActivity extends BaseActivityWithoutNav {
         listenerSet();
     }
 
+
     private void listenerSet() {
         View.OnClickListener count_listener = new CountClickListener();
         scrapButton.setOnClickListener(count_listener);

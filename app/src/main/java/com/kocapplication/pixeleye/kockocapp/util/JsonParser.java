@@ -149,11 +149,11 @@ public class JsonParser {
                 int boardNo = temp.getInt("Board_No");
                 int board_userNo = temp.getInt("BoardUser_No");
                 int courseNo = 0;
-                try {
+                if(temp.isNull("Course_No")){
+                    courseNo = 0;
+                } else
                     courseNo = temp.getInt("Course_No");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
                 String date = temp.getString("Date");
 
                 NoticeItemList.add(new NoticeItem(userNo, boardNo, board_userNo, courseNo, nickName, date));

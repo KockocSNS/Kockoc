@@ -96,8 +96,7 @@ public class JspConn {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
 
-            String postURL = BasicValue.getInstance().getUrlHead() + "GCM/GCMTest.jsp"; //테스트 빼기
-//            String postURL = BasicValue.getInstance().getUrlHead() + "GCM/GCMTest.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "GCM/GCM.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userNo", "" + userNo));
@@ -376,8 +375,7 @@ public class JspConn {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
 
-            String postURL = BasicValue.getInstance().getUrlHead() + "Board/HPdeleteBoard.jsp"; //deleteBoard로 변경
-            // String postURL = BasicValue.getInstance().getUrlHead() + "Board/deleteBoard.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Board/deleteBoard.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("boardNo", "" + boardNo));
@@ -911,7 +909,7 @@ public class JspConn {
     static public String notice(int userNo) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead() + "Board/Comment/test.jsp";  //Notice로 바꾸기
+        String postURL = BasicValue.getInstance().getUrlHead() + "Board/Comment/Notice.jsp";
         HttpPost post = new HttpPost(postURL);
 
         List<NameValuePair> params = new ArrayList<NameValuePair>();

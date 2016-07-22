@@ -216,7 +216,11 @@ public class DetailFragment extends Fragment {
 
     private void setImg(DetailPageData data) {
         //프로필 이미지
-        Glide.with(getActivity()).load(BasicValue.getInstance().getUrlHead() + "board_image/" + data.getUserNo() + "/profile.jpg").into(profile_img);
+        try {
+            Glide.with(getActivity()).load(BasicValue.getInstance().getUrlHead() + "board_image/" + data.getUserNo() + "/profile.jpg").error(R.drawable.default_profile).into(profile_img);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //게시글 이미지
         for (int i = 0; i < data.getBoardImgArr().size(); i++) {

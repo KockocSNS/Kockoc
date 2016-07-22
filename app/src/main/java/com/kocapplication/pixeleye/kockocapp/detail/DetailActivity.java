@@ -152,6 +152,7 @@ public class DetailActivity extends AppCompatActivity {
             }
             JspConn.uploadCourse(courseTitle, courseList);
 
+            Toast.makeText(DetailActivity.this, "코스가 복사되었습니다.",Toast.LENGTH_SHORT).show();
         }
     }
 

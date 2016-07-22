@@ -74,7 +74,7 @@ public class RegistrationIntentService  extends IntentService {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"GCM/setGcmKeyTest.jsp"; //테스트 빼기
+            String postURL = BasicValue.getInstance().getUrlHead()+"GCM/setGcmKey.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
