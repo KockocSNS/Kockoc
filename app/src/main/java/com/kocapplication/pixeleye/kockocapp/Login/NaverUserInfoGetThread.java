@@ -17,9 +17,6 @@ import java.net.URL;
  * Created by pixeleye02 on 2016-04-15.
  */
 public class NaverUserInfoGetThread extends Thread {
-    private final String postURL = "https://openapi.naver.com/v1/nid/me?Authorization: Bearer AAAAOLtP40eH6P5S4Z4FpFl77n3FD5I+W3ost3oDZq/nbcS+7MAYXwXbT3Y7Ib3dnvcqHkcK0e5/rw6ajF7S/QlJAgUukpp1OGkG0vzi16hcRNYX6RcQ6kPxB0oAvqfUPJiJw==";
-    private HttpURLConnection connection;
-    private URL url;
     private Handler handler;
 
     private Context context;

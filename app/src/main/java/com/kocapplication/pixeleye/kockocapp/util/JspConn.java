@@ -289,7 +289,6 @@ public class JspConn {
             String postURL = BasicValue.getInstance().getUrlHead() + "Course/InsertCourse.jsp";
             HttpPost post = new HttpPost(postURL);
 
-
             List<NameValuePair> params = new ArrayList<>();
             params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
             params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(Arr.size())));
@@ -1161,12 +1160,13 @@ public class JspConn {
         return result;
     }
 
-    static public String test() {
-        passiveMethod();
+
+    static public String getCourseTitle(int courseNo) {
         HttpClient client = new DefaultHttpClient();
-        String postURL = "http://115.68.14.27:8080/test.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead() + "/Course/getCourseTitle.jsp";
         HttpPost post = new HttpPost(postURL);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("courseNo", "" + courseNo));
         String result = "";
 
         try {
@@ -1182,9 +1182,11 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         Log.e("jspconn", "서버서버 :" + result);
         return result;
     }
+
 
     static public void passiveMethod() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();

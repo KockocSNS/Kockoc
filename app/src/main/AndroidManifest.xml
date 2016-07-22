@@ -28,6 +28,7 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_key" />
 
+
         <!-- 카카오톡 debug key -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
