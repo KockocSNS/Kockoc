@@ -96,7 +96,8 @@ public class JspConn {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
 
-            String postURL = BasicValue.getInstance().getUrlHead() + "GCM/GCMTest.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "GCM/GCMTest.jsp"; //테스트 빼기
+//            String postURL = BasicValue.getInstance().getUrlHead() + "GCM/GCMTest.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userNo", "" + userNo));
@@ -375,7 +376,8 @@ public class JspConn {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
 
-            String postURL = BasicValue.getInstance().getUrlHead() + "Board/HPdeleteBoard.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Board/HPdeleteBoard.jsp"; //deleteBoard로 변경
+            // String postURL = BasicValue.getInstance().getUrlHead() + "Board/deleteBoard.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("boardNo", "" + boardNo));
@@ -798,7 +800,7 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead() + "Member/changePwd.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Member/changePwd.jsp";    //어디감????
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<>();
@@ -909,7 +911,7 @@ public class JspConn {
     static public String notice(int userNo) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead() + "Board/Comment/test.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead() + "Board/Comment/test.jsp";  //Notice로 바꾸기
         HttpPost post = new HttpPost(postURL);
 
         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -1158,6 +1160,7 @@ public class JspConn {
         return result;
     }
 
+
     static public String getCourseTitle(int courseNo) {
         HttpClient client = new DefaultHttpClient();
         String postURL = BasicValue.getInstance().getUrlHead() + "/Course/getCourseTitle.jsp";
@@ -1179,7 +1182,8 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.e(TAG, "Course Title : " + result);
+
+        Log.e("jspconn", "서버서버 :" + result);
         return result;
     }
 

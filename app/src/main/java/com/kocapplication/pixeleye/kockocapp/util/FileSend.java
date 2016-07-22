@@ -24,9 +24,9 @@ import java.util.ArrayList;
  */
 public class FileSend implements Runnable {
     FTPClient ftpClient = null;
-    String IPAddress = "221.160.54.160";
+    String IPAddress = "115.68.14.27";
     String ConnID = "kocserver";
-    String PWD = "0505";
+    String PWD = "vlrtpfdkdl0505";
     String targetName = "";
     int userNo = 0;
 
