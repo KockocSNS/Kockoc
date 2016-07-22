@@ -216,6 +216,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                     MemoWriteThread.resultcourseNo=0;
                     MemoWriteThread.memoNum=0;
                 }
+
                 else if (flag == DEFAULT_FLAG && memoNum == 0 ) { //메모를 건들지 않은 코스
                     JspConn.uploadCourse(courseTitle, courses.getCourses()); // 코스 디비 업로드
                     Log.e("JspConnuploadCourse","on");

@@ -24,7 +24,9 @@
         android:theme="@style/AppTheme">
 
         <!-- 페이스북 debug key -->
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="1550213591953523" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
         <!-- 카카오톡 debug key -->
         <meta-data

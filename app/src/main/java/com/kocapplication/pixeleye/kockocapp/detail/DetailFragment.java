@@ -123,11 +123,12 @@ public class DetailFragment extends Fragment {
         Thread thread = new DetailThread(handler, boardNo, courseNo);
         thread.start();
 
+        course_title.setText(JspConn.getCourseTitle(courseNo));
+
         return view;
     }
 
     private void init(View view) {
-
         detailPageData = new DetailPageData();
 
         ll_profile = (LinearLayout) view.findViewById(R.id.ll_profile);
@@ -292,6 +293,8 @@ public class DetailFragment extends Fragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String receive = msg.getData().getString("MESSAGE");
+
+            Log.i(TAG, receive);
 
             btn_like.setTextOff(detailPageData.getRecommend_No() + "");
             btn_like.setTextOn((detailPageData.getRecommend_No() + 1) + "");
