@@ -31,6 +31,7 @@ import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 import com.kocapplication.pixeleye.kockocapp.write.newWrite.NewWriteActivity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -137,37 +138,20 @@ public class DetailActivity extends AppCompatActivity {
     private class CourseCopyListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            Toast.makeText(DetailActivity.this, "코스 복사 구현해야함", Toast.LENGTH_SHORT).show();
-//
-//            int userNo = BasicValue.getInstance().getUserNo();
-//            int courseNo = DetailActivity.this.courseNo;
-//            String courseTitle = DetailActivity.this.courseTitle;
-//            List<String> course = JsonParser.readCourse(JspConn.readCourseByCourseNo(courseNo));
-//
-//            List<Course> courseList = new ArrayList<>();
-//            for (int i = 0; i < course.size(); i++) {
-////                String courseName = courseS
-//                Log.i(TAG, courseName);
-////                courseList.add(new Course())
-//            }
-//            JspConn.uploadCourse(courseTitle, );
+            // TODO: 2016-07-22 Refactoring이 해야한다.
+            int courseNo = DetailActivity.this.courseNo;
+            String courseTitle = DetailActivity.this.courseTitle;
+            List<String> course = JsonParser.readCourse(JspConn.readCourseByCourseNo(courseNo));
 
+            List<Course> courseList = new ArrayList<>();
+            for (int i = 0; i < course.size(); i++) {
+                String courseName = course.get(i).split("/")[0];
+                if (courseName.equals("null")) break;
+                Log.i(TAG, courseName);
+                courseList.add(new Course(courseName, new Date(), i));
+            }
+            JspConn.uploadCourse(courseTitle, courseList);
 
-//            int index;
-//            ArrayList<Courses> courseArr = (JsonParser.readCourseToCopy(JspConn.readCourseAll()));
-//            for (index = 0; index < courseArr.size(); index++) {
-//                if (courseArr.get(index).courseNo == mCourseNo) {
-//                    break;
-//                }
-//            }
-//            Courses courses = new Courses();
-//            courses.courseArr = courseArr.get(index).courseArr;
-//            courses.courseNo = courseArr.get(index).courseNo;
-//            Intent intent = new Intent(getApplicationContext(), GetTitleActivity.class);
-//            intent.putExtra("courses",courses);
-//            intent.putExtra("courseArr",courseArr);
-//            startActivity(intent);
-//            finish();
         }
     }
 
