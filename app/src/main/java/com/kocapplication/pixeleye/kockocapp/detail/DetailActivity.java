@@ -89,11 +89,16 @@ public class DetailActivity extends AppCompatActivity {
             courseCopy_btn.setVisibility(View.INVISIBLE);
             scrap_btn.setVisibility(View.INVISIBLE);
         } else {
-            scrap_btn.setChecked(true);
+            String isScrap = JspConn.isScrap(boardNo, BasicValue.getInstance().getUserNo());
+
+            scrap_btn.setText("관심글 등록");
             scrap_btn.setTextOff("관심글 등록");
             scrap_btn.setTextOn("관심글 해제");
-            scrap_btn.setText("관심글 등록");
+
+            if (isScrap.isEmpty()) scrap_btn.setChecked(false);
+            else scrap_btn.setChecked(true);
         }
+
         //코스가 있을때만 스피너 띄움
         if (courseNo > 0) {
             set_spinner();
@@ -150,7 +155,15 @@ public class DetailActivity extends AppCompatActivity {
                 Log.i(TAG, courseName);
                 courseList.add(new Course(courseName, new Date(), i));
             }
-            JspConn.uploadCourse(courseTitle, courseList);
+
+            try {
+                Integer.parseInt(JspConn.uploadCourse(courseTitle, courseList));
+                Toast.makeText(DetailActivity.this, "코스가 복사 되었습니다.", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(DetailActivity.this, "복사 되지 않았습니다.", Toast.LENGTH_SHORT).show();
+            }
+
 
             Toast.makeText(DetailActivity.this, "코스가 복사되었습니다.",Toast.LENGTH_SHORT).show();
         }

@@ -4,7 +4,6 @@ package com.kocapplication.pixeleye.kockocapp.util;
  * Created by Administrator on 2015-07-13.
  */
 
-
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;

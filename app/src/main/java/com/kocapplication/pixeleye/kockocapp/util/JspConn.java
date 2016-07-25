@@ -96,7 +96,7 @@ public class JspConn {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
 
-            String postURL = BasicValue.getInstance().getUrlHead() + "GCM/GCM.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "GCM/GCM.jsp"; //테스트 빼기
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("userNo", "" + userNo));
@@ -218,6 +218,31 @@ public class JspConn {
             while ((line = bufferedReader.readLine()) != null) {
                 result += line;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static public String isScrap(int boardNo, int userNo) {
+        passiveMethod();
+        HttpClient client = new DefaultHttpClient();
+        String postURL = BasicValue.getInstance().getUrlHead() + "Scrap/isScrap.jsp";
+        HttpPost post = new HttpPost(postURL);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("userNo", String.valueOf(userNo)));
+        params.add(new BasicNameValuePair("boardNo", String.valueOf(boardNo)));
+        String result = "";
+
+        try {
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null)
+                result += line;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -375,7 +400,8 @@ public class JspConn {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
 
-            String postURL = BasicValue.getInstance().getUrlHead() + "Board/deleteBoard.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Board/HPdeleteBoard.jsp"; //deleteBoard로 변경
+            // String postURL = BasicValue.getInstance().getUrlHead() + "Board/deleteBoard.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("boardNo", "" + boardNo));
@@ -909,7 +935,7 @@ public class JspConn {
     static public String notice(int userNo) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead() + "Board/Comment/Notice.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead() + "Board/Comment/test.jsp";  //Notice로 바꾸기
         HttpPost post = new HttpPost(postURL);
 
         List<NameValuePair> params = new ArrayList<NameValuePair>();

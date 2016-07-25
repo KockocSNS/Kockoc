@@ -5,7 +5,6 @@ package com.kocapplication.pixeleye.kockocapp.util;
  */
 public class BasicValue {
     private static BasicValue ourInstance = new BasicValue();
-//    private String urlHead = "http://221.160.54.160:8080/";
     private String urlHead = "http://115.68.14.27:8080/";
     private final String DAUM_MAP_API_KEY = "fd87e70c9d3984b8efea777c78112f1e";
 
