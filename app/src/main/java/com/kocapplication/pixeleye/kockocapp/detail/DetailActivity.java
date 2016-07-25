@@ -100,9 +100,8 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         //코스가 있을때만 스피너 띄움
-        if (courseNo > 0) {
-            set_spinner();
-        } else course_spinner.setVisibility(View.GONE);
+        if (courseNo > 0) set_spinner();
+        else course_spinner.setVisibility(View.GONE);
 
         courseTitle = JspConn.getCourseTitle(courseNo);
     }

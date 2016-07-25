@@ -401,7 +401,7 @@ public class JspConn {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
 
-            String postURL = BasicValue.getInstance().getUrlHead() + "Board/HPdeleteBoard.jsp"; //deleteBoard로 변경
+            String postURL = BasicValue.getInstance().getUrlHead() + "Board/deleteBoard.jsp"; //deleteBoard로 변경
             // String postURL = BasicValue.getInstance().getUrlHead() + "Board/deleteBoard.jsp";
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();

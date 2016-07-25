@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
@@ -44,6 +45,8 @@ public class MyProfileImgThread extends Thread {
             String temp = c.getString(column_index);
             String imgName = temp.substring(temp.lastIndexOf("/") + 1);
             String imgPath = temp.replaceAll(imgName, ""); // 이미지 폴더 경로
+
+            Log.i(TAG, imgPath + imgName);
 
             String thumbProfile = Thumbnail.profileImgThum(imgPath, imgName);
             //ProfileSend 에서 ftp로 서버에 이미지 전송
