@@ -3,7 +3,9 @@ package com.kocapplication.pixeleye.kockocapp.main.recommend;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -38,7 +40,7 @@ public class RecommendFragment extends Fragment {
 
         init(view);
 
-        Handler handler = new Handler();
+        Handler handler = new Handler(new RecommendDataReceiveHandleCallback());
         Thread thread = new RecommendThread(handler);
         thread.start();
 
@@ -80,7 +82,27 @@ public class RecommendFragment extends Fragment {
     private class RefreshListener implements SwipeRefreshLayout.OnRefreshListener {
         @Override
         public void onRefresh() {
-            Toast.makeText(getActivity(), "Recommend", Toast.LENGTH_SHORT).show();
+            Handler handler = new Handler(new RecommendDataReceiveHandleCallback());
+            Thread thread = new RecommendThread(handler);
+            thread.start();
+        }
+    }
+
+    private class RecommendDataReceiveHandleCallback implements Handler.Callback {
+        @Override
+        public boolean handleMessage(Message msg) {
+            if (msg.what == 0) {
+                Snackbar.make(refreshLayout, "데이터를 불러오는데 실패하였습니다. 새로고침을 해주세요", Snackbar.LENGTH_SHORT).show();
+                return false;
+            }
+
+            ArrayList<BoardWithImage> boardWithImages = (ArrayList<BoardWithImage>) msg.getData().getSerializable("THREAD");
+
+            adapter.setItems(boardWithImages);
+            adapter.notifyDataSetChanged();
+            refreshLayout.setRefreshing(false);
+
+            return true;
         }
     }
 }
