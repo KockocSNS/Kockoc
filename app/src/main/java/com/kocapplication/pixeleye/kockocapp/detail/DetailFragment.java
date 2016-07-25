@@ -122,9 +122,11 @@ public class DetailFragment extends Fragment {
         Handler handler = new DetailDataReceiveHandler();
         Thread thread = new DetailThread(handler, boardNo, courseNo);
         thread.start();
-
-        course_title.setText(JspConn.getCourseTitle(courseNo));
-
+        if (courseNo == 0) {
+            course_title.setVisibility(View.GONE);
+        }else {
+            course_title.setText(JspConn.getCourseTitle(courseNo));
+        }
         return view;
     }
 
