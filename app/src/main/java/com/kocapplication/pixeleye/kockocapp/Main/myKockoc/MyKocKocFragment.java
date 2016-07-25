@@ -70,7 +70,7 @@ public class MyKocKocFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        dialog = ProgressDialog.show(getActivity(),"","잠시만 기다려주세요");
+        dialog = ProgressDialog.show(getActivity(), "", "잠시만 기다려주세요");
         View view = inflater.inflate(R.layout.fragment_mykockoc, container, false);
 
         init(view);
@@ -108,7 +108,7 @@ public class MyKocKocFragment extends Fragment {
 
         //recyclerView
         recyclerView = (RecyclerView) recycler.findViewById(R.id.recycler_view);
-        adapter = new BoardRecyclerAdapter(new ArrayList<BoardWithImage>(), new BoardItemClickListener(),getActivity());
+        adapter = new BoardRecyclerAdapter(new ArrayList<BoardWithImage>(), new BoardItemClickListener(), getActivity());
         recyclerView.setAdapter(adapter);
 
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
@@ -136,7 +136,7 @@ public class MyKocKocFragment extends Fragment {
                 startActivityForResult(scrap_intent, SCRAP_REQUEST_CODE);
             } else if (v.equals(neighborButton)) {
                 Intent neighbor_intent = new Intent(getContext(), NeighborActivity.class);
-                neighbor_intent.putExtra("userNo",BasicValue.getInstance().getUserNo());
+                neighbor_intent.putExtra("userNo", BasicValue.getInstance().getUserNo());
                 startActivityForResult(neighbor_intent, NEIGHBOR_REQUEST_CODE);
             } else if (v.equals(courseButton)) {
                 Intent course_intent = new Intent(getContext(), CourseActivity.class);
@@ -149,7 +149,7 @@ public class MyKocKocFragment extends Fragment {
      * ProfileClickListener
      * 프로필 사진 변경 -> 내장 갤러리
      */
-    private class ProfileImgClickListener implements View.OnClickListener{
+    private class ProfileImgClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(Intent.ACTION_PICK);
@@ -158,10 +158,11 @@ public class MyKocKocFragment extends Fragment {
             startActivityForResult(intent, PROFILE_IMG_SET); // 메인 액티비티로 result 보냄
         }
     }
-    private class NicknameClickListener implements View.OnClickListener{
+
+    private class NicknameClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            startActivityForResult(new Intent(getActivity(), NicknameChangeActivity.class),NICKNAME_UPDATE);
+            startActivityForResult(new Intent(getActivity(), NicknameChangeActivity.class), NICKNAME_UPDATE);
         }
     }
 
@@ -187,11 +188,11 @@ public class MyKocKocFragment extends Fragment {
         Handler handler;
         Thread thread;
 
-        switch (requestCode){
+        switch (requestCode) {
             case PROFILE_IMG_SET:
                 //ProfileImgReceiveHandler 에서 서버로 프로필 이미지 전송
                 handler = new ProfileImgReceiveHandler();
-                thread = new MyProfileImgThread(handler,data,getActivity());
+                thread = new MyProfileImgThread(handler, data, getActivity());
                 thread.start();
                 break;
             case NICKNAME_UPDATE:
@@ -233,10 +234,10 @@ public class MyKocKocFragment extends Fragment {
             scrapCount.setText(data.getScrapCount() + "");
             neighborCount.setText(data.getNeighborCount() + "");
             courseCount.setText(data.getCourseCount() + "");
-            Glide.with(getContext()).load(BasicValue.getInstance().getUrlHead()+"board_image/"+ BasicValue.getInstance().getUserNo() + "/profile.jpg")
+            Glide.with(getContext()).load(BasicValue.getInstance().getUrlHead() + "board_image/" + BasicValue.getInstance().getUserNo() + "/profile.jpg")
                     .error(R.drawable.default_profile).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
                     .bitmapTransform(new CropCircleTransformation(Glide.get(getContext()).getBitmapPool())).into(profileImage);
-            ((MainActivity)getActivity()).set_navProfileName(data.getNickName());
+            ((MainActivity) getActivity()).set_navProfileName(data.getNickName());
         }
     }
 
@@ -257,17 +258,17 @@ public class MyKocKocFragment extends Fragment {
      * ProfileImgReceiveHandler
      * 프로필 사진 변경 시 호출
      */
-    private class ProfileImgReceiveHandler extends Handler{
+    private class ProfileImgReceiveHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             Glide.with(getActivity())
-                    .load(BasicValue.getInstance().getUrlHead()+"board_image/"+ BasicValue.getInstance().getUserNo() + "/profile.jpg")
+                    .load(BasicValue.getInstance().getUrlHead() + "board_image/" + BasicValue.getInstance().getUserNo() + "/profile.jpg")
                     .diskCacheStrategy(DiskCacheStrategy.NONE) // glide 캐시 초기화
                     .skipMemoryCache(true)
                     .error(R.drawable.default_profile)
                     .bitmapTransform(new CropCircleTransformation(Glide.get(getContext()).getBitmapPool())).into(profileImage);
-            ((MainActivity)getActivity()).set_navProfileImg();
+            ((MainActivity) getActivity()).set_navProfileImg();
         }
     }
 }
