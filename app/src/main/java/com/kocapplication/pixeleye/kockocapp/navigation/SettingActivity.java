@@ -29,6 +29,7 @@ public class SettingActivity extends BaseActivityWithoutNav {
     private Button nicknameChange;
     private Button serviceDropOutButton;
     private Switch autoLoginSet;
+    private Button clearCache;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class SettingActivity extends BaseActivityWithoutNav {
         nicknameChange = (Button) containView.findViewById(R.id.nick_change);
         serviceDropOutButton = (Button) containView.findViewById(R.id.service_drop_out_button);
         autoLoginSet = (Switch) containView.findViewById(R.id.auto_login_set);
+        clearCache = (Button)containView.findViewById(R.id.glide_cache_clear_btn);
 
         listenerSet();
     }
@@ -53,6 +55,7 @@ public class SettingActivity extends BaseActivityWithoutNav {
         passwordChange.setOnClickListener(buttonClickListener);
         serviceDropOutButton.setOnClickListener(buttonClickListener);
         nicknameChange.setOnClickListener(new ChangeNicknameClickListener());
+        clearCache.setOnClickListener(buttonClickListener);
     }
 
 
@@ -64,6 +67,8 @@ public class SettingActivity extends BaseActivityWithoutNav {
                 startActivity(passchange_intent);
             } else if (v.equals(serviceDropOutButton)){
                 new CustomAlertDialog(SettingActivity.this, "계정을 삭제하시겠습니까?", new DialogButtonListener());
+            } else if (v.equals(clearCache)){
+                new ClearCacheDialog(SettingActivity.this, "캐시를 삭제하시겠습니까?");
             }
         }
     }
@@ -96,5 +101,7 @@ public class SettingActivity extends BaseActivityWithoutNav {
             }
         }
     }
+
+
 }
 

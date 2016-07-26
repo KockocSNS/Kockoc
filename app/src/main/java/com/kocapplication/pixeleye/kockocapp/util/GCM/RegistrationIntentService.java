@@ -61,7 +61,7 @@ public class RegistrationIntentService  extends IntentService {
                 // Instance ID에 해당하는 토큰을 생성하여 가져온다.
                 token = instanceID.getToken(default_senderId, scope, null);
                 // TODO: 2016-06-21 gcmKey DB 입력  userNo값 가져와야함
-                Log.i(TAG, "GCM Registration Token: " + token);
+                Log.i(TAG, "GCM Registration Token Check:  " + token);
                 setGcmKey(token);
             }
         } catch (IOException e) {
@@ -70,6 +70,7 @@ public class RegistrationIntentService  extends IntentService {
     }
 
     static public String setGcmKey(String gcmKey) {
+        Log.i("GCM_" , "test");
         String result = "";
         try {
             passiveMethod();
@@ -90,6 +91,7 @@ public class RegistrationIntentService  extends IntentService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.d("GCM_SET", "UserNo : "+ BasicValue.getInstance().getUserNo());
         Log.d("GCM_SET", "setGcmKey result :" + result);
         return result;
     }

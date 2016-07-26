@@ -19,10 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,12 +28,10 @@ import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.detail.scrapuser.ScrapUserAcitivity;
+import com.kocapplication.pixeleye.kockocapp.detail.scrapuser.ScrapUserActivity;
 import com.kocapplication.pixeleye.kockocapp.detail.share.SharingHelper;
-import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.user.UserActivity;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
-import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 import net.daum.mf.map.api.CameraUpdateFactory;
@@ -342,7 +338,7 @@ public class DetailFragment extends Fragment {
     private class CommentScrapListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            Intent scrap_user_intent = new Intent(v.getContext(), ScrapUserAcitivity.class);
+            Intent scrap_user_intent = new Intent(v.getContext(), ScrapUserActivity.class);
             scrap_user_intent.putExtra("boardNo", boardNo);
             startActivity(scrap_user_intent);
         }

@@ -249,7 +249,7 @@ public class LoginActivity extends AppCompatActivity {
                 Handler handler = new LoginHandler();
                 if (!JspConn.checkDuplID(userData.e_mail)) {
 //                    // Email이 이미 존재하는 경우
-                    getInstanceIdToken();
+//                    getInstanceIdToken();
                     Thread thread = new NoPwdLoginThread(getApplicationContext(), handler, userData.e_mail);
                     thread.start();
                 } else {
@@ -272,7 +272,7 @@ public class LoginActivity extends AppCompatActivity {
             // Session Open Success
             Intent intent = new Intent(LoginActivity.this, KakaoSignupActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            getInstanceIdToken();
+//            getInstanceIdToken();
             if (KakaoLinkBoardNo != 0) {
                 intent.putExtra("boardNo", KakaoLinkBoardNo);
                 intent.putExtra("courseNo", KakaoLinkCourseNo);
@@ -298,7 +298,7 @@ public class LoginActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 1) {
-                getInstanceIdToken(); // gcm 토큰값 가져오기
+//                getInstanceIdToken(); // gcm 토큰값 가져오기
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 if (KakaoLinkBoardNo != 0) {
                     intent.putExtra("boardNo", KakaoLinkBoardNo);
@@ -318,7 +318,7 @@ public class LoginActivity extends AppCompatActivity {
             Handler handler = new LoginHandler();
             User userData = (User) msg.getData().get("Message");
             if (!JspConn.checkDuplID(userData.e_mail)) {
-                getInstanceIdToken();
+//                getInstanceIdToken();
                 Thread thread = new NoPwdLoginThread(getApplicationContext(), handler, userData.e_mail);
                 thread.start();
             } else {
@@ -360,30 +360,30 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    /**
-     * getInstanceIdToken
-     * Gcm Token값 DB에 저장
-     */
-    public void getInstanceIdToken() {
-        if (checkPlayServices(this)) {
-            // Start IntentService to register this application with GCM.
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
-        }
-    }
-
-    private boolean checkPlayServices(Context context) { // gcm 사용을 위해서는 구글 플레이 서비스가 있어야 한다.
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
-                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            } else {
-                Log.i("LoginActivityTest", "This device is not supported.");
-                finish();
-            }
-            return false;
-        }
-        return true;
-    }
+//    /**
+//     * getInstanceIdToken
+//     * Gcm Token값 DB에 저장
+//     */
+//    public void getInstanceIdToken() {
+//        if (checkPlayServices(this)) {
+//            // Start IntentService to register this application with GCM.
+//            Intent intent = new Intent(this, RegistrationIntentService.class);
+//            startService(intent);
+//        }
+//    }
+//
+//    private boolean checkPlayServices(Context context) { // gcm 사용을 위해서는 구글 플레이 서비스가 있어야 한다.
+//        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
+//        if (resultCode != ConnectionResult.SUCCESS) {
+//            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+//                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+//                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+//            } else {
+//                Log.i("LoginActivityTest", "This device is not supported.");
+//                finish();
+//            }
+//            return false;
+//        }
+//        return true;
+//    }
 }

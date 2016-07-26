@@ -11,14 +11,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -83,6 +87,7 @@ public class DetailActivity extends AppCompatActivity {
         scrap_btn.setOnClickListener(new ScrapListener());
         back_btn.setOnClickListener(new BackListener());
         menu_btn.setOnClickListener(new MenuListener());
+
         //작성자와 유저번호가 같으면 코스 복사와 관심글 숨김
         Log.i(TAG, board_userNo + " / " + BasicValue.getInstance().getUserNo());
         if (board_userNo == BasicValue.getInstance().getUserNo()) {
@@ -99,11 +104,15 @@ public class DetailActivity extends AppCompatActivity {
             else scrap_btn.setChecked(true);
         }
 
-        //코스가 있을때만 스피너 띄움
+        //코스가 있을때만 스피너 띄움 + 코스없으면 코스복사버튼 GONE
         if (courseNo > 0) set_spinner();
-        else course_spinner.setVisibility(View.GONE);
-
+        else {
+            course_spinner.setVisibility(View.GONE);
+            courseCopy_btn.setVisibility(View.INVISIBLE);
+        }
         courseTitle = JspConn.getCourseTitle(courseNo);
+
+        // TODO: 2016-07-26 키보드가 올라와있을때 화면 다른 부분이 눌리면 키보드가 내려가도록 하기.
     }
 
     private void getIntentValue() {
@@ -121,7 +130,6 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             String commentString = comment_et.getText().toString();
-
             if (commentString.isEmpty()) {
                 Snackbar.make(comment_et, "댓글을 작성해 주세요.", Snackbar.LENGTH_SHORT).show();
                 return;
@@ -147,6 +155,8 @@ public class DetailActivity extends AppCompatActivity {
             String courseTitle = DetailActivity.this.courseTitle;
             List<String> course = JsonParser.readCourse(JspConn.readCourseByCourseNo(courseNo));
 
+            if (courseNo == 0) return;
+
             List<Course> courseList = new ArrayList<>();
             for (int i = 0; i < course.size(); i++) {
                 String courseName = course.get(i).split("/")[0];
@@ -156,15 +166,13 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             try {
-                Integer.parseInt(JspConn.uploadCourse(courseTitle, courseList));
+                String tempResult = JspConn.uploadCourse(courseTitle, courseList);
+                Log.i(TAG, "Course Copy" + tempResult);
                 Toast.makeText(DetailActivity.this, "코스가 복사 되었습니다.", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 e.printStackTrace();
                 Toast.makeText(DetailActivity.this, "복사 되지 않았습니다.", Toast.LENGTH_SHORT).show();
             }
-
-
-            Toast.makeText(DetailActivity.this, "코스가 복사되었습니다.",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -310,5 +318,6 @@ public class DetailActivity extends AppCompatActivity {
         course_spinner.setAdapter(dataAdapter);
         course_spinner.setSelection(0);
     }
+
 
 }
