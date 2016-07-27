@@ -178,11 +178,12 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 }
 
                 Course addCourse = new Course(title, courseDate, (adapter.getItemCount() + 1));
-                if (adapter.contain(addCourse)) {
-                    Snackbar.make(addButton, "이미 포함된 코스입니다.", Snackbar.LENGTH_SHORT).show();
-                    courseInput.setText("");
-                    return;
-                }
+                //경유지 중복 안되게하는 조건문이나 필요없음 나중에 지우면 될듯
+//                if (adapter.contain(addCourse)) {
+//                    Snackbar.make(addButton, "이미 포함된 코스입니다.", Snackbar.LENGTH_SHORT).show();
+//                    courseInput.setText("");
+//                    return;
+//                }
 
                 adapter.getItems().add(addCourse);
                 adapter.notifyDataSetChanged();

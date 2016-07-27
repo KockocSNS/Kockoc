@@ -9,6 +9,7 @@ import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.User;
 import com.kocapplication.pixeleye.kockocapp.write.course.MemoWriteThread;
 
+import org.apache.http.HttpClientConnection;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -337,6 +338,8 @@ public class JspConn {
         Log.d(TAG, "UploadCourse result :" + result);
         return result;
     }
+
+
 
     //코스랑 메모 업로드
     static public void uploadCourseAndMemo(String title, List<Course> Arr,int memoNum){

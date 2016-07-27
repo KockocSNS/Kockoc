@@ -2,6 +2,7 @@ package com.kocapplication.pixeleye.kockocapp.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -36,6 +37,7 @@ import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.User;
 import com.kocapplication.pixeleye.kockocapp.util.GCM.RegistrationIntentService;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.util.SharedPreferenceHelper;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
@@ -332,6 +334,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+
     private class NaverLoginHandler extends OAuthLoginHandler {
         @Override
         public void run(boolean b) {
@@ -341,8 +344,9 @@ public class LoginActivity extends AppCompatActivity {
                 long expiresAt = oAuthLogin.getExpiresAt(getApplicationContext());
                 String tokenType = oAuthLogin.getTokenType(getApplicationContext());
 
+
                 Handler handler = new NaverHandler();
-                Log.i("changePwd", accessToken + " / " + refreshToken + " / " + expiresAt + " / " + tokenType);
+                Log.i("changePwd token", accessToken + " / " + refreshToken + " / " + expiresAt + " / " + tokenType);
                 Thread thread = new NaverUserInfoGetThread(getApplicationContext(), handler, oAuthLogin, accessToken);
                 thread.start();
             } else {

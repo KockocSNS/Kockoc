@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,6 +63,7 @@ public class MapActivity extends BaseActivityWithoutNav
     private RecyclerView recyclerView;
     private RecyclerAdapter adapter;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +96,7 @@ public class MapActivity extends BaseActivityWithoutNav
         recyclerView = (RecyclerView) containerView.findViewById(R.id.recycler_view);
         adapter = new RecyclerAdapter(new ArrayList<Item>());
         recyclerView.setAdapter(adapter);
+
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -134,6 +137,16 @@ public class MapActivity extends BaseActivityWithoutNav
 
     }
 
+    //맵 검색결과 없을때 토스트 띄울 handler
+    public Handler searchFailHandler = new Handler() {
+
+        public void handleMessage(Message msg) {
+            if(msg.what == 0) {
+                Toast.makeText(MapActivity.this, "검색 결과가 없습니다.",Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
     private void searchMap(String text) {
 //        MapPoint.GeoCoordinate geoCoordinate = daumMap.getMapCenterPoint().getMapPointGeoCoord();
 //
@@ -155,7 +168,8 @@ public class MapActivity extends BaseActivityWithoutNav
 
             @Override
             public void onFail() {
-                Toast.makeText(MapActivity.this, "제한 트래픽 초과되었습니다.", Toast.LENGTH_SHORT).show();
+                //토스트 출력
+                searchFailHandler.sendEmptyMessage(0);
             }
         });
 
@@ -314,6 +328,8 @@ public class MapActivity extends BaseActivityWithoutNav
             holder.title.setText(item.title);
             holder.detail.setText(item.phone);
         }
+
+
 
         @Override
         public int getItemCount() {
