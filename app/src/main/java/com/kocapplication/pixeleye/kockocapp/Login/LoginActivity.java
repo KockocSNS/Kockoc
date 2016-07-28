@@ -1,11 +1,11 @@
 package com.kocapplication.pixeleye.kockocapp.login;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -24,10 +24,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.util.exception.KakaoException;
@@ -35,9 +32,7 @@ import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.login.Kakao.KakaoSignupActivity;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.User;
-import com.kocapplication.pixeleye.kockocapp.util.GCM.RegistrationIntentService;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
-import com.kocapplication.pixeleye.kockocapp.util.SharedPreferenceHelper;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
@@ -77,6 +72,8 @@ public class LoginActivity extends AppCompatActivity {
     //naver
     private OAuthLogin oAuthLogin;
 
+
+
     int KakaoLinkBoardNo;
     int KakaoLinkCourseNo;
 
@@ -92,6 +89,14 @@ public class LoginActivity extends AppCompatActivity {
 
         init();
 
+//        SharedPreferences naverLoginState = getSharedPreferences("naverLoginState",MODE_PRIVATE);
+//        Boolean loginStateByNaver = naverLoginState.getBoolean("isNaverLogin",false);
+//        if (loginStateByNaver == true){
+//
+//            View v=naverButton;
+//            LoginListener loginListener = new LoginListener();
+//            loginListener.onClick(v);
+//        }
         kakaoCallBack();
         facebookCallBack();
     }
@@ -158,6 +163,8 @@ public class LoginActivity extends AppCompatActivity {
 
         oAuthLogin = OAuthLogin.getInstance();
         oAuthLogin.init(LoginActivity.this, "DJy3asjXdzqH_xK5WNt4", "QEpiUBFAQb", "KocKoc");
+
+
     }
 
     private void kakaoCallBack() {
@@ -216,6 +223,7 @@ public class LoginActivity extends AppCompatActivity {
             else if (v.equals(signUpButton)) {
                 Intent intent = new Intent(LoginActivity.this, JoinActivity.class);
                 startActivity(intent);
+                finish();
             }
 
             //soft keyboard hide
@@ -330,6 +338,7 @@ public class LoginActivity extends AppCompatActivity {
                 intent.putExtra("user", bundle);
                 intent.putExtra("flag", "naver");
                 startActivity(intent);
+                finish();
             }
         }
     }
@@ -347,8 +356,16 @@ public class LoginActivity extends AppCompatActivity {
 
                 Handler handler = new NaverHandler();
                 Log.i("changePwd token", accessToken + " / " + refreshToken + " / " + expiresAt + " / " + tokenType);
+
                 Thread thread = new NaverUserInfoGetThread(getApplicationContext(), handler, oAuthLogin, accessToken);
                 thread.start();
+
+                SharedPreferences naverLoginState = getSharedPreferences("naverLoginState",MODE_PRIVATE);
+                SharedPreferences.Editor editor = naverLoginState.edit();
+                editor.putBoolean("isNaverLogin", true);
+                editor.commit();
+
+
             } else {
                 String errorCode = oAuthLogin.getLastErrorCode(getApplicationContext()).getCode();
                 String errorDesc = oAuthLogin.getLastErrorDesc(getApplicationContext());

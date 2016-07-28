@@ -137,6 +137,7 @@ public class BaseActivity extends AppCompatActivity {
         View view = getLayoutInflater().inflate(R.layout.actionbar_image_title, null);
 
         actionBar.setCustomView(view);
+
     }
 
     /**

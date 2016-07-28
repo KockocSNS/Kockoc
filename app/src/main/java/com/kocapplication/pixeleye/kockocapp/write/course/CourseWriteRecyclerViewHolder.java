@@ -15,6 +15,7 @@ public class CourseWriteRecyclerViewHolder  extends RecyclerView.ViewHolder {
     private View lineBottom;
 
     private TextView courseName;
+
     private Button dateButton;
     private Button timeButton;
     private Button delete;
@@ -65,4 +66,6 @@ public class CourseWriteRecyclerViewHolder  extends RecyclerView.ViewHolder {
     public Button getMemo() {
         return memo;
     }
+
+
 }

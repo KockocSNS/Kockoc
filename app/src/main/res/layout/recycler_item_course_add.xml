@@ -135,6 +135,17 @@
                 android:text="삭제"
                 android:textColor="@color/mainBgColor" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="업로드"
+                android:id="@+id/upload_icon"
+                android:visibility="invisible"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/course_search"
+                android:layout_marginStart="27dp" />
+
         </RelativeLayout>
 
     </LinearLayout>

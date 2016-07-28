@@ -37,6 +37,8 @@ public class MainActivity extends BaseActivity {
     private final int PROFILE_SET = 1;
 
     ViewPageAdapter adapter;
+    ViewPager viewPager;
+    TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +51,14 @@ public class MainActivity extends BaseActivity {
         getInstanceIdToken();
 
         ImageView logo = (ImageView) findViewById(R.id.actionbar_image_title);
+
+
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e(TAG, "AAA");
+                Log.e(TAG, "LogoToched");
+                viewPager.setCurrentItem(0);
+
             }
         });
     }
@@ -73,8 +79,8 @@ public class MainActivity extends BaseActivity {
         titles.add("코스");
         titles.add("내콕콕");
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         adapter = new ViewPageAdapter(getSupportFragmentManager(), fragments, titles);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
