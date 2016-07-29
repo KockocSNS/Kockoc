@@ -114,7 +114,6 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:paddingLeft="0dp"
-                android:visibility="gone"
                 app:bg="@drawable/background_button_naver_login"
                 app:symbol="@drawable/login_naver"
                 app:text="네이버"

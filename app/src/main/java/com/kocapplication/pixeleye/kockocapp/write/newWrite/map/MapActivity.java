@@ -163,7 +163,9 @@ public class MapActivity extends BaseActivityWithoutNav
             public void onSuccess(List<Item> itemList) {
                 //onSuccess 뿐만아니라 아래의 SearchHandler에도 Message가 전달된다.
                 daumMap.removeAllPOIItems();
+                Log.i("itemlist_onSuccess", String.valueOf(itemList));
                 showResults(itemList);
+
             }
 
             @Override
@@ -179,7 +181,7 @@ public class MapActivity extends BaseActivityWithoutNav
 
     private void showResults(List<Item> itemList) {
         MapPointBounds mapPointBounds = new MapPointBounds();
-
+        Log.i("itemlist", String.valueOf(itemList));
         for (Item item : itemList) {
             MapPOIItem poiItem = new MapPOIItem();
             poiItem.setItemName(item.title);

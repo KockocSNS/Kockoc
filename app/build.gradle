@@ -9,8 +9,8 @@ android {
         applicationId "com.kocapplication.pixeleye.kockocapp"
         minSdkVersion 17
         targetSdkVersion 22
-        versionCode 20
-        versionName "2.7.2"
+        versionCode 21
+        versionName "2.7.3"
     }
     buildTypes {
         release {

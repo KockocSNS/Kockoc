@@ -89,16 +89,24 @@ public class LoginActivity extends AppCompatActivity {
 
         init();
 
-//        SharedPreferences naverLoginState = getSharedPreferences("naverLoginState",MODE_PRIVATE);
-//        Boolean loginStateByNaver = naverLoginState.getBoolean("isNaverLogin",false);
-//        if (loginStateByNaver == true){
-//
-//            View v=naverButton;
-//            LoginListener loginListener = new LoginListener();
-//            loginListener.onClick(v);
-//        }
+
         kakaoCallBack();
         facebookCallBack();
+        autoLoginNaver();
+    }
+
+    public void autoLoginNaver () {
+        SharedPreferences naverLoginState = getSharedPreferences("naverLoginState",MODE_PRIVATE);
+        Boolean loginStateByNaver = naverLoginState.getBoolean("isNaverLogin",false);
+        if (loginStateByNaver == true){
+
+            Log.i("login","in");
+            View v=naverButton;
+            LoginListener loginListener = new LoginListener();
+            loginListener.onClick(v);
+            finish();
+        }
+        else { return;}
     }
 
     @Override
@@ -121,8 +129,13 @@ public class LoginActivity extends AppCompatActivity {
         try {
             if (getIntent().getIntExtra("logout", 0) == 0) {
                 Handler handler = new LoginHandler();
+//                SharedPreferences naverLoginState = getSharedPreferences("naverLgoinState",MODE_PRIVATE);
+//                SharedPreferences.Editor editor = naverLoginState.edit();
+//                editor.putBoolean("isNaverLogin", false);
+                Log.i("logout","out");
                 Thread thread = new LoginThread(getApplicationContext(), handler, "-1", "", false);
                 thread.start();
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -331,6 +344,7 @@ public class LoginActivity extends AppCompatActivity {
 //                getInstanceIdToken();
                 Thread thread = new NoPwdLoginThread(getApplicationContext(), handler, userData.e_mail);
                 thread.start();
+                finish();
             } else {
                 Intent intent = new Intent(LoginActivity.this, GetExtraInfoActivity.class);
                 Bundle bundle = new Bundle();
@@ -353,17 +367,18 @@ public class LoginActivity extends AppCompatActivity {
                 long expiresAt = oAuthLogin.getExpiresAt(getApplicationContext());
                 String tokenType = oAuthLogin.getTokenType(getApplicationContext());
 
+                SharedPreferences naverLoginState = getSharedPreferences("naverLoginState",MODE_PRIVATE);
+                SharedPreferences.Editor editor = naverLoginState.edit();
+                editor.putBoolean("isNaverLogin", true);
+                editor.commit();
 
                 Handler handler = new NaverHandler();
                 Log.i("changePwd token", accessToken + " / " + refreshToken + " / " + expiresAt + " / " + tokenType);
 
                 Thread thread = new NaverUserInfoGetThread(getApplicationContext(), handler, oAuthLogin, accessToken);
                 thread.start();
+                Log.i("naverauto","able");
 
-                SharedPreferences naverLoginState = getSharedPreferences("naverLoginState",MODE_PRIVATE);
-                SharedPreferences.Editor editor = naverLoginState.edit();
-                editor.putBoolean("isNaverLogin", true);
-                editor.commit();
 
 
             } else {
