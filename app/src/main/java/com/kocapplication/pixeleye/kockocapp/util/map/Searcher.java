@@ -76,14 +76,11 @@ public class Searcher {
             header.put(HEADER_NAME_X_PLATFORM, HEADER_VALUE_X_PLATFORM_ANDROID);
             String json = fetchData(url, header);
             ArrayList<Item> itemList = parse(json);
-            Log.i("itemlist_parsed", String.valueOf(itemList));
             if (onFinishSearchListener != null) {
-
-                if (itemList == null) {
+                if (itemList.isEmpty()) {
                     onFinishSearchListener.onFail();
                 } else {
                     //onSuccess와 handler에 메세지를 함께 보낸다.
-                    Log.i("itemlist_onFinish", String.valueOf(itemList));
                     onFinishSearchListener.onSuccess(itemList);
                     Message msg = Message.obtain();
                     Bundle bundle = new Bundle();
@@ -245,7 +242,6 @@ public class Searcher {
             Log.i("exception", "in");
             return null;
         }
-        Log.i("itemlist_pasing", String.valueOf(itemList));
         Log.i("exception", "not_in");
         return itemList;
     }
