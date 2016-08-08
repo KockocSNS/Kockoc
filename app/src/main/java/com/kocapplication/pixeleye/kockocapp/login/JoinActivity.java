@@ -139,7 +139,6 @@ public class JoinActivity extends BaseActivityWithoutNav {
         btnDup_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 2016-06-29 한글 중복체크 안됨
                 nickname = editNickname.getText().toString();
                 if (nickname.length() > 0 && JspConn.checkDuplNickname(nickname)==true){
                     Toast.makeText(JoinActivity.this, "사용하셔도 좋습니다.", Toast.LENGTH_SHORT).show();

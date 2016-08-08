@@ -1,5 +1,6 @@
 package com.kocapplication.pixeleye.kockocapp.login;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
@@ -38,6 +40,8 @@ import com.nhn.android.naverlogin.OAuthLoginHandler;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 
 import org.json.JSONObject;
+
+import java.util.Set;
 
 /**
  * Created by Han_ on 2016-04-01.
@@ -91,13 +95,16 @@ public class LoginActivity extends AppCompatActivity {
 
 
         kakaoCallBack();
-        facebookCallBack();
-        autoLoginNaver();
+//        facebookCallBack();
+        autoLoginNaverAndFacebook();
     }
 
-    public void autoLoginNaver () {
+    public void autoLoginNaverAndFacebook () {
         SharedPreferences naverLoginState = getSharedPreferences("naverLoginState",MODE_PRIVATE);
         Boolean loginStateByNaver = naverLoginState.getBoolean("isNaverLogin",false);
+        SharedPreferences facebookLoginState = getSharedPreferences("facebookLoginState",MODE_PRIVATE);
+        Boolean loginStateByFacebook = facebookLoginState.getBoolean("isFacebookLogin",false);
+
         if (loginStateByNaver == true){
 
             Log.i("login","in");
@@ -105,6 +112,9 @@ public class LoginActivity extends AppCompatActivity {
             LoginListener loginListener = new LoginListener();
             loginListener.onClick(v);
             finish();
+        } else if (loginStateByFacebook == true) {
+            facebookCallBack();
+            facebookButton.performClick();
         }
         else { return;}
     }
@@ -129,9 +139,6 @@ public class LoginActivity extends AppCompatActivity {
         try {
             if (getIntent().getIntExtra("logout", 0) == 0) {
                 Handler handler = new LoginHandler();
-//                SharedPreferences naverLoginState = getSharedPreferences("naverLgoinState",MODE_PRIVATE);
-//                SharedPreferences.Editor editor = naverLoginState.edit();
-//                editor.putBoolean("isNaverLogin", false);
                 Log.i("logout","out");
                 Thread thread = new LoginThread(getApplicationContext(), handler, "-1", "", false);
                 thread.start();
@@ -178,6 +185,7 @@ public class LoginActivity extends AppCompatActivity {
         oAuthLogin.init(LoginActivity.this, "DJy3asjXdzqH_xK5WNt4", "QEpiUBFAQb", "KocKoc");
 
 
+
     }
 
     private void kakaoCallBack() {
@@ -191,12 +199,20 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d("Facebook Login", "Success");
-                if (AccessToken.getCurrentAccessToken() != null) {
-                    GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new FacebookCallbackGraph());
-                    Bundle parameter = new Bundle();
-                    parameter.putString("fields", "id,name,birthday,email,gender");
-                    request.setParameters(parameter);
-                    request.executeAsync();
+
+                SharedPreferences facebookLoginState = getSharedPreferences("facebookLoginState", MODE_PRIVATE);
+                SharedPreferences.Editor editor = facebookLoginState.edit();
+                editor.putBoolean("isFacebookLogin", true);
+                editor.putString("AccessToken",facebookToken.getToken());
+                editor.commit();
+
+                if (AccessToken.getCurrentAccessToken()!= null) {
+                        GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new FacebookCallbackGraph());
+                        Bundle parameter = new Bundle();
+                        parameter.putString("fields", "id,name,birthday,email,gender");
+                        request.setParameters(parameter);
+                        request.executeAsync();
+                        finish();
                 }
             }
 
@@ -228,7 +244,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "빈칸을 입력해주세요", Toast.LENGTH_SHORT).show();
             } else if (v.equals(facebookButton)) {
 //                Toast.makeText(getApplicationContext(), "준비중입니다", Toast.LENGTH_SHORT).show();
-                facebookLogin = (com.facebook.login.widget.LoginButton) findViewById(R.id.facebook_login_button);
+//                facebookLogin = (com.facebook.login.widget.LoginButton)findViewById(R.id.facebook_login_button);
                 facebookLogin.performClick();
             } else if (v.equals(naverButton))
                 oAuthLogin.startOauthLoginActivity(LoginActivity.this, new NaverLoginHandler());
@@ -238,6 +254,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
+
 
             //soft keyboard hide
             InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -270,15 +287,26 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 userData = new User(object.getString("name"), object.getString("name"), "", object.getString("id"), "", "", object.getString("gender"));
                 Handler handler = new LoginHandler();
+
+                Log.i("userData",userData.e_mail);
+                Log.i("userData",userData.name);
+                Log.i("userData",userData.gender);
+
+
                 if (!JspConn.checkDuplID(userData.e_mail)) {
 //                    // Email이 이미 존재하는 경우
 //                    getInstanceIdToken();
+                    Log.d("facebook_login join","emaillogin");
                     Thread thread = new NoPwdLoginThread(getApplicationContext(), handler, userData.e_mail);
                     thread.start();
+                    finish();
                 } else {
-//                    // Email이 없는 경우이므로 회원가입
+                   // Email이 없는 경우이므로 회원가입
+                    Log.d("facebook login join","join");
                     Intent intent = new Intent(LoginActivity.this, GetExtraInfoActivity.class);
-                    intent.putExtra("user", userData);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("user", userData);
+                    intent.putExtra("user", bundle);
                     intent.putExtra("flag", "facebook");
                     startActivity(intent);
                     finish();
@@ -301,7 +329,6 @@ public class LoginActivity extends AppCompatActivity {
                 intent.putExtra("courseNo", KakaoLinkCourseNo);
             }
             startActivity(intent);
-
             finish();
         }
 

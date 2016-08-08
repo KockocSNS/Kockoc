@@ -8,6 +8,15 @@
         <item name="colorAccent">@color/black</item>
     </style>
 
+    <style name="ThemeToolbar" parent="Theme.AppCompat.Light">
+
+        <!-- navigation icon color -->
+        <item name="colorControlNormal">#ffffff</item>
+
+        <!-- color of the menu overflow icon -->
+        <item name="android:textColorSecondary">#ffffff</item>
+    </style>
+
     <style name="NavigationItemFont">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">100sp</item>

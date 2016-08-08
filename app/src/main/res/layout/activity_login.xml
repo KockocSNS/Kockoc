@@ -101,11 +101,11 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
                 android:paddingRight="5dp"
-                android:visibility="gone"
                 app:bg="@drawable/background_button_facebook_login"
                 app:symbol="@drawable/com_facebook_button_icon"
                 app:text="페이스북"
-                app:textColor="@color/white" />
+                app:textColor="@color/white"
+                android:visibility="gone"/>
 
             <com.kocapplication.pixeleye.kockocapp.login.LoginButton
                 android:id="@+id/naver_login_button_temp"

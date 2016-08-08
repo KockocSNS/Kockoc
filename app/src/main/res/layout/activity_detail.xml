@@ -10,7 +10,8 @@
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/mainBgColor">
+        android:background="@color/mainBgColor"
+        android:theme="@style/ThemeToolbar">
 
         <ImageButton
             android:id="@+id/btn_detail_back"
@@ -65,14 +66,14 @@
                 android:textColor="@color/white"
                 android:layout_weight="0.75"/>
 
-            <ImageView
-                android:id="@+id/detail_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:padding="5dp"
-                android:src="@drawable/actionbar_menu"
-                android:layout_weight="1.5"/>
+            <!--<ImageView-->
+                <!--android:id="@+id/detail_menu"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="right"-->
+                <!--android:padding="5dp"-->
+                <!--android:src="@drawable/actionbar_menu"-->
+                <!--android:layout_weight="1.5"/>-->
         </LinearLayout>
 
 

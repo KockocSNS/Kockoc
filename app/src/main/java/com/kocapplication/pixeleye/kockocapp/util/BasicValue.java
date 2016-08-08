@@ -11,6 +11,7 @@ public class BasicValue {
 
     private int userNo = -1;
     private String userNickname = "";
+    private String userName = "";
 
     public static BasicValue getInstance() {
         return ourInstance;
@@ -27,11 +28,13 @@ public class BasicValue {
 
     public String getDAUM_MAP_API_KEY() {return DAUM_MAP_API_KEY;}
     public String getUserNickname() {return userNickname;}
+    public String getUserName() {return userName;}
 
 
     public void setUserNo(int userNo) {
         this.userNo = userNo;
     }
     public void setUserNickname(String userNickname) {this.userNickname = userNickname;}
+    public void setUserName(String userName){this.userName = userName;}
 
 }

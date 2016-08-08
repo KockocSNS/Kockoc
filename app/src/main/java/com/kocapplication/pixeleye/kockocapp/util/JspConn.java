@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -278,6 +279,32 @@ public class JspConn {
     /**
      * Course
      */
+    //유저넘버를 받아 폰의 날짜와 같은 날짜 코스 반환
+    static public String readCourseByUserNo(int userNo) {
+        String result = "";
+        try {
+            passiveMethod();
+            HttpClient client = new DefaultHttpClient();
+            String postURL = BasicValue.getInstance().getUrlHead() + "Course/readCourseByUserNo.jsp";
+            HttpPost post = new HttpPost(postURL);
+
+            List<NameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("userNo", "" + userNo));
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse response = client.execute(post);
+
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
     //코스 넘버를 받아 course 반환
     static public String readCourseByCourseNo(int courseNo) {
         String result = "";
@@ -390,8 +417,6 @@ public class JspConn {
         Log.d("return message = ", ""+MemoWriteThread.message);
         Log.d("return memoNo = ", ""+MemoWriteThread.resultmemoNo);
     }
-
-
 
     /**
      * Board
@@ -618,7 +643,7 @@ public class JspConn {
 
     //별명 중복 체크 ( 한글 안되는거같음)
     static public boolean checkDuplNickname(String nickname) {
-        String resultStr = "";
+        String result = "";
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
@@ -634,18 +659,19 @@ public class JspConn {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                resultStr += line;
+                result += line;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d("duplication", "nickname:" + resultStr);
-        if (resultStr.equals(" no duplication")) {
+        Log.d("duplication", "nickname:" + result);
+        if (result.equals(" no duplication")) {
             return true;
         } else {
             return false;
         }
-    }
+
+}
 
 
     //회원 가입

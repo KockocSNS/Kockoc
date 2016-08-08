@@ -34,6 +34,11 @@ public class Courses implements Serializable {
         this(0, title, dateTime, courses);
     }
 
+    public Courses(String title, Date dateTime){
+        this.title = title;
+        this.dateTime = dateTime;
+    }
+
     public int getCourseNo() {
         return courseNo;
     }

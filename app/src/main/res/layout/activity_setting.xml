@@ -216,6 +216,68 @@
                     android:layout_height="2px"
                     android:background="@color/gray" />
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#eeeeee"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="10dp">
+
+                    <TextView
+                        android:id="@+id/textview9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="알림 받기"
+                        android:textColor="@color/black" />
+
+                    <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_alignTop="@+id/alarm_set"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/radiogroup">
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="10분"
+                            android:id="@+id/setting_time_1"/>
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="30분"
+                            android:id="@+id/setting_time_2"/>
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1시간"
+                            android:id="@+id/setting_time_3"/>
+                    </RadioGroup>
+
+                    <Switch
+                        android:id="@+id/alarm_set"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:textOff="Off"
+                        android:textOn="On" />
+
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:background="@color/gray" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -236,6 +298,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="2px"
                         android:background="@color/gray" />
+
                     <Button
                         android:id="@+id/nick_change"
                         style="?attr/borderlessButtonStyle"
@@ -278,14 +341,14 @@
                         android:paddingTop="10dp">
 
                         <TextView
+                            android:id="@+id/textView2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
                             android:text="자동 로그인 설정"
-                            android:textColor="@color/black"
-                            android:id="@+id/textView2" />
+                            android:textColor="@color/black" />
 
                         <Switch
                             android:id="@+id/auto_login_set"
@@ -299,6 +362,7 @@
 
 
                     </RelativeLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="2px"
@@ -316,7 +380,6 @@
                         android:textColor="@color/black" />
 
                 </LinearLayout>
-
 
 
             </LinearLayout>

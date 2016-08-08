@@ -17,6 +17,8 @@ public class NoPwdLoginThread extends Thread {
     private Handler handler;
     private String id;
     private String pw;
+    private String name;
+
     private boolean autoLoginState;
 
     public NoPwdLoginThread(Context context, Handler handler, String id) {
@@ -25,6 +27,8 @@ public class NoPwdLoginThread extends Thread {
         this.handler = handler;
         this.id = id;
     }
+
+
 
     @Override
     public void run() {
@@ -35,6 +39,7 @@ public class NoPwdLoginThread extends Thread {
         SharedPreferences pref = context.getSharedPreferences("pref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         int number = JspConn.getUserNo(id);
+
         Log.e("LOGINACTIVITY", number + "");
 
         editor.putInt("login", number);
@@ -47,5 +52,7 @@ public class NoPwdLoginThread extends Thread {
         }
 
         handler.sendMessage(msg);
+
+
     }
 }

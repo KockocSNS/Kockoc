@@ -179,6 +179,7 @@ public class BaseActivity extends AppCompatActivity {
                     Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
                     intent.putExtra("logout", 0);
                     autoLoginDisavleNaver();
+                    autoLoginDisavleFacebook();
                     Log.i("naverauto","disable");
                     startActivity(intent);
                     finish();
@@ -192,6 +193,13 @@ public class BaseActivity extends AppCompatActivity {
             }
             return false;
         }
+    }
+    //페이스북 자동로그인 해제
+    public  void autoLoginDisavleFacebook () {
+        SharedPreferences facebookLoginState = getSharedPreferences("facebookLoginState", MODE_PRIVATE);
+        SharedPreferences.Editor editor = facebookLoginState.edit();
+        editor.putBoolean("isFacebookLogin",false);
+        editor.commit();
     }
     //네이버 자동로그인 해제
     public void autoLoginDisavleNaver () {

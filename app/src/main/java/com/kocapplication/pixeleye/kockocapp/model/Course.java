@@ -14,10 +14,10 @@ public class Course implements Serializable {
     private Date dateTime;
     private String memo;
 
-//    public Course(String title, Date dateTime) {
-//        this.title = title;
-//        this.dateTime = dateTime;
-//    }
+    public Course(String title, Date dateTime) {
+        this.title = title;
+        this.dateTime = dateTime;
+    }
 
     public Course(String title, Date dateTime, int coursePosition) {
         this.title = title;
@@ -85,4 +85,5 @@ public class Course implements Serializable {
     public void setMemo(String memo) {
         this.memo = memo;
     }
+
 }

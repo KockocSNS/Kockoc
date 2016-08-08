@@ -2,6 +2,7 @@ package com.kocapplication.pixeleye.kockocapp.write.course;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.kocapplication.pixeleye.kockocapp.R;
@@ -22,6 +24,7 @@ import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
+import com.kocapplication.pixeleye.kockocapp.navigation.SettingActivity;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 import java.text.ParseException;
@@ -51,6 +54,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
     private Button timeButton;
     private Button addButton;
     private Button confirm;
+    private TextView uploadIcon;
 
     private String memo = "";
     public static int mNumCheck;
@@ -75,6 +79,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
         this.memo = memo;
     }
 
+
     private void declare(View containView) {
         courseInput = (EditText) containView.findViewById(R.id.course_name_input);
         memoButton = (Button) containView.findViewById(R.id.course_note_set);
@@ -82,6 +87,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
         timeButton = (Button) containView.findViewById(R.id.course_time_set);
         addButton = (Button) containView.findViewById(R.id.add_button);
         confirm = (Button) containView.findViewById(R.id.confirm);
+        uploadIcon = (TextView) containView.findViewById(R.id.upload_icon);
 
         Calendar calendar = Calendar.getInstance();
         String year = String.valueOf(calendar.get(Calendar.YEAR));
@@ -200,6 +206,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 AlarmHelper manager = new AlarmHelper(getApplicationContext());
                 Courses courses = new Courses(courseNo, courseTitle, new Date(), adapter.getItems());
                 manager.setCourseAlarm(courses);
+
 
                 Log.i(TAG, courses.getCourseNo() + "");
 

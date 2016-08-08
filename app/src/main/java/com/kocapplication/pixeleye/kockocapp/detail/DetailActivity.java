@@ -4,12 +4,16 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,6 +37,8 @@ import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 import com.kocapplication.pixeleye.kockocapp.write.newWrite.NewWriteActivity;
+
+import org.apache.http.annotation.Obsolete;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,6 +66,9 @@ public class DetailActivity extends AppCompatActivity {
     private String courseTitle;
     private int board_userNo; // 글 작성자 유저번호
 
+    private boolean isTheUser = false; //글의 작성자와 보고있는 유저가 동일인물인지
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,14 +88,16 @@ public class DetailActivity extends AppCompatActivity {
         courseCopy_btn = (Button) findViewById(R.id.btn_detail_course_copy);
         scrap_btn = (ToggleButton) findViewById(R.id.btn_detail_interest);
         back_btn = (ImageButton) findViewById(R.id.btn_detail_back);
-        menu_btn = (ImageView) findViewById(R.id.detail_menu);
+//        menu_btn = (ImageView) findViewById(R.id.detail_menu);
         course_spinner = (Spinner) findViewById(R.id.course_spinner);
+
+        setSupportActionBar((Toolbar)findViewById(R.id.tool_bar));
 
         commentSend_btn.setOnClickListener(new CommentSendListener());
         courseCopy_btn.setOnClickListener(new CourseCopyListener());
         scrap_btn.setOnClickListener(new ScrapListener());
         back_btn.setOnClickListener(new BackListener());
-        menu_btn.setOnClickListener(new MenuListener());
+//        menu_btn.setOnClickListener(new MenuListener());
 
         //작성자와 유저번호가 같으면 코스 복사와 관심글 숨김
         Log.i(TAG, board_userNo + " / " + BasicValue.getInstance().getUserNo());
@@ -112,8 +123,12 @@ public class DetailActivity extends AppCompatActivity {
         }
         courseTitle = JspConn.getCourseTitle(courseNo);
 
-        // TODO: 2016-07-26 키보드가 올라와있을때 화면 다른 부분이 눌리면 키보드가 내려가도록 하기.
+
+        //글 작성자 유저넘버와 보고있는 유저의 넘버를 비교하여 글 주인 구별
+        changeIsTheUser();
     }
+    // TODO: 2016-07-26 키보드가 올라와있을때 화면 다른 부분이 눌리면 키보드가 내려가도록 하기.
+
 
     private void getIntentValue() {
         Intent intent = getIntent();
@@ -121,6 +136,14 @@ public class DetailActivity extends AppCompatActivity {
         courseNo = intent.getIntExtra("courseNo", 0);
         board_userNo = intent.getIntExtra("board_userNo", 0);
     }
+
+    private void changeIsTheUser() {
+        if (board_userNo == BasicValue.getInstance().getUserNo())
+            isTheUser = true;
+        else
+            isTheUser = false;
+    }
+
 
     /**
      * CommentSendListener
@@ -205,7 +228,26 @@ public class DetailActivity extends AppCompatActivity {
     private class MenuListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            DetailActivity.this.openOptionsMenu();
+            Log.d("test","tuched");
+        }
+    }
+
+
+    @Override
+    public void openOptionsMenu() {
+
+        Configuration config = getResources().getConfiguration();
+
+        if((config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK)
+                > Configuration.SCREENLAYOUT_SIZE_LARGE) {
+
+            int originalScreenLayout = config.screenLayout;
+            config.screenLayout = Configuration.SCREENLAYOUT_SIZE_LARGE;
+            super.openOptionsMenu();
+            config.screenLayout = originalScreenLayout;
+
+        } else {
+            super.openOptionsMenu();
         }
     }
 
@@ -234,10 +276,12 @@ public class DetailActivity extends AppCompatActivity {
             }
         }
 
+
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
 
         }
+
     }
 
     /**
@@ -246,14 +290,15 @@ public class DetailActivity extends AppCompatActivity {
      *
      * @param menu
      */
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (board_userNo == BasicValue.getInstance().getUserNo())
-            getMenuInflater().inflate(R.menu.menu_detail_page, menu);
-        else
-            getMenuInflater().inflate(R.menu.menu_detail_page_report, menu);
+        MenuInflater inflater = getMenuInflater();
+        if(isTheUser==true) inflater.inflate(R.menu.menu_detail_page, menu);
+        else inflater.inflate(R.menu.menu_detail_page_report, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -318,6 +363,8 @@ public class DetailActivity extends AppCompatActivity {
         course_spinner.setAdapter(dataAdapter);
         course_spinner.setSelection(0);
     }
-
-
 }
+
+
+
+
