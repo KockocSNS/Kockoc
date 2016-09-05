@@ -44,6 +44,7 @@ import org.apmem.tools.layouts.FlowLayout;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -264,7 +265,11 @@ public class DetailFragment extends Fragment {
             setData(detailPageData);
             setImg(detailPageData);
             setCommentList();
-            course_adapter.setItems(detailPageData.getCourse());
+            try {
+                course_adapter.setItems(detailPageData.getCourse());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             course_adapter.notifyDataSetChanged();
 
             //DetailData를 받아 오면 좋아요 수 얻어옴

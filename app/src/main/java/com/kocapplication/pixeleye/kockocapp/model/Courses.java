@@ -8,6 +8,8 @@ import java.util.List;
  * Created by Han_ on 2016-06-23.
  */
 public class Courses implements Serializable {
+
+
     private int courseNo;
     private String title;
     private Date dateTime;
@@ -56,4 +58,17 @@ public class Courses implements Serializable {
     }
 
     public String getMemo() {return memo;}
+    public void setCourseNo(int courseNo) {
+        this.courseNo = courseNo;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDateTime(Date dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public void setMemo(String memo) {this.memo = memo;}
 }

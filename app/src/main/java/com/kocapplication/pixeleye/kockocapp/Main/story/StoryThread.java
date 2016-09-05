@@ -143,7 +143,7 @@ public class StoryThread extends Thread {
                             object.get("Text").getAsString(),
                             object.get("Date").getAsString(),
                             object.get("Time").getAsString(),
-                            object.get("mainImg").getAsString(),
+                            object.get("mainImg").getAsString(), //이미지최적화 필요할듯
                             hashTags);
                 } catch (Exception e) {
                     boardWithImage = new BoardWithImage(attributes, expressionCount, coordinate,

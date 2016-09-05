@@ -279,39 +279,13 @@ public class JspConn {
     /**
      * Course
      */
-    //유저넘버를 받아 폰의 날짜와 같은 날짜 코스 반환
-    static public String readCourseByUserNo(int userNo) {
-        String result = "";
-        try {
-            passiveMethod();
-            HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead() + "Course/readCourseByUserNo.jsp";
-            HttpPost post = new HttpPost(postURL);
-
-            List<NameValuePair> params = new ArrayList<>();
-            params.add(new BasicNameValuePair("userNo", "" + userNo));
-            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-            post.setEntity(ent);
-            HttpResponse response = client.execute(post);
-
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
-
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                result += line;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-    //코스 넘버를 받아 course 반환
+    //코스 넘버를 받아 course 반환, 코스선택 스피너에서 쓰임
     static public String readCourseByCourseNo(int courseNo) {
         String result = "";
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead() + "Course/readCourseByCourseNo.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Course_V2/readCourseByCourseNo.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<>();
@@ -329,6 +303,7 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.i("readCourseByCourseNo",result);
         return result;
     }
 
@@ -338,17 +313,24 @@ public class JspConn {
         try {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead() + "Course/InsertCourse.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Course_V2/insertCourse.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<>();
             params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
-            params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(Arr.size())));
+            params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(Arr.size()))); //stopover 갯수
             params.add(new BasicNameValuePair("title", title));
+            params.add(new BasicNameValuePair("courseNo",String.valueOf(Arr.get(0).getCourseNo())));
+
 
             int i = 0;
             for (Course temp : Arr) {
-                params.add(new BasicNameValuePair("course" + i++, "" + temp.getTitle() + "/" + temp.getDataByMilSec()));
+//                + "/" + temp.getDataByMilSec()
+                params.add(new BasicNameValuePair("course" + i +"Name", "" + temp.getTitle()));
+                params.add(new BasicNameValuePair("course" + i +"Position", "" + temp.getCoursePosition()));
+                params.add(new BasicNameValuePair("course" + i +"Memo", "" + temp.getMemo()));
+                Log.i("JspMemo",temp.getMemo());
+                i++;
             }
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
@@ -360,63 +342,64 @@ public class JspConn {
             }
         } catch (Exception e) {
             Log.e(TAG, "UploadCourse error :" + e.getMessage());
-        }
+    }
 
         Log.d(TAG, "UploadCourse result :" + result);
         return result;
     }
 
 
+//    2016.08.29 새로운 디비에 insert 완성하여 필요없으나 나중에 삭제
 
-    //코스랑 메모 업로드
-    static public void uploadCourseAndMemo(String title, List<Course> Arr,int memoNum){
-        String result="";
-        try
-        {
-            passiveMethod();
-            HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead()+"Course/insertCourseWithMemo.jsp";
-            HttpPost post = new HttpPost(postURL);
-
-
-            List<NameValuePair> params = new ArrayList<>();
-            params.add(new BasicNameValuePair("userNo",""+ BasicValue.getInstance().getUserNo()));
-            params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(Arr.size())));
-            params.add(new BasicNameValuePair("title", title));
-            params.add(new BasicNameValuePair("memoNo", String.valueOf(memoNum)));
-
-
-            int i=0;
-            for(Course temp:Arr){
-                params.add(new BasicNameValuePair("course"+i++,""+temp.getTitle()+"/"+temp.getDataByMilSec()));
-            }
-
-            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-            post.setEntity(ent);
-            HttpResponse response = client.execute(post);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
-            String line;
-            while((line = bufferedReader.readLine())!=null){
-                result+=line;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "UploadCourse error :" + e.getMessage());
-        }
-
-        Log.d(TAG, "UploadCourse result :" + result);
-
-        String[] array;
-        array = result.split(" ");
-        MemoWriteThread.resultcourseNo = Integer.parseInt(array[1]);
-        MemoWriteThread.resultuserNo = Integer.parseInt(array[2]);
-        MemoWriteThread.message = array[3];
-        MemoWriteThread.resultmemoNo= Integer.parseInt(array[4]);
-
-        Log.d("return courseNo = ", ""+MemoWriteThread.resultcourseNo);
-        Log.d("return userNo = ", ""+MemoWriteThread.resultuserNo);
-        Log.d("return message = ", ""+MemoWriteThread.message);
-        Log.d("return memoNo = ", ""+MemoWriteThread.resultmemoNo);
-    }
+//    //코스랑 메모 업로드
+//    static public void uploadCourseAndMemo(String title, List<Course> Arr,int memoNum){
+//        String result="";
+//        try
+//        {
+//            passiveMethod();
+//            HttpClient client = new DefaultHttpClient();
+//            String postURL = BasicValue.getInstance().getUrlHead()+"Course/insertCourseWithMemo.jsp";
+//            HttpPost post = new HttpPost(postURL);
+//
+//
+//            List<NameValuePair> params = new ArrayList<>();
+//            params.add(new BasicNameValuePair("userNo",""+ BasicValue.getInstance().getUserNo()));
+//            params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(Arr.size())));
+//            params.add(new BasicNameValuePair("title", title));
+//            params.add(new BasicNameValuePair("memoNo", String.valueOf(memoNum)));
+//
+//
+//            int i=0;
+//            for(Course temp:Arr){
+//                params.add(new BasicNameValuePair("course"+i++,""+temp.getTitle()+"/"+temp.getDataByMilSec()));
+//            }
+//
+//            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+//            post.setEntity(ent);
+//            HttpResponse response = client.execute(post);
+//            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+//            String line;
+//            while((line = bufferedReader.readLine())!=null){
+//                result+=line;
+//            }
+//        } catch (Exception e) {
+//            Log.e(TAG, "UploadCourse error :" + e.getMessage());
+//        }
+//
+//        Log.d(TAG, "UploadCourse result :" + result);
+//
+//        String[] array;
+//        array = result.split(" ");
+//        MemoWriteThread.resultcourseNo = Integer.parseInt(array[1]);
+//        MemoWriteThread.resultuserNo = Integer.parseInt(array[2]);
+//        MemoWriteThread.message = array[3];
+//        MemoWriteThread.resultmemoNo= Integer.parseInt(array[4]);
+//
+//        Log.d("return courseNo = ", ""+MemoWriteThread.resultcourseNo);
+//        Log.d("return userNo = ", ""+MemoWriteThread.resultuserNo);
+//        Log.d("return message = ", ""+MemoWriteThread.message);
+//        Log.d("return memoNo = ", ""+MemoWriteThread.resultmemoNo);
+//    }
 
     /**
      * Board
@@ -606,6 +589,41 @@ public class JspConn {
         Log.d("Jspconn", "editBoard result :" + result);
         return result;
     }
+//코스넘버와 경유지이름으로 코스 중복 검색
+    static public boolean checkDuplBoard(String stopverName, int userNo) {
+        String result = "";
+        try {
+            passiveMethod();
+            HttpClient client = new DefaultHttpClient();
+            String postURL = BasicValue.getInstance().getUrlHead() + "Board/CheckDuplBoardNo.jsp";
+            HttpPost post = new HttpPost(postURL);
+
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("StopoverName", stopverName));
+            params.add(new BasicNameValuePair("UserNo", String.valueOf(userNo)));
+
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Log.d("duplication", "Stopover:" + stopverName);
+        Log.d("duplication", "BoardNo:" + result);
+        Log.d("duplication", "UserNo:" + BasicValue.getInstance().getUserNo());
+        if (result.equals(" no duplication")) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
 
     /**
      * login
@@ -641,7 +659,7 @@ public class JspConn {
         else return false;
     }
 
-    //별명 중복 체크 ( 한글 안되는거같음)
+    //별명 중복 체크
     static public boolean checkDuplNickname(String nickname) {
         String result = "";
         try {
@@ -766,6 +784,7 @@ public class JspConn {
                 result += line;
             }
         } catch (Exception e) {
+            Log.d("TAG",e.toString());
             e.printStackTrace();
         }
         Log.d("TAG", "getUserNo result :" + result);
@@ -1016,7 +1035,7 @@ public class JspConn {
     static public String deleteCourse(int userNo, int courseNo, String title) {
         passiveMethod();
         HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead() + "/Course/DeleteCourse.jsp";
+        String postURL = BasicValue.getInstance().getUrlHead() + "/Course_V2/deleteCourse.jsp";
         HttpPost post = new HttpPost(postURL);
 
         Log.e("deletecourseno",""+courseNo);

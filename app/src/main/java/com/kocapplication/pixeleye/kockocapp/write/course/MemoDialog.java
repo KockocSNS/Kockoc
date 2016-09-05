@@ -6,6 +6,10 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.kocapplication.pixeleye.kockocapp.model.Course;
+
+import java.util.List;
+
 /**
  * Created by Han on 2016-07-11.
  */
@@ -15,7 +19,39 @@ public class MemoDialog {
     private CourseWriteActivity activity;
     private EditText messageEditText;
     private int courseNo;
+    private int coursePosition;
     private String tempMemo="";
+
+    private List<Course> courseList;
+
+    public MemoDialog(CourseWriteActivity activity, List<Course> courseList, String memo, int coursePosition) {
+        this.activity = activity;
+        this.messageEditText = new EditText(activity);
+        this.courseList = courseList;
+        this.coursePosition = coursePosition;
+
+        if(memo=="") {
+            dialog = new AlertDialog.Builder(activity)
+                    .setTitle("메모")
+                    .setMessage("메모를 입력하세요.")
+                    .setView(messageEditText)
+                    .setPositiveButton("예", new ButtonListener())
+                    .setNegativeButton("아니오", new ButtonListener())
+                    .create();
+        }
+        else if(memo!=""){
+            dialog = new AlertDialog.Builder(activity)
+                    .setTitle("메모")
+                    .setMessage("메모를 입력하세요.")
+                    .setView(messageEditText)
+                    .setMessage(memo)
+                    .setPositiveButton("예", new ButtonListener())
+                    .setNegativeButton("아니오", new ButtonListener())
+                    .create();
+        }
+
+        dialog.show();
+    }
 
 
     public MemoDialog(CourseWriteActivity activity, int courseNo, String memo) {
@@ -53,12 +89,10 @@ public class MemoDialog {
             if (which == DialogInterface.BUTTON_POSITIVE) {
                 String message = messageEditText.getText().toString();
 
-
                 if (message.equals("")) {
                     Toast.makeText(activity, "메모를 입력해주세요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 Log.i("MEMODIALOG", ""+MemoWriteThread.resultcourseNo); // courseNO 확인
                 new MemoWriteThread(message, MemoWriteThread.resultcourseNo).start();
                 activity.setMemo(message);

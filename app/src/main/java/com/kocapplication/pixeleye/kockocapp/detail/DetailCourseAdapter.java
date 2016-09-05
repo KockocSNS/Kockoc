@@ -2,6 +2,7 @@ package com.kocapplication.pixeleye.kockocapp.detail;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,13 @@ import android.view.ViewGroup;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.SimpleFormatter;
 
 /**
  * Created by Han_ on 2016-07-05.
@@ -29,7 +34,11 @@ public class DetailCourseAdapter extends RecyclerView.Adapter<DetailCourseViewHo
         this.context = context;
         if (data == null) throw new IllegalArgumentException("DATA MUST NOT BE NULL");
 
-        setItems(data);
+        try {
+            setItems(data);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -61,17 +70,14 @@ public class DetailCourseAdapter extends RecyclerView.Adapter<DetailCourseViewHo
         return items.size();
     }
 
-    public void setItems(List<String> data) {
+    public void setItems(List<String> data) throws ParseException {
 
         items = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         for (int i = 0; i < data.size(); i++) {
             String temp = data.get(i);
-
-            if (!temp.equals("null")) {
-                String[] split = temp.split("/");
-                long dateMilSec = Long.parseLong(split[1]);
-                items.add(new Course(split[0], new Date(dateMilSec), i));
-            } else break;
+            Log.i("detailcourseadapter",temp);
+            items.add(new Course(temp));
         }
     }
 

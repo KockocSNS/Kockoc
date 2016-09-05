@@ -3,11 +3,14 @@ package com.kocapplication.pixeleye.kockocapp.write.continuousWrite;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kocapplication.pixeleye.kockocapp.R;
@@ -64,7 +67,11 @@ public class CourseSelectActivity extends BaseActivityWithoutNav {
         recyclerView.setLayoutManager(manager);
 
         recyclerView.setHasFixedSize(true);
+
+
+
     }
+
 
     private class ContinuousItemClickListener implements View.OnClickListener {
         Intent intent = new Intent(CourseSelectActivity.this, NewWriteActivity.class);

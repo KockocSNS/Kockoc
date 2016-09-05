@@ -36,9 +36,8 @@ import java.util.List;
  */
 public class CourseThread extends Thread {
     private final static String TAG = "CourseThread";
-    private final String postURL = BasicValue.getInstance().getUrlHead() + "Course/readMyCourseWithMemo.jsp";
+    private final String postURL = BasicValue.getInstance().getUrlHead() + "Course_V2/readMyCourse.jsp";
     private Handler handler;
-    public static String memo;
 
     public CourseThread(Handler handler) {
         super();
@@ -71,54 +70,57 @@ public class CourseThread extends Thread {
             e.printStackTrace();
         }
 
-        Log.i("COURSE_THREAD", result);
+        Log.i("COURSE_THREAD_real", result);
         JsonParser parser = new JsonParser();
         JsonObject upperObject = parser.parse(result).getAsJsonObject();
-        JsonArray array = upperObject.getAsJsonArray("courseArr");
+        JsonArray courseArr = upperObject.getAsJsonArray("searchResult");
 
         ArrayList<Courses> courses = new ArrayList<Courses>();
 
-        for (int i = 0; i < array.size(); i++) {
-            JsonObject object = array.get(i).getAsJsonObject();
-
-            int courseNo = object.get("CourseNo").getAsInt();
-            String title = object.get("title").getAsString();
-            String date = object.get("Date").getAsString();
-            String time = object.get("Time").getAsString();
-            memo = object.get("Memo").getAsString();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Log.i("courseArr",courseArr.toString());
+        for (int i = 0; i < courseArr.size(); i++) {
+            JsonObject resultObject = courseArr.get(i).getAsJsonObject();
 
             ArrayList<Course> course = new ArrayList<Course>();
 
-            for (int innerI = 1; innerI < 10; innerI++) {
-                String temp = "Course" + innerI;
-                JsonElement element = object.get(temp);
-                if (element.isJsonNull()) {
-//                    Log.i("COURSE_THREAD", "COURSE COUNT IS NOT 9 / CURRENT COUNT IS " + (innerI - 1));
-                    break;
+            int courseNo = resultObject.get("index").getAsInt();
+            String title = resultObject.get("title").getAsString();
+            String date = resultObject.get("courseDate").getAsString();
+            Log.i("resultObject",resultObject.toString());
+            JsonArray stopoverArr = resultObject.getAsJsonArray("courseArr");
+            Log.i("stopoverArr",stopoverArr.toString());
+            for (int j = 0; j < stopoverArr.size(); j++) {
+                JsonObject stopoverObject = stopoverArr.get(j).getAsJsonObject();
+
+                int stopoverPosition = stopoverObject.get("stopoverPosition").getAsInt();
+                String name = stopoverObject.get("name").getAsString();
+                String stopoverDate = stopoverObject.get("stopoverDate").getAsString();
+                String memo = stopoverObject.get("memo").getAsString();
+
+                Date temp = new Date();
+                try {
+                    temp = format.parse(stopoverDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
-
-                String board = element.getAsString();
-
-                String[] split = board.split("/");
-                Date dateTime = new Date(Long.parseLong(split[1]));
-                course.add(new Course(split[0], dateTime, innerI));
+                course.add(new Course(stopoverPosition, name, temp, memo));
             }
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Date coursesDate = new Date();
 
+            Date temp = new Date();
             try {
-                coursesDate = format.parse(date);
+                temp = format.parse(date);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            courses.add(new Courses(courseNo, title, temp, course));
 
-            courses.add(new Courses(courseNo, title, coursesDate, course));
         }
-
         Message msg = Message.obtain();
         Bundle bundle = new Bundle();
         bundle.putSerializable("THREAD", courses);
         msg.setData(bundle);
         handler.sendMessage(msg);
     }
+
 }

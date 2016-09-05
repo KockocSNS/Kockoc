@@ -53,9 +53,9 @@ public class IntroActivity extends Activity {
         NetworkInfo mobile = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE); // 3G나 LTE등 데이터 네트워크에 연결된 상태
         NetworkInfo wifi = manager.getNetworkInfo(ConnectivityManager.TYPE_WIFI); // 와이파이에 연결된 상태
 
-        if (wifi.isConnected() || mobile.isConnected()) { // 와이파이에 연결된 경우
+        try {
             autoLogin();
-        } else { // 인터넷에 연결되지 않은 경우
+        } catch (Exception e) {
             Log.e("intro", "intro network not connect");
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle("안내");
@@ -67,7 +67,24 @@ public class IntroActivity extends Activity {
                 }
             });
             dialog.show();
+            e.printStackTrace();
         }
+
+//        if (wifi.isConnected() || mobile.isConnected()) { // 와이파이에 연결된 경우
+//            autoLogin();
+//        } else { // 인터넷에 연결되지 않은 경우
+//            Log.e("intro", "intro network not connect");
+//            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+//            dialog.setTitle("안내");
+//            dialog.setMessage("인터넷 연결상태를 확인해주세요");
+//            dialog.setPositiveButton("예", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    finish();
+//                }
+//            });
+//            dialog.show();
+//        }
     }
 
     private void autoLogin() {

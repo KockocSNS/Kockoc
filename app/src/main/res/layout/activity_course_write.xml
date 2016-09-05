@@ -61,8 +61,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="3dp"
             android:text="메모"
-            android:textSize="10dp"
-            android:visibility="gone"/>
+            android:textSize="10dp"/>
 
         <!-- visibility 나중에 지우기 -->
 

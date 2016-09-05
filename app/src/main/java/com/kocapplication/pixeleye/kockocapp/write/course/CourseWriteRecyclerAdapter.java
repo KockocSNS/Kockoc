@@ -5,6 +5,8 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,11 +14,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.search.SearchActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
+import com.kocapplication.pixeleye.kockocapp.model.Courses;
+import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -57,13 +63,14 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
     public void onBindViewHolder(CourseWriteRecyclerViewHolder holder, int position) {
         Course item = items.get(position);
 
+
         // TODO: 2016-07-11 일단 코스 하나마다 메모는 달지 않았다.
         holder.getMemo().setVisibility(View.GONE);
 
-        if(flag.equals("CourseSelect")){
+        if (flag.equals("CourseSelect")) {
             holder.getDelete().setVisibility(View.INVISIBLE);
             holder.getSearch().setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             View.OnClickListener listener = new ItemButtonListener(holder, position);
             holder.getDateButton().setOnClickListener(listener);
             holder.getTimeButton().setOnClickListener(listener);
@@ -76,13 +83,19 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
 
         if (position == (items.size() - 1)) {
             holder.getLineBottom().setVisibility(View.GONE);
-        }
-        else holder.getLineBottom().setVisibility(View.VISIBLE);
+        } else holder.getLineBottom().setVisibility(View.VISIBLE);
 
         holder.getCourseName().setText("# " + item.getTitle());
         holder.getDateButton().setText(item.getDate());
         holder.getTimeButton().setText(item.getTime());
+        //경유지글이 업로드되면 업로드아이콘 표시
+        if (JspConn.checkDuplBoard(item.getTitle(), BasicValue.getInstance().getUserNo())) {
+            holder.getUploadIcon().setText("수정");
+        } else {
+            holder.getUploadIcon().setText("작성");
+        }
     }
+
 
     @Override
     public int getItemCount() {
@@ -98,7 +111,7 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
     }
 
     public boolean contain(Course course) {
-        for (Course item:items)
+        for (Course item : items)
             if (item.equals(course)) return true;
 
         return false;
@@ -120,22 +133,16 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
                 Calendar currentDate = Calendar.getInstance();
                 new DatePickerDialog(activity, new TimeSetListener(holder, position),
                         currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DAY_OF_MONTH)).show();
-            }
-
-            else if (v.equals(holder.getTimeButton())) {
+            } else if (v.equals(holder.getTimeButton())) {
                 String time = holder.getTimeButton().getText().toString();
                 String[] _time = time.split(":");
                 new TimePickerDialog(activity, new TimeSetListener(holder, position), Integer.parseInt(_time[0]), Integer.parseInt(_time[1]), false).show();
-            }
-
-            else if (v.equals(holder.getDelete())) {
+            } else if (v.equals(holder.getDelete())) {
                 items.remove(position);
                 notifyDataSetChanged();
-            }
-
-            else if (v.equals(holder.getSearch())){
+            } else if (v.equals(holder.getSearch())) {
                 Intent searchIntent = new Intent(activity, SearchActivity.class);
-                searchIntent.putExtra("keyword",items.get(position).getTitle());
+                searchIntent.putExtra("keyword", items.get(position).getTitle());
                 activity.startActivity(searchIntent);
             }
 

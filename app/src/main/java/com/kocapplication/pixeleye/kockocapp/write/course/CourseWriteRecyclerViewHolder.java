@@ -15,6 +15,7 @@ public class CourseWriteRecyclerViewHolder  extends RecyclerView.ViewHolder {
     private View lineBottom;
 
     private TextView courseName;
+    private TextView uploadIcon;
 
     private Button dateButton;
     private Button timeButton;
@@ -29,12 +30,14 @@ public class CourseWriteRecyclerViewHolder  extends RecyclerView.ViewHolder {
         this.lineBottom = itemView.findViewById(R.id.line_bottom);
 
         this.courseName = (TextView) itemView.findViewById(R.id.course_name);
+        this.uploadIcon = (TextView) itemView.findViewById(R.id.upload_icon);
         this.dateButton = (Button) itemView.findViewById(R.id.course_date);
         this.timeButton = (Button) itemView.findViewById(R.id.course_time);
         this.delete = (Button) itemView.findViewById(R.id.delete);
 
         this.memo = (Button) itemView.findViewById(R.id.course_note);
         this.search = (Button) itemView.findViewById(R.id.course_search);
+
     }
 
     public View getLineTop() {
@@ -66,6 +69,8 @@ public class CourseWriteRecyclerViewHolder  extends RecyclerView.ViewHolder {
     public Button getMemo() {
         return memo;
     }
+
+    public TextView getUploadIcon() { return uploadIcon; }
 
 
 }

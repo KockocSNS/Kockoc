@@ -352,11 +352,13 @@ public class DetailActivity extends AppCompatActivity {
         List<String> list = new ArrayList<String>();
         list.add("코스선택");
         course = JsonParser.readCourse(JspConn.readCourseByCourseNo(courseNo));
-        for (int i = 0; i < 10; i++) {
-            if (course.get(i).equals("null"))
-                break;
-            list.add(course.get(i).split("/")[0] + "(" + i + ")");
+        for (int i = 0; i < course.size(); i++) {
+            if (course.get(i).equals("null")) break;
+            list.add(course.get(i));
         }
+
+        Log.i("detailActivity.course",list.toString());
+
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(DetailActivity.this, R.layout.spinner_item, list);
         dataAdapter.setDropDownViewResource(R.layout.spinner_item);
 
