@@ -3,6 +3,7 @@ package com.kocapplication.pixeleye.kockocapp.util;
 import android.app.Activity;
 import android.app.Application;
 
+import com.bumptech.glide.Glide;
 import com.kakao.auth.KakaoSDK;
 import com.kocapplication.pixeleye.kockocapp.login.Kakao.KakaoSDKAdapter;
 
@@ -46,6 +47,21 @@ public class GlobalApplication extends Application {
     public void onTerminate() {
         super.onTerminate();
         instance = null;
+    }
+
+    /**
+     * Glide 메모리 초기화
+     */
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        Glide.get(this).clearMemory();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        Glide.get(this).trimMemory(level);
     }
 }
 

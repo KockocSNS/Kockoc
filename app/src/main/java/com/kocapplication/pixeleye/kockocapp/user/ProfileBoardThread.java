@@ -93,17 +93,17 @@ public class ProfileBoardThread extends Thread {
             try {
                 String courseJsonString = JspConn.readCourseByCourseNo(object.get("Course_No").getAsInt());
                 JsonObject courseObject = parser.parse(courseJsonString).getAsJsonObject();
-
-                for (int innerI = 1; innerI < 10; innerI++) {
-                    String temp = "Course" + innerI;
-                    JsonElement courseElement = courseObject.get(temp);
-                    if (courseElement.isJsonNull()) {
-                        Log.i("COURSE_THREAD", "COURSE COUNT IS NOT 9 / CURRENT COUNT IS " + (innerI));
-                        break;
+                if(courseObject.isJsonNull()){
+                    for (int innerI = 1; innerI < 10; innerI++) {
+                        String temp = "Course" + innerI;
+                        JsonElement courseElement = courseObject.get(temp);
+                        if (courseElement.isJsonNull()) {
+                            break;
+                        }
+                        courseCount++;
                     }
-                    courseCount++;
                 }
-            } catch (JsonSyntaxException e) {
+            } catch (IllegalStateException e) {
                 e.printStackTrace();
             }
 

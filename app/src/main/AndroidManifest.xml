@@ -32,7 +32,7 @@
         <!-- 카카오톡 debug key -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="9b6bb8886ea6b7a8ae3e05ff6b989ea6" />
+            android:value="@string/kakao_app_id" />
 
         <activity
             android:name=".intro.IntroActivity"
