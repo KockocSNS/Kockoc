@@ -41,7 +41,7 @@ public class BoardWithImage extends Board implements Serializable {
             InputStream inputStream = (InputStream) new URL("http://115.68.14.27:8080/board_image/" + this.basicAttributes.getUserNo() + "/" + mainImageURL).getContent();
 //            this.boardImage = Drawable.createFromStream(inputStream, "board_image");
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 4;
+            options.inSampleSize = 2;
             this.boardImage = new BitmapDrawable(BitmapFactory.decodeStream(inputStream, null, options));
             inputStream.close();
 

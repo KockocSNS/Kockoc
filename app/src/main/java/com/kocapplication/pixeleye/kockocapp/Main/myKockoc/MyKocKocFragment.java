@@ -217,7 +217,6 @@ public class MyKocKocFragment extends Fragment {
                 break;
             default:
                 break;
-
         }
     }
 
