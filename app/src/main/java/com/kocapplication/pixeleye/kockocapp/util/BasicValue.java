@@ -8,8 +8,10 @@ public class BasicValue {
     private String urlHead = "http://115.68.14.27:8080/";
     private final String DAUM_MAP_API_KEY = "fd87e70c9d3984b8efea777c78112f1e";
 
+
     private int userNo = -1;
     private String userNickname = "";
+    private String userName = "";
 
     public static BasicValue getInstance() {
         return ourInstance;
@@ -23,12 +25,16 @@ public class BasicValue {
     public int getUserNo() {
         return userNo;
     }
+
     public String getDAUM_MAP_API_KEY() {return DAUM_MAP_API_KEY;}
     public String getUserNickname() {return userNickname;}
+    public String getUserName() {return userName;}
+
 
     public void setUserNo(int userNo) {
         this.userNo = userNo;
     }
     public void setUserNickname(String userNickname) {this.userNickname = userNickname;}
+    public void setUserName(String userName){this.userName = userName;}
 
 }

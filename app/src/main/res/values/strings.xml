@@ -8,7 +8,7 @@
     <string name="closed_drawer">close</string>
 
     <!--<string name="facebook_app_id">1550213591953523</string>-->
-    <!--<string name="kakao_app_id">9b6bb8886ea6b7a8ae3e05ff6b989ea6</string>-->
+    <string name="kakao_app_id" translatable="false">9b6bb8886ea6b7a8ae3e05ff6b989ea6</string>
 
     <string name="title_activity_get_title">GetTitleActivity</string>
     <string name="title_activity_magazine">MagazineActivity</string>

@@ -15,8 +15,7 @@
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:background="@drawable/default_profile"
-            android:onClick="@+id/user_profile" />
+            android:background="@drawable/default_profile" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -19,10 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,12 +28,10 @@ import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.detail.scrapuser.ScrapUserAcitivity;
+import com.kocapplication.pixeleye.kockocapp.detail.scrapuser.ScrapUserActivity;
 import com.kocapplication.pixeleye.kockocapp.detail.share.SharingHelper;
-import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.user.UserActivity;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
-import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 import net.daum.mf.map.api.CameraUpdateFactory;
@@ -48,6 +44,7 @@ import org.apmem.tools.layouts.FlowLayout;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -217,7 +214,11 @@ public class DetailFragment extends Fragment {
 
     private void setImg(DetailPageData data) {
         //프로필 이미지
-        Glide.with(getActivity()).load(BasicValue.getInstance().getUrlHead() + "board_image/" + data.getUserNo() + "/profile.jpg").into(profile_img);
+        try {
+            Glide.with(getActivity()).load(BasicValue.getInstance().getUrlHead() + "board_image/" + data.getUserNo() + "/profile.jpg").error(R.drawable.default_profile).into(profile_img);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //게시글 이미지
         for (int i = 0; i < data.getBoardImgArr().size(); i++) {
@@ -264,7 +265,11 @@ public class DetailFragment extends Fragment {
             setData(detailPageData);
             setImg(detailPageData);
             setCommentList();
-            course_adapter.setItems(detailPageData.getCourse());
+            try {
+                course_adapter.setItems(detailPageData.getCourse());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             course_adapter.notifyDataSetChanged();
 
             //DetailData를 받아 오면 좋아요 수 얻어옴
@@ -338,7 +343,7 @@ public class DetailFragment extends Fragment {
     private class CommentScrapListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            Intent scrap_user_intent = new Intent(v.getContext(), ScrapUserAcitivity.class);
+            Intent scrap_user_intent = new Intent(v.getContext(), ScrapUserActivity.class);
             scrap_user_intent.putExtra("boardNo", boardNo);
             startActivity(scrap_user_intent);
         }

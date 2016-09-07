@@ -1,5 +1,6 @@
 package com.kocapplication.pixeleye.kockocapp.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -13,18 +14,22 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseFragment;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.MyKocKocFragment;
 import com.kocapplication.pixeleye.kockocapp.main.recommend.RecommendFragment;
 import com.kocapplication.pixeleye.kockocapp.main.story.StoryFragment;
+import com.kocapplication.pixeleye.kockocapp.util.GCM.RegistrationIntentService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
     private final String TAG = "MainActivity";
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static final int DETAIL_ACTIVITY_REQUEST_CODE = 1222;
     public static final int COURSE_WRITE_ACTIVITY_REQUEST_CODE = 575;
     public static final int NEW_WRITE_REQUEST_CODE = 12433;
@@ -32,21 +37,28 @@ public class MainActivity extends BaseActivity {
     private final int PROFILE_SET = 1;
 
     ViewPageAdapter adapter;
+    ViewPager viewPager;
+    TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         init();
         actionBarTitleSet();
 
+        getInstanceIdToken();
+
         ImageView logo = (ImageView) findViewById(R.id.actionbar_image_title);
+
+
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e(TAG, "AAA");
+                Log.e(TAG, "LogoToched");
+                viewPager.setCurrentItem(0);
+
             }
         });
     }
@@ -67,8 +79,8 @@ public class MainActivity extends BaseActivity {
         titles.add("코스");
         titles.add("내콕콕");
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         adapter = new ViewPageAdapter(getSupportFragmentManager(), fragments, titles);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -130,8 +142,8 @@ public class MainActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
-            case DETAIL_ACTIVITY_REQUEST_CODE:
-                ((StoryFragment) adapter.getItem(0)).refresh();
+            case DETAIL_ACTIVITY_REQUEST_CODE: // 글 보고 돌아올때 새로고침 막았음
+//                ((StoryFragment) adapter.getItem(0)).refresh();
                 break;
             case NEW_WRITE_REQUEST_CODE:
                 ((StoryFragment) adapter.getItem(0)).refresh();
@@ -163,5 +175,33 @@ public class MainActivity extends BaseActivity {
         detail_intent.putExtra("courseNo", courseNo);
         detail_intent.putExtra("board_userNo", userNo);
         startActivity(detail_intent);
+    }
+
+
+    /**
+     * getInstanceIdToken
+     * Gcm Token값 DB에 저장
+     */
+    public void getInstanceIdToken() {
+        if (checkPlayServices(this)) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
+    }
+
+    private boolean checkPlayServices(Context context) { // gcm 사용을 위해서는 구글 플레이 서비스가 있어야 한다.
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                Log.i("LoginActivityTest", "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
     }
 }

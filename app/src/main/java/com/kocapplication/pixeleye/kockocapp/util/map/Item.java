@@ -14,7 +14,7 @@ public class Item {
 	public String phone;
 	public double longitude;
 	public double latitude;
-	public double distance;
+//	public double distance;
 	public String category;
 	public String id;
 	public String placeUrl;

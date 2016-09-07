@@ -2,6 +2,7 @@ package com.kocapplication.pixeleye.kockocapp.write.course;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.kocapplication.pixeleye.kockocapp.R;
@@ -22,6 +24,7 @@ import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
+import com.kocapplication.pixeleye.kockocapp.navigation.SettingActivity;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 import java.text.ParseException;
@@ -40,6 +43,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
     private int flag;
 
     private int courseNo;
+    private int coursePosition=1;
     private String courseTitle;
 
     private RecyclerView recyclerView;
@@ -52,7 +56,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
     private Button addButton;
     private Button confirm;
 
-    private String memo = "";
+    private String memo = "test";
     public static int mNumCheck;
 
     @Override
@@ -64,6 +68,8 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
         container.setLayoutResource(R.layout.activity_course_write);
         View containView = container.inflate();
 
+
+
         declare(containView);
         getDataFromBeforeActivity();
 
@@ -74,6 +80,8 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
         //Log.i(TAG, memo);
         this.memo = memo;
     }
+
+
 
     private void declare(View containView) {
         courseInput = (EditText) containView.findViewById(R.id.course_name_input);
@@ -176,19 +184,21 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                     Snackbar.make(addButton, "잘못된 날짜 형식입니다.", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-
-                Course addCourse = new Course(title, courseDate, (adapter.getItemCount() + 1));
-                if (adapter.contain(addCourse)) {
-                    Snackbar.make(addButton, "이미 포함된 코스입니다.", Snackbar.LENGTH_SHORT).show();
-                    courseInput.setText("");
-                    return;
-                }
+                Log.i(TAG,"sdf : "+ memo);
+                Course addCourse = new Course(title, courseDate, (adapter.getItemCount() + 1), memo);
+                //경유지 중복 안되게하는 조건문이지만 필요없음 나중에 지우면 될듯
+//                if (adapter.contain(addCourse)) {
+//                    Snackbar.make(addButton, "이미 포함된 코스입니다.", Snackbar.LENGTH_SHORT).show();
+//                    courseInput.setText("");
+//                    return;
+//                }
 
                 adapter.getItems().add(addCourse);
                 adapter.notifyDataSetChanged();
 
                 recyclerView.smoothScrollToPosition(adapter.getItems().size() - 1);
                 courseInput.setText("");
+                coursePosition++;
 
             } else if (v.equals(confirm)) {
                 if (adapter.getItems().isEmpty()) {
@@ -200,48 +210,54 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 Courses courses = new Courses(courseNo, courseTitle, new Date(), adapter.getItems());
                 manager.setCourseAlarm(courses);
 
+
                 Log.i(TAG, courses.getCourseNo() + "");
 
                 int memoNum = MemoWriteThread.memoNum;
                 mNumCheck = memoNum;
                 Log.e("mNumCheck = memoNum", ""+mNumCheck+" "+memoNum);
-                if (flag == DEFAULT_FLAG && memoNum!=0) { //메모를 건든 코스
-                    JspConn.uploadCourseAndMemo(courseTitle, courses.getCourses(), memoNum);
-                    Log.e("JspConnuploadCourse", "off");
-//                    CourseFragment.memo = MemoWriteThread.message; // nam
-                    MemoWriteThread.memoClickCount=0;
-                    MemoWriteThread.message="";
-                    MemoWriteThread.resultmemoNo=0;
-                    MemoWriteThread.resultuserNo=0;
-                    MemoWriteThread.resultcourseNo=0;
-                    MemoWriteThread.memoNum=0;
-                }
-
-                else if (flag == DEFAULT_FLAG && memoNum == 0 ) { //메모를 건들지 않은 코스
-                    JspConn.uploadCourse(courseTitle, courses.getCourses()); // 코스 디비 업로드
-                    Log.e("JspConnuploadCourse","on");
-                }
-                else if (flag ==ADJUST_FLAG && memoNum !=0) { //메모를 수정했으면 또는 메모가 있는 코스
-                    Log.e("editCourseMemo", "in");
-                    JspConn.editCourseAndMemo(courseNo, courses.getTitle(), courses.getCourses(), memo);
-                }
-                else if (flag == ADJUST_FLAG && memoNum == 0) { //메모가 없던 코스
-                    JspConn.editCourse(courseNo, courses.getTitle(), courses.getCourses());
-                    Log.e("editCourse","in");
-                }
+                JspConn.uploadCourse(courseTitle,courses.getCourses());
+//                if (flag == DEFAULT_FLAG && memoNum!=0) { //메모를 건든 코스
+////                    JspConn.uploadCourseAndMemo(courseTitle, courses.getCourses(), memoNum);
+//                    JspConn.uploadCourse(courseTitle, courses.getCourses());
+//                    Log.e("JspConnuploadCourse", "off");
+////                    CourseFragment.memo = MemoWriteThread.message; // nam
+//                    MemoWriteThread.memoClickCount=0;
+//                    MemoWriteThread.message="";
+//                    MemoWriteThread.resultmemoNo=0;
+//                    MemoWriteThread.resultuserNo=0;
+//                    MemoWriteThread.resultcourseNo=0;
+//                    MemoWriteThread.memoNum=0;
+//                }
+//
+//                else if (flag == DEFAULT_FLAG && memoNum == 0 ) { //메모를 건들지 않은 코스
+//                    JspConn.uploadCourse(courseTitle, courses.getCourses()); // 코스 디비 업로드
+//                    Log.e("JspConnuploadCourse","on");
+//                }
+//                else if (flag ==ADJUST_FLAG && memoNum !=0) { //메모를 수정했으면 또는 메모가 있는 코스
+//                    Log.e("editCourseMemo", "in");
+//                    JspConn.uploadCourse(courseTitle, courses.getCourses());
+////                    JspConn.editCourseAndMemo(courseNo, courses.getTitle(), courses.getCourses(), memo);
+//                }
+//                else if (flag == ADJUST_FLAG && memoNum == 0) { //메모가 없던 코스
+////                    JspConn.editCourse(courseNo, courses.getTitle(), courses.getCourses());
+//                    JspConn.uploadCourse(courseTitle, courses.getCourses());
+//                    Log.e("editCourse","in");
+//                }
 
                 finish();
             } else if (v.equals(memoButton)) {
+                Courses courses = new Courses(courseNo, courseTitle, new Date(), adapter.getItems());
                 Log.e("MmemoNum: ", ""+courseNo);
                 if (mNumCheck == 0 && memo =="") {
                     Log.e("MemoDialog","null");
-                    new MemoDialog(CourseWriteActivity.this, courseNo, "");
+                    new MemoDialog(CourseWriteActivity.this, courses.getCourses(), "",coursePosition);
                 }
                 else if(memo != "") {
                     Log.e("MemoDialog","not null");
-                    new MemoDialog(CourseWriteActivity.this, courseNo, memo);
+                    new MemoDialog(CourseWriteActivity.this, courses.getCourses(), memo,coursePosition);
                 }
-
+                Log.d("memosdf",memo);
             }
         }
     }

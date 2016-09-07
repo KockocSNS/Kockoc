@@ -47,6 +47,8 @@ public class BaseActivityWithoutNav extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.back_btn);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowCustomEnabled(true);
+
+
     }
 
     protected void onRefresh() {

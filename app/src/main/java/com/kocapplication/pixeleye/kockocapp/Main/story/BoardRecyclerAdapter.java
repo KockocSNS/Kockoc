@@ -7,10 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
+import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by Han_ on 2016-06-21.
@@ -46,9 +51,11 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<BoardRecyclerView
         holder.getComment().setText(String.valueOf(data.getExpressionCount().getCommentCount()));
 
         if (data.getBoardImage() != null){
-            holder.getBoardImage().setImageDrawable(data.getBoardImage());
+            Glide.with(mContext).load("").placeholder(data.getBoardImage()).into(holder.getBoardImage());
+//            holder.getBoardImage().setImageDrawable(data.getBoardImage());
         } else
-            holder.getBoardImage().setImageDrawable(mContext.getResources().getDrawable(R.drawable.board_background));
+            Glide.with(mContext).load("").placeholder(mContext.getResources().getDrawable(R.drawable.board_background)).into(holder.getBoardImage());
+//            holder.getBoardImage().setImageDrawable(mContext.getResources().getDrawable(R.drawable.board_background));
 
 //        try {
 //        } catch (Exception e) {

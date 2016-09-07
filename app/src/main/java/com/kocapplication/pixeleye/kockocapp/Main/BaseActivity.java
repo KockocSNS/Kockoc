@@ -2,6 +2,7 @@ package com.kocapplication.pixeleye.kockocapp.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -137,6 +138,7 @@ public class BaseActivity extends AppCompatActivity {
         View view = getLayoutInflater().inflate(R.layout.actionbar_image_title, null);
 
         actionBar.setCustomView(view);
+
     }
 
     /**
@@ -176,6 +178,9 @@ public class BaseActivity extends AppCompatActivity {
                     });
                     Intent intent = new Intent(BaseActivity.this, LoginActivity.class);
                     intent.putExtra("logout", 0);
+                    autoLoginDisavleNaver();
+                    autoLoginDisavleFacebook();
+                    Log.i("naverauto","disable");
                     startActivity(intent);
                     finish();
                     try {
@@ -189,7 +194,21 @@ public class BaseActivity extends AppCompatActivity {
             return false;
         }
     }
+    //페이스북 자동로그인 해제
+    public  void autoLoginDisavleFacebook () {
+        SharedPreferences facebookLoginState = getSharedPreferences("facebookLoginState", MODE_PRIVATE);
+        SharedPreferences.Editor editor = facebookLoginState.edit();
+        editor.putBoolean("isFacebookLogin",false);
+        editor.commit();
+    }
+    //네이버 자동로그인 해제
+    public void autoLoginDisavleNaver () {
+        SharedPreferences naverLoginState = getSharedPreferences("naverLoginState", MODE_PRIVATE);
+        SharedPreferences.Editor editor = naverLoginState.edit();
+        editor.putBoolean("isNaverLogin",false);
+        editor.commit();
 
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -123,6 +123,7 @@ public class UserActivity extends BaseActivityWithoutNav {
         listenerSet();
     }
 
+
     private void listenerSet() {
         View.OnClickListener count_listener = new CountClickListener();
         scrapButton.setOnClickListener(count_listener);
@@ -155,14 +156,19 @@ public class UserActivity extends BaseActivityWithoutNav {
     private class FollowClickListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            if(followChk.equals("not_exist")){
-                int set =1; //add
-                JspConn.setFollower(userNo,set);
-            }
-            else{
-                int set =0;//delete
-                JspConn.setFollower(userNo,set);
-            }
+//            if(followChk.equals("not_exist")){
+//                int set =1; //add
+//                JspConn.setFollower(userNo,set);
+//            }
+//            else{
+//                int set =0;//delete
+//                JspConn.setFollower(userNo,set);
+//            }
+
+            // check 되어있으면 follow 중
+            if (followButton.isChecked()) JspConn.setFollower(userNo, 0);
+            else JspConn.setFollower(userNo, 1);
+
         }
     }
 

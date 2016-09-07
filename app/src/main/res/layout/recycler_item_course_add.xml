@@ -41,7 +41,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/recycler_layout_course_select">
 
         <TextView
             android:id="@+id/course_name"
@@ -134,6 +135,20 @@
                 android:padding="-5dp"
                 android:text="삭제"
                 android:textColor="@color/mainBgColor" />
+
+            <TextView
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="작성"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:drawableLeft="@drawable/detail_star"
+                android:background="@drawable/bg_round_shape_subbgcolor"
+                android:id="@+id/upload_icon"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/course_search"
+                android:layout_marginStart="27dp" />
 
         </RelativeLayout>
 

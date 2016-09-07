@@ -2,13 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:id="@+id/detailMainLay"
+    android:onClick="setOnClickListener">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/mainBgColor">
+        android:background="@color/mainBgColor"
+        android:theme="@style/ThemeToolbar">
 
         <ImageButton
             android:id="@+id/btn_detail_back"
@@ -63,14 +66,14 @@
                 android:textColor="@color/white"
                 android:layout_weight="0.75"/>
 
-            <ImageView
-                android:id="@+id/detail_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:padding="5dp"
-                android:src="@drawable/actionbar_menu"
-                android:layout_weight="1.5"/>
+            <!--<ImageView-->
+                <!--android:id="@+id/detail_menu"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="right"-->
+                <!--android:padding="5dp"-->
+                <!--android:src="@drawable/actionbar_menu"-->
+                <!--android:layout_weight="1.5"/>-->
         </LinearLayout>
 
 
@@ -88,7 +91,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.1"
-        android:focusableInTouchMode="true" />
+        android:focusableInTouchMode="true"
+        android:focusable="true" />
 
     <LinearLayout
         android:id="@+id/relative_layout"
@@ -99,7 +103,9 @@
             android:id="@+id/edit_comment"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
 
         <Button
             android:id="@+id/btn_send_comment"

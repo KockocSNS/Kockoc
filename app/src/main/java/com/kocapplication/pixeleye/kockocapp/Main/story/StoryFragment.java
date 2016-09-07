@@ -234,15 +234,15 @@ public class StoryFragment extends Fragment {
             if (msg.what == 0) {
                 Snackbar.make(refreshLayout, "데이터를 불러오는데 실패하였습니다. 새로고침을 해주세요", Snackbar.LENGTH_SHORT).show();
                 return;
-            }
+        }
 
-            ArrayList<BoardWithImage> boardWithImages = (ArrayList<BoardWithImage>) msg.getData().getSerializable("THREAD");
+        ArrayList<BoardWithImage> boardWithImages = (ArrayList<BoardWithImage>) msg.getData().getSerializable("THREAD");
 
-            initialData = boardWithImages;
-            adapter.setItems(boardWithImages);
-            adapter.notifyDataSetChanged();
-            refreshLayout.setRefreshing(false);
-            dialog.cancel();
+        initialData = boardWithImages;
+        adapter.setItems(boardWithImages);
+        adapter.notifyDataSetChanged();
+        refreshLayout.setRefreshing(false);
+        dialog.cancel();
         }
     }
 

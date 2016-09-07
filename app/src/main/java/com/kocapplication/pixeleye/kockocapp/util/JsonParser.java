@@ -2,17 +2,16 @@ package com.kocapplication.pixeleye.kockocapp.util;
 
 import android.util.Log;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailPageData;
-import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Neighbor;
 import com.kocapplication.pixeleye.kockocapp.model.NoticeItem;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by hp on 2016-06-23.
@@ -26,26 +25,25 @@ public class JsonParser {
     static public ArrayList<String> readCourse(String MSG) {
         ArrayList<String> result = new ArrayList<>();
         try {
-            JSONObject courses = new JSONObject(MSG);
+            com.google.gson.JsonParser parser = new com.google.gson.JsonParser();
+            JsonArray stopoversArray = parser.parse(MSG).getAsJsonArray();
             ArrayList<String> tempArr = new ArrayList<>();
-            tempArr.add(courses.getString("Course1"));
-            tempArr.add(courses.getString("Course2"));
-            tempArr.add(courses.getString("Course3"));
-            tempArr.add(courses.getString("Course4"));
-            tempArr.add(courses.getString("Course5"));
-            tempArr.add(courses.getString("Course6"));
-            tempArr.add(courses.getString("Course7"));
-            tempArr.add(courses.getString("Course8"));
-            tempArr.add(courses.getString("Course9"));
-            tempArr.add(courses.getString("Course10"));
-
+            Log.i("stopoversArray",stopoversArray.toString());
+            for(int i = 0; i < stopoversArray.size(); i++) {
+                String temp[];
+                temp = stopoversArray.get(i).getAsJsonObject().get("stopover_"+(i+1)).toString().split("\"");
+                Log.i("temptemptemp", temp[1]);
+                tempArr.add(temp[1]);
+            }
             for (String temp : tempArr) {
                 if (temp != null)
                     result.add(temp);
                 else break;
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
+        Log.i("stopoverResult", result.toString());
         return result;
     }
 
@@ -149,11 +147,11 @@ public class JsonParser {
                 int boardNo = temp.getInt("Board_No");
                 int board_userNo = temp.getInt("BoardUser_No");
                 int courseNo = 0;
-                try {
+                if(temp.isNull("Course_No")){
+                    courseNo = 0;
+                } else
                     courseNo = temp.getInt("Course_No");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
                 String date = temp.getString("Date");
 
                 NoticeItemList.add(new NoticeItem(userNo, boardNo, board_userNo, courseNo, nickName, date));

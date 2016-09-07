@@ -1,11 +1,17 @@
 package com.kocapplication.pixeleye.kockocapp.login;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -18,15 +24,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.util.exception.KakaoException;
@@ -34,13 +38,15 @@ import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.login.Kakao.KakaoSignupActivity;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.User;
-import com.kocapplication.pixeleye.kockocapp.util.GCM.RegistrationIntentService;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 
 import org.json.JSONObject;
+
+import java.security.MessageDigest;
+import java.util.Set;
 
 /**
  * Created by Han_ on 2016-04-01.
@@ -75,6 +81,8 @@ public class LoginActivity extends AppCompatActivity {
     //naver
     private OAuthLogin oAuthLogin;
 
+
+
     int KakaoLinkBoardNo;
     int KakaoLinkCourseNo;
 
@@ -90,8 +98,30 @@ public class LoginActivity extends AppCompatActivity {
 
         init();
 
+
         kakaoCallBack();
-        facebookCallBack();
+//        facebookCallBack();
+        autoLoginNaverAndFacebook();
+    }
+
+    public void autoLoginNaverAndFacebook () {
+        SharedPreferences naverLoginState = getSharedPreferences("naverLoginState",MODE_PRIVATE);
+        Boolean loginStateByNaver = naverLoginState.getBoolean("isNaverLogin",false);
+        SharedPreferences facebookLoginState = getSharedPreferences("facebookLoginState",MODE_PRIVATE);
+        Boolean loginStateByFacebook = facebookLoginState.getBoolean("isFacebookLogin",false);
+
+        if (loginStateByNaver == true){
+
+            Log.i("login","in");
+            View v=naverButton;
+            LoginListener loginListener = new LoginListener();
+            loginListener.onClick(v);
+            finish();
+        } else if (loginStateByFacebook == true) {
+            facebookCallBack();
+            facebookButton.performClick();
+        }
+        else { return;}
     }
 
     @Override
@@ -114,8 +144,10 @@ public class LoginActivity extends AppCompatActivity {
         try {
             if (getIntent().getIntExtra("logout", 0) == 0) {
                 Handler handler = new LoginHandler();
+                Log.i("logout","out");
                 Thread thread = new LoginThread(getApplicationContext(), handler, "-1", "", false);
                 thread.start();
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -156,6 +188,9 @@ public class LoginActivity extends AppCompatActivity {
 
         oAuthLogin = OAuthLogin.getInstance();
         oAuthLogin.init(LoginActivity.this, "DJy3asjXdzqH_xK5WNt4", "QEpiUBFAQb", "KocKoc");
+
+
+
     }
 
     private void kakaoCallBack() {
@@ -169,12 +204,20 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d("Facebook Login", "Success");
-                if (AccessToken.getCurrentAccessToken() != null) {
-                    GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new FacebookCallbackGraph());
-                    Bundle parameter = new Bundle();
-                    parameter.putString("fields", "id,name,birthday,email,gender");
-                    request.setParameters(parameter);
-                    request.executeAsync();
+
+                SharedPreferences facebookLoginState = getSharedPreferences("facebookLoginState", MODE_PRIVATE);
+                SharedPreferences.Editor editor = facebookLoginState.edit();
+                editor.putBoolean("isFacebookLogin", true);
+                editor.putString("AccessToken",facebookToken.getToken());
+                editor.commit();
+
+                if (AccessToken.getCurrentAccessToken()!= null) {
+                        GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new FacebookCallbackGraph());
+                        Bundle parameter = new Bundle();
+                        parameter.putString("fields", "id,name,birthday,email,gender");
+                        request.setParameters(parameter);
+                        request.executeAsync();
+                        finish();
                 }
             }
 
@@ -206,7 +249,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "빈칸을 입력해주세요", Toast.LENGTH_SHORT).show();
             } else if (v.equals(facebookButton)) {
 //                Toast.makeText(getApplicationContext(), "준비중입니다", Toast.LENGTH_SHORT).show();
-                facebookLogin = (com.facebook.login.widget.LoginButton) findViewById(R.id.facebook_login_button);
+//                facebookLogin = (com.facebook.login.widget.LoginButton)findViewById(R.id.facebook_login_button);
                 facebookLogin.performClick();
             } else if (v.equals(naverButton))
                 oAuthLogin.startOauthLoginActivity(LoginActivity.this, new NaverLoginHandler());
@@ -214,7 +257,9 @@ public class LoginActivity extends AppCompatActivity {
             else if (v.equals(signUpButton)) {
                 Intent intent = new Intent(LoginActivity.this, JoinActivity.class);
                 startActivity(intent);
+                finish();
             }
+
 
             //soft keyboard hide
             InputMethodManager manager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -247,15 +292,26 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 userData = new User(object.getString("name"), object.getString("name"), "", object.getString("id"), "", "", object.getString("gender"));
                 Handler handler = new LoginHandler();
+
+                Log.i("userData",userData.e_mail);
+                Log.i("userData",userData.name);
+                Log.i("userData",userData.gender);
+
+
                 if (!JspConn.checkDuplID(userData.e_mail)) {
 //                    // Email이 이미 존재하는 경우
-                    getInstanceIdToken();
+//                    getInstanceIdToken();
+                    Log.d("facebook_login join","emaillogin");
                     Thread thread = new NoPwdLoginThread(getApplicationContext(), handler, userData.e_mail);
                     thread.start();
+                    finish();
                 } else {
-//                    // Email이 없는 경우이므로 회원가입
+                   // Email이 없는 경우이므로 회원가입
+                    Log.d("facebook login join","join");
                     Intent intent = new Intent(LoginActivity.this, GetExtraInfoActivity.class);
-                    intent.putExtra("user", userData);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("user", userData);
+                    intent.putExtra("user", bundle);
                     intent.putExtra("flag", "facebook");
                     startActivity(intent);
                     finish();
@@ -272,13 +328,12 @@ public class LoginActivity extends AppCompatActivity {
             // Session Open Success
             Intent intent = new Intent(LoginActivity.this, KakaoSignupActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            getInstanceIdToken();
+//            getInstanceIdToken();
             if (KakaoLinkBoardNo != 0) {
                 intent.putExtra("boardNo", KakaoLinkBoardNo);
                 intent.putExtra("courseNo", KakaoLinkCourseNo);
             }
             startActivity(intent);
-
             finish();
         }
 
@@ -298,7 +353,7 @@ public class LoginActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 1) {
-                getInstanceIdToken(); // gcm 토큰값 가져오기
+//                getInstanceIdToken(); // gcm 토큰값 가져오기
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 if (KakaoLinkBoardNo != 0) {
                     intent.putExtra("boardNo", KakaoLinkBoardNo);
@@ -318,9 +373,10 @@ public class LoginActivity extends AppCompatActivity {
             Handler handler = new LoginHandler();
             User userData = (User) msg.getData().get("Message");
             if (!JspConn.checkDuplID(userData.e_mail)) {
-                getInstanceIdToken();
+//                getInstanceIdToken();
                 Thread thread = new NoPwdLoginThread(getApplicationContext(), handler, userData.e_mail);
                 thread.start();
+                finish();
             } else {
                 Intent intent = new Intent(LoginActivity.this, GetExtraInfoActivity.class);
                 Bundle bundle = new Bundle();
@@ -328,9 +384,11 @@ public class LoginActivity extends AppCompatActivity {
                 intent.putExtra("user", bundle);
                 intent.putExtra("flag", "naver");
                 startActivity(intent);
+                finish();
             }
         }
     }
+
 
     private class NaverLoginHandler extends OAuthLoginHandler {
         @Override
@@ -341,10 +399,20 @@ public class LoginActivity extends AppCompatActivity {
                 long expiresAt = oAuthLogin.getExpiresAt(getApplicationContext());
                 String tokenType = oAuthLogin.getTokenType(getApplicationContext());
 
+                SharedPreferences naverLoginState = getSharedPreferences("naverLoginState",MODE_PRIVATE);
+                SharedPreferences.Editor editor = naverLoginState.edit();
+                editor.putBoolean("isNaverLogin", true);
+                editor.commit();
+
                 Handler handler = new NaverHandler();
-                Log.i("changePwd", accessToken + " / " + refreshToken + " / " + expiresAt + " / " + tokenType);
+                Log.i("changePwd token", accessToken + " / " + refreshToken + " / " + expiresAt + " / " + tokenType);
+
                 Thread thread = new NaverUserInfoGetThread(getApplicationContext(), handler, oAuthLogin, accessToken);
                 thread.start();
+                Log.i("naverauto","able");
+
+
+
             } else {
                 String errorCode = oAuthLogin.getLastErrorCode(getApplicationContext()).getCode();
                 String errorDesc = oAuthLogin.getLastErrorDesc(getApplicationContext());
@@ -360,30 +428,30 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    /**
-     * getInstanceIdToken
-     * Gcm Token값 DB에 저장
-     */
-    public void getInstanceIdToken() {
-        if (checkPlayServices(this)) {
-            // Start IntentService to register this application with GCM.
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
-        }
-    }
-
-    private boolean checkPlayServices(Context context) { // gcm 사용을 위해서는 구글 플레이 서비스가 있어야 한다.
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
-                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            } else {
-                Log.i("LoginActivityTest", "This device is not supported.");
-                finish();
-            }
-            return false;
-        }
-        return true;
-    }
+//    /**
+//     * getInstanceIdToken
+//     * Gcm Token값 DB에 저장
+//     */
+//    public void getInstanceIdToken() {
+//        if (checkPlayServices(this)) {
+//            // Start IntentService to register this application with GCM.
+//            Intent intent = new Intent(this, RegistrationIntentService.class);
+//            startService(intent);
+//        }
+//    }
+//
+//    private boolean checkPlayServices(Context context) { // gcm 사용을 위해서는 구글 플레이 서비스가 있어야 한다.
+//        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(context);
+//        if (resultCode != ConnectionResult.SUCCESS) {
+//            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+//                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+//                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+//            } else {
+//                Log.i("LoginActivityTest", "This device is not supported.");
+//                finish();
+//            }
+//            return false;
+//        }
+//        return true;
+//    }
 }

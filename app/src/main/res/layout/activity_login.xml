@@ -104,15 +104,16 @@
                 app:bg="@drawable/background_button_facebook_login"
                 app:symbol="@drawable/com_facebook_button_icon"
                 app:text="페이스북"
-                app:textColor="@color/white" />
+                app:textColor="@color/white"
+                android:visibility="gone"/>
 
             <com.kocapplication.pixeleye.kockocapp.login.LoginButton
                 android:id="@+id/naver_login_button_temp"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:paddingLeft="5dp"
+                android:paddingLeft="0dp"
                 app:bg="@drawable/background_button_naver_login"
                 app:symbol="@drawable/login_naver"
                 app:text="네이버"

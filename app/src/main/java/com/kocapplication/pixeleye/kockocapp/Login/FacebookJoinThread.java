@@ -26,6 +26,8 @@ public class FacebookJoinThread extends Thread {
         this.user = user;
     }
 
+    public User getUser(){return user;}
+
     @Override
     public void run() {
         super.run();
