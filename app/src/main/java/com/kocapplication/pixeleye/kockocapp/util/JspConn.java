@@ -353,58 +353,6 @@ public class JspConn {
         return result;
     }
 
-//    2016.08.29 새로운 디비에 insert 완성하여 필요없으나 나중에 삭제
-
-//    //코스랑 메모 업로드
-//    static public void uploadCourseAndMemo(String title, List<Course> Arr,int memoNum){
-//        String result="";
-//        try
-//        {
-//            passiveMethod();
-//            HttpClient client = new DefaultHttpClient();
-//            String postURL = BasicValue.getInstance().getUrlHead()+"Course/insertCourseWithMemo.jsp";
-//            HttpPost post = new HttpPost(postURL);
-//
-//
-//            List<NameValuePair> params = new ArrayList<>();
-//            params.add(new BasicNameValuePair("userNo",""+ BasicValue.getInstance().getUserNo()));
-//            params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(Arr.size())));
-//            params.add(new BasicNameValuePair("title", title));
-//            params.add(new BasicNameValuePair("memoNo", String.valueOf(memoNum)));
-//
-//
-//            int i=0;
-//            for(Course temp:Arr){
-//                params.add(new BasicNameValuePair("course"+i++,""+temp.getTitle()+"/"+temp.getDataByMilSec()));
-//            }
-//
-//            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-//            post.setEntity(ent);
-//            HttpResponse response = client.execute(post);
-//            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
-//            String line;
-//            while((line = bufferedReader.readLine())!=null){
-//                result+=line;
-//            }
-//        } catch (Exception e) {
-//            Log.e(TAG, "UploadCourse error :" + e.getMessage());
-//        }
-//
-//        Log.d(TAG, "UploadCourse result :" + result);
-//
-//        String[] array;
-//        array = result.split(" ");
-//        MemoWriteThread.resultcourseNo = Integer.parseInt(array[1]);
-//        MemoWriteThread.resultuserNo = Integer.parseInt(array[2]);
-//        MemoWriteThread.message = array[3];
-//        MemoWriteThread.resultmemoNo= Integer.parseInt(array[4]);
-//
-//        Log.d("return courseNo = ", ""+MemoWriteThread.resultcourseNo);
-//        Log.d("return userNo = ", ""+MemoWriteThread.resultuserNo);
-//        Log.d("return message = ", ""+MemoWriteThread.message);
-//        Log.d("return memoNo = ", ""+MemoWriteThread.resultmemoNo);
-//    }
-
     /**
      * Board
      */

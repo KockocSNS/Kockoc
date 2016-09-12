@@ -98,6 +98,8 @@
         <activity
             android:name=".main.myKockoc.course.CourseActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".write.course.CourseMemoActivity"
+            android:theme="@android:style/Theme.Dialog" />
 
         <activity
             android:name=".user.UserActivity"

@@ -56,18 +56,18 @@
             android:textSize="15dp"
             android:textStyle="bold" />
 
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="-1dp">
 
             <Button
-                android:id="@+id/course_note"
+                android:id="@+id/course_memo"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
                 android:drawableLeft="@drawable/course_memo_gray"
                 android:drawablePadding="2dp"
                 android:layout_marginLeft="10dp"
@@ -84,7 +84,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/course_note"
                 android:drawableLeft="@drawable/course_search_gray"
                 android:drawablePadding="2dp"
                 android:layout_marginLeft="10dp"
@@ -95,13 +94,24 @@
                 android:paddingRight="1dp"
                 android:text="검색" />
 
+            <TextView
+                android:id="@+id/upload_icon"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="작성"
+                android:textColor="@color/white"
+                android:drawableLeft="@drawable/detail_star"
+                android:background="@drawable/bg_round_shape_subbgcolor"
+                android:layout_centerVertical="true" />
+
             <Button
                 android:id="@+id/course_date"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/course_time"
+                android:layout_marginStart="5dp"
                 android:drawableLeft="@drawable/course_date_gray"
                 android:drawablePadding="2dp"
                 android:minWidth="10dp"
@@ -114,8 +124,7 @@
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/delete"
+                android:layout_marginStart="5dp"
                 android:drawableLeft="@drawable/course_time_gray"
                 android:drawablePadding="2dp"
                 android:minWidth="10dp"
@@ -128,29 +137,15 @@
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:drawableLeft="@drawable/close_red"
                 android:minWidth="10dp"
+                android:layout_marginStart="5dp"
                 android:padding="-5dp"
                 android:text="삭제"
                 android:textColor="@color/mainBgColor" />
 
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="작성"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:drawableLeft="@drawable/detail_star"
-                android:background="@drawable/bg_round_shape_subbgcolor"
-                android:id="@+id/upload_icon"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/course_search"
-                android:layout_marginStart="27dp" />
-
-        </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
