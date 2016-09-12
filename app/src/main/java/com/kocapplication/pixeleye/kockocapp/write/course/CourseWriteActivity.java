@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -55,6 +56,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
     private Button timeButton;
     private Button addButton;
     private Button confirm;
+    private CheckBox publicityCheckBox;
 
     private String memo = "test";
     public static int mNumCheck;
@@ -90,6 +92,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
         timeButton = (Button) containView.findViewById(R.id.course_time_set);
         addButton = (Button) containView.findViewById(R.id.add_button);
         confirm = (Button) containView.findViewById(R.id.confirm);
+        publicityCheckBox = (CheckBox) containView.findViewById(R.id.publicity);
 
         Calendar calendar = Calendar.getInstance();
         String year = String.valueOf(calendar.get(Calendar.YEAR));
@@ -206,17 +209,22 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                     return;
                 }
 
-                AlarmHelper manager = new AlarmHelper(getApplicationContext());
-                Courses courses = new Courses(courseNo, courseTitle, new Date(), adapter.getItems());
-                manager.setCourseAlarm(courses);
+
+                    AlarmHelper manager = new AlarmHelper(getApplicationContext());
+                    Courses courses = new Courses(courseNo, courseTitle, new Date(), adapter.getItems());
+                    manager.setCourseAlarm(courses);
 
 
-                Log.i(TAG, courses.getCourseNo() + "");
+                    Log.i(TAG, courses.getCourseNo() + "");
 
-                int memoNum = MemoWriteThread.memoNum;
-                mNumCheck = memoNum;
-                Log.e("mNumCheck = memoNum", ""+mNumCheck+" "+memoNum);
-                JspConn.uploadCourse(courseTitle,courses.getCourses());
+                    int memoNum = MemoWriteThread.memoNum;
+                    mNumCheck = memoNum;
+                    Log.e("mNumCheck = memoNum", ""+mNumCheck+" "+memoNum);
+                if (publicityCheckBox.isChecked()) {
+                    JspConn.uploadCourse(courseTitle, courses.getCourses(), true);
+                } else {
+                    JspConn.uploadCourse(courseTitle, courses.getCourses(), false);
+                }
 //                if (flag == DEFAULT_FLAG && memoNum!=0) { //메모를 건든 코스
 ////                    JspConn.uploadCourseAndMemo(courseTitle, courses.getCourses(), memoNum);
 //                    JspConn.uploadCourse(courseTitle, courses.getCourses());
@@ -245,7 +253,8 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
 //                    Log.e("editCourse","in");
 //                }
 
-                finish();
+                    finish();
+
             } else if (v.equals(memoButton)) {
                 Courses courses = new Courses(courseNo, courseTitle, new Date(), adapter.getItems());
                 Log.e("MmemoNum: ", ""+courseNo);

@@ -308,7 +308,7 @@ public class JspConn {
     }
 
     //코스 업로드
-    static public String uploadCourse(String title, List<Course> Arr) {
+    static public String uploadCourse(String title, List<Course> Arr, boolean publicity) {
         String result = "";
         try {
             passiveMethod();
@@ -321,6 +321,11 @@ public class JspConn {
             params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(Arr.size()))); //stopover 갯수
             params.add(new BasicNameValuePair("title", title));
             params.add(new BasicNameValuePair("courseNo",String.valueOf(Arr.get(0).getCourseNo())));
+            if (publicity) {
+                params.add(new BasicNameValuePair("publicity", "public"));
+            } else {
+                params.add(new BasicNameValuePair("publicity", "private"));
+            }
 
 
             int i = 0;
@@ -347,7 +352,6 @@ public class JspConn {
         Log.d(TAG, "UploadCourse result :" + result);
         return result;
     }
-
 
 //    2016.08.29 새로운 디비에 insert 완성하여 필요없으나 나중에 삭제
 
