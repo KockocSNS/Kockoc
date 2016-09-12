@@ -14,7 +14,8 @@ public class Course implements Serializable {
     private Date dateTime = new Date();
     private String memo="not_change";
 
-    public Course ( int coursePosition, String title, Date date, String memo){
+    public Course (int courseNo, int coursePosition, String title, Date date, String memo){
+        this.courseNo = courseNo;
         this.coursePosition = coursePosition;
         this.title = title;
         this.dateTime = date;

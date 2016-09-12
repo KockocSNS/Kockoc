@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
@@ -23,6 +24,7 @@ import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.write.continuousWrite.CourseSelectActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -34,22 +36,23 @@ import java.util.List;
  * Created by Han_ on 2016-06-30.
  */
 public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWriteRecyclerViewHolder> {
+    final static String TAG = "CourseWriteAdapter";
     private List<Course> items;
     private Activity activity;
     private View.OnClickListener itemClickListener;
-    private String flag = "CourseWrite";
+    private int flag;
 
-    public CourseWriteRecyclerAdapter(List<Course> data, Activity activity) {
+    public CourseWriteRecyclerAdapter(List<Course> data, Activity activity, int flag) {
         super();
         if (data == null) throw new IllegalArgumentException("DATA MUST NOT BE NULL");
         this.items = data;
         this.activity = activity;
+        this.flag = flag;
     }
 
-    public CourseWriteRecyclerAdapter(List<Course> data, Activity activity, View.OnClickListener itemClickListener, String flag) {
-        this(data, activity);
+    public CourseWriteRecyclerAdapter(List<Course> data, Activity activity, View.OnClickListener itemClickListener, int flag) {
+        this(data, activity, flag);
         this.itemClickListener = itemClickListener;
-        this.flag = flag;
     }
 
     @Override
@@ -62,20 +65,16 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
     @Override
     public void onBindViewHolder(CourseWriteRecyclerViewHolder holder, int position) {
         Course item = items.get(position);
+        View.OnClickListener listener = new ItemButtonListener(holder, position);
 
-
-        // TODO: 2016-07-11 일단 코스 하나마다 메모는 달지 않았다.
-        holder.getMemo().setVisibility(View.GONE);
-
-        if (flag.equals("CourseSelect")) {
-            holder.getDelete().setVisibility(View.INVISIBLE);
-            holder.getSearch().setVisibility(View.INVISIBLE);
-        } else {
-            View.OnClickListener listener = new ItemButtonListener(holder, position);
+        //이어쓰기 시
+        if (flag == CourseSelectActivity.CONTINUOUS_FLAG) {
+            holder.getDelete().setVisibility(View.GONE);
+        }else{ // 코스 작성, 수정 시
+            holder.getUploadIcon().setVisibility(View.GONE);
             holder.getDateButton().setOnClickListener(listener);
             holder.getTimeButton().setOnClickListener(listener);
             holder.getDelete().setOnClickListener(listener);
-            holder.getSearch().setOnClickListener(listener);
         }
 
         if (position == 0) holder.getLineTop().setVisibility(View.GONE);
@@ -88,6 +87,9 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
         holder.getCourseName().setText("# " + item.getTitle());
         holder.getDateButton().setText(item.getDate());
         holder.getTimeButton().setText(item.getTime());
+        holder.getMemo().setOnClickListener(listener);
+        holder.getSearch().setOnClickListener(listener);
+
         //경유지글이 업로드되면 업로드아이콘 표시
         if (JspConn.checkDuplBoard(item.getTitle(), BasicValue.getInstance().getUserNo())) {
             holder.getUploadIcon().setText("수정");
@@ -144,8 +146,27 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
                 Intent searchIntent = new Intent(activity, SearchActivity.class);
                 searchIntent.putExtra("keyword", items.get(position).getTitle());
                 activity.startActivity(searchIntent);
+            } else if(v.equals(holder.getMemo())){
+                Intent memoIntent = new Intent(activity, CourseMemoActivity.class);
+                memoIntent.putExtra("courseNo",items.get(position).getCourseNo());
+                memoIntent.putExtra("coursePo",items.get(position).getCoursePosition());
+                memoIntent.putExtra("memo",items.get(position).getMemo());
+                memoIntent.putExtra("FLAG",flag);
+                memoIntent.putExtra("position",position);//어댑터 포지션
+                if(flag == CourseWriteActivity.DEFAULT_FLAG)
+                    activity.startActivityForResult(memoIntent,CourseWriteActivity.DEFAULT_FLAG);
+                else
+                    activity.startActivity(memoIntent);
             }
-
+        }
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == CourseWriteActivity.DEFAULT_FLAG) {
+            try {
+                String memo = data.getStringExtra("memo");
+                int position = data.getIntExtra("position", 0);
+                items.get(position).setMemo(memo);
+            }catch (NullPointerException e){Log.e(TAG,"memo null");}
         }
     }
 
