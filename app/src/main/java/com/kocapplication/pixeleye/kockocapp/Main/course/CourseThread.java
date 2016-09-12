@@ -104,7 +104,7 @@ public class CourseThread extends Thread {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                course.add(new Course(stopoverPosition, name, temp, memo));
+                course.add(new Course(courseNo,stopoverPosition, name, temp, memo));
             }
 
             Date temp = new Date();

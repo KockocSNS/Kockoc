@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="250dp"
+    android:layout_height="300dp"
+    android:background="@color/white">
+
+    <EditText
+        android:id="@+id/memo_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:hint=" 메모를 입력해주세요" />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/memo_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="취소"
+            android:layout_weight="1"
+            android:background="@color/mainBgColor"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+        <Button
+            android:id="@+id/memo_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="확인"
+            android:layout_weight="1"
+            android:layout_marginStart="1dp"
+            android:background="@color/mainBgColor"
+            android:textColor="@color/white"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+</RelativeLayout>

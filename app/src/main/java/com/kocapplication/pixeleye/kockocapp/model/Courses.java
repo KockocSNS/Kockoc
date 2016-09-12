@@ -9,7 +9,6 @@ import java.util.List;
  */
 public class Courses implements Serializable {
 
-
     private int courseNo;
     private String title;
     private Date dateTime;
