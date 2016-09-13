@@ -56,9 +56,10 @@ public class CourseSelectActivity extends BaseActivityWithoutNav {
         //코스 데이터 받아옴
         flag = getIntent().getIntExtra("FLAG", DEFAULT_FLAG);
         courses = (Courses) getIntent().getSerializableExtra("courses");
+        Log.e(TAG,"coursesNo :"+courses.getCourseNo());
 
         recyclerView = (RecyclerView) containView.findViewById(R.id.recycler_layout_course_select);
-        adapter = new CourseWriteRecyclerAdapter(courses.getCourses(), this, new ContinuousItemClickListener(),"CourseSelect");
+        adapter = new CourseWriteRecyclerAdapter(courses.getCourses(), this, new ContinuousItemClickListener(),CONTINUOUS_FLAG);
         recyclerView.setAdapter(adapter);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -67,9 +68,6 @@ public class CourseSelectActivity extends BaseActivityWithoutNav {
         recyclerView.setLayoutManager(manager);
 
         recyclerView.setHasFixedSize(true);
-
-
-
     }
 
 

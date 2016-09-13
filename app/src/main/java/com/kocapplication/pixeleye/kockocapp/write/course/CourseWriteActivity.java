@@ -5,8 +5,6 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,15 +14,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
-import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
-import com.kocapplication.pixeleye.kockocapp.navigation.SettingActivity;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 import java.text.ParseException;
@@ -38,6 +33,7 @@ import java.util.Date;
  */
 public class CourseWriteActivity extends BaseActivityWithoutNav {
     private final String TAG = "COURSE_WRITE_ACTIVITY";
+    public static int COURSE_WRITE_ACTIVITY = 2222;
     public static int ADJUST_FLAG = 779128;
     public static int DEFAULT_FLAG = 12221;
     private int flag;
@@ -45,6 +41,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
     private int courseNo;
     private int coursePosition=1;
     private String courseTitle;
+    private String memo = "";
 
     private RecyclerView recyclerView;
     private CourseWriteRecyclerAdapter adapter;
@@ -56,7 +53,6 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
     private Button addButton;
     private Button confirm;
 
-    private String memo = "test";
     public static int mNumCheck;
 
     @Override
@@ -68,22 +64,12 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
         container.setLayoutResource(R.layout.activity_course_write);
         View containView = container.inflate();
 
-
-
         declare(containView);
         getDataFromBeforeActivity();
-
-        new MemoReadThread(new MemoReadHandler(), courseNo).start();
     }
-
-    public void setMemo(String memo) {
-        //Log.i(TAG, memo);
-        this.memo = memo;
-    }
-
-
 
     private void declare(View containView) {
+        flag = getIntent().getIntExtra("FLAG", DEFAULT_FLAG);
         courseInput = (EditText) containView.findViewById(R.id.course_name_input);
         memoButton = (Button) containView.findViewById(R.id.course_note_set);
         dateButton = (Button) containView.findViewById(R.id.course_date_set);
@@ -118,7 +104,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
 
         View recyclerLayout = containView.findViewById(R.id.recycler_layout);
         recyclerView = (RecyclerView) recyclerLayout.findViewById(R.id.recycler_view);
-        adapter = new CourseWriteRecyclerAdapter(new ArrayList<Course>(), this);
+        adapter = new CourseWriteRecyclerAdapter(new ArrayList<Course>(), this, flag);
         recyclerView.setAdapter(adapter);
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -130,14 +116,11 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
     }
 
     private void getDataFromBeforeActivity() {
-        flag = getIntent().getIntExtra("FLAG", DEFAULT_FLAG);
-
         if (flag == ADJUST_FLAG) {
             Courses courses = (Courses) getIntent().getSerializableExtra("COURSES");
 
             courseNo = courses.getCourseNo();
             courseTitle = courses.getTitle();
-            memo=courses.getMemo();
             actionBarTitleSet(courseTitle, Color.WHITE);
 
             adapter.setItems(courses.getCourses());
@@ -184,7 +167,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                     Snackbar.make(addButton, "잘못된 날짜 형식입니다.", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                Log.i(TAG,"sdf : "+ memo);
+
                 Course addCourse = new Course(title, courseDate, (adapter.getItemCount() + 1), memo);
                 //경유지 중복 안되게하는 조건문이지만 필요없음 나중에 지우면 될듯
 //                if (adapter.contain(addCourse)) {
@@ -199,6 +182,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 recyclerView.smoothScrollToPosition(adapter.getItems().size() - 1);
                 courseInput.setText("");
                 coursePosition++;
+                memo = ""; // 메모 초기화
 
             } else if (v.equals(confirm)) {
                 if (adapter.getItems().isEmpty()) {
@@ -210,55 +194,34 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 Courses courses = new Courses(courseNo, courseTitle, new Date(), adapter.getItems());
                 manager.setCourseAlarm(courses);
 
-
                 Log.i(TAG, courses.getCourseNo() + "");
+                //코스 수정
+                if(flag == ADJUST_FLAG){
 
-                int memoNum = MemoWriteThread.memoNum;
-                mNumCheck = memoNum;
-                Log.e("mNumCheck = memoNum", ""+mNumCheck+" "+memoNum);
-                JspConn.uploadCourse(courseTitle,courses.getCourses());
-//                if (flag == DEFAULT_FLAG && memoNum!=0) { //메모를 건든 코스
-////                    JspConn.uploadCourseAndMemo(courseTitle, courses.getCourses(), memoNum);
-//                    JspConn.uploadCourse(courseTitle, courses.getCourses());
-//                    Log.e("JspConnuploadCourse", "off");
-////                    CourseFragment.memo = MemoWriteThread.message; // nam
-//                    MemoWriteThread.memoClickCount=0;
-//                    MemoWriteThread.message="";
-//                    MemoWriteThread.resultmemoNo=0;
-//                    MemoWriteThread.resultuserNo=0;
-//                    MemoWriteThread.resultcourseNo=0;
-//                    MemoWriteThread.memoNum=0;
-//                }
-//
-//                else if (flag == DEFAULT_FLAG && memoNum == 0 ) { //메모를 건들지 않은 코스
-//                    JspConn.uploadCourse(courseTitle, courses.getCourses()); // 코스 디비 업로드
-//                    Log.e("JspConnuploadCourse","on");
-//                }
-//                else if (flag ==ADJUST_FLAG && memoNum !=0) { //메모를 수정했으면 또는 메모가 있는 코스
-//                    Log.e("editCourseMemo", "in");
-//                    JspConn.uploadCourse(courseTitle, courses.getCourses());
-////                    JspConn.editCourseAndMemo(courseNo, courses.getTitle(), courses.getCourses(), memo);
-//                }
-//                else if (flag == ADJUST_FLAG && memoNum == 0) { //메모가 없던 코스
-////                    JspConn.editCourse(courseNo, courses.getTitle(), courses.getCourses());
-//                    JspConn.uploadCourse(courseTitle, courses.getCourses());
-//                    Log.e("editCourse","in");
-//                }
+                }else{// 새 코스 쓰기
+                    JspConn.uploadCourse(courseTitle,courses.getCourses());
+                }
 
+                memo = ""; // 메모 초기화
                 finish();
             } else if (v.equals(memoButton)) {
-                Courses courses = new Courses(courseNo, courseTitle, new Date(), adapter.getItems());
-                Log.e("MmemoNum: ", ""+courseNo);
-                if (mNumCheck == 0 && memo =="") {
-                    Log.e("MemoDialog","null");
-                    new MemoDialog(CourseWriteActivity.this, courses.getCourses(), "",coursePosition);
-                }
-                else if(memo != "") {
-                    Log.e("MemoDialog","not null");
-                    new MemoDialog(CourseWriteActivity.this, courses.getCourses(), memo,coursePosition);
-                }
-                Log.d("memosdf",memo);
+                //하단의 메모 버튼을 누르면 memo 변수 안에 넣는다.
+                Intent memoIntent = new Intent(CourseWriteActivity.this,CourseMemoActivity.class);
+                memoIntent.putExtra("FLAG",COURSE_WRITE_ACTIVITY);
+                memoIntent.putExtra("memo",memo);
+                startActivityForResult(memoIntent, COURSE_WRITE_ACTIVITY);
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        adapter.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == COURSE_WRITE_ACTIVITY){
+            try {
+                memo = data.getStringExtra("memo");
+            }catch (NullPointerException e){}
         }
     }
 
@@ -285,15 +248,6 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
             String time = _hour + ":" + _minute;
 
             timeButton.setText(time);
-        }
-    }
-
-    private class MemoReadHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            memo = msg.getData().getString("THREAD");
         }
     }
 }

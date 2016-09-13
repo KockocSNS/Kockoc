@@ -309,6 +309,7 @@ public class JspConn {
 
     //코스 업로드
     static public String uploadCourse(String title, List<Course> Arr) {
+        Log.e(TAG,"arr :"+Arr);
         String result = "";
         try {
             passiveMethod();
@@ -347,59 +348,6 @@ public class JspConn {
         Log.d(TAG, "UploadCourse result :" + result);
         return result;
     }
-
-
-//    2016.08.29 새로운 디비에 insert 완성하여 필요없으나 나중에 삭제
-
-//    //코스랑 메모 업로드
-//    static public void uploadCourseAndMemo(String title, List<Course> Arr,int memoNum){
-//        String result="";
-//        try
-//        {
-//            passiveMethod();
-//            HttpClient client = new DefaultHttpClient();
-//            String postURL = BasicValue.getInstance().getUrlHead()+"Course/insertCourseWithMemo.jsp";
-//            HttpPost post = new HttpPost(postURL);
-//
-//
-//            List<NameValuePair> params = new ArrayList<>();
-//            params.add(new BasicNameValuePair("userNo",""+ BasicValue.getInstance().getUserNo()));
-//            params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(Arr.size())));
-//            params.add(new BasicNameValuePair("title", title));
-//            params.add(new BasicNameValuePair("memoNo", String.valueOf(memoNum)));
-//
-//
-//            int i=0;
-//            for(Course temp:Arr){
-//                params.add(new BasicNameValuePair("course"+i++,""+temp.getTitle()+"/"+temp.getDataByMilSec()));
-//            }
-//
-//            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-//            post.setEntity(ent);
-//            HttpResponse response = client.execute(post);
-//            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
-//            String line;
-//            while((line = bufferedReader.readLine())!=null){
-//                result+=line;
-//            }
-//        } catch (Exception e) {
-//            Log.e(TAG, "UploadCourse error :" + e.getMessage());
-//        }
-//
-//        Log.d(TAG, "UploadCourse result :" + result);
-//
-//        String[] array;
-//        array = result.split(" ");
-//        MemoWriteThread.resultcourseNo = Integer.parseInt(array[1]);
-//        MemoWriteThread.resultuserNo = Integer.parseInt(array[2]);
-//        MemoWriteThread.message = array[3];
-//        MemoWriteThread.resultmemoNo= Integer.parseInt(array[4]);
-//
-//        Log.d("return courseNo = ", ""+MemoWriteThread.resultcourseNo);
-//        Log.d("return userNo = ", ""+MemoWriteThread.resultuserNo);
-//        Log.d("return message = ", ""+MemoWriteThread.message);
-//        Log.d("return memoNo = ", ""+MemoWriteThread.resultmemoNo);
-//    }
 
     /**
      * Board
@@ -1112,7 +1060,7 @@ public class JspConn {
 
             List<NameValuePair> params = new ArrayList<>();
 
-            Log.i("JSPCONN", BasicValue.getInstance().getUserNo() + " / " + courses.size() + " / " + courseNo);
+            Log.i("editCourseAndMemo", BasicValue.getInstance().getUserNo() + " / " + courses.size() + " / " + courseNo);
 
             params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
             params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(courses.size())));
@@ -1172,9 +1120,7 @@ public class JspConn {
         HttpPost post = new HttpPost(postURL);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("courseNo", "" + Course_No));
-        Course = Course.trim();
-        Course = Course + "%'"; // 자바스크립트에서 뒤에 문자가 안붙어서 안드로이드에서 붙여서 넘겨줌
-        params.add(new BasicNameValuePair("course", Course));
+        params.add(new BasicNameValuePair("courseName", Course));
         String result = "";
 
         try {
@@ -1193,7 +1139,7 @@ public class JspConn {
         }
 
         result = result.trim();     // DB에서 값을 받아올 때 공백을 제거함
-        Log.e("jspconn", "getCoursePo result :" + result);
+        Log.d("jspconn", "getCoursePo result :" + result);
 
         int coursePo = 0;
         try {
@@ -1201,7 +1147,7 @@ public class JspConn {
         } catch (NumberFormatException e) {
             Log.e(TAG, "THIS BOARD IS NOT COURSE");
         }
-        return coursePo; // 코스포지션은 0부터 시작하므로 1을 지워줌
+        return coursePo;
     }
 
     static public String getCourseName(int Board_No) {
@@ -1209,7 +1155,6 @@ public class JspConn {
         HttpClient client = new DefaultHttpClient();
         String postURL = BasicValue.getInstance().getUrlHead() + "/Course/getCourseName.jsp";
         HttpPost post = new HttpPost(postURL);
-        Log.e("jspconn", "getCourseName Board_No :" + Board_No);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("board_No", "" + Board_No));
         String result = "";
@@ -1227,8 +1172,7 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        result = result.substring(4); // DB에서 값을 받아올 때 공백을 제거함
-        Log.e("jspconn", "getCourseName result :" + result);
+        result = result.trim(); // DB에서 값을 받아올 때 공백을 제거함
         return result;
     }
 
@@ -1255,7 +1199,54 @@ public class JspConn {
             e.printStackTrace();
         }
 
-        Log.e("jspconn", "서버서버 :" + result);
+        return result;
+    }
+    static public String setCourseMemo(String memo, int courseNo, int coursePo) {
+        HttpClient client = new DefaultHttpClient();
+        String postURL = BasicValue.getInstance().getUrlHead() + "/Course_V2/setCourseMemo.jsp";
+        HttpPost post = new HttpPost(postURL);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("courseNo", "" + courseNo));
+        params.add(new BasicNameValuePair("coursePo", "" + coursePo));
+        params.add(new BasicNameValuePair("memo", "" + memo));
+        String result = "";
+        try {
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    static public String getCourseMemo(int courseNo, int coursePo) {
+        HttpClient client = new DefaultHttpClient();
+        String postURL = BasicValue.getInstance().getUrlHead() + "/Course_V2/getCourseMemo.jsp";
+        HttpPost post = new HttpPost(postURL);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("courseNo", "" + courseNo));
+        params.add(new BasicNameValuePair("coursePo", "" + coursePo));
+        String result = "";
+        try {
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return result;
     }
 

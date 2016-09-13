@@ -35,7 +35,7 @@ public class CourseWriteRecyclerViewHolder  extends RecyclerView.ViewHolder {
         this.timeButton = (Button) itemView.findViewById(R.id.course_time);
         this.delete = (Button) itemView.findViewById(R.id.delete);
 
-        this.memo = (Button) itemView.findViewById(R.id.course_note);
+        this.memo = (Button) itemView.findViewById(R.id.course_memo);
         this.search = (Button) itemView.findViewById(R.id.course_search);
 
     }
