@@ -163,21 +163,15 @@
                             android:visibility="invisible">
                         </LinearLayout>
                     </RelativeLayout>
-
-                    <org.apmem.tools.layouts.FlowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    <!-- hashTag-->
+                    <org.apmem.tools.layouts.FlowLayout
+                        xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:f="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/fl_detail_content_tag"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         f:layout_newLine="true">
                     </org.apmem.tools.layouts.FlowLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
 
                 </LinearLayout>
 

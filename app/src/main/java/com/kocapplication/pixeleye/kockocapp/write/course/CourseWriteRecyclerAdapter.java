@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -140,8 +142,31 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
                 String[] _time = time.split(":");
                 new TimePickerDialog(activity, new TimeSetListener(holder, position), Integer.parseInt(_time[0]), Integer.parseInt(_time[1]), false).show();
             } else if (v.equals(holder.getDelete())) {
-                items.remove(position);
-                notifyDataSetChanged();
+                // 해당하는 코스에 글이 있다면 삭제 할것인지 확인  삭제한다면 글은 그대로 두고 코스만 지움
+                if(JspConn.getBoardNoForEdit(items.get(position).getCourseNo(),items.get(position).getTitle()).equals("")){
+                    items.remove(position);
+                    notifyDataSetChanged();
+                }else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                    builder.setTitle("코스 삭제")
+                    .setMessage("코스에 작성된 글이 있습니다.\n삭제 하시겠습니까?\n (삭제해도 글은 남아있습니다)")
+                    .setCancelable(true) // 뒤로가기버튼
+                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            items.remove(position);
+                            notifyDataSetChanged();
+                        }
+                    })
+                    .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
             } else if (v.equals(holder.getSearch())) {
                 Intent searchIntent = new Intent(activity, SearchActivity.class);
                 searchIntent.putExtra("keyword", items.get(position).getTitle());
