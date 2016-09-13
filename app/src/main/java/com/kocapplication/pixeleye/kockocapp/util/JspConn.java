@@ -1060,7 +1060,7 @@ public class JspConn {
 
             List<NameValuePair> params = new ArrayList<>();
 
-            Log.i("JSPCONN", BasicValue.getInstance().getUserNo() + " / " + courses.size() + " / " + courseNo);
+            Log.i("editCourseAndMemo", BasicValue.getInstance().getUserNo() + " / " + courses.size() + " / " + courseNo);
 
             params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
             params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(courses.size())));
@@ -1120,9 +1120,7 @@ public class JspConn {
         HttpPost post = new HttpPost(postURL);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("courseNo", "" + Course_No));
-        Course = Course.trim();
-        Course = Course + "%'"; // 자바스크립트에서 뒤에 문자가 안붙어서 안드로이드에서 붙여서 넘겨줌
-        params.add(new BasicNameValuePair("course", Course));
+        params.add(new BasicNameValuePair("courseName", Course));
         String result = "";
 
         try {
@@ -1141,7 +1139,7 @@ public class JspConn {
         }
 
         result = result.trim();     // DB에서 값을 받아올 때 공백을 제거함
-        Log.e("jspconn", "getCoursePo result :" + result);
+        Log.d("jspconn", "getCoursePo result :" + result);
 
         int coursePo = 0;
         try {
@@ -1149,7 +1147,7 @@ public class JspConn {
         } catch (NumberFormatException e) {
             Log.e(TAG, "THIS BOARD IS NOT COURSE");
         }
-        return coursePo; // 코스포지션은 0부터 시작하므로 1을 지워줌
+        return coursePo;
     }
 
     static public String getCourseName(int Board_No) {
@@ -1157,7 +1155,6 @@ public class JspConn {
         HttpClient client = new DefaultHttpClient();
         String postURL = BasicValue.getInstance().getUrlHead() + "/Course/getCourseName.jsp";
         HttpPost post = new HttpPost(postURL);
-        Log.e("jspconn", "getCourseName Board_No :" + Board_No);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("board_No", "" + Board_No));
         String result = "";
@@ -1175,8 +1172,7 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        result = result.substring(4); // DB에서 값을 받아올 때 공백을 제거함
-        Log.e("jspconn", "getCourseName result :" + result);
+        result = result.trim(); // DB에서 값을 받아올 때 공백을 제거함
         return result;
     }
 
@@ -1227,7 +1223,6 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.e("setCourseMemo","result :"+result);
         return result;
     }
 
@@ -1252,7 +1247,6 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.e("getCourseMemo","result :"+result);
         return result;
     }
 
