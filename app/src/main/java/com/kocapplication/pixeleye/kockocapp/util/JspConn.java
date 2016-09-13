@@ -1207,7 +1207,56 @@ public class JspConn {
             e.printStackTrace();
         }
 
-        Log.e("jspconn", "서버서버 :" + result);
+        return result;
+    }
+    static public String setCourseMemo(String memo, int courseNo, int coursePo) {
+        HttpClient client = new DefaultHttpClient();
+        String postURL = BasicValue.getInstance().getUrlHead() + "/Course_V2/setCourseMemo.jsp";
+        HttpPost post = new HttpPost(postURL);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("courseNo", "" + courseNo));
+        params.add(new BasicNameValuePair("coursePo", "" + coursePo));
+        params.add(new BasicNameValuePair("memo", "" + memo));
+        String result = "";
+        try {
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.e("setCourseMemo","result :"+result);
+        return result;
+    }
+
+    static public String getCourseMemo(int courseNo, int coursePo) {
+        HttpClient client = new DefaultHttpClient();
+        String postURL = BasicValue.getInstance().getUrlHead() + "/Course_V2/getCourseMemo.jsp";
+        HttpPost post = new HttpPost(postURL);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("courseNo", "" + courseNo));
+        params.add(new BasicNameValuePair("coursePo", "" + coursePo));
+        String result = "";
+        try {
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.e("getCourseMemo","result :"+result);
         return result;
     }
 
