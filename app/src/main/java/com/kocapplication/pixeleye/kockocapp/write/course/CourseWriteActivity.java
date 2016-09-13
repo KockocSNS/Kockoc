@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -59,7 +60,6 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
     private Button confirm;
     private CheckBox publicityCheckBox;
 
-    private String memo = "test";
     public static int mNumCheck;
 
     @Override
@@ -219,7 +219,10 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 if(flag == ADJUST_FLAG){
 
                 }else{// 새 코스 쓰기
-                    JspConn.uploadCourse(courseTitle,courses.getCourses());
+                    boolean publicity;
+                    if(publicityCheckBox.isChecked()) publicity = true;
+                    else publicity = false;
+                    JspConn.uploadCourse(courseTitle,courses.getCourses(),publicity);
                 }
 
                 memo = ""; // 메모 초기화
