@@ -308,8 +308,7 @@ public class JspConn {
     }
 
     //코스 업로드
-    static public String uploadCourse(String title, List<Course> Arr) {
-        Log.e(TAG,"arr :"+Arr);
+    static public String uploadCourse(String title, List<Course> Arr, boolean publicity) {
         String result = "";
         try {
             passiveMethod();
@@ -322,6 +321,11 @@ public class JspConn {
             params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(Arr.size()))); //stopover 갯수
             params.add(new BasicNameValuePair("title", title));
             params.add(new BasicNameValuePair("courseNo",String.valueOf(Arr.get(0).getCourseNo())));
+            if (publicity) {
+                params.add(new BasicNameValuePair("publicity", "public"));
+            } else {
+                params.add(new BasicNameValuePair("publicity", "private"));
+            }
 
 
             int i = 0;
@@ -1060,7 +1064,7 @@ public class JspConn {
 
             List<NameValuePair> params = new ArrayList<>();
 
-            Log.i("editCourseAndMemo", BasicValue.getInstance().getUserNo() + " / " + courses.size() + " / " + courseNo);
+            Log.i("JSPCONN", BasicValue.getInstance().getUserNo() + " / " + courses.size() + " / " + courseNo);
 
             params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
             params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(courses.size())));
@@ -1120,7 +1124,9 @@ public class JspConn {
         HttpPost post = new HttpPost(postURL);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("courseNo", "" + Course_No));
-        params.add(new BasicNameValuePair("courseName", Course));
+        Course = Course.trim();
+        Course = Course + "%'"; // 자바스크립트에서 뒤에 문자가 안붙어서 안드로이드에서 붙여서 넘겨줌
+        params.add(new BasicNameValuePair("course", Course));
         String result = "";
 
         try {
@@ -1139,7 +1145,7 @@ public class JspConn {
         }
 
         result = result.trim();     // DB에서 값을 받아올 때 공백을 제거함
-        Log.d("jspconn", "getCoursePo result :" + result);
+        Log.e("jspconn", "getCoursePo result :" + result);
 
         int coursePo = 0;
         try {
@@ -1147,7 +1153,7 @@ public class JspConn {
         } catch (NumberFormatException e) {
             Log.e(TAG, "THIS BOARD IS NOT COURSE");
         }
-        return coursePo;
+        return coursePo; // 코스포지션은 0부터 시작하므로 1을 지워줌
     }
 
     static public String getCourseName(int Board_No) {
@@ -1155,6 +1161,7 @@ public class JspConn {
         HttpClient client = new DefaultHttpClient();
         String postURL = BasicValue.getInstance().getUrlHead() + "/Course/getCourseName.jsp";
         HttpPost post = new HttpPost(postURL);
+        Log.e("jspconn", "getCourseName Board_No :" + Board_No);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("board_No", "" + Board_No));
         String result = "";
@@ -1172,7 +1179,8 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        result = result.trim(); // DB에서 값을 받아올 때 공백을 제거함
+        result = result.substring(4); // DB에서 값을 받아올 때 공백을 제거함
+        Log.e("jspconn", "getCourseName result :" + result);
         return result;
     }
 
@@ -1223,6 +1231,7 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.e("setCourseMemo","result :"+result);
         return result;
     }
 
@@ -1247,6 +1256,7 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.e("getCourseMemo","result :"+result);
         return result;
     }
 

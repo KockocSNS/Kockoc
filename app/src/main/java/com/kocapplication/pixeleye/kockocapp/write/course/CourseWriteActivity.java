@@ -5,6 +5,8 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,14 +14,18 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
+import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
+import com.kocapplication.pixeleye.kockocapp.navigation.SettingActivity;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 import java.text.ParseException;
@@ -52,6 +58,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
     private Button timeButton;
     private Button addButton;
     private Button confirm;
+    private CheckBox publicityCheckBox;
 
     public static int mNumCheck;
 
@@ -64,9 +71,20 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
         container.setLayoutResource(R.layout.activity_course_write);
         View containView = container.inflate();
 
+
+
         declare(containView);
         getDataFromBeforeActivity();
+
+        new MemoReadThread(new MemoReadHandler(), courseNo).start();
     }
+
+    public void setMemo(String memo) {
+        //Log.i(TAG, memo);
+        this.memo = memo;
+    }
+
+
 
     private void declare(View containView) {
         flag = getIntent().getIntExtra("FLAG", DEFAULT_FLAG);
@@ -76,6 +94,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
         timeButton = (Button) containView.findViewById(R.id.course_time_set);
         addButton = (Button) containView.findViewById(R.id.add_button);
         confirm = (Button) containView.findViewById(R.id.confirm);
+        publicityCheckBox = (CheckBox) containView.findViewById(R.id.publicity);
 
         Calendar calendar = Calendar.getInstance();
         String year = String.valueOf(calendar.get(Calendar.YEAR));
@@ -121,6 +140,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
 
             courseNo = courses.getCourseNo();
             courseTitle = courses.getTitle();
+            memo=courses.getMemo();
             actionBarTitleSet(courseTitle, Color.WHITE);
 
             adapter.setItems(courses.getCourses());
@@ -199,7 +219,10 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 if(flag == ADJUST_FLAG){
 
                 }else{// 새 코스 쓰기
-                    JspConn.uploadCourse(courseTitle,courses.getCourses());
+                    boolean publicity;
+                    if(publicityCheckBox.isChecked()) publicity = true;
+                    else publicity = false;
+                    JspConn.uploadCourse(courseTitle,courses.getCourses(),publicity);
                 }
 
                 memo = ""; // 메모 초기화
@@ -248,6 +271,15 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
             String time = _hour + ":" + _minute;
 
             timeButton.setText(time);
+        }
+    }
+
+    private class MemoReadHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            memo = msg.getData().getString("THREAD");
         }
     }
 }
