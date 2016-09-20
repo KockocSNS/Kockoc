@@ -197,7 +197,8 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 Log.i(TAG, courses.getCourseNo() + "");
                 //코스 수정
                 if(flag == ADJUST_FLAG){
-
+                    Log.i(TAG,"수정 진입");
+                    JspConn.editCourse(courses.getCourses());
                 }else{// 새 코스 쓰기
                     JspConn.uploadCourse(courseTitle,courses.getCourses());
                 }
@@ -232,7 +233,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
             String _month = String.valueOf(monthOfYear + 1);
             String _day = String.valueOf(dayOfMonth);
 
-            String date = _year + "/" + _month + "/" + _day;
+            String date = _year + "-" + _month + "-" + _day;
 
             dateButton.setText(date);
         }

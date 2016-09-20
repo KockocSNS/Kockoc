@@ -236,7 +236,6 @@ public class DetailFragment extends Fragment {
     }
 
     /**
-     * setCommentList
      * 댓글 데이터를 RecyclerView에 붙임
      */
     private void setCommentList() {
@@ -248,7 +247,6 @@ public class DetailFragment extends Fragment {
     }
 
     /**
-     * addComment
      * 댓글을 달면 데이터를 새로 받아 어댑터를 다시 붙임
      */
     public void addComment() {

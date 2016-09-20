@@ -16,6 +16,7 @@ import com.kocapplication.pixeleye.kockocapp.model.BoardBasicAttr;
 import com.kocapplication.pixeleye.kockocapp.model.Coordinate;
 import com.kocapplication.pixeleye.kockocapp.model.ExpressionCount;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.Thumbnail;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -35,6 +36,7 @@ import java.util.List;
  * Created by Han_ on 2016-06-21.
  */
 public class StoryThread extends Thread {
+    final static String TAG = "StoryThread";
     private String postURL = BasicValue.getInstance().getUrlHead() + "News/readNews.jsp";
     private Handler handler;
     private int boardNo = -1;
@@ -53,7 +55,7 @@ public class StoryThread extends Thread {
     public void run() {
         super.run();
 
-        try {
+//        try {
             String result = "";
 
             // read News
@@ -164,9 +166,12 @@ public class StoryThread extends Thread {
             msg.setData(bundle);
             msg.what = 1;
             handler.sendMessage(msg);
-        } catch (Exception e) {
-            handler.sendEmptyMessage(0);
-        }
+//        }
+//        catch (Exception e) {
+//            Log.e("StoryThread",""+e.getMessage());
+//            e.printStackTrace();
+//            handler.sendEmptyMessage(0);
+//        }
     }
 
     private String courseJsonObject(int courseNo) {

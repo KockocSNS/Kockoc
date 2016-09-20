@@ -89,6 +89,7 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
         holder.getCourseName().setText("# " + item.getTitle());
         holder.getDateButton().setText(item.getDate());
         holder.getTimeButton().setText(item.getTime());
+        Log.e(TAG,"gettime :"+item.getTime());
         holder.getMemo().setOnClickListener(listener);
         holder.getSearch().setOnClickListener(listener);
 
@@ -137,10 +138,12 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
                 Calendar currentDate = Calendar.getInstance();
                 new DatePickerDialog(activity, new TimeSetListener(holder, position),
                         currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DAY_OF_MONTH)).show();
+
             } else if (v.equals(holder.getTimeButton())) {
                 String time = holder.getTimeButton().getText().toString();
                 String[] _time = time.split(":");
                 new TimePickerDialog(activity, new TimeSetListener(holder, position), Integer.parseInt(_time[0]), Integer.parseInt(_time[1]), false).show();
+
             } else if (v.equals(holder.getDelete())) {
                 // 해당하는 코스에 글이 있다면 삭제 할것인지 확인  삭제한다면 글은 그대로 두고 코스만 지움
                 if(JspConn.getBoardNoForEdit(items.get(position).getCourseNo(),items.get(position).getTitle()).equals("")){
@@ -178,7 +181,7 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
                 memoIntent.putExtra("memo",items.get(position).getMemo());
                 memoIntent.putExtra("FLAG",flag);
                 memoIntent.putExtra("position",position);//어댑터 포지션
-                if(flag == CourseWriteActivity.DEFAULT_FLAG)
+                if(flag == CourseWriteActivity.DEFAULT_FLAG || flag == CourseWriteActivity.ADJUST_FLAG)
                     activity.startActivityForResult(memoIntent,CourseWriteActivity.DEFAULT_FLAG);
                 else
                     activity.startActivity(memoIntent);
@@ -191,6 +194,7 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
                 String memo = data.getStringExtra("memo");
                 int position = data.getIntExtra("position", 0);
                 items.get(position).setMemo(memo);
+                Log.i(TAG,"memo :"+memo);
             }catch (NullPointerException e){Log.e(TAG,"memo null");}
         }
     }
@@ -215,7 +219,7 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
             _month = _month.length() < 2 ? "0" + _month : _month;
             _day = _day.length() < 2 ? "0" + _day : _day;
 
-            String date = _year + "/" + _month + "/" + _day;
+            String date = _year + "-" + _month + "-" + _day;
             String time = holder.getTimeButton().getText().toString();
 
             try {
