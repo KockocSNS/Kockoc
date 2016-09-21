@@ -3,13 +3,9 @@ package com.kocapplication.pixeleye.kockocapp.util;
 import android.os.StrictMode;
 import android.util.Log;
 
-import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.User;
-import com.kocapplication.pixeleye.kockocapp.write.course.MemoWriteThread;
-
-import org.apache.http.HttpClientConnection;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -23,7 +19,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -308,8 +303,7 @@ public class JspConn {
     }
 
     //코스 업로드
-    static public String uploadCourse(String title, List<Course> Arr) {
-        Log.e(TAG,"arr :"+Arr);
+    static public String uploadCourse(String title, List<Course> Arr, boolean publicity) {
         String result = "";
         try {
             passiveMethod();
@@ -322,6 +316,11 @@ public class JspConn {
             params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(Arr.size()))); //stopover 갯수
             params.add(new BasicNameValuePair("title", title));
             params.add(new BasicNameValuePair("courseNo",String.valueOf(Arr.get(0).getCourseNo())));
+            if (publicity) {
+                params.add(new BasicNameValuePair("publicity", "0"));
+            } else {
+                params.add(new BasicNameValuePair("publicity", "1"));
+            }
 
 
             int i = 0;
@@ -330,7 +329,7 @@ public class JspConn {
                 params.add(new BasicNameValuePair("course" + i +"Name", "" + temp.getTitle()));
                 params.add(new BasicNameValuePair("course" + i +"Position", "" + temp.getCoursePosition()));
                 params.add(new BasicNameValuePair("course" + i +"Memo", "" + temp.getMemo()));
-                Log.i("JspMemo",temp.getMemo());
+                params.add(new BasicNameValuePair("course" + i +"DateTime", "" + temp.getDateTime()));
                 i++;
             }
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
@@ -343,7 +342,7 @@ public class JspConn {
             }
         } catch (Exception e) {
             Log.e(TAG, "UploadCourse error :" + e.getMessage());
-    }
+        }
 
         Log.d(TAG, "UploadCourse result :" + result);
         return result;
@@ -1011,27 +1010,36 @@ public class JspConn {
     }
 
     //코스 수정
-    static public String editCourse(int courseNo, String title, List<Course> courses) {
+    static public String editCourse(List<Course> arr, boolean publicity) {
         String result = "";
         try {
             passiveMethod();
 
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead() + "Course/editCourse.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Course_V2/editCourse.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<>();
 
-            Log.i("JSPCONN", BasicValue.getInstance().getUserNo() + " / " + courses.size() + " / " + courseNo);
+            params.add(new BasicNameValuePair("courseNo",String.valueOf(arr.get(0).getCourseNo())));
+            params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(arr.size()))); //stopover 갯수
+            int i = 0;
 
-            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
-            params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(courses.size())));
-            params.add(new BasicNameValuePair("courseNo", "" + courseNo));
-            int i = 1;
-            for (Course course : courses)
-                params.add(new BasicNameValuePair("course" + i++, course.getTitle() + "/" + course.getDateTime().getTime()));
+            if (publicity) {
+                params.add(new BasicNameValuePair("publicity", "0"));
+            } else {
+                params.add(new BasicNameValuePair("publicity", "1"));
+            }
 
-            params.add(new BasicNameValuePair("title", title));
+            for (Course temp : arr) {
+//                + "/" + temp.getDataByMilSec()
+                params.add(new BasicNameValuePair("course" + i +"Name", "" + temp.getTitle()));
+                params.add(new BasicNameValuePair("course" + i +"Position", "" + temp.getCoursePosition()));
+                params.add(new BasicNameValuePair("course" + i +"Memo", "" + temp.getMemo()));
+                params.add(new BasicNameValuePair("course" + i +"DateTime", "" +temp.getDateTime()));
+                Log.i("editCourse","DateTime :"+"" + temp.getDate()+" "+temp.getTime());
+                i++;
+            }
 
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
@@ -1044,6 +1052,7 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.d(TAG,"editCourse result :"+result);
 
         return result;
     }

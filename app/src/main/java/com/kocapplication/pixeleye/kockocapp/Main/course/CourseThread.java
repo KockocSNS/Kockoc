@@ -96,13 +96,11 @@ public class CourseThread extends Thread {
                 int stopoverPosition = stopoverObject.get("stopoverPosition").getAsInt();
                 String name = stopoverObject.get("name").getAsString();
                 String stopoverDate = stopoverObject.get("stopoverDate").getAsString();
-                Log.e(TAG,"stopoverDate :"+stopoverDate);
                 String memo = stopoverObject.get("memo").getAsString();
 
                 Date temp = new Date();
                 try {
                     temp = format.parse(stopoverDate);
-                    Log.e(TAG,"temp :"+temp);
                 } catch (ParseException e) {
                     Log.e(TAG,"temp :"+e.getMessage());
                     e.printStackTrace();

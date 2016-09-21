@@ -47,4 +47,7 @@ dependencies {
     //Rounded Image
     compile 'jp.wasabeef:glide-transformations:1.0.6@aar'
     compile files('lib/3rdparty_login_library_android_4.1.4.jar')
+    //retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.1.0' // Retrofit
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta3' // Gson 변환을 위한 converter
 }

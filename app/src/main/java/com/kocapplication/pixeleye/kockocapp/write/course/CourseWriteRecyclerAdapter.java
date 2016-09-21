@@ -89,7 +89,6 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
         holder.getCourseName().setText("# " + item.getTitle());
         holder.getDateButton().setText(item.getDate());
         holder.getTimeButton().setText(item.getTime());
-        Log.e(TAG,"gettime :"+item.getTime());
         holder.getMemo().setOnClickListener(listener);
         holder.getSearch().setOnClickListener(listener);
 
@@ -219,7 +218,7 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
             _month = _month.length() < 2 ? "0" + _month : _month;
             _day = _day.length() < 2 ? "0" + _day : _day;
 
-            String date = _year + "-" + _month + "-" + _day;
+            String date = _year + "/" + _month + "/" + _day;
             String time = holder.getTimeButton().getText().toString();
 
             try {

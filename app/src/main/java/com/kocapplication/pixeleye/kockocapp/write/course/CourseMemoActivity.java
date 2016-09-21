@@ -49,7 +49,6 @@ public class CourseMemoActivity extends Activity {
         courseNo = getIntent().getIntExtra("courseNo",0);
         memo = getIntent().getStringExtra("memo");
         flag = getIntent().getIntExtra("FLAG",0);
-        Log.e(TAG,"flag :"+flag);
         //임시 저장값(코스 작성중일때, 코스 수정할때)
         if(flag == CourseWriteActivity.COURSE_WRITE_ACTIVITY || flag == CourseWriteActivity.DEFAULT_FLAG || flag == 0 || flag == CourseWriteActivity.ADJUST_FLAG){
             et_memo.setText(memo);

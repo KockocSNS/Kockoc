@@ -185,7 +185,7 @@ public class CourseActivity extends BaseActivityWithoutNav {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            List<Courses> courses = (ArrayList<Courses>) msg.getData().getSerializable("THREAD");
+            List<Courses> courses = (ArrayList<Courses>) msg.getData().getSerializable("THREAD"); // CourseThread에서 받아옴
 
             adapter.setItems(courses);
             adapter.notifyDataSetChanged();
