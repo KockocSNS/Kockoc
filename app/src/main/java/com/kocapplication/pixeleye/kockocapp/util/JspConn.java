@@ -3,10 +3,13 @@ package com.kocapplication.pixeleye.kockocapp.util;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.User;
+import com.kocapplication.pixeleye.kockocapp.write.course.MemoWriteThread;
 
+import org.apache.http.HttpClientConnection;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -20,6 +23,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -326,7 +330,7 @@ public class JspConn {
                 params.add(new BasicNameValuePair("course" + i +"Name", "" + temp.getTitle()));
                 params.add(new BasicNameValuePair("course" + i +"Position", "" + temp.getCoursePosition()));
                 params.add(new BasicNameValuePair("course" + i +"Memo", "" + temp.getMemo()));
-                params.add(new BasicNameValuePair("course" + i +"DateTime", "" + temp.getDateTime()));
+                Log.i("JspMemo",temp.getMemo());
                 i++;
             }
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
@@ -1007,30 +1011,27 @@ public class JspConn {
     }
 
     //코스 수정
-    static public String editCourse(List<Course> arr) {
+    static public String editCourse(int courseNo, String title, List<Course> courses) {
         String result = "";
         try {
             passiveMethod();
 
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead() + "Course_V2/editCourse.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Course/editCourse.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<>();
 
-            params.add(new BasicNameValuePair("courseNo",String.valueOf(arr.get(0).getCourseNo())));
-            params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(arr.size()))); //stopover 갯수
-            int i = 0;
+            Log.i("JSPCONN", BasicValue.getInstance().getUserNo() + " / " + courses.size() + " / " + courseNo);
 
-            for (Course temp : arr) {
-//                + "/" + temp.getDataByMilSec()
-                params.add(new BasicNameValuePair("course" + i +"Name", "" + temp.getTitle()));
-                params.add(new BasicNameValuePair("course" + i +"Position", "" + temp.getCoursePosition()));
-                params.add(new BasicNameValuePair("course" + i +"Memo", "" + temp.getMemo()));
-                params.add(new BasicNameValuePair("course" + i +"DateTime", "" +temp.getDateTime()));
-                Log.i("editCourse","DateTime :"+"" + temp.getDate()+" "+temp.getTime());
-                i++;
-            }
+            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
+            params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(courses.size())));
+            params.add(new BasicNameValuePair("courseNo", "" + courseNo));
+            int i = 1;
+            for (Course course : courses)
+                params.add(new BasicNameValuePair("course" + i++, course.getTitle() + "/" + course.getDateTime().getTime()));
+
+            params.add(new BasicNameValuePair("title", title));
 
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
@@ -1043,7 +1044,6 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d(TAG,"editCourse result :"+result);
 
         return result;
     }

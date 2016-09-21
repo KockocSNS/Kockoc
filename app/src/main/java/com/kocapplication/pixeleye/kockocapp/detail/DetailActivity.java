@@ -189,7 +189,7 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             try {
-                String tempResult = JspConn.uploadCourse(courseTitle, courseList);
+                String tempResult = JspConn.uploadCourse(courseTitle, courseList, true);
                 Log.i(TAG, "Course Copy" + tempResult);
                 Toast.makeText(DetailActivity.this, "코스가 복사 되었습니다.", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
