@@ -3,13 +3,9 @@ package com.kocapplication.pixeleye.kockocapp.util;
 import android.os.StrictMode;
 import android.util.Log;
 
-import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.User;
-import com.kocapplication.pixeleye.kockocapp.write.course.MemoWriteThread;
-
-import org.apache.http.HttpClientConnection;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -23,7 +19,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -322,9 +317,9 @@ public class JspConn {
             params.add(new BasicNameValuePair("title", title));
             params.add(new BasicNameValuePair("courseNo",String.valueOf(Arr.get(0).getCourseNo())));
             if (publicity) {
-                params.add(new BasicNameValuePair("publicity", "public"));
+                params.add(new BasicNameValuePair("publicity", "0"));
             } else {
-                params.add(new BasicNameValuePair("publicity", "private"));
+                params.add(new BasicNameValuePair("publicity", "1"));
             }
 
 
@@ -334,7 +329,7 @@ public class JspConn {
                 params.add(new BasicNameValuePair("course" + i +"Name", "" + temp.getTitle()));
                 params.add(new BasicNameValuePair("course" + i +"Position", "" + temp.getCoursePosition()));
                 params.add(new BasicNameValuePair("course" + i +"Memo", "" + temp.getMemo()));
-                Log.i("JspMemo",temp.getMemo());
+                params.add(new BasicNameValuePair("course" + i +"DateTime", "" + temp.getDateTime()));
                 i++;
             }
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
@@ -347,7 +342,7 @@ public class JspConn {
             }
         } catch (Exception e) {
             Log.e(TAG, "UploadCourse error :" + e.getMessage());
-    }
+        }
 
         Log.d(TAG, "UploadCourse result :" + result);
         return result;
@@ -1015,27 +1010,36 @@ public class JspConn {
     }
 
     //코스 수정
-    static public String editCourse(int courseNo, String title, List<Course> courses) {
+    static public String editCourse(List<Course> arr, boolean publicity) {
         String result = "";
         try {
             passiveMethod();
 
             HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead() + "Course/editCourse.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Course_V2/editCourse.jsp";
             HttpPost post = new HttpPost(postURL);
 
             List<NameValuePair> params = new ArrayList<>();
 
-            Log.i("JSPCONN", BasicValue.getInstance().getUserNo() + " / " + courses.size() + " / " + courseNo);
+            params.add(new BasicNameValuePair("courseNo",String.valueOf(arr.get(0).getCourseNo())));
+            params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(arr.size()))); //stopover 갯수
+            int i = 0;
 
-            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
-            params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(courses.size())));
-            params.add(new BasicNameValuePair("courseNo", "" + courseNo));
-            int i = 1;
-            for (Course course : courses)
-                params.add(new BasicNameValuePair("course" + i++, course.getTitle() + "/" + course.getDateTime().getTime()));
+            if (publicity) {
+                params.add(new BasicNameValuePair("publicity", "0"));
+            } else {
+                params.add(new BasicNameValuePair("publicity", "1"));
+            }
 
-            params.add(new BasicNameValuePair("title", title));
+            for (Course temp : arr) {
+//                + "/" + temp.getDataByMilSec()
+                params.add(new BasicNameValuePair("course" + i +"Name", "" + temp.getTitle()));
+                params.add(new BasicNameValuePair("course" + i +"Position", "" + temp.getCoursePosition()));
+                params.add(new BasicNameValuePair("course" + i +"Memo", "" + temp.getMemo()));
+                params.add(new BasicNameValuePair("course" + i +"DateTime", "" +temp.getDateTime()));
+                Log.i("editCourse","DateTime :"+"" + temp.getDate()+" "+temp.getTime());
+                i++;
+            }
 
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
@@ -1048,46 +1052,9 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.d(TAG,"editCourse result :"+result);
 
         return result;
-    }
-
-    //코스와 메모 수정
-    static public void editCourseAndMemo(int courseNo, String title, List<Course> courses, String memo) {
-        String result = "";
-        try {
-            passiveMethod();
-
-            HttpClient client = new DefaultHttpClient();
-            String postURL = BasicValue.getInstance().getUrlHead() + "Course/editCourseWithMemo.jsp";
-            HttpPost post = new HttpPost(postURL);
-
-            List<NameValuePair> params = new ArrayList<>();
-
-            Log.i("JSPCONN", BasicValue.getInstance().getUserNo() + " / " + courses.size() + " / " + courseNo);
-
-            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
-            params.add(new BasicNameValuePair("courseNum", "" + String.valueOf(courses.size())));
-            params.add(new BasicNameValuePair("courseNo", "" + courseNo));
-            params.add(new BasicNameValuePair("memo", memo));
-            int i = 1;
-            for (Course course : courses)
-                params.add(new BasicNameValuePair("course" + i++, course.getTitle() + "/" + course.getDateTime().getTime()));
-
-            params.add(new BasicNameValuePair("title", title));
-
-            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-            post.setEntity(ent);
-            HttpResponse response = client.execute(post);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                result += line;
-            }
-            // Log.e("editCourse_Test rs: ", "" + result);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     static public String getBoardNoForEdit(int courseNo, String courseName) { // 코스넘버와 코스 이름을 받아 보드넘버 반환
@@ -1124,9 +1091,7 @@ public class JspConn {
         HttpPost post = new HttpPost(postURL);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("courseNo", "" + Course_No));
-        Course = Course.trim();
-        Course = Course + "%'"; // 자바스크립트에서 뒤에 문자가 안붙어서 안드로이드에서 붙여서 넘겨줌
-        params.add(new BasicNameValuePair("course", Course));
+        params.add(new BasicNameValuePair("courseName", Course));
         String result = "";
 
         try {
@@ -1145,7 +1110,7 @@ public class JspConn {
         }
 
         result = result.trim();     // DB에서 값을 받아올 때 공백을 제거함
-        Log.e("jspconn", "getCoursePo result :" + result);
+        Log.d("jspconn", "getCoursePo result :" + result);
 
         int coursePo = 0;
         try {
@@ -1153,7 +1118,7 @@ public class JspConn {
         } catch (NumberFormatException e) {
             Log.e(TAG, "THIS BOARD IS NOT COURSE");
         }
-        return coursePo; // 코스포지션은 0부터 시작하므로 1을 지워줌
+        return coursePo;
     }
 
     static public String getCourseName(int Board_No) {
@@ -1161,7 +1126,6 @@ public class JspConn {
         HttpClient client = new DefaultHttpClient();
         String postURL = BasicValue.getInstance().getUrlHead() + "/Course/getCourseName.jsp";
         HttpPost post = new HttpPost(postURL);
-        Log.e("jspconn", "getCourseName Board_No :" + Board_No);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("board_No", "" + Board_No));
         String result = "";
@@ -1179,8 +1143,7 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        result = result.substring(4); // DB에서 값을 받아올 때 공백을 제거함
-        Log.e("jspconn", "getCourseName result :" + result);
+        result = result.trim(); // DB에서 값을 받아올 때 공백을 제거함
         return result;
     }
 
@@ -1231,7 +1194,7 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.e("setCourseMemo","result :"+result);
+        Log.i("setCourseMemo"," :"+result);
         return result;
     }
 
@@ -1256,7 +1219,6 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.e("getCourseMemo","result :"+result);
         return result;
     }
 

@@ -142,8 +142,8 @@ public class MainActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
-            case DETAIL_ACTIVITY_REQUEST_CODE: // 글 보고 돌아올때 새로고침 막았음
-//                ((StoryFragment) adapter.getItem(0)).refresh();
+            case DetailActivity.DELETE_FLAG: // 글 보고 돌아올때 새로고침 막았음
+                ((StoryFragment) adapter.getItem(0)).refresh();
                 break;
             case NEW_WRITE_REQUEST_CODE:
                 ((StoryFragment) adapter.getItem(0)).refresh();

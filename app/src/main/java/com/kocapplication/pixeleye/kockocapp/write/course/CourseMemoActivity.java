@@ -49,9 +49,8 @@ public class CourseMemoActivity extends Activity {
         courseNo = getIntent().getIntExtra("courseNo",0);
         memo = getIntent().getStringExtra("memo");
         flag = getIntent().getIntExtra("FLAG",0);
-        Log.e(TAG,"flag :"+flag);
-        //임시 저장값(코스 작성중일때)
-        if(flag == CourseWriteActivity.COURSE_WRITE_ACTIVITY || flag == CourseWriteActivity.DEFAULT_FLAG || flag == 0){
+        //임시 저장값(코스 작성중일때, 코스 수정할때)
+        if(flag == CourseWriteActivity.COURSE_WRITE_ACTIVITY || flag == CourseWriteActivity.DEFAULT_FLAG || flag == 0 || flag == CourseWriteActivity.ADJUST_FLAG){
             et_memo.setText(memo);
         }else{//디비에 기록된 값
             et_memo.setText(JspConn.getCourseMemo(courseNo,coursePo));
@@ -66,15 +65,13 @@ public class CourseMemoActivity extends Activity {
         btn_confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //새로 작성하는 코스일때(하단의 메모버튼 누른 경우) memo 반환
-                if(flag == CourseWriteActivity.COURSE_WRITE_ACTIVITY || flag == CourseWriteActivity.DEFAULT_FLAG ){
-                    Log.e(TAG,"if 진입");
+                //새로 작성하는 코스일때(하단의 메모버튼 누른 경우) memo 반환 , 코스 수정할때
+                if(flag == CourseWriteActivity.COURSE_WRITE_ACTIVITY || flag == CourseWriteActivity.DEFAULT_FLAG || flag == CourseWriteActivity.ADJUST_FLAG){
                     Intent intent = new Intent();
                     intent.putExtra("memo",et_memo.getText().toString());
                     intent.putExtra("position",getIntent().getIntExtra("position",0));
                     setResult(CourseWriteActivity.COURSE_WRITE_ACTIVITY,intent);
-                }else{//이어쓰기 또는 수정 시
-                    Log.e(TAG,"else 진입");
+                }else{//이어쓰기시
                     JspConn.setCourseMemo(et_memo.getText().toString(),courseNo,coursePo);
                 }
 

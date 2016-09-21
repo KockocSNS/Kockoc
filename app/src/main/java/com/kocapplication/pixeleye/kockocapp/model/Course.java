@@ -1,5 +1,7 @@
 package com.kocapplication.pixeleye.kockocapp.model;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,6 +10,7 @@ import java.util.Date;
  * Created by Han_ on 2016-06-22.
  */
 public class Course implements Serializable {
+    final static String TAG = "Course";
     private int courseNo;
     private int coursePosition;
     private String title;
@@ -71,8 +74,9 @@ public class Course implements Serializable {
         return title;
     }
 
-    public Date getDateTime() {
-        return dateTime;
+    public String getDateTime() {
+        SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm");
+        return format.format(dateTime);
     }
 
     public String getDate() {
