@@ -378,7 +378,7 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.d("Debug", "boardDelete complete");
+        Log.d("jspconn boardDelete", "complete");
         return result;
     }
 
