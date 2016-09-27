@@ -14,12 +14,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.story.BoardRecyclerAdapter;
-import com.kocapplication.pixeleye.kockocapp.main.tour.AreaThread;
 import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 
 import java.util.ArrayList;
@@ -44,9 +42,6 @@ public class RecommendFragment extends Fragment {
         Handler handler = new Handler(new RecommendDataReceiveHandleCallback());
         Thread thread = new RecommendThread(handler);
         thread.start();
-
-        Thread areaThread = new AreaThread(getActivity(),"12","33","");
-        areaThread.start();
 
         return view;
     }

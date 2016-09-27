@@ -22,6 +22,7 @@ import com.kocapplication.pixeleye.kockocapp.main.course.CourseFragment;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.MyKocKocFragment;
 import com.kocapplication.pixeleye.kockocapp.main.recommend.RecommendFragment;
 import com.kocapplication.pixeleye.kockocapp.main.story.StoryFragment;
+import com.kocapplication.pixeleye.kockocapp.main.tour.TourFragment;
 import com.kocapplication.pixeleye.kockocapp.util.GCM.RegistrationIntentService;
 
 import java.util.ArrayList;
@@ -69,13 +70,13 @@ public class MainActivity extends BaseActivity {
 
         List<Fragment> fragments = new ArrayList<Fragment>();
         fragments.add(new StoryFragment());
-        fragments.add(new RecommendFragment());
+        fragments.add(new TourFragment());
         fragments.add(new CourseFragment());
         fragments.add(new MyKocKocFragment());
 
         List<String> titles = new ArrayList<String>();
         titles.add("소식");
-        titles.add("추천");
+        titles.add("관광");
         titles.add("코스");
         titles.add("내콕콕");
 

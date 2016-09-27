@@ -1,6 +1,7 @@
 package com.kocapplication.pixeleye.kockocapp.main.tour;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 
 import com.kocapplication.pixeleye.kockocapp.R;
@@ -22,6 +23,7 @@ import retrofit2.Retrofit;
 public class AreaThread extends Thread {
     final static String TAG = "AreaThread";
     private Context mContext;
+    private Handler handler;
     private AreaRepo areaRepo;
     private String apiKey = GlobalApplication.getGlobalApplicationContext().getResources().getString(R.string.tour_api_key);
     private String arrange = "B"; //정렬 구분 (A = 제목순, B = 조회순, C = 수정일순, D = 생성일순)
@@ -32,11 +34,12 @@ public class AreaThread extends Thread {
     private String category = ""; // 대분류1 (A01 = 자연, A02 = 인문, A03 = 레포츠, A04 = 쇼핑, A05 = 음식, B02 = 숙박, C01 = 추천코스)
     private String type = "json"; // 지우면  xml로 받아옴
 
-    public AreaThread(Context mContext, String content, String area, String category) {
+    public AreaThread(Context mContext, String content, String area, String category, Handler handler) {
         this.mContext = mContext;
         this.content = content;
         this.area = area;
         this.category = category;
+        this.handler = handler;
     }
 
     @Override
@@ -55,7 +58,7 @@ public class AreaThread extends Thread {
                 if(response.isSuccessful()){
                     areaRepo = response.body();
                     AreaRepo.response.Result header = areaRepo.getResponse().getHeader();
-                    AreaRepo.response.body body= areaRepo.getResponse().getBody();
+                    AreaRepo.response.body body = areaRepo.getResponse().getBody();
 
                     if(header.getResultCode().equals("0000")){
                         Log.e(TAG,"성공");
@@ -70,6 +73,7 @@ public class AreaThread extends Thread {
             public void onFailure(Call<AreaRepo> call, Throwable t) {
                 Log.e(TAG,"관광 지역 가져오기 실패");
                 Log.e(TAG,""+call.request());
+                Log.e(TAG,""+t.getMessage());
             }
         });
     }
