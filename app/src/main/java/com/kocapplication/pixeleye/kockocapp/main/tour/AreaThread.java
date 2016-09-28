@@ -3,6 +3,7 @@ package com.kocapplication.pixeleye.kockocapp.main.tour;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
@@ -65,6 +66,7 @@ public class AreaThread extends Thread {
                     }else{
                         Log.e(TAG,"지역정보 검색 실패");
                         Log.e(TAG,""+header.getResultCode()+"/"+header.getResultMsg());
+                        Toast.makeText(mContext, "데이터 불러오기를 실패했습니다.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -74,6 +76,7 @@ public class AreaThread extends Thread {
                 Log.e(TAG,"관광 지역 가져오기 실패");
                 Log.e(TAG,""+call.request());
                 Log.e(TAG,""+t.getMessage());
+                Toast.makeText(mContext, "데이터가 없습니다.", Toast.LENGTH_SHORT).show();
             }
         });
     }

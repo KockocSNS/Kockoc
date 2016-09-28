@@ -5,20 +5,28 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
+import com.kocapplication.pixeleye.kockocapp.model.Course;
+import com.kocapplication.pixeleye.kockocapp.model.Courses;
 import com.kocapplication.pixeleye.kockocapp.util.EnterListener;
+import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+
+import java.util.List;
 
 /**
  * Created by Han_ on 2016-06-29.
  */
 public class CourseTitleActivity extends BaseActivityWithoutNav {
+    final static String TAG = "CourseTitleActivity";
     private EditText courseTitleInput;
     private Button confirm;
+    private Courses courses;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,6 +34,8 @@ public class CourseTitleActivity extends BaseActivityWithoutNav {
 
         init();
         actionBarTitleSet("코스", Color.WHITE);
+
+        getData();
 
         container.setLayoutResource(R.layout.activity_course_title);
         View containView = container.inflate();
@@ -35,6 +45,11 @@ public class CourseTitleActivity extends BaseActivityWithoutNav {
 
         courseTitleInput.setOnEditorActionListener(new EditTextEnterListener());
         confirm.setOnClickListener(new ButtonListener());
+    }
+
+    private void getData(){
+        //DetailActivity의 코스복사에서 받아옴
+        courses = (Courses) getIntent().getSerializableExtra("courses");
     }
 
     private class EditTextEnterListener extends EnterListener {
@@ -54,11 +69,15 @@ public class CourseTitleActivity extends BaseActivityWithoutNav {
                 Snackbar.make(courseTitleInput, "코스 제목을 입력해주세요.", Snackbar.LENGTH_SHORT).show();
                 return;
             }
-
-            Intent intent = new Intent(CourseTitleActivity.this, CourseWriteActivity.class);
-            intent.putExtra("COURSE_TITLE", courseTitle);
-            startActivity(intent);
-            finish();
+            if (courses == null){
+                Intent intent = new Intent(CourseTitleActivity.this, CourseWriteActivity.class);
+                intent.putExtra("COURSE_TITLE", courseTitle);
+                startActivity(intent);
+                finish();
+            }else {
+                JspConn.uploadCourse(courseTitle, courses.getCourses(), true);
+                finish();
+            }
         }
     }
 

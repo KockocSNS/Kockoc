@@ -34,9 +34,11 @@ import android.widget.ToggleButton;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
+import com.kocapplication.pixeleye.kockocapp.model.Courses;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.write.course.CourseTitleActivity;
 import com.kocapplication.pixeleye.kockocapp.write.newWrite.NewWriteActivity;
 
 import org.apache.http.annotation.Obsolete;
@@ -189,9 +191,11 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             try {
-                String tempResult = JspConn.uploadCourse(courseTitle, courseList, true);
-                Log.i(TAG, "Course Copy" + tempResult);
-                Toast.makeText(DetailActivity.this, "코스가 복사 되었습니다.", Toast.LENGTH_SHORT).show();
+                Courses courses = new Courses(courseList);
+                Intent intent = new Intent(DetailActivity.this, CourseTitleActivity.class);
+                intent.putExtra("courses",courses);
+                startActivity(intent);
+                Toast.makeText(DetailActivity.this, "코스가 복사 되었습니다.\n제목을 입력 해주세요", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 e.printStackTrace();
                 Toast.makeText(DetailActivity.this, "복사 되지 않았습니다.", Toast.LENGTH_SHORT).show();
