@@ -40,6 +40,10 @@ public class Courses implements Serializable {
         this.dateTime = dateTime;
     }
 
+    public Courses(List<Course> courses){
+        this.courses = courses;
+    }
+
     public int getCourseNo() {
         return courseNo;
     }

@@ -13,6 +13,7 @@ import com.kocapplication.pixeleye.kockocapp.util.JspConn;
  * Created by Han_ on 2016-04-01.
  */
 public class LoginThread extends Thread {
+    final static String TAG = "LoginThread";
     private Context context;
     private Handler handler;
     private String id;
@@ -37,7 +38,7 @@ public class LoginThread extends Thread {
         SharedPreferences pref = context.getSharedPreferences("pref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         int number = JspConn.checkPwd(id, pw);
-        Log.e("LOGINACTIVITY", number + "");
+        Log.e(TAG, number + "");
 
         if (autoLoginState) {
             editor.putInt("login", number);
