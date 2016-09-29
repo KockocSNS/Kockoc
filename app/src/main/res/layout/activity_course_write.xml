@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <include
-        android:id="@+id/recycler_layout"
+        android:id="@+id/story_recycler_layout"
         layout="@layout/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

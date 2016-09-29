@@ -4,4 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="dots_height">30dp</dimen>
     <dimen name="dots_margin_bottom">20dp</dimen>
+    <dimen name="tour_margin_top">20dp</dimen>
+    <dimen name="tour_search">20dp</dimen>
 </resources>

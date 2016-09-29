@@ -17,15 +17,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
-import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
-import com.kocapplication.pixeleye.kockocapp.navigation.SettingActivity;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 import java.text.ParseException;
@@ -111,7 +108,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
         addButton.setOnClickListener(listener);
         confirm.setOnClickListener(listener);
 
-        View recyclerLayout = containView.findViewById(R.id.recycler_layout);
+        View recyclerLayout = containView.findViewById(R.id.story_recycler_layout);
         recyclerView = (RecyclerView) recyclerLayout.findViewById(R.id.recycler_view);
         adapter = new CourseWriteRecyclerAdapter(new ArrayList<Course>(), this, flag);
         recyclerView.setAdapter(adapter);
