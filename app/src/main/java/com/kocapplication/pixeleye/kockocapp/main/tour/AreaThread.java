@@ -1,12 +1,16 @@
 package com.kocapplication.pixeleye.kockocapp.main.tour;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
+import java.util.ArrayList;
 
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.model.TourData;
+import com.kocapplication.pixeleye.kockocapp.model.TourDataList;
 import com.kocapplication.pixeleye.kockocapp.util.GlobalApplication;
 
 import java.io.UnsupportedEncodingException;
@@ -35,6 +39,9 @@ public class AreaThread extends Thread {
     private String category = ""; // 대분류1 (A01 = 자연, A02 = 인문, A03 = 레포츠, A04 = 쇼핑, A05 = 음식, B02 = 숙박, C01 = 추천코스)
     private String type = "json"; // 지우면  xml로 받아옴
 
+    private TourDataList tourDataList;
+    private ArrayList<TourData> tourDataArr = new ArrayList<>();
+
     public AreaThread(Context mContext, String content, String area, String category, Handler handler) {
         this.mContext = mContext;
         this.content = content;
@@ -60,9 +67,31 @@ public class AreaThread extends Thread {
                     areaRepo = response.body();
                     AreaRepo.response.Result header = areaRepo.getResponse().getHeader();
                     AreaRepo.response.body body = areaRepo.getResponse().getBody();
+                    AreaRepo.response.body.items items = areaRepo.getResponse().getBody().getItems();
 
                     if(header.getResultCode().equals("0000")){
-                        Log.e(TAG,"성공");
+                        Log.e(TAG,"데이터 가져오기성공");
+                        for(int i = 0; i < Integer.parseInt(body.getNumOfRows()); i++){
+                            TourData data = new TourData();
+                            AreaRepo.response.body.items.item item = items.getItem().get(i);
+                            data.setTitle(item.getTitle());
+                            data.setThumbImg(item.getThumbImg());
+                            data.setAddr(item.getAddr());
+                            data.setDetailAddr(item.getDetailAddr());
+                            data.setLatitude(item.getLatitude());
+                            data.setLongitude(item.getLongitude());
+                            data.setImg(item.getImg());
+                            tourDataArr.add(data);
+                        }
+
+                        tourDataList = new TourDataList(tourDataArr);
+                        Message msg = Message.obtain();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("THREAD",tourDataList);
+                        msg.setData(bundle);
+                        msg.what = 1;
+                        handler.sendMessage(msg);
+
                     }else{
                         Log.e(TAG,"지역정보 검색 실패");
                         Log.e(TAG,""+header.getResultCode()+"/"+header.getResultMsg());

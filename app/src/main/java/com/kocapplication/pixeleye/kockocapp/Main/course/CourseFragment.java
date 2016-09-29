@@ -58,7 +58,7 @@ public class CourseFragment extends Fragment {
         courseAdd = (TextView) view.findViewById(R.id.course_add);
         courseAdd.setOnClickListener(new ButtonListener());
 
-        View container = view.findViewById(R.id.recycler_layout);
+        View container = view.findViewById(R.id.story_recycler_layout);
         refreshLayout = (SwipeRefreshLayout) container.findViewById(R.id.refresh_layout);
         recyclerView = (RecyclerView) container.findViewById(R.id.recycler_view);
 

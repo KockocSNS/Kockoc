@@ -13,7 +13,7 @@
             layout="@layout/fragment_mykockoc_profile" />
 
         <include
-            android:id="@+id/recycler_layout"
+            android:id="@+id/story_recycler_layout"
             layout="@layout/recyclerview" />
 
     </LinearLayout>

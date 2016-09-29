@@ -53,7 +53,12 @@ public class AreaRepo {
                     public String getLongitude() {return longitude;}
                     public String getLatitude() {return latitude;}
                 }
+                public List<AreaRepo.response.body.items.item> getItem() {return item;}
             }
+            public AreaRepo.response.body.items getItems() {return items;}
+            public String getNumOfRows() {return numOfRows;}
+            public String getPageNo() {return pageNo;}
+            public String getTotalCount() {return totalCount;}
         }
         public Result getHeader() {return header;}
         public AreaRepo.response.body getBody() {return body;}

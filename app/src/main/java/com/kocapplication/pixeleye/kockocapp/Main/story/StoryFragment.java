@@ -22,16 +22,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity;
 import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
-import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseTitleActivity;
 import com.kocapplication.pixeleye.kockocapp.write.newWrite.NewWriteActivity;
 
@@ -108,7 +104,7 @@ public class StoryFragment extends Fragment {
         continuousAdd = (TextView) view.findViewById(R.id.story_continuous_add);
         buttonListenerSet();
 
-        View includeView = view.findViewById(R.id.recycler_layout);
+        View includeView = view.findViewById(R.id.story_recycler_layout);
         refreshLayout = (SwipeRefreshLayout) includeView.findViewById(R.id.refresh_layout);
         recyclerView = (RecyclerView) includeView.findViewById(R.id.recycler_view);
 

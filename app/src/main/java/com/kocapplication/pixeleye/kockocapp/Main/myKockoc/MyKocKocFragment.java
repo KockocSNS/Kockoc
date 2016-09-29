@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,7 +87,7 @@ public class MyKocKocFragment extends Fragment {
 
     private void init(View view) {
         View profile = view.findViewById(R.id.profile_container);
-        View recycler = view.findViewById(R.id.recycler_layout);
+        View recycler = view.findViewById(R.id.story_recycler_layout);
 
         //profile
         profileImage = (ImageView) profile.findViewById(R.id.profile_image);

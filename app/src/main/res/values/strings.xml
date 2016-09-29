@@ -39,6 +39,7 @@
     <string name="course_page_time">오전 09:00</string>
     <string name="course_page_add">추가</string>
     <string name="course_page_end">완료</string>
+    <string name="tour_search">관광지 검색</string>
     <string name="detail_details">상세보기</string>
     <string name="detail_dupl">코스 복사</string>
     <string name="detail_register">코스 추가</string>
