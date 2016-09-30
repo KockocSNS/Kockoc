@@ -32,10 +32,13 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
+import com.kocapplication.pixeleye.kockocapp.model.Courses;
 import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.write.course.CourseTitleActivity;
 import com.kocapplication.pixeleye.kockocapp.write.newWrite.NewWriteActivity;
 
 import org.apache.http.annotation.Obsolete;
@@ -50,6 +53,7 @@ import java.util.List;
 public class DetailActivity extends AppCompatActivity {
     final static String TAG = "DetailActivity";
     public static final int EDIT_FLAG = 2222;
+    public static final int DELETE_FLAG = 21512;
     DetailFragment detailFragment;
 
     private EditText comment_et;
@@ -146,7 +150,6 @@ public class DetailActivity extends AppCompatActivity {
 
 
     /**
-     * CommentSendListener
      * 댓글 입력
      */
     private class CommentSendListener implements View.OnClickListener {
@@ -167,7 +170,6 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     /**
-     * CourseCopyListener
      * 코스 복사
      */
     private class CourseCopyListener implements View.OnClickListener {
@@ -189,9 +191,11 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             try {
-                String tempResult = JspConn.uploadCourse(courseTitle, courseList, true);
-                Log.i(TAG, "Course Copy" + tempResult);
-                Toast.makeText(DetailActivity.this, "코스가 복사 되었습니다.", Toast.LENGTH_SHORT).show();
+                Courses courses = new Courses(courseList);
+                Intent intent = new Intent(DetailActivity.this, CourseTitleActivity.class);
+                intent.putExtra("courses",courses);
+                startActivity(intent);
+                Toast.makeText(DetailActivity.this, "코스가 복사 되었습니다.\n제목을 입력 해주세요", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 e.printStackTrace();
                 Toast.makeText(DetailActivity.this, "복사 되지 않았습니다.", Toast.LENGTH_SHORT).show();
@@ -200,7 +204,6 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     /**
-     * CourseCopyListener
      * 관심글 등록
      */
     private class ScrapListener implements View.OnClickListener {
@@ -279,18 +282,13 @@ public class DetailActivity extends AppCompatActivity {
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
-
         }
-
     }
 
     /**
-     * onCreateOptionsMenu
+     * 액션바 메뉴
      * 글 작성자면 삭제,수정 타인이면 신고
-     *
-     * @param menu
      */
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -298,7 +296,6 @@ public class DetailActivity extends AppCompatActivity {
         else inflater.inflate(R.menu.menu_detail_page_report, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -327,6 +324,7 @@ public class DetailActivity extends AppCompatActivity {
                             public void onClick(
                                     DialogInterface dialoginterface, int i) {
                                 JspConn.boardDelete(boardNo, BasicValue.getInstance().getUserNo());
+                                setResult(DELETE_FLAG);
                                 finish();
                             }
                         })

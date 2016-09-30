@@ -17,15 +17,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
-import com.kocapplication.pixeleye.kockocapp.main.myKockoc.course.CourseActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
-import com.kocapplication.pixeleye.kockocapp.navigation.SettingActivity;
 import com.kocapplication.pixeleye.kockocapp.util.JspConn;
 
 import java.text.ParseException;
@@ -48,6 +45,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
     private int coursePosition=1;
     private String courseTitle;
     private String memo = "";
+    private boolean publicity = true;
 
     private RecyclerView recyclerView;
     private CourseWriteRecyclerAdapter adapter;
@@ -71,20 +69,9 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
         container.setLayoutResource(R.layout.activity_course_write);
         View containView = container.inflate();
 
-
-
         declare(containView);
         getDataFromBeforeActivity();
-
-        new MemoReadThread(new MemoReadHandler(), courseNo).start();
     }
-
-    public void setMemo(String memo) {
-        //Log.i(TAG, memo);
-        this.memo = memo;
-    }
-
-
 
     private void declare(View containView) {
         flag = getIntent().getIntExtra("FLAG", DEFAULT_FLAG);
@@ -121,7 +108,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
         addButton.setOnClickListener(listener);
         confirm.setOnClickListener(listener);
 
-        View recyclerLayout = containView.findViewById(R.id.recycler_layout);
+        View recyclerLayout = containView.findViewById(R.id.story_recycler_layout);
         recyclerView = (RecyclerView) recyclerLayout.findViewById(R.id.recycler_view);
         adapter = new CourseWriteRecyclerAdapter(new ArrayList<Course>(), this, flag);
         recyclerView.setAdapter(adapter);
@@ -136,7 +123,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
 
     private void getDataFromBeforeActivity() {
         if (flag == ADJUST_FLAG) {
-            Courses courses = (Courses) getIntent().getSerializableExtra("COURSES");
+            Courses courses = (Courses) getIntent().getSerializableExtra("COURSES"); // CourseFragment에서 받아옴
 
             courseNo = courses.getCourseNo();
             courseTitle = courses.getTitle();
@@ -184,6 +171,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 try {
                     courseDate = format.parse(dateTime);
                 } catch (ParseException e) {
+                    Log.e(TAG,"parse :"+e.getMessage());
                     Snackbar.make(addButton, "잘못된 날짜 형식입니다.", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
@@ -214,15 +202,18 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 Courses courses = new Courses(courseNo, courseTitle, new Date(), adapter.getItems());
                 manager.setCourseAlarm(courses);
 
+                //공개 여부
+                publicity = publicityCheckBox.isChecked() ? true : false;
+
                 Log.i(TAG, courses.getCourseNo() + "");
                 //코스 수정
                 if(flag == ADJUST_FLAG){
-
+                    Log.i(TAG,"수정 진입");
+                    JspConn.editCourse(courses.getCourses(),publicity);
                 }else{// 새 코스 쓰기
-                    boolean publicity;
-                    if(publicityCheckBox.isChecked()) publicity = true;
-                    else publicity = false;
-                    JspConn.uploadCourse(courseTitle,courses.getCourses(),publicity);
+
+                    // TODO: 2016-09-21  publicity 추가 필요
+                    JspConn.uploadCourse(courseTitle,courses.getCourses(), publicity);
                 }
 
                 memo = ""; // 메모 초기화

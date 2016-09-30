@@ -77,7 +77,7 @@ public class CourseThread extends Thread {
 
         ArrayList<Courses> courses = new ArrayList<Courses>();
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Log.i("courseArr",courseArr.toString());
         for (int i = 0; i < courseArr.size(); i++) {
             JsonObject resultObject = courseArr.get(i).getAsJsonObject();
@@ -102,6 +102,7 @@ public class CourseThread extends Thread {
                 try {
                     temp = format.parse(stopoverDate);
                 } catch (ParseException e) {
+                    Log.e(TAG,"temp :"+e.getMessage());
                     e.printStackTrace();
                 }
                 course.add(new Course(courseNo,stopoverPosition, name, temp, memo));
