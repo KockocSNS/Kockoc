@@ -219,7 +219,6 @@ public class StoryFragment extends Fragment {
                 getActivity().startActivityForResult(intent, MainActivity.CONTINUOUS_WRITE_REQUEST_CODE);
             }
         }
-
     }
 
     private class StoryDataReceiveHandler extends Handler {

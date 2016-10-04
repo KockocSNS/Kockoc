@@ -75,6 +75,7 @@ public class AreaRepo {
                                          @Query("contentTypeId") String content,
                                          @Query("areaCode") String area,
                                          @Query("cat1") String category,
-                                         @Query("_type") String type);
+                                         @Query("_type") String type,
+                                         @Query("pageNo") String pageNo);
     }
 }

@@ -38,16 +38,18 @@ public class AreaThread extends Thread {
     private String area = "33"; //지역코드 (1 = 서울, 2 = 인천, 3 = 대전, 4 = 대구, 5 = 광주, 6= 부산, 7 = 울산, 8 =세종시, 31 = 경기도, 32 = 강원도, 33 = 충북, 34 = 충남, 35 = 경북, 36 = 경남, 37 = 전북, 38 = 전남, 39 = 제주)
     private String category = ""; // 대분류1 (A01 = 자연, A02 = 인문, A03 = 레포츠, A04 = 쇼핑, A05 = 음식, B02 = 숙박, C01 = 추천코스)
     private String type = "json"; // 지우면  xml로 받아옴
+    private String pageNo = "";
 
     private TourDataList tourDataList;
     private ArrayList<TourData> tourDataArr = new ArrayList<>();
 
-    public AreaThread(Context mContext, String content, String area, String category, Handler handler) {
+    public AreaThread(Context mContext, String content, String area, String category, String pageNo, Handler handler) {
         this.mContext = mContext;
         this.content = content;
         this.area = area;
         this.category = category;
         this.handler = handler;
+        this.pageNo = pageNo;
     }
 
     @Override
@@ -58,7 +60,7 @@ public class AreaThread extends Thread {
 
         Retrofit client = new Retrofit.Builder().baseUrl("http://api.visitkorea.or.kr/").addConverterFactory(GsonConverterFactory.create()).build();
         AreaRepo.areaApiInterface service = client.create(AreaRepo.areaApiInterface.class);
-        Call<AreaRepo> call = service.get_area_retrofit(apiKey,arrange,os,appName,content,area,category,type);
+        Call<AreaRepo> call = service.get_area_retrofit(apiKey,arrange,os,appName,content,area,category,type,pageNo);
         call.enqueue(new Callback<AreaRepo>() {
             @Override
             public void onResponse(Call<AreaRepo> call, Response<AreaRepo> response) {
@@ -74,6 +76,7 @@ public class AreaThread extends Thread {
                         for(int i = 0; i < Integer.parseInt(body.getNumOfRows()); i++){
                             TourData data = new TourData();
                             AreaRepo.response.body.items.item item = items.getItem().get(i);
+                            if(item.getImg() == null) continue; //이미지가 없는것은 넣지 않는다.
                             data.setTitle(item.getTitle());
                             data.setThumbImg(item.getThumbImg());
                             data.setAddr(item.getAddr());

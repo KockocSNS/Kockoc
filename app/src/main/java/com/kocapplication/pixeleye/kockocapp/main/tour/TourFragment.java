@@ -34,8 +34,13 @@ public class TourFragment extends Fragment {
     final static String TAG = "TourFragment";
     private SwipeRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
+    private ArrayList<TourData> tourDataList;
     private TourDataList items;
     private TourRecyclerAdapter adapter;
+    private String content = "12";
+    private String area = "1";
+    private String category = "A02";
+    private String pageNo = "1";
 
     @Nullable
     @Override
@@ -49,7 +54,7 @@ public class TourFragment extends Fragment {
 
     private void getTourData() {
         Handler handler = new TourDataReceiveHandler();
-        Thread thread = new AreaThread(getActivity(),"12","1","A02",handler);
+        Thread thread = new AreaThread(getActivity(), content, area, category, pageNo, handler); // 기본으로 관광지, 서울, 인문 카테고리, 페이지1 선택
         thread.start();
     }
 
@@ -69,6 +74,9 @@ public class TourFragment extends Fragment {
         recyclerView.setOnScrollListener(new BottomRefreshListener());
     }
 
+    /**
+     * tour 데이터를 받아오는 핸들러
+     */
     private class TourDataReceiveHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -78,8 +86,26 @@ public class TourFragment extends Fragment {
                 return;
             }
             items = (TourDataList) msg.getData().getSerializable("THREAD");
-
-            adapter.setItems(items.getTourDataList());
+            tourDataList = items.getTourDataList();
+            adapter.setItems(tourDataList);
+            adapter.notifyDataSetChanged();
+        }
+    }
+    /**
+     * 하단 새로고침 데이터를 받아오는 핸들러, pageNo를 1씩 늘린다.
+     */
+    private class BottomRefreshHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == 0) {
+                Snackbar.make(refreshLayout, "데이터를 불러오는데 실패하였습니다. 새로고침을 해주세요", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
+            refreshLayout.setRefreshing(false);
+            TourDataList temp = (TourDataList) msg.getData().getSerializable("THREAD");
+            tourDataList.addAll(temp.getTourDataList());
+            adapter.setItems(tourDataList);
             adapter.notifyDataSetChanged();
         }
     }
@@ -90,19 +116,24 @@ public class TourFragment extends Fragment {
             Log.e(TAG,"클릭");
         }
     }
+
+    /**
+     * RecyclerView의 맨 밑에 닿으면 pageNo를 1씩 늘려 데이터를 받는다.
+     */
     private class BottomRefreshListener extends RecyclerView.OnScrollListener {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
-// TODO: 2016-09-29 구현 필요함
-//            int LastVisibleItem = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
-//
-//            if ((LastVisibleItem) == adapter.getItems().size() - 1 && !refreshLayout.isRefreshing() && adapter.getItems().size() > 6) {
-//                refreshLayout.setRefreshing(true);
-//                Handler handler = new BottomRefreshHandler();
-//                Thread thread = new StoryThread(handler, initialData.get(initialData.size() - 1).getBasicAttributes().getBoardNo());
-//                thread.start();
-//            }
+
+            int LastVisibleItem = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+
+            if ((LastVisibleItem) == adapter.getItems().size() - 1 && !refreshLayout.isRefreshing() && adapter.getItems().size() > 6) {
+                refreshLayout.setRefreshing(true);
+                Handler bottomHandler = new BottomRefreshHandler();
+                pageNo = String.valueOf(Integer.parseInt(pageNo)+1);
+                Thread thread = new AreaThread(getActivity(), content, area, category, pageNo, bottomHandler);
+                thread.start();
+            }
         }
     }
 }
