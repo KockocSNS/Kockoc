@@ -144,6 +144,9 @@
         <activity
             android:name=".write.continuousWrite.CourseSelectActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".main.tour.FilterActivity"
+            android:screenOrientation="portrait" />
+
 
         <!-- 네이버 로그인-->
         <activity

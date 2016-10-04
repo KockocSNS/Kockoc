@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Hyeongpil on 2016-09-21.
  */
-public class AreaRepo {
+public class TourRepo {
     @SerializedName("response") response response;
 
     public class response {
@@ -53,22 +53,22 @@ public class AreaRepo {
                     public String getLongitude() {return longitude;}
                     public String getLatitude() {return latitude;}
                 }
-                public List<AreaRepo.response.body.items.item> getItem() {return item;}
+                public List<TourRepo.response.body.items.item> getItem() {return item;}
             }
-            public AreaRepo.response.body.items getItems() {return items;}
+            public TourRepo.response.body.items getItems() {return items;}
             public String getNumOfRows() {return numOfRows;}
             public String getPageNo() {return pageNo;}
             public String getTotalCount() {return totalCount;}
         }
         public Result getHeader() {return header;}
-        public AreaRepo.response.body getBody() {return body;}
+        public TourRepo.response.body getBody() {return body;}
     }
 
-    public AreaRepo.response getResponse() {return response;}
+    public TourRepo.response getResponse() {return response;}
 
     public interface areaApiInterface {
         @GET("openapi/service/rest/KorService/areaBasedList")
-        Call<AreaRepo> get_area_retrofit(@Query("ServiceKey") String apiKey,
+        Call<TourRepo> get_area_retrofit(@Query("ServiceKey") String apiKey,
                                          @Query("arrange") String arrange,
                                          @Query("MobileOS") String os,
                                          @Query("MobileApp") String appName,
@@ -78,4 +78,15 @@ public class AreaRepo {
                                          @Query("_type") String type,
                                          @Query("pageNo") String pageNo);
     }
+    public interface keywordApiInterface {
+        @GET("openapi/service/rest/KorService/searchKeyword")
+        Call<TourRepo> get_keyword_retrofit(@Query("ServiceKey") String apiKey,
+                                            @Query("arrange") String arrange,
+                                            @Query("MobileOS") String os,
+                                            @Query("MobileApp") String appName,
+                                            @Query("keyword") String keyword,
+                                            @Query("_type") String type,
+                                            @Query("pageNo") String pageNo);
+    }
+
 }
