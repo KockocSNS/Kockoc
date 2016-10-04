@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.main.story.BoardRecyclerViewHolder;
 
 import com.kocapplication.pixeleye.kockocapp.model.TourData;
 
@@ -43,7 +42,7 @@ public class TourRecyclerAdapter extends RecyclerView.Adapter<TourRecyclerViewHo
         TourData data = items.get(position);
 
         holder.getTourTitle().setText(data.getTitle());
-        Glide.with(mContext).load(data.getThumbImg()).into(holder.getTourImage());
+        Glide.with(mContext).load(data.getImg()).into(holder.getTourImage());
     }
 
     @Override

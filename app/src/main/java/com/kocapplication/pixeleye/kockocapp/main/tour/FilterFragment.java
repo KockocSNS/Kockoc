@@ -28,6 +28,7 @@ public class FilterFragment extends Fragment {
     private String content = "";
     private String area = "";
     private String category = "";
+    private String pageNo;
 
     @Nullable
     @Override
@@ -57,7 +58,7 @@ public class FilterFragment extends Fragment {
 
                 if(!content.equals("")){ // Content는 반드시 선택되어야함
                     Handler handler = new Handler(new TourDataHandleCallback());
-                    Thread areaThread = new AreaThread(getActivity(), content, area, category, handler); // 뒤의 지역코드를 화면에서 받아와야함
+                    Thread areaThread = new AreaThread(getActivity(), content, area, category,pageNo, handler); // 뒤의 지역코드를 화면에서 받아와야함
                     areaThread.start();
                 }else{
                     Toast.makeText(getActivity(), "대분류를 선택해주세요", Toast.LENGTH_SHORT).show();
