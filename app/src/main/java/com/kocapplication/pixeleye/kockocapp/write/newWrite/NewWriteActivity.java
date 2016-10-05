@@ -3,7 +3,6 @@ package com.kocapplication.pixeleye.kockocapp.write.newWrite;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -20,11 +19,10 @@ import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailPageData;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
-import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
 import com.kocapplication.pixeleye.kockocapp.model.BoardBasicAttr;
 import com.kocapplication.pixeleye.kockocapp.model.Coordinate;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.FilePopUp;
 import com.kocapplication.pixeleye.kockocapp.write.newWrite.map.MapActivity;
 
@@ -35,9 +33,7 @@ import org.apmem.tools.layouts.FlowLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Han_ on 2016-06-24.

@@ -5,17 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 
 import java.util.List;
-
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * Created by Han_ on 2016-06-21.

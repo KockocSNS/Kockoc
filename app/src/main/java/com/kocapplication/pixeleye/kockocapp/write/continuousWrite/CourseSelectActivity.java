@@ -3,14 +3,11 @@ package com.kocapplication.pixeleye.kockocapp.write.continuousWrite;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kocapplication.pixeleye.kockocapp.R;
@@ -18,9 +15,9 @@ import com.kocapplication.pixeleye.kockocapp.detail.DetailPageData;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage.JspConn_LoadDetailPage;
+import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseWriteRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.write.newWrite.NewWriteActivity;
 
@@ -83,7 +80,7 @@ public class CourseSelectActivity extends BaseActivityWithoutNav {
             Log.e(TAG,"boardNo :"+boardNo);
             if (boardNo >0){ // 글이 있으면 이어쓰기 수정
                 DetailPageData detailPageData;
-                detailPageData = JsonParser.detailPageLoad(JspConn.loadDetailPage(String.valueOf(boardNo)));
+                detailPageData = JsonParser.detailPageLoad(JspConn_LoadDetailPage.loadDetailPage(String.valueOf(boardNo)));
                 intent.putExtra("DATA",detailPageData);
                 intent_newWrite(position,NewWriteActivity.CONTINUOUS_EDIT_FLAG);
             } else{ // 글이 없다면

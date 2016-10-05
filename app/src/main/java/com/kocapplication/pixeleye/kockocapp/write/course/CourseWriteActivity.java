@@ -23,7 +23,8 @@ import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.Course.JspConn_UploadCourse;
+import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -213,7 +214,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
                 }else{// 새 코스 쓰기
 
                     // TODO: 2016-09-21  publicity 추가 필요
-                    JspConn.uploadCourse(courseTitle,courses.getCourses(), publicity);
+                    JspConn_UploadCourse.uploadCourse(courseTitle,courses.getCourses(), publicity);
                 }
 
                 memo = ""; // 메모 초기화

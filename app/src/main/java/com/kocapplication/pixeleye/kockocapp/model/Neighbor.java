@@ -1,13 +1,6 @@
 package com.kocapplication.pixeleye.kockocapp.model;
 
-import android.graphics.Bitmap;
-
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
-import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Created by pixeleye02 on 2015-09-14.

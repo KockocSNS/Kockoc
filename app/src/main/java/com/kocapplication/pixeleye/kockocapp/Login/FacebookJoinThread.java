@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.kocapplication.pixeleye.kockocapp.model.User;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 
 
 /**

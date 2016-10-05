@@ -9,6 +9,8 @@ import android.view.Window;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.model.Board;
+import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 
 public class FilePopUp extends Activity {
     Thumbnail thumbnail = new Thumbnail();
