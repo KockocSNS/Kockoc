@@ -19,8 +19,8 @@ import android.widget.Toast;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.User;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 
 import java.util.Calendar;
 

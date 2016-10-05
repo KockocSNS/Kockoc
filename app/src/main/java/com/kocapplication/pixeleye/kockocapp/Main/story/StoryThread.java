@@ -1,7 +1,6 @@
 package com.kocapplication.pixeleye.kockocapp.main.story;
 
 import android.os.Bundle;
-import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -10,13 +9,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 import com.kocapplication.pixeleye.kockocapp.model.BoardBasicAttr;
 import com.kocapplication.pixeleye.kockocapp.model.Coordinate;
 import com.kocapplication.pixeleye.kockocapp.model.ExpressionCount;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
-import com.kocapplication.pixeleye.kockocapp.util.Thumbnail;
+import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;

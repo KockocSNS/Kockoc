@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.kocapplication.pixeleye.kockocapp.R;
@@ -14,7 +13,7 @@ import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.model.Neighbor;
 import com.kocapplication.pixeleye.kockocapp.user.UserActivity;
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 
 import java.util.ArrayList;
 

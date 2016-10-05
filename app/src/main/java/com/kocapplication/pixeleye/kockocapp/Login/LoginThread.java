@@ -6,8 +6,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 
 /**
  * Created by Han_ on 2016-04-01.

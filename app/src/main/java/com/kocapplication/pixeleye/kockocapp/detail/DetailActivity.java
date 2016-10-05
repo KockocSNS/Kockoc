@@ -11,37 +11,36 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.Course.JspConn_ReadCourseByCourseNo;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage.JspConn_AddScrap;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage.JspConn_DeleteComment;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage.JspConn_DeleteScrap;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage.JspConn_IsScrap;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage.JspConn_PushGcm;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage.JspConn_WriteComment;
+import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseTitleActivity;
 import com.kocapplication.pixeleye.kockocapp.write.newWrite.NewWriteActivity;
-
-import org.apache.http.annotation.Obsolete;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -109,7 +108,7 @@ public class DetailActivity extends AppCompatActivity {
             courseCopy_btn.setVisibility(View.INVISIBLE);
             scrap_btn.setVisibility(View.INVISIBLE);
         } else {
-            String isScrap = JspConn.isScrap(boardNo, BasicValue.getInstance().getUserNo());
+            String isScrap = JspConn_IsScrap.isScrap(boardNo, BasicValue.getInstance().getUserNo());
 
             scrap_btn.setText("관심글 등록");
             scrap_btn.setTextOff("관심글 등록");
@@ -161,8 +160,8 @@ public class DetailActivity extends AppCompatActivity {
                 return;
             }
 
-            JspConn.WriteComment(commentString, boardNo, BasicValue.getInstance().getUserNo());
-            JspConn.pushGcm(commentString + "|" + boardNo + "&" + courseNo, board_userNo); //gcm
+            JspConn_WriteComment.writeComment(commentString, boardNo, BasicValue.getInstance().getUserNo());
+            JspConn_PushGcm.pushGcm(commentString + "|" + boardNo + "&" + courseNo, board_userNo); //gcm
 
             detailFragment.addComment();
             softKeyboardHide(comment_et);
@@ -178,7 +177,7 @@ public class DetailActivity extends AppCompatActivity {
             // TODO: 2016-07-22 Refactoring이 해야한다.
             int courseNo = DetailActivity.this.courseNo;
             String courseTitle = DetailActivity.this.courseTitle;
-            List<String> course = JsonParser.readCourse(JspConn.readCourseByCourseNo(courseNo));
+            List<String> course = JsonParser.readCourse(JspConn_ReadCourseByCourseNo.readCourseByCourseNo(courseNo));
 
             if (courseNo == 0) return;
 
@@ -210,11 +209,11 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             if (scrap_btn.isChecked()) {
-                JspConn.addScrap(boardNo);
+                JspConn_AddScrap.addScrap(boardNo);
                 Toast.makeText(v.getContext(), "관심글 등록되었습니다.", Toast.LENGTH_SHORT).show();
                 detailFragment.addScrapCount(1);
             } else {
-                JspConn.deleteScrap(boardNo);
+                JspConn_DeleteScrap.deleteScrap(boardNo);
                 Toast.makeText(v.getContext(), "관심글 해제되었습니다.", Toast.LENGTH_SHORT).show();
                 detailFragment.addScrapCount(-1);
             }
@@ -349,7 +348,7 @@ public class DetailActivity extends AppCompatActivity {
         //스피너 리스트 값 설정
         List<String> list = new ArrayList<String>();
         list.add("코스선택");
-        course = JsonParser.readCourse(JspConn.readCourseByCourseNo(courseNo));
+        course = JsonParser.readCourse(JspConn_ReadCourseByCourseNo.readCourseByCourseNo(courseNo));
         for (int i = 0; i < course.size(); i++) {
             if (course.get(i).equals("null")) break;
             list.add(course.get(i));

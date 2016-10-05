@@ -11,14 +11,12 @@ import android.view.View;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
-import com.kocapplication.pixeleye.kockocapp.model.Neighbor;
 import com.kocapplication.pixeleye.kockocapp.model.NoticeItem;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 /**
  * Created by pixeleye02 on 2016-06-30.

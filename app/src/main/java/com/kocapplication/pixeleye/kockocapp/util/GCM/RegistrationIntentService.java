@@ -8,13 +8,12 @@ import android.annotation.SuppressLint;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.StrictMode;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;

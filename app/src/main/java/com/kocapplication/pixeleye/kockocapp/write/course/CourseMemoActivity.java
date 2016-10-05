@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -12,8 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
-import com.kocapplication.pixeleye.kockocapp.write.continuousWrite.CourseSelectActivity;
+import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 
 
 /**
