@@ -88,6 +88,7 @@ public class FilterActivity extends BaseActivityWithoutNav {
             case "문화시설": return "14";
             case "축제/공연": return "15";
             case "레저": return "29";
+            case "전체": return "";
             case "서울": return "1";
             case "인천": return "2";
             case "대전": return "3";

@@ -51,18 +51,25 @@ public class TourFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tour, container, false);
 
         init(view);
-        getAreaTourData();
+        getAreaTourData(); // 기본값
         return view;
     }
 
+    /**
+     * 지역 기반 필터
+     */
     private void getAreaTourData() {
         Handler handler = new TourDataReceiveHandler();
         Thread thread = new AreaThread(getActivity(), content, area, category, pageNo, handler); // 기본으로 관광지, 서울, 인문 카테고리, 페이지1 선택
         thread.start();
     }
+
+    /**
+     * 키워드 검색 필터
+     */
     private void getKeywordTourData(){
         Handler handler = new TourDataReceiveHandler();
-        Thread thread = new KeywordThread(getActivity(), keyword, pageNo, handler); // 기본으로 관광지, 서울, 인문 카테고리, 페이지1 선택
+        Thread thread = new KeywordThread(getActivity(), keyword, pageNo, handler);
         thread.start();
     }
 
@@ -176,17 +183,17 @@ public class TourFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == TOURFRAGMENT){ // FilterActivity에서 받아옴
-            if(data.getStringExtra("flag").equals("area")){ // 지역 검색
-                try {
+            try {
+                if(data.getStringExtra("flag").equals("area")){ // 지역 검색
                     content = data.getStringExtra("content");
                     area = data.getStringExtra("area");
                     category = data.getStringExtra("category");
                     getAreaTourData();
-                }catch (NullPointerException e){Log.e(TAG,"필터 오류");}
-            }else if(data.getStringExtra("flag").equals("keyword")){ // 키워드 검색
-                keyword = data.getStringExtra("keyword");
-                getKeywordTourData();
-            }
+                }else if(data.getStringExtra("flag").equals("keyword")){ // 키워드 검색
+                    keyword = data.getStringExtra("keyword");
+                    getKeywordTourData();
+                }
+            }catch (NullPointerException e){Log.e(TAG,"필터 오류");}
 
         }
     }
