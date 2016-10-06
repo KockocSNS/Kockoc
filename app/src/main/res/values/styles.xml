@@ -38,4 +38,30 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
+    <style name="CustomRadioButton_big" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/tour_filter_item_big</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:button">@color/transparent</item>
+        <item name="android:textColor">@color/tour_filter_text</item>
+        <item name="android:textColorHighlight">@color/tour_filter_text</item>
+        <item name="android:textColorLink">@color/tour_filter_text</item>
+    </style>
+
+    <style name="CustomRadioButton_small" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/tour_filter_item_small</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:button">@color/transparent</item>
+        <item name="android:textColor">@color/tour_filter_text</item>
+        <item name="android:textColorHighlight">@color/tour_filter_text</item>
+        <item name="android:textColorLink">@color/tour_filter_text</item>
+    </style>
+
 </resources>
