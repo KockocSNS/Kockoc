@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.main.tour.retrofit.AreaThread;
+import com.kocapplication.pixeleye.kockocapp.main.tour.retrofit.KeywordThread;
 import com.kocapplication.pixeleye.kockocapp.model.TourData;
 import com.kocapplication.pixeleye.kockocapp.model.TourDataList;
 
@@ -141,7 +143,11 @@ public class TourFragment extends Fragment {
     private class TourClickListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            Log.e(TAG,"클릭");
+            int position = recyclerView.getChildLayoutPosition(v);
+            TourData data = tourDataList.get(position);
+            Intent intent = new Intent(getActivity(),TourDetailActivity.class);
+            intent.putExtra("data",data);
+            startActivity(intent);
         }
     }
 
@@ -194,7 +200,6 @@ public class TourFragment extends Fragment {
                     getKeywordTourData();
                 }
             }catch (NullPointerException e){Log.e(TAG,"필터 오류");}
-
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.kocapplication.pixeleye.kockocapp.main.tour;
+package com.kocapplication.pixeleye.kockocapp.main.tour.retrofit;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -85,6 +85,8 @@ public class AreaThread extends Thread {
                                 data.setLatitude(item.getLatitude());
                                 data.setLongitude(item.getLongitude());
                                 data.setImg(item.getImg());
+                                data.setContentID(item.getContentId());
+                                data.setContentTypeId(item.getContentTypeId());
                                 tourDataArr.add(data);
                             }catch (IndexOutOfBoundsException e){Log.e(TAG,"공공 데이터 오류");}
                         }

@@ -1,4 +1,4 @@
-package com.kocapplication.pixeleye.kockocapp.main.tour;
+package com.kocapplication.pixeleye.kockocapp.main.tour.retrofit;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -44,6 +44,8 @@ public class TourRepo {
                     @SerializedName("firstimage2") String thumbImg; //썸네일 이미지
                     @SerializedName("mapx") String longitude; // 경도
                     @SerializedName("mapy") String latitude; //위도
+                    @SerializedName("contentid") String contentId; // 콘텐츠 ID
+                    @SerializedName("contenttypeid") String contentTypeId; // 콘텐츠 타입 ID
 
                     public String getTitle() {return title;}
                     public String getAddr() {return addr;}
@@ -52,6 +54,8 @@ public class TourRepo {
                     public String getThumbImg() {return thumbImg;}
                     public String getLongitude() {return longitude;}
                     public String getLatitude() {return latitude;}
+                    public String getContentId() {return contentId;}
+                    public String getContentTypeId() {return contentTypeId;}
                 }
                 public List<TourRepo.response.body.items.item> getItem() {return item;}
             }
