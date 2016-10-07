@@ -1,13 +1,13 @@
-package com.kocapplication.pixeleye.kockocapp.util;
+package com.kocapplication.pixeleye.kockocapp.util.connect;
 
 /**
  * Created by Han_ on 2016-06-21.
  */
 public class BasicValue {
     private static BasicValue ourInstance = new BasicValue();
-    private String urlHead = "http://115.68.14.27:8080/";
+    private String urlHead;
     private final String DAUM_MAP_API_KEY = "fd87e70c9d3984b8efea777c78112f1e";
-
+    private boolean isRealServer = false;
 
     private int userNo = -1;
     private String userNickname = "";
@@ -17,7 +17,13 @@ public class BasicValue {
         return ourInstance;
     }
 
-    private BasicValue() {}
+    private BasicValue() {
+        if(isRealServer){
+            urlHead = "http://115.68.24.17:8080/";
+        } else {
+            urlHead = "http://221.160.54.160:8080/";
+        }
+    }
 
     public String getUrlHead() {
         return urlHead;

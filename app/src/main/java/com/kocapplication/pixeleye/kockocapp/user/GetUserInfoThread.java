@@ -8,7 +8,7 @@ import android.util.Log;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.kocapplication.pixeleye.kockocapp.model.ProfileData;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -50,20 +50,20 @@ public class GetUserInfoThread extends Thread {
         String result = "";
 
         //get User Info 프로필 기본정보
-        try {
-            HttpClient client = new DefaultHttpClient();
-            HttpPost post = new HttpPost(postURL);
+            try {
+                HttpClient client = new DefaultHttpClient();
+                HttpPost post = new HttpPost(postURL);
 
-            List<NameValuePair> params = new ArrayList<>();
-            params.add(new BasicNameValuePair("userNo", "" + userNo));
-            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-            post.setEntity(ent);
-            HttpResponse response = client.execute(post);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                result += line;
-            }
+                List<NameValuePair> params = new ArrayList<>();
+                params.add(new BasicNameValuePair("userNo", "" + userNo));
+                UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+                post.setEntity(ent);
+                HttpResponse response = client.execute(post);
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    result += line;
+                }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,10 +1,5 @@
 package com.kocapplication.pixeleye.kockocapp.detail;
 
-import android.util.Log;
-
-import com.kocapplication.pixeleye.kockocapp.model.Course;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 

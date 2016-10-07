@@ -3,7 +3,7 @@ package com.kocapplication.pixeleye.kockocapp.main.course;
 import android.os.Handler;
 import android.util.Log;
 
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 
 /**
  * Created by Han_ on 2016-07-06.

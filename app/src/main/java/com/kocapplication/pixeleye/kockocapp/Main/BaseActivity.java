@@ -30,7 +30,7 @@ import com.kocapplication.pixeleye.kockocapp.main.myKockoc.neighbor.NeighborActi
 import com.kocapplication.pixeleye.kockocapp.main.search.SearchActivity;
 import com.kocapplication.pixeleye.kockocapp.navigation.notice.NoticeActivity;
 import com.kocapplication.pixeleye.kockocapp.navigation.SettingActivity;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.SharedPreferenceHelper;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;

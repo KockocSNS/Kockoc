@@ -14,7 +14,7 @@ import com.kocapplication.pixeleye.kockocapp.main.myKockoc.neighbor.NeighborRecy
 import com.kocapplication.pixeleye.kockocapp.model.Neighbor;
 import com.kocapplication.pixeleye.kockocapp.user.UserActivity;
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 
 import java.util.ArrayList;
 
