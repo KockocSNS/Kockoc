@@ -12,14 +12,10 @@ import android.widget.Toast;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
-import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
-<<<<<<< HEAD
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.Setting.JspConn_ChangeNickname;
+import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 
 import java.io.IOException;
-=======
-import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.Setting.JspConn_ChangeNickname;
->>>>>>> f4d52fd040c49963baf1cf029b4b84adec9c30e6
 
 /**
  * Created by pixeleye03 on 2016-07-04.
@@ -83,15 +79,11 @@ public class NicknameChangeActivity extends BaseActivityWithoutNav {
         public void onClick(View v) {
             nickname = et_nickname.getText().toString();
             if(nicknamechk){
-<<<<<<< HEAD
                 try {
                     JspConn_ChangeNickname.changeNickname(nickname);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-=======
-                JspConn_ChangeNickname.changeNickname(nickname);
->>>>>>> f4d52fd040c49963baf1cf029b4b84adec9c30e6
                 Toast.makeText(NicknameChangeActivity.this, "변경되었습니다.", Toast.LENGTH_SHORT).show();
                 finish();
             }

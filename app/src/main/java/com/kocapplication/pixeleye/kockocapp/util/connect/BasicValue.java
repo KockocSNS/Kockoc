@@ -7,7 +7,7 @@ public class BasicValue {
     private static BasicValue ourInstance = new BasicValue();
     private String urlHead;
     private final String DAUM_MAP_API_KEY = "fd87e70c9d3984b8efea777c78112f1e";
-    private boolean isRealServer = false; //서버 쉬프트 true : 레알서버
+    private boolean isRealServer = true; //서버 쉬프트 true : 레알서버
                                          //            false : 테썹
     private int userNo = -1;
     private String userNickname = "";

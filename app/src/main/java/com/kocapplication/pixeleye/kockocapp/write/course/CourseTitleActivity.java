@@ -13,12 +13,7 @@ import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
 import com.kocapplication.pixeleye.kockocapp.util.EnterListener;
-<<<<<<< HEAD
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.Course.JspConn_UploadCourse;
-=======
-import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.Course.JspConn_UploadCourse;
->>>>>>> f4d52fd040c49963baf1cf029b4b84adec9c30e6
-import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 
 /**
  * Created by Han_ on 2016-06-29.
