@@ -31,6 +31,7 @@ import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
 import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
+<<<<<<< HEAD
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.Course.JspConn_ReadCourseByCourseNo;
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_AddScrap;
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_DeleteComment;
@@ -38,6 +39,15 @@ import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_IsScrap;
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_PushGcm;
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_WriteComment;
+=======
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.Course.JspConn_ReadCourseByCourseNo;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage.JspConn_AddScrap;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage.JspConn_DeleteComment;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage.JspConn_DeleteScrap;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage.JspConn_IsScrap;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage.JspConn_PushGcm;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage.JspConn_WriteComment;
+>>>>>>> f4d52fd040c49963baf1cf029b4b84adec9c30e6
 import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseTitleActivity;
 import com.kocapplication.pixeleye.kockocapp.write.newWrite.NewWriteActivity;

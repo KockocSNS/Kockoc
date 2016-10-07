@@ -3,18 +3,26 @@ package com.kocapplication.pixeleye.kockocapp.user;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+<<<<<<< HEAD
+=======
+import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
+>>>>>>> f4d52fd040c49963baf1cf029b4b84adec9c30e6
 import com.kocapplication.pixeleye.kockocapp.model.BoardBasicAttr;
 import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 import com.kocapplication.pixeleye.kockocapp.model.Coordinate;
 import com.kocapplication.pixeleye.kockocapp.model.ExpressionCount;
 import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
+<<<<<<< HEAD
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.Course.JspConn_ReadCourseByCourseNo;
+=======
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.Course.JspConn_ReadCourseByCourseNo;
+import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
+>>>>>>> f4d52fd040c49963baf1cf029b4b84adec9c30e6
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;

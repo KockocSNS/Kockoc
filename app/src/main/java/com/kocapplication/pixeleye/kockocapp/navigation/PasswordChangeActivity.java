@@ -15,7 +15,11 @@ import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
+<<<<<<< HEAD
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.Setting.JspConn_ChangePwd;
+=======
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.Setting.JspConn_ChangePwd;
+>>>>>>> f4d52fd040c49963baf1cf029b4b84adec9c30e6
 
 /**
  * Created by pixeleye02 on 2016-06-30.

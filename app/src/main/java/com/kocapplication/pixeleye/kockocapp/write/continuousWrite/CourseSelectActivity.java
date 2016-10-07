@@ -16,7 +16,11 @@ import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
+<<<<<<< HEAD
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_LoadDetailPage;
+=======
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage.JspConn_LoadDetailPage;
+>>>>>>> f4d52fd040c49963baf1cf029b4b84adec9c30e6
 import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseWriteRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.write.newWrite.NewWriteActivity;

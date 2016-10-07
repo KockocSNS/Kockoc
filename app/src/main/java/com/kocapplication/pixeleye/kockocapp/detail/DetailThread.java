@@ -6,8 +6,13 @@ import android.os.Message;
 import android.util.Log;
 
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
+<<<<<<< HEAD
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.Course.JspConn_ReadCourseByCourseNo;
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_LoadDetailPage;
+=======
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.Course.JspConn_ReadCourseByCourseNo;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage.JspConn_LoadDetailPage;
+>>>>>>> f4d52fd040c49963baf1cf029b4b84adec9c30e6
 import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 
 import java.util.ArrayList;

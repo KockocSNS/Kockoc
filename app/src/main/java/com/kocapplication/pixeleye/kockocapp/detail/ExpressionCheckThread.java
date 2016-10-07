@@ -4,7 +4,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+<<<<<<< HEAD
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_CheckExpression;
+=======
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage.JspConn_CheckExpression;
+>>>>>>> f4d52fd040c49963baf1cf029b4b84adec9c30e6
 
 /**
  * Created by hp on 2016-05-04.
