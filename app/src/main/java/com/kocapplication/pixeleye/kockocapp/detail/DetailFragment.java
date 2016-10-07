@@ -54,42 +54,42 @@ import java.util.List;
 public class DetailFragment extends Fragment {
     final static String TAG = "DetailFragment";
     public DetailPageData detailPageData;
-    DetailRecyclerAdapter adapter;
+    private DetailRecyclerAdapter adapter;
 
-    LinearLayout ll_profile;
-    LinearLayout ll_htmlInfo;
-    LinearLayout ll_board_img;
-    RelativeLayout rl_board_map_container;
-    LinearLayout ll_comment_menu;
-    LinearLayout ll_bgLayout;
-    LinearLayout ll_board_map;
-    FlowLayout fl_board_hashtag;
-    RecyclerView rv_comment_list;
-    RecyclerView course_recyclerView;
-    DetailCourseAdapter course_adapter;
+    private LinearLayout ll_profile;
+    private LinearLayout ll_htmlInfo;
+    private LinearLayout ll_board_img;
+    private RelativeLayout rl_board_map_container;
+    private LinearLayout ll_comment_menu;
+    private LinearLayout ll_bgLayout;
+    private LinearLayout ll_board_map;
+    private FlowLayout fl_board_hashtag;
+    private RecyclerView rv_comment_list;
+    private RecyclerView course_recyclerView;
+    private DetailCourseAdapter course_adapter;
 
-    ToggleButton btn_like;
+    private ToggleButton btn_like;
 
-    TextView course_title;
-    TextView profile_nickname;
-    TextView profile_date;
-    TextView board_text;
-    TextView html_title;
-    TextView html_desc;
-    TextView comment_scrap;
-    TextView comment_count;
-    TextView comment_link;
+    private TextView course_title;
+    private TextView profile_nickname;
+    private TextView profile_date;
+    private TextView board_text;
+    private TextView html_title;
+    private TextView html_desc;
+    private TextView comment_scrap;
+    private TextView comment_count;
+    private TextView comment_link;
 
-    ImageView profile_img;
-    ImageView html_img;
-    ImageView board_mainimg;
-    ImageView board_courses;
-    ImageView board_map_img;
+    private ImageView profile_img;
+    private ImageView html_img;
+    private ImageView board_mainimg;
+    private ImageView board_courses;
+    private ImageView board_map_img;
 
     private int boardNo;
     private int courseNo;
     private int board_userNo;
-    LayoutInflater mInflater;
+    private LayoutInflater mInflater;
 
     private ProgressDialog dialog;
 

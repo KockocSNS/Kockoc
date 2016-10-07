@@ -1,4 +1,4 @@
-package com.kocapplication.pixeleye.kockocapp.main.tour;
+package com.kocapplication.pixeleye.kockocapp.main.tour.retrofit;
 
 import android.content.Context;
 import android.os.Bundle;

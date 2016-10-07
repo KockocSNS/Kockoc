@@ -1,9 +1,11 @@
 package com.kocapplication.pixeleye.kockocapp.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Hyeongpil on 2016-09-29.
  */
-public class TourData {
+public class TourData implements Serializable{
     private String title; //이름
     private String addr; // 주소
     private String detailAddr; // 상세 주소
@@ -11,6 +13,8 @@ public class TourData {
     private String thumbImg; //썸네일 이미지
     private String longitude; // 경도
     private String latitude; //위도
+    private String contentID; // 콘텐츠 ID
+    private String contentTypeId; // 콘텐츠 타입 ID
 
     public String getTitle() {
         return title;
@@ -66,5 +70,21 @@ public class TourData {
 
     public void setLatitude(String latitude) {
         this.latitude = latitude;
+    }
+
+    public String getContentID() {
+        return contentID;
+    }
+
+    public void setContentID(String contentID) {
+        this.contentID = contentID;
+    }
+
+    public String getContentTypeId() {
+        return contentTypeId;
+    }
+
+    public void setContentTypeId(String contentTypeId) {
+        this.contentTypeId = contentTypeId;
     }
 }
