@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent" android:background="@color/tour_filter_bg">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,8 +27,15 @@
             android:layout_weight="4"
             android:background="@color/mainBgColor"
             android:text="검색"
+            android:textStyle="bold"
             android:textColor="#ffffff" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/tour_filter_divider">
     </LinearLayout>
 
     <TextView
@@ -37,36 +44,34 @@
         android:text="관광 타입"
         android:textSize="20dp"
         android:textColor="#F66C5B"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:textStyle="bold" />
+
     <RadioGroup
         android:id="@+id/tour_radio_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:gravity="center">
 
         <RadioButton
             android:id="@+id/tour_btn_tour"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/CustomRadioButton_big"
             android:text="관광지"/>
         <RadioButton
             android:id="@+id/tour_btn_culture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/CustomRadioButton_big"
             android:text="문화시설"/>
         <RadioButton
             android:id="@+id/tour_btn_festival"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/CustomRadioButton_big"
             android:text="축제/공연"/>
         <RadioButton
             android:id="@+id/tour_btn_leports"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/CustomRadioButton_big"
             android:text="레저"/>
     </RadioGroup>
-
 
     <TextView
         android:layout_width="wrap_content"
@@ -77,6 +82,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="@dimen/tour_margin_top"
         android:textStyle="bold" />
+
     <com.kocapplication.pixeleye.kockocapp.util.MultiRowsRadioGroup
         android:id="@+id/tour_radio_area"
         android:layout_width="match_parent"
@@ -84,91 +90,79 @@
         android:orientation="horizontal">
         <org.apmem.tools.layouts.FlowLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            <RadioButton
+                android:id="@+id/tour_btn_all"
+                style="@style/CustomRadioButton_small"
+                android:text="전체"/>
             <RadioButton
                 android:id="@+id/tour_btn_seoul"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_small"
                 android:text="서울"/>
             <RadioButton
                 android:id="@+id/tour_btn_incheon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_small"
                 android:text="인천"/>
             <RadioButton
                 android:id="@+id/tour_btn_daejeon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_small"
                 android:text="대전"/>
             <RadioButton
                 android:id="@+id/tour_btn_daegu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_small"
                 android:text="대구"/>
             <RadioButton
                 android:id="@+id/tour_btn_gwangju"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_small"
                 android:text="광주"/>
             <RadioButton
                 android:id="@+id/tour_btn_busan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_small"
                 android:text="부산"/>
             <RadioButton
                 android:id="@+id/tour_btn_ulsan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_small"
                 android:text="울산"/>
             <RadioButton
                 android:id="@+id/tour_btn_sejong"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_small"
                 android:text="세종"/>
             <RadioButton
                 android:id="@+id/tour_btn_gyeonggi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_small"
                 android:text="경기"/>
             <RadioButton
                 android:id="@+id/tour_btn_gangwon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_small"
                 android:text="강원"/>
             <RadioButton
                 android:id="@+id/tour_btn_chungbuk"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_small"
                 android:text="충북"/>
             <RadioButton
                 android:id="@+id/tour_btn_chungnam"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_small"
                 android:text="충남"/>
             <RadioButton
                 android:id="@+id/tour_btn_gyeongbuk"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_small"
                 android:text="경북"/>
             <RadioButton
                 android:id="@+id/tour_btn_gyeongnam"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_small"
                 android:text="경남"/>
             <RadioButton
                 android:id="@+id/tour_btn_jeonbuk"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_small"
                 android:text="전북"/>
             <RadioButton
                 android:id="@+id/tour_btn_jeonnam"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_small"
                 android:text="전남"/>
             <RadioButton
                 android:id="@+id/tour_btn_jeju"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_small"
                 android:text="제주"/>
 
         </org.apmem.tools.layouts.FlowLayout>
@@ -190,41 +184,35 @@
         android:orientation="horizontal">
         <org.apmem.tools.layouts.FlowLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center">
             <RadioButton
                 android:id="@+id/tour_btn_nature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_big"
                 android:text="자연"/>
             <RadioButton
                 android:id="@+id/tour_btn_humanity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_big"
                 android:text="인문"/>
             <RadioButton
                 android:id="@+id/tour_btn_leports_category"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_big"
                 android:text="레포츠"/>
             <RadioButton
                 android:id="@+id/tour_btn_shopping"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_big"
                 android:text="쇼핑"/>
             <RadioButton
                 android:id="@+id/tour_btn_food"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_big"
                 android:text="음식"/>
             <RadioButton
                 android:id="@+id/tour_btn_hotel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_big"
                 android:text="숙박"/>
             <RadioButton
                 android:id="@+id/tour_btn_recommend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/CustomRadioButton_big"
                 android:text="추천코스"/>
         </org.apmem.tools.layouts.FlowLayout>
     </com.kocapplication.pixeleye.kockocapp.util.MultiRowsRadioGroup>
@@ -235,6 +223,7 @@
         android:layout_height="wrap_content"
         android:background="@color/mainBgColor"
         android:text="검색"
+        android:textStyle="bold"
         android:textColor="#ffffff"
         android:layout_margin="@dimen/tour_search"/>
 

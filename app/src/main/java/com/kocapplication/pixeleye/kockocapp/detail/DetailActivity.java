@@ -63,6 +63,7 @@ public class DetailActivity extends AppCompatActivity {
     private Spinner course_spinner;
     private ArrayList<String> course;
 
+
     private int boardNo;
     private int courseNo;
     private String courseTitle;

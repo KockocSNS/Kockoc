@@ -3,6 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="transparent">#00000000</color>
 
     <color name="darkBgColor">#cf5b4d</color>
     <color name="black">#000000</color>
@@ -16,6 +17,7 @@
     <color name="translucent_70">#70000000</color>
 
     <color name="mainBgColor">#f66c5b</color>
+    <color name="tour_filter_bg">#f0f0f0</color>
     <color name="subBgColor">#cf5b4d</color>
     <color name="subBgColor2">#ae4c40</color>
     <color name="subBgColor3">#ececec</color>
