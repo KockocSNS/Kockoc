@@ -2,9 +2,6 @@ package com.kocapplication.pixeleye.kockocapp.main.tour.retrofit;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -35,16 +32,15 @@ public class TourDetailRepo {
             @SerializedName("totalCount") String totalCount;
 
             public class items{
-                public List<item> item = new ArrayList<>();
+                public item item = new item();
 
                 public class item {
-                    @SerializedName("infoname") String infoname; // 제목
-                    @SerializedName("infotext") String infotext; // 내용
-
-                    public String getInfoname() {return infoname;}
-                    public String getInfotext() {return infotext;}
+                    @SerializedName("title") String title; // 제목
+                    @SerializedName("overview") String overview; // 내용
+                    public String getTitle() {return title;}
+                    public String getOverview() {return overview;}
                 }
-                public List<TourDetailRepo.response.body.items.item> getItem() {return item;}
+                public TourDetailRepo.response.body.items.item getItem() {return item;}
             }
             public TourDetailRepo.response.body.items getItems() {return items;}
             public String getNumOfRows() {return numOfRows;}
@@ -58,12 +54,14 @@ public class TourDetailRepo {
     public TourDetailRepo.response getResponse() {return response;}
 
     public interface tourDetailApiInterface {
-        @GET("openapi/service/rest/KorService/detailInfo")
+        @GET("openapi/service/rest/KorService/detailCommon")
         Call<TourDetailRepo> get_tour_detail_retrofit(@Query("ServiceKey") String apiKey,
                                                       @Query("MobileOS") String os,
                                                       @Query("MobileApp") String appName,
                                                       @Query("contentId") String contentId,
                                                       @Query("contentTypeId") String contentType,
+                                                      @Query("overviewYN") String overviewYN,
+                                                      @Query("defaultYN") String defaultYN,
                                                       @Query("_type") String type);
     }
 

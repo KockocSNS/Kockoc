@@ -6,4 +6,5 @@
     <dimen name="dots_margin_bottom">20dp</dimen>
     <dimen name="tour_margin_top">20dp</dimen>
     <dimen name="tour_search">20dp</dimen>
+    <dimen name="tour_detail_text_side">5dp</dimen>
 </resources>
