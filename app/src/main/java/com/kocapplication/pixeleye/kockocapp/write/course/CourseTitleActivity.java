@@ -5,19 +5,15 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
-import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
 import com.kocapplication.pixeleye.kockocapp.util.EnterListener;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
-
-import java.util.List;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.Course.JspConn_UploadCourse;
 
 /**
  * Created by Han_ on 2016-06-29.
@@ -75,7 +71,7 @@ public class CourseTitleActivity extends BaseActivityWithoutNav {
                 startActivity(intent);
                 finish();
             }else {
-                JspConn.uploadCourse(courseTitle, courses.getCourses(), true);
+                JspConn_UploadCourse.uploadCourse(courseTitle, courses.getCourses(), true);
                 finish();
             }
         }

@@ -1,9 +1,7 @@
-package com.kocapplication.pixeleye.kockocapp.navigation;
-
-import android.os.Handler;
-import android.util.Log;
+package com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage;
 
 import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -15,36 +13,27 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Han_ on 2016-07-04.
+ * Created by pixeleye02 on 2016-10-05.
  */
-public class UserDeleteThread extends Thread {
-    private final String postURL = BasicValue.getInstance().getUrlHead() + "Member/userDelete.jsp";
-    private Handler handler;
-    private int userNo;
 
-    public UserDeleteThread(Handler handler, int userNo) {
-        super();
-        this.handler = handler;
-        this.userNo = userNo;
-    }
-
-    @Override
-    public void run() {
-        super.run();
-
+public class JspConn_WriteComment extends JspConn {
+    //댓글 쓰기
+    static public String writeComment(String comment, int boardNo, int userNo) {
+        passiveMethod();
         HttpClient client = new DefaultHttpClient();
+        String postURL = BasicValue.getInstance().getUrlHead() + "Board/Comment/WriteComment.jsp";
         HttpPost post = new HttpPost(postURL);
 
-        List<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair("userNo", String.valueOf(userNo)));
-
-        String result = new String();
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("comment", "" + comment));
+        params.add(new BasicNameValuePair("boardNo", "" + String.valueOf(boardNo)));
+        params.add(new BasicNameValuePair("userNo", "" + String.valueOf(userNo)));
+        String result = "";
 
         try {
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
@@ -53,18 +42,12 @@ public class UserDeleteThread extends Thread {
             HttpResponse response = client.execute(post);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
             String line;
-
-            while ((line = bufferedReader.readLine()) != null)
+            while ((line = bufferedReader.readLine()) != null) {
                 result += line;
-
-        } catch (IOException e) {
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        Log.i("DELETE", result);
-
-        if (result.equals("OK")) {
-            handler.sendEmptyMessage(1);
-        }
+        return result;
     }
 }

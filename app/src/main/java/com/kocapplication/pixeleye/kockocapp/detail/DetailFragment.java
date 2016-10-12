@@ -31,8 +31,10 @@ import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.scrapuser.ScrapUserActivity;
 import com.kocapplication.pixeleye.kockocapp.detail.share.SharingHelper;
 import com.kocapplication.pixeleye.kockocapp.user.UserActivity;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_DeleteComment;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_WriteExpression;
+import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 
 import net.daum.mf.map.api.CameraUpdateFactory;
 import net.daum.mf.map.api.MapPOIItem;
@@ -334,7 +336,7 @@ public class DetailFragment extends Fragment {
     private class LikeClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            JspConn.writeExpression(detailPageData.getBoardNo(), 0);
+            JspConn_WriteExpression.writeExpression(detailPageData.getBoardNo(), 0);
         }
     }
 
@@ -360,7 +362,7 @@ public class DetailFragment extends Fragment {
                     builder.setPositiveButton("예", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            JspConn.DeleteComment(detailPageData.getCommentArr().get(position).getComment_No());
+                            JspConn_DeleteComment.deleteComment(detailPageData.getCommentArr().get(position).getComment_No());
                             adapter.removeItem(position);
                         }
                     });

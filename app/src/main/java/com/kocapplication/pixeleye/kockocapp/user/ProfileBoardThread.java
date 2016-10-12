@@ -9,13 +9,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
-import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 import com.kocapplication.pixeleye.kockocapp.model.BoardBasicAttr;
+import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 import com.kocapplication.pixeleye.kockocapp.model.Coordinate;
 import com.kocapplication.pixeleye.kockocapp.model.ExpressionCount;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.Course.JspConn_ReadCourseByCourseNo;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -91,7 +90,7 @@ public class ProfileBoardThread extends Thread {
             int courseCount = 0;
 
             try {
-                String courseJsonString = JspConn.readCourseByCourseNo(object.get("Course_No").getAsInt());
+                String courseJsonString = JspConn_ReadCourseByCourseNo.readCourseByCourseNo(object.get("Course_No").getAsInt());
                 JsonObject courseObject = parser.parse(courseJsonString).getAsJsonObject();
                 if(courseObject.isJsonNull()){
                     for (int innerI = 1; innerI < 10; innerI++) {
@@ -132,6 +131,7 @@ public class ProfileBoardThread extends Thread {
             Coordinate coordinate = new Coordinate(latitude, longitude);
 
             JsonArray hashTagArr = object.get("HashTagArr").getAsJsonArray();
+            Log.d("HashTag", hashTagArr.toString());
 
             ArrayList<String> hashTags = new ArrayList<>();
 

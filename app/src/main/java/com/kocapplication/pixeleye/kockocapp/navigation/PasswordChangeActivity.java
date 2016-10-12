@@ -15,7 +15,7 @@ import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.Setting.JspConn_ChangePwd;
 
 /**
  * Created by pixeleye02 on 2016-06-30.
@@ -59,7 +59,7 @@ public class PasswordChangeActivity extends BaseActivityWithoutNav {
 
                 if(newPass.equals(confirmPass)){
                     Toast.makeText(PasswordChangeActivity.this,"새로운 비밀번호로 다시 로그인 해주세요",Toast.LENGTH_LONG).show();
-                    JspConn.changePwd(existingPass, newPass);
+                    JspConn_ChangePwd.changePwd(existingPass, newPass);
                     UserManagement.requestLogout(new LogoutResponseCallback() {
                         @Override
                         public void onCompleteLogout() {
@@ -89,7 +89,7 @@ public class PasswordChangeActivity extends BaseActivityWithoutNav {
         public void onClick(View v) {
             if(newPass.equals(confirmPass)){
                 Toast.makeText(PasswordChangeActivity.this,"같다",Toast.LENGTH_SHORT).show();
-                JspConn.changePwd(existingPass, newPass);
+                JspConn_ChangePwd.changePwd(existingPass, newPass);
             } else{
                 Toast.makeText(PasswordChangeActivity.this,"다르다",Toast.LENGTH_SHORT).show();
             }

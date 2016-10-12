@@ -25,7 +25,7 @@ import com.kocapplication.pixeleye.kockocapp.main.course.CourseDeleteThread;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseThread;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.write.continuousWrite.CourseSelectActivity;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseTitleActivity;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseWriteActivity;

@@ -32,7 +32,7 @@ import com.kocapplication.pixeleye.kockocapp.model.ProfileData;
 import com.kocapplication.pixeleye.kockocapp.navigation.NicknameChangeActivity;
 import com.kocapplication.pixeleye.kockocapp.user.ProfileBoardThread;
 import com.kocapplication.pixeleye.kockocapp.user.GetUserInfoThread;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 
 
 import java.util.ArrayList;

@@ -6,7 +6,8 @@ import android.os.Message;
 import android.util.Log;
 
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.Course.JspConn_ReadCourseByCourseNo;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_LoadDetailPage;
 
 import java.util.ArrayList;
 
@@ -32,10 +33,10 @@ public class DetailThread extends Thread {
     public void run() {
         super.run();
         detailPageData = new DetailPageData();
-        detailPageData = JsonParser.detailPageLoad(JspConn.loadDetailPage(String.valueOf(boardNo)));
+        detailPageData = JsonParser.detailPageLoad(JspConn_LoadDetailPage.loadDetailPage(String.valueOf(boardNo)));
 
         if (courseNo != 0) {
-            String courseResult = JspConn.readCourseByCourseNo(courseNo);
+            String courseResult = JspConn_ReadCourseByCourseNo.readCourseByCourseNo(courseNo);
             Log.i(TAG, "COURSE : " + courseResult);
             detailPageData.setCourse(JsonParser.readCourse(courseResult));
         } else detailPageData.setCourse(new ArrayList<String>());

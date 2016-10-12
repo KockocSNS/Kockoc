@@ -1,8 +1,5 @@
 package com.kocapplication.pixeleye.kockocapp.navigation;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,19 +19,10 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 
-import com.facebook.login.LoginManager;
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
-import com.kocapplication.pixeleye.kockocapp.model.Course;
-import com.kocapplication.pixeleye.kockocapp.model.Courses;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.CustomAlertDialog;
-import com.kocapplication.pixeleye.kockocapp.util.JspConn;
-import com.kocapplication.pixeleye.kockocapp.write.course.AlarmHelper;
-import com.kocapplication.pixeleye.kockocapp.write.course.CourseWriteActivity;
-
-import java.util.Date;
 
 /**
  * Created by pixeleye02 on 2016-06-30.

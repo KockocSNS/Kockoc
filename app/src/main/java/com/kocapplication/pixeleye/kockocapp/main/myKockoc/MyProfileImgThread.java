@@ -9,9 +9,7 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.bumptech.glide.Glide;
-import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
-import com.kocapplication.pixeleye.kockocapp.util.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.ProfileSend;
 import com.kocapplication.pixeleye.kockocapp.util.Thumbnail;
 
