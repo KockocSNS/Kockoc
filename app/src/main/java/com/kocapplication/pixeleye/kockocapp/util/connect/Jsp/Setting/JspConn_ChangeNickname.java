@@ -1,4 +1,4 @@
-package com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.Setting;
+package com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.Setting;
 
 import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;

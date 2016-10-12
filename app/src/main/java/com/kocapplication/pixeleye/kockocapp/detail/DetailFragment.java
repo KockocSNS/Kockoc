@@ -32,8 +32,8 @@ import com.kocapplication.pixeleye.kockocapp.detail.scrapuser.ScrapUserActivity;
 import com.kocapplication.pixeleye.kockocapp.detail.share.SharingHelper;
 import com.kocapplication.pixeleye.kockocapp.user.UserActivity;
 import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
-import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage.JspConn_DeleteComment;
-import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage.JspConn_WriteExpression;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_DeleteComment;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_WriteExpression;
 import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 
 import net.daum.mf.map.api.CameraUpdateFactory;

@@ -7,8 +7,8 @@ public class BasicValue {
     private static BasicValue ourInstance = new BasicValue();
     private String urlHead;
     private final String DAUM_MAP_API_KEY = "fd87e70c9d3984b8efea777c78112f1e";
-    private boolean isRealServer = false;
-
+    private boolean isRealServer = true; //서버 쉬프트 true : 레알서버
+                                         //            false : 테썹
     private int userNo = -1;
     private String userNickname = "";
     private String userName = "";
@@ -19,7 +19,7 @@ public class BasicValue {
 
     private BasicValue() {
         if(isRealServer){
-            urlHead = "http://115.68.24.17:8080/";
+            urlHead = "http://115.68.14.27:8080/";
         } else {
             urlHead = "http://221.160.54.160:8080/";
         }

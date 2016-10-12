@@ -1,6 +1,4 @@
-package com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.DetailPage;
-
-import android.util.Log;
+package com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage;
 
 import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
@@ -23,20 +21,19 @@ import java.util.List;
  * Created by pixeleye02 on 2016-10-05.
  */
 
-public class JspConn_LoadDetailPage extends JspConn {
-    //상세보기 데이터 가져오기
-    static public String loadDetailPage(String boardNo) {
-        passiveMethod();
-        HttpClient client = new DefaultHttpClient();
-        String postURL = BasicValue.getInstance().getUrlHead() + "Board/LoadDetailPage.jsp";
-        HttpPost post = new HttpPost(postURL);
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("boardNo", "" + boardNo));
+public class JspConn_DeleteScrap extends JspConn {
+    static public boolean deleteScrap(int boardNo) {   //read first = boardNo = -1
         String result = "";
         try {
+            passiveMethod();
+            HttpClient client = new DefaultHttpClient();
+            String postURL = BasicValue.getInstance().getUrlHead() + "Scrap/DeleteScrap.jsp";
+            HttpPost post = new HttpPost(postURL);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("userNo", "" + BasicValue.getInstance().getUserNo()));
+            params.add(new BasicNameValuePair("boardNo", "" + boardNo));
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
-
             HttpResponse response = client.execute(post);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
             String line;
@@ -45,7 +42,9 @@ public class JspConn_LoadDetailPage extends JspConn {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
-        return result;
+        return true;
     }
+
 }

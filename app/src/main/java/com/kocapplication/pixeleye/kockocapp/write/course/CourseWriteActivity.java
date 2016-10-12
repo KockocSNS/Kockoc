@@ -23,7 +23,7 @@ import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
-import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.JSP.Course.JspConn_UploadCourse;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.Course.JspConn_UploadCourse;
 import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 
 import java.text.ParseException;
