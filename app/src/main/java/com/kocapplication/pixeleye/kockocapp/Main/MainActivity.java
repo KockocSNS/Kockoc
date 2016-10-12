@@ -12,15 +12,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseFragment;
+import com.kocapplication.pixeleye.kockocapp.main.main.MainFragment;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.MyKocKocFragment;
-import com.kocapplication.pixeleye.kockocapp.main.recommend.RecommendFragment;
 import com.kocapplication.pixeleye.kockocapp.main.story.StoryFragment;
 import com.kocapplication.pixeleye.kockocapp.main.tour.TourFragment;
 import com.kocapplication.pixeleye.kockocapp.util.GCM.RegistrationIntentService;
@@ -40,6 +39,7 @@ public class MainActivity extends BaseActivity {
     ViewPageAdapter adapter;
     ViewPager viewPager;
     TabLayout tabLayout;
+    MainFragment mainFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,6 @@ public class MainActivity extends BaseActivity {
         getInstanceIdToken();
 
         ImageView logo = (ImageView) findViewById(R.id.actionbar_image_title);
-
 
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,8 +66,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void init() {
         super.init();
+        mainFragment = new MainFragment();
 
         List<Fragment> fragments = new ArrayList<Fragment>();
+        fragments.add(mainFragment);
         fragments.add(new StoryFragment());
         fragments.add(new TourFragment());
         fragments.add(new CourseFragment());
@@ -76,6 +77,7 @@ public class MainActivity extends BaseActivity {
 
         List<String> titles = new ArrayList<String>();
         titles.add("소식");
+        titles.add("여행후기");
         titles.add("관광");
         titles.add("코스");
         titles.add("내콕콕");
@@ -84,8 +86,8 @@ public class MainActivity extends BaseActivity {
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         adapter = new ViewPageAdapter(getSupportFragmentManager(), fragments, titles);
         viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(4);
         tabLayout.setupWithViewPager(viewPager);
-
     }
 
     @Override
@@ -204,5 +206,9 @@ public class MainActivity extends BaseActivity {
             return false;
         }
         return true;
+    }
+
+    public MainFragment getMainFragment() {
+        return mainFragment;
     }
 }

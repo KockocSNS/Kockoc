@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/main_frag_viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp">
+                </android.support.v4.view.ViewPager>
+                <ImageView
+                    android:id="@+id/iv_main_frag_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/main_frag_content_height">
+                <TextView
+                    android:id="@+id/tv_main_frag_tour"
+                    android:text="@string/main_title_tour"
+                    style="@style/Main_frag_content_title"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_main_frag_tour"
+                    android:layout_below="@+id/tv_main_frag_tour"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </android.support.v7.widget.RecyclerView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/main_frag_content_height">
+                <TextView
+                    android:id="@+id/tv_main_frag_course"
+                    android:text="@string/main_title_course"
+                    style="@style/Main_frag_content_title"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_main_frag_course"
+                    android:layout_below="@+id/tv_main_frag_course"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </android.support.v7.widget.RecyclerView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/main_frag_content_height">
+                <TextView
+                    android:id="@+id/tv_main_frag_story"
+                    android:text="@string/main_title_story"
+                    style="@style/Main_frag_content_title"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_main_frag_story"
+                    android:layout_below="@+id/tv_main_frag_story"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </android.support.v7.widget.RecyclerView>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

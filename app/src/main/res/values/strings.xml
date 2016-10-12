@@ -140,6 +140,9 @@
     <string name="next">다음</string>
     <string name="skip">종료</string>
     <string name="start">알겠어요!</string>
+    <string name="main_title_tour">추천 관광지</string>
+    <string name="main_title_course">추천 코스</string>
+    <string name="main_title_story">추천 여행후기</string>
     <string name="facebook_app_key" translatable="false">1550213591953523</string>
     <string name="tour_api_key" translatable="false">%2FPY%2FrC05SWjkibjwVdcdM9oEFIigSw3ePTOzJRtbCB3Li5gdZVTDZkYG5A1U4fah%2BvyfFw%2BGIGkeE3gpg3EaPQ%3D%3D</string>
 
