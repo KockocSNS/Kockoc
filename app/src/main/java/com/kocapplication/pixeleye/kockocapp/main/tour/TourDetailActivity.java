@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class TourDetailActivity extends BaseActivityWithoutNav {
     private View containView;
     private LinearLayout ll_tour_img_container;
     private TextView tour_text;
+    private TextView tour_title;
     private TourData id_data;
     private TourDetailData data;
 
@@ -36,7 +38,8 @@ public class TourDetailActivity extends BaseActivityWithoutNav {
         super.onCreate(savedInstanceState);
         container.setLayoutResource(R.layout.activity_tour_detail);
         containView = container.inflate();
-        actionBarTitleSet("관광지 정보", Color.WHITE);
+
+        actionBarTitleSet("", Color.WHITE);
 
         getComponent(containView);
         getIdData();
@@ -45,6 +48,7 @@ public class TourDetailActivity extends BaseActivityWithoutNav {
 
     private void getComponent(View containView){
         tour_text = (TextView)containView.findViewById(R.id.tv_tour_detail_text);
+        tour_title = (TextView)containView.findViewById(R.id.tv_tour_detail_title);
         ll_tour_img_container = (LinearLayout)containView.findViewById(R.id.ll_tour_detail_image_container);
     }
 
@@ -71,7 +75,9 @@ public class TourDetailActivity extends BaseActivityWithoutNav {
             ll_tour_img_container.addView(temp);
         }
 
-        tour_text.setText(data.getText());
+        actionBarTitleSet(data.getTitle(), Color.WHITE);
+        tour_title.setText(data.getTitle());
+        tour_text.setText(Html.fromHtml(data.getText()));
     }
 
 

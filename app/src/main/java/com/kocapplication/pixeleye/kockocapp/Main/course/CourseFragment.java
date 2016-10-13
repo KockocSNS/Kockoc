@@ -169,6 +169,8 @@ public class CourseFragment extends Fragment {
 
             List<Courses> courses = (ArrayList<Courses>) msg.getData().getSerializable("THREAD");
 
+            ((MainActivity)getActivity()).getMainFragment().setCourseData(courses);
+
             adapter.setItems(courses);
             adapter.notifyDataSetChanged();
 

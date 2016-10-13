@@ -26,6 +26,12 @@ public class CourseRecyclerAdapter extends RecyclerView.Adapter<CourseRecyclerVi
         this.listener = listener;
         this.longClickListener = longClickListener;
     }
+    public CourseRecyclerAdapter(List<Courses> data, View.OnClickListener listener) {
+        super();
+        if (data == null) throw new IllegalArgumentException("Data Must Not Be Null");
+        this.items = data;
+        this.listener = listener;
+    }
 
     @Override
     public CourseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
