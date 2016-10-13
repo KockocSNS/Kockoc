@@ -153,7 +153,9 @@ public class MainActivity extends BaseActivity {
                 detail_intent(data);
                 break;
             case COURSE_WRITE_ACTIVITY_REQUEST_CODE:
-                ((CourseFragment) adapter.getItem(2)).refresh();
+                try {
+                    ((CourseFragment) adapter.getItem(2)).refresh();
+                }catch (ClassCastException e){Log.e(TAG,e.getMessage());}
                 break;
             case CONTINUOUS_WRITE_REQUEST_CODE:
                 ((StoryFragment) adapter.getItem(0)).refresh();

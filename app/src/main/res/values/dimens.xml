@@ -7,6 +7,7 @@
     <dimen name="tour_margin_top">20dp</dimen>
     <dimen name="tour_search">20dp</dimen>
     <dimen name="tour_detail_text_side">5dp</dimen>
-    <dimen name="main_frag_content_height">220dp</dimen>
+    <dimen name="main_frag_content_height">420dp</dimen>
+    <dimen name="main_frag_content_margin_top">20dp</dimen>
     <dimen name="tour_recycler_item">200dp</dimen>
 </resources>
