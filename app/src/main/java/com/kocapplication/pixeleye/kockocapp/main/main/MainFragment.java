@@ -2,6 +2,8 @@ package com.kocapplication.pixeleye.kockocapp.main.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -17,12 +19,14 @@ import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseRecyclerAdapter;
+import com.kocapplication.pixeleye.kockocapp.main.course.CourseThread;
 import com.kocapplication.pixeleye.kockocapp.main.story.BoardRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.main.tour.TourDetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.tour.TourRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.model.BoardWithImage;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
 import com.kocapplication.pixeleye.kockocapp.model.TourData;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.Course.JspConn_ReadAllCourseThread;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseWriteActivity;
 
 import java.util.ArrayList;
@@ -54,6 +58,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
 
         init(view);
         setViewPager();
+        setCourseData();
 
         return view;
     }
@@ -66,11 +71,12 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         rv_course = (RecyclerView) view.findViewById(R.id.rv_main_frag_course);
     }
 
+    // TODO: 2016-10-13 서버에서 이미지 불러오게 해야함
     private void setViewPager(){
         adapter_viewpager = new ViewPagerAdapter(getActivity(), 3); // 아이템 갯수
         viewPager.setAdapter(adapter_viewpager);
         viewPager.addOnPageChangeListener(this);
-        setUiPageViewController();
+        setViewPagerIndicator();
     }
 
     public void setTourData(ArrayList<TourData> tourDataList){
@@ -81,13 +87,11 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         rv_tour.setLayoutManager(manager);
         rv_tour.setHasFixedSize(true);
     }
-
-    public void setCourseData(List<Courses> courses){
-        adapter_course = new CourseRecyclerAdapter(courses,new CourseClickListener());
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
-        rv_course.setAdapter(adapter_course);
-        rv_course.setLayoutManager(manager);
-        rv_course.setHasFixedSize(true);
+    // TODO: 2016-10-13 코스 이름이 코스랑 안맞음, 코스 상세보기 페이지 필요
+    public void setCourseData(){
+        Handler handler = new CourseHandler();
+        Thread thread = new JspConn_ReadAllCourseThread(handler);
+        thread.start();
     }
 
     public void setStoryData(ArrayList<BoardWithImage> storyDataList){
@@ -96,6 +100,21 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         rv_story.setAdapter(adapter_story);
         rv_story.setLayoutManager(manager);
         rv_story.setHasFixedSize(true);
+    }
+
+    private class CourseHandler extends Handler {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            List<Courses> courses = (ArrayList<Courses>) msg.getData().getSerializable("THREAD");
+
+            adapter_course = new CourseRecyclerAdapter(courses,new CourseClickListener());
+            GridLayoutManager manager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+            rv_course.setAdapter(adapter_course);
+            rv_course.setLayoutManager(manager);
+            rv_course.setHasFixedSize(true);
+        }
     }
 
     private class TourClickListener implements View.OnClickListener{
@@ -109,7 +128,6 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         }
     }
 
-    // TODO: 2016-10-13 모든 코스 불러오게 하고 코스 상세보기 만들어야함
     private class CourseClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -136,7 +154,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
             getActivity().startActivityForResult(intent, MainActivity.DETAIL_ACTIVITY_REQUEST_CODE);
         }
     }
-    private void setUiPageViewController() {
+    private void setViewPagerIndicator() {
         dotsCount = adapter_viewpager.getRealCount();
         dots = new ImageView[dotsCount];
 
