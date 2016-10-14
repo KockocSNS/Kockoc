@@ -40,6 +40,10 @@ public class MainActivity extends BaseActivity {
     ViewPager viewPager;
     TabLayout tabLayout;
     MainFragment mainFragment;
+    StoryFragment storyFragment;
+    CourseFragment courseFragment;
+    MyKocKocFragment myKocKocFragment;
+    TourFragment tourFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +71,17 @@ public class MainActivity extends BaseActivity {
     protected void init() {
         super.init();
         mainFragment = new MainFragment();
+        storyFragment = new StoryFragment();
+        courseFragment = new CourseFragment();
+        myKocKocFragment = new MyKocKocFragment();
+        tourFragment = new TourFragment();
 
         List<Fragment> fragments = new ArrayList<Fragment>();
         fragments.add(mainFragment);
-        fragments.add(new StoryFragment());
-        fragments.add(new TourFragment());
-        fragments.add(new CourseFragment());
-        fragments.add(new MyKocKocFragment());
+        fragments.add(storyFragment);
+        fragments.add(tourFragment);
+        fragments.add(courseFragment);
+        fragments.add(myKocKocFragment);
 
         List<String> titles = new ArrayList<String>();
         titles.add("소식");
@@ -146,19 +154,19 @@ public class MainActivity extends BaseActivity {
 
         switch (requestCode) {
             case DetailActivity.DELETE_FLAG: // 글 보고 돌아올때 새로고침 막았음
-                ((StoryFragment) adapter.getItem(0)).refresh();
+                storyFragment.refresh();
                 break;
             case NEW_WRITE_REQUEST_CODE:
-                ((StoryFragment) adapter.getItem(0)).refresh();
+                storyFragment.refresh();
                 detail_intent(data);
                 break;
             case COURSE_WRITE_ACTIVITY_REQUEST_CODE:
                 try {
-                    ((CourseFragment) adapter.getItem(2)).refresh();
+                    courseFragment.refresh();
                 }catch (ClassCastException e){Log.e(TAG,e.getMessage());}
                 break;
             case CONTINUOUS_WRITE_REQUEST_CODE:
-                ((StoryFragment) adapter.getItem(0)).refresh();
+                storyFragment.refresh();
                 detail_intent(data);
                 break;
             default:

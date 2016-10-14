@@ -17,8 +17,7 @@ public class ViewPagerAdapter extends PagerAdapter{
     private LayoutInflater mInflater;
     private int itemCount;
 
-    // TODO: 2016-10-13 서버에서 사진 불러와서 띄우게 해야함
-    // imageResources에 사진들 넣고 MainFragment에서 아이템 카운트 맞추기
+    // imageResources에 사진들 넣고 MainFragment에서 아이템 카운트 맞추기 // 서버에서 가져온 갯수 만큼 itemcount 수정해야함
     private int[] imageResources = {
             R.drawable.main_image0,
             R.drawable.main_image1,
