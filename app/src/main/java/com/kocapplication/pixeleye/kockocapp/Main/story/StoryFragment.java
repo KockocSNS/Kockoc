@@ -52,14 +52,12 @@ public class StoryFragment extends Fragment {
     private LinearLayout writeContainer;
     private TextView boardAdd;      //새글 버튼
     private TextView continuousAdd; //이어쓰기
-    private ProgressDialog dialog;
 
     private ArrayList<BoardWithImage> initialData;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dialog = ProgressDialog.show(getActivity(),"","잠시만 기다려주세요");
     }
 
     @Nullable
@@ -87,7 +85,7 @@ public class StoryFragment extends Fragment {
             Thread thread = new StoryThread(handler);
             refreshLayout.setRefreshing(true);
             thread.start();
-        } else dialog.cancel();
+        }
 
         return view;
     }
@@ -239,7 +237,6 @@ public class StoryFragment extends Fragment {
             adapter.setItems(boardWithImages);
             adapter.notifyDataSetChanged();
             refreshLayout.setRefreshing(false);
-            dialog.cancel();
         }
     }
 

@@ -10,6 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
-        android:src="@drawable/logo"/>
+        android:background="@drawable/logo"/>
 
 </LinearLayout>

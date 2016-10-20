@@ -10,8 +10,8 @@
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/mainBgColor"
-        android:theme="@style/ThemeToolbar">
+        android:background="@color/blackBgColor"
+        android:titleTextColor="@color/mainBgColor">
 
         <ImageButton
             android:id="@+id/btn_detail_back"
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@color/transparency"
-            android:src="@drawable/back_btn" />
+            android:src="@drawable/back_btn"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,52 +29,36 @@
             android:textColor="@color/white"
             android:textSize="20dp"
             android:textStyle="bold" />
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="3"
-            android:gravity="center">
+            android:gravity="end">
+
             <Button
                 android:id="@+id/btn_detail_course_copy"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/bg_round_shape_subbgcolor"
-                android:drawableLeft="@drawable/detail_star"
-                android:drawablePadding="3dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/bg_shape_mainbgcolor"
                 android:text="코스복사"
-                android:textSize="12dp"
-                android:textColor="@color/white"
-                android:layout_weight="0.75"/>
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"/>
 
             <ToggleButton
                 android:id="@+id/btn_detail_interest"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/bg_round_shape_subbgcolor"
-                android:drawableLeft="@drawable/detail_star"
-                android:drawablePadding="3dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:textOff=""
-                android:textOn=""
-                android:textSize="12dp"
-                android:textColor="@color/white"
-                android:layout_weight="0.75"/>
-
-            <!--<ImageView-->
-                <!--android:id="@+id/detail_menu"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="right"-->
-                <!--android:padding="5dp"-->
-                <!--android:src="@drawable/actionbar_menu"-->
-                <!--android:layout_weight="1.5"/>-->
-        </LinearLayout>
+                android:layout_toEndOf="@+id/btn_detail_course_copy"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/bg_shape_mainbgcolor"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:textColor="@color/white"/>
+        </RelativeLayout>
 
 
     </android.support.v7.widget.Toolbar>
@@ -113,6 +97,7 @@
             android:layout_height="wrap_content"
             android:background="@color/mainBgColor"
             android:text="댓글"
+            android:textStyle="bold"
             android:textColor="@color/white" />
     </LinearLayout>
 

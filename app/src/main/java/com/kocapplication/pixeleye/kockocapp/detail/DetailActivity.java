@@ -59,7 +59,6 @@ public class DetailActivity extends AppCompatActivity {
     private Button courseCopy_btn;
     private ToggleButton scrap_btn;
     private ImageButton back_btn;
-    private ImageView menu_btn;
     private Spinner course_spinner;
     private ArrayList<String> course;
 
@@ -91,7 +90,6 @@ public class DetailActivity extends AppCompatActivity {
         courseCopy_btn = (Button) findViewById(R.id.btn_detail_course_copy);
         scrap_btn = (ToggleButton) findViewById(R.id.btn_detail_interest);
         back_btn = (ImageButton) findViewById(R.id.btn_detail_back);
-//        menu_btn = (ImageView) findViewById(R.id.detail_menu);
         course_spinner = (Spinner) findViewById(R.id.course_spinner);
 
         setSupportActionBar((Toolbar)findViewById(R.id.tool_bar));
@@ -100,7 +98,6 @@ public class DetailActivity extends AppCompatActivity {
         courseCopy_btn.setOnClickListener(new CourseCopyListener());
         scrap_btn.setOnClickListener(new ScrapListener());
         back_btn.setOnClickListener(new BackListener());
-//        menu_btn.setOnClickListener(new MenuListener());
 
         //작성자와 유저번호가 같으면 코스 복사와 관심글 숨김
         Log.i(TAG, board_userNo + " / " + BasicValue.getInstance().getUserNo());
@@ -226,14 +223,6 @@ public class DetailActivity extends AppCompatActivity {
             finish();
         }
     }
-
-    private class MenuListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            Log.d("test","tuched");
-        }
-    }
-
 
     @Override
     public void openOptionsMenu() {

@@ -67,7 +67,7 @@ public class JspConn_ReadAllCourseThread extends Thread {
             e.printStackTrace();
         }
 
-        Log.i(TAG, result);
+        Log.i(TAG,"result :"+ result);
         JsonParser parser = new JsonParser();
         JsonObject upperObject = parser.parse(result).getAsJsonObject();
         JsonArray courseArr = upperObject.getAsJsonArray("searchResult");
@@ -75,7 +75,7 @@ public class JspConn_ReadAllCourseThread extends Thread {
         ArrayList<Courses> courses = new ArrayList<Courses>();
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        Log.i("courseArr",courseArr.toString());
+        Log.i(TAG,"courseArr :"+courseArr.toString());
         for (int i = 0; i < courseArr.size(); i++) {
             JsonObject resultObject = courseArr.get(i).getAsJsonObject();
 
@@ -84,9 +84,9 @@ public class JspConn_ReadAllCourseThread extends Thread {
             int courseNo = resultObject.get("index").getAsInt();
             String title = resultObject.get("title").getAsString();
             String date = resultObject.get("courseDate").getAsString();
-            Log.i("resultObject",resultObject.toString());
+            Log.i(TAG,"resultObject :"+resultObject.toString());
             JsonArray stopoverArr = resultObject.getAsJsonArray("courseArr");
-            Log.i("stopoverArr",stopoverArr.toString());
+            Log.i(TAG,"stopoverArr :"+stopoverArr.toString());
             for (int j = 0; j < stopoverArr.size(); j++) {
                 JsonObject stopoverObject = stopoverArr.get(j).getAsJsonObject();
 

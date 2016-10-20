@@ -12,4 +12,9 @@
         android:icon="@drawable/menu_neighbor"
         app:showAsAction="always"/>
 
+    <item android:id="@+id/menu_alarm"
+        android:title="알람"
+        android:icon="@drawable/menu_alarm"
+        app:showAsAction="always"/>
+
 </menu>

@@ -36,14 +36,14 @@ public class MainActivity extends BaseActivity {
     public static final int CONTINUOUS_WRITE_REQUEST_CODE = 1234;
     private final int PROFILE_SET = 1;
 
-    ViewPageAdapter adapter;
-    ViewPager viewPager;
-    TabLayout tabLayout;
-    MainFragment mainFragment;
-    StoryFragment storyFragment;
-    CourseFragment courseFragment;
-    MyKocKocFragment myKocKocFragment;
-    TourFragment tourFragment;
+    private ViewPageAdapter adapter;
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
+    private MainFragment mainFragment;
+    private StoryFragment storyFragment;
+    private CourseFragment courseFragment;
+    private MyKocKocFragment myKocKocFragment;
+    private TourFragment tourFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,6 @@ public class MainActivity extends BaseActivity {
         logo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e(TAG, "LogoToched");
                 viewPager.setCurrentItem(0);
 
             }
@@ -189,7 +188,6 @@ public class MainActivity extends BaseActivity {
         detail_intent.putExtra("board_userNo", userNo);
         startActivity(detail_intent);
     }
-
 
     /**
      * getInstanceIdToken
