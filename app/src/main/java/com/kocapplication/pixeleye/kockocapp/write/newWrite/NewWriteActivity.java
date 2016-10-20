@@ -166,7 +166,8 @@ public class NewWriteActivity extends BaseActivityWithoutNav {
         private void confirmClicked() {
             confirm.setEnabled(false);
             String text = boardText.getText().toString();
-            if (imagePaths == null || newWriteBoard.getHashSize() == 0 || text.isEmpty()) {    //태그가 없어도 글이 들어감
+            Log.e(TAG,"imagePaths :"+imagePaths);
+            if (imagePaths.size() == 0 || newWriteBoard.getHashSize() == 0 || text.isEmpty()) {    //태그가 없어도 글이 들어감
                 Snackbar.make(boardText, "빈칸이 있습니다. (사진, 태그, 본문)", Snackbar.LENGTH_SHORT).show();
                 confirm.setEnabled(true);
                 return;

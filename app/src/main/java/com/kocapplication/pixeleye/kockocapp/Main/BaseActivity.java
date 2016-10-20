@@ -95,9 +95,6 @@ public class BaseActivity extends AppCompatActivity {
         nav_profile_name.setText(name);
     }
 
-    protected void onRefresh() {
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -111,6 +108,10 @@ public class BaseActivity extends AppCompatActivity {
                 Intent neighbor_intent = new Intent(BaseActivity.this, NeighborActivity.class);
                 neighbor_intent.putExtra("userNo", BasicValue.getInstance().getUserNo());
                 startActivity(neighbor_intent);
+                return true;
+            case R.id.menu_alarm:
+                Intent notice_intent = new Intent(BaseActivity.this, NoticeActivity.class);
+                startActivity(notice_intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -164,7 +165,6 @@ public class BaseActivity extends AppCompatActivity {
                 case R.id.nav_alarm:
                     Intent notice_intent = new Intent(BaseActivity.this, NoticeActivity.class);
                     startActivity(notice_intent);
-
                     return true;
                 case R.id.nav_setting:
                     Intent setting_intent = new Intent(BaseActivity.this, SettingActivity.class);

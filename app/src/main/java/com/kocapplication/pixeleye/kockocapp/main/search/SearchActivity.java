@@ -1,6 +1,7 @@
 package com.kocapplication.pixeleye.kockocapp.main.search;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
 import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 
 import org.apache.http.HttpResponse;
@@ -34,24 +36,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends BaseActivityWithoutNav {
     final static String TAG = "SearchActivity";
     EditText editText;
-    Thread searchThread;
-    SearchRun searchRun;
-    ListView searchList;
-    Button searchBtn;
-    String intentKeyword = "";
+    private Thread searchThread;
+    private SearchRun searchRun;
+    private ListView searchList;
+    private Button searchBtn;
+    private String intentKeyword = "";
+    private View containView;
 
-    private ImageButton backButton;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        container.setLayoutResource(R.layout.activity_search);
+        containView = container.inflate();
+        actionBarTitleSet("검색", Color.WHITE);
+        getComponents(containView);
+        setEvents();
+    }
 
-    void getComponents(){
-        backButton = (ImageButton) findViewById(R.id.back_btn);
-        backButton.setOnClickListener(new ButtonListener());
+    void getComponents(View containView){
 
-        editText = (EditText)findViewById(R.id.searchText);
-        searchList = (ListView)findViewById(R.id.searchList);
-        searchBtn = (Button)findViewById(R.id.searchBtn);
+        editText = (EditText)containView.findViewById(R.id.searchText);
+        searchList = (ListView)containView.findViewById(R.id.searchList);
+        searchBtn = (Button)containView.findViewById(R.id.searchBtn);
         //코스에서 키워드 넘겨주는지 확인
         try {
             intentKeyword = getIntent().getStringExtra("keyword");
@@ -106,14 +115,6 @@ public class SearchActivity extends AppCompatActivity {
         else {      //검색한 것의 연관된 태그를 보여준다.
             searchRun.setKeyword(keyword);
         }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
-        getComponents();
-        setEvents();
     }
 
     public class SearchRun implements Runnable {
@@ -220,12 +221,4 @@ public class SearchActivity extends AppCompatActivity {
             return result;
         }
     }
-
-    private class ButtonListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            if (v.equals(backButton)) finish();
-        }
-    }
-
 }

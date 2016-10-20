@@ -64,12 +64,10 @@ public class MyKocKocFragment extends Fragment {
     private LinearLayout scrapButton;
     private LinearLayout neighborButton;
     private LinearLayout courseButton;
-    private ProgressDialog dialog;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        dialog = ProgressDialog.show(getActivity(), "", "잠시만 기다려주세요");
         View view = inflater.inflate(R.layout.fragment_mykockoc, container, false);
 
         init(view);
@@ -248,7 +246,6 @@ public class MyKocKocFragment extends Fragment {
 
             adapter.setItems(boardWithImages);
             adapter.notifyDataSetChanged();
-            dialog.cancel();
         }
     }
 
