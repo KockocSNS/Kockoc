@@ -109,7 +109,7 @@ public class CourseWriteActivity extends BaseActivityWithoutNav {
         addButton.setOnClickListener(listener);
         confirm.setOnClickListener(listener);
 
-        View recyclerLayout = containView.findViewById(R.id.story_recycler_layout);
+        View recyclerLayout = containView.findViewById(R.id.course_recycler_layout);
         recyclerView = (RecyclerView) recyclerLayout.findViewById(R.id.recycler_view);
         adapter = new CourseWriteRecyclerAdapter(new ArrayList<Course>(), this, flag);
         recyclerView.setAdapter(adapter);

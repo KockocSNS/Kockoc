@@ -81,7 +81,7 @@ public class CourseActivity extends BaseActivityWithoutNav {
         courseAdd = (TextView) containView.findViewById(R.id.course_add);
         courseAdd.setOnClickListener(new ButtonListener());
 
-        View recyclerContainer = containView.findViewById(R.id.story_recycler_layout);
+        View recyclerContainer = containView.findViewById(R.id.course_recycler_layout);
         refreshLayout = (SwipeRefreshLayout) recyclerContainer.findViewById(R.id.refresh_layout);
         recyclerView = (RecyclerView) recyclerContainer.findViewById(R.id.recycler_view);
 

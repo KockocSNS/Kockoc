@@ -58,7 +58,7 @@ public class CourseFragment extends Fragment {
         courseAdd = (TextView) view.findViewById(R.id.course_add);
         courseAdd.setOnClickListener(new ButtonListener());
 
-        View container = view.findViewById(R.id.story_recycler_layout);
+        View container = view.findViewById(R.id.course_recycler_layout);
         refreshLayout = (SwipeRefreshLayout) container.findViewById(R.id.refresh_layout);
         recyclerView = (RecyclerView) container.findViewById(R.id.recycler_view);
 
@@ -103,9 +103,9 @@ public class CourseFragment extends Fragment {
         @Override
         public void onClick(View v) {
             int position = recyclerView.getChildAdapterPosition(v);
-
-            Intent intent = new Intent(getActivity(), CourseWriteActivity.class);
-            intent.putExtra("FLAG", CourseWriteActivity.ADJUST_FLAG);
+// TODO: 2016-11-09 코스 수정은 코스 상세보기 안으로 넣기
+            Intent intent = new Intent(getActivity(), CourseDetailActivity.class);
+//            intent.putExtra("FLAG", CourseWriteActivity.ADJUST_FLAG);
             intent.putExtra("COURSES", adapter.getItems().get(position));
             getActivity().startActivityForResult(intent, MainActivity.COURSE_WRITE_ACTIVITY_REQUEST_CODE);
         }

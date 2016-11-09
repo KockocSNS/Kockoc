@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "956288116989",
-    "project_id": "kockoc-1077"
+    "firebase_url": "https://kockoc-1077.firebaseio.com",
+    "project_id": "kockoc-1077",
+    "storage_bucket": "kockoc-1077.appspot.com"
   },
   "client": [
     {
@@ -11,7 +13,12 @@
           "package_name": "gcm.play.android.samples.com.gcmquickstart"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "956288116989-bl21k44djerf6tg12tomhpj5v1inpa09.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCJfx-aBjhytgXc7UgrVPCn-L9q7o2H_ZM"
@@ -26,7 +33,7 @@
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     },
@@ -37,7 +44,12 @@
           "package_name": "com.pixeleye"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "956288116989-bl21k44djerf6tg12tomhpj5v1inpa09.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCJfx-aBjhytgXc7UgrVPCn-L9q7o2H_ZM"
@@ -52,7 +64,7 @@
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     },
@@ -63,7 +75,12 @@
           "package_name": "com.kocapplication.pixeleye.kockocapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "956288116989-bl21k44djerf6tg12tomhpj5v1inpa09.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCJfx-aBjhytgXc7UgrVPCn-L9q7o2H_ZM"
@@ -78,7 +95,7 @@
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

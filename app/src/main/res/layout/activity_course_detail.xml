@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_course_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <!-- commentMenuView -->
+    <LinearLayout
+        android:id="@+id/course_detail_ll_comment_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rv_course_detail"
+        android:background="@color/detailCommentMenuBgColor"
+        android:orientation="horizontal">
+
+        <ToggleButton
+            android:id="@+id/toggle_course_content_like"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:drawableLeft="@drawable/detail_toggle_recommend"
+            android:drawablePadding="2dp"
+            android:gravity="center"
+            android:minWidth="25dp"
+            android:textColor="@color/gray"
+            android:textOff=""
+            android:textOn=""
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/tv_course_comment_scrap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:drawableLeft="@drawable/detail_scrap"
+            android:drawablePadding="2dp"
+            android:gravity="center"
+            android:text="5"
+            android:textColor="@color/gray"
+            android:textSize="15dp" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tv_course_comment_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:drawableLeft="@drawable/datail_comment"
+            android:drawablePadding="2dp"
+            android:gravity="center"
+            android:text="5"
+            android:textColor="@color/gray" />
+
+        <TextView
+            android:id="@+id/tv_course_comment_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:drawableLeft="@drawable/detail_link"
+            android:drawablePadding="2dp"
+            android:gravity="center"
+            android:textColor="@color/gray" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_course_comment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/course_detail_ll_comment_menu">
+    </android.support.v7.widget.RecyclerView>
+
+
+</RelativeLayout>

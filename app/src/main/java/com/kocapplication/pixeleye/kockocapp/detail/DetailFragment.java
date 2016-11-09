@@ -6,6 +6,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -31,6 +34,7 @@ import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.scrapuser.ScrapUserActivity;
 import com.kocapplication.pixeleye.kockocapp.detail.share.SharingHelper;
 import com.kocapplication.pixeleye.kockocapp.user.UserActivity;
+import com.kocapplication.pixeleye.kockocapp.util.Thumbnail;
 import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_DeleteComment;
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_WriteExpression;
@@ -46,6 +50,9 @@ import org.apmem.tools.layouts.FlowLayout;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -231,8 +238,7 @@ public class DetailFragment extends Fragment {
             temp.setLayoutParams(params);
             temp.setAdjustViewBounds(true);
             temp.setScaleType(ImageView.ScaleType.FIT_CENTER);
-
-            Glide.with(getActivity()).load(BasicValue.getInstance().getUrlHead() + "board_image/" + data.getUserNo() + "/" + data.getBoardImgArr().get(i)).into(temp);
+            Glide.with(getActivity()).load("").placeholder(imageFromServer(data.getBoardImgArr().get(i))).into(temp);
             ll_board_img.addView(temp);
         }
     }
@@ -255,6 +261,19 @@ public class DetailFragment extends Fragment {
         Handler handler = new RefreshDataReceiveHandler();
         Thread thread = new DetailThread(handler, boardNo, courseNo);
         thread.start();
+    }
+
+    private Drawable imageFromServer(String imgName) {
+        Drawable img = null;
+        try {
+            InputStream inputStream = (InputStream) new URL(BasicValue.getInstance().getUrlHead()+"board_image/" + board_userNo + "/" + imgName).getContent();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            img = new BitmapDrawable(BitmapFactory.decodeStream(inputStream, null, options));
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return img;
     }
 
     private class DetailDataReceiveHandler extends Handler {

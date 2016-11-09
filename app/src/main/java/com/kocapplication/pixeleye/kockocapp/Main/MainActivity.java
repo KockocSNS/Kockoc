@@ -22,7 +22,7 @@ import com.kocapplication.pixeleye.kockocapp.main.main.MainFragment;
 import com.kocapplication.pixeleye.kockocapp.main.myKockoc.MyKocKocFragment;
 import com.kocapplication.pixeleye.kockocapp.main.story.StoryFragment;
 import com.kocapplication.pixeleye.kockocapp.main.tour.TourFragment;
-import com.kocapplication.pixeleye.kockocapp.util.GCM.RegistrationIntentService;
+import com.kocapplication.pixeleye.kockocapp.util.GCM.MyInstanceIDListenerService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,7 +109,7 @@ public class MainActivity extends BaseActivity {
 
         public ViewPageAdapter(FragmentManager fm, List<Fragment> fragments, List<String> titles) {
             super(fm);
-            if (fragments == null) throw new IllegalArgumentException("Data Must Not be Null");
+            if (fragments == null) throw new IllegalArgumentException("Data cMust Not be Null");
             this.items = fragments;
             this.titles = titles;
         }
@@ -150,19 +150,17 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         switch (requestCode) {
-            case DetailActivity.DELETE_FLAG: // 글 보고 돌아올때 새로고침 막았음
-                storyFragment.refresh();
+            case DETAIL_ACTIVITY_REQUEST_CODE:
+                if(data != null)   // 글 삭제 누를 시 호출
+                    storyFragment.deleteItem(data.getIntExtra("position", -1));
                 break;
             case NEW_WRITE_REQUEST_CODE:
                 storyFragment.refresh();
                 detail_intent(data);
                 break;
             case COURSE_WRITE_ACTIVITY_REQUEST_CODE:
-                try {
-                    courseFragment.refresh();
-                }catch (ClassCastException e){Log.e(TAG,e.getMessage());}
+                try {courseFragment.refresh();}catch (ClassCastException e){Log.e(TAG,e.getMessage());}
                 break;
             case CONTINUOUS_WRITE_REQUEST_CODE:
                 storyFragment.refresh();
@@ -196,7 +194,7 @@ public class MainActivity extends BaseActivity {
     public void getInstanceIdToken() {
         if (checkPlayServices(this)) {
             // Start IntentService to register this application with GCM.
-            Intent intent = new Intent(this, RegistrationIntentService.class);
+            Intent intent = new Intent(this, MyInstanceIDListenerService.class);
             startService(intent);
         }
     }

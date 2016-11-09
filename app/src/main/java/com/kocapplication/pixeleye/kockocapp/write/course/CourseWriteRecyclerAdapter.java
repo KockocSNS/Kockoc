@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.main.course.CourseDetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.search.SearchActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
@@ -64,8 +65,8 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
         View.OnClickListener listener = new ItemButtonListener(holder, position);
 
         //이어쓰기 시
-        if (flag == CourseSelectActivity.CONTINUOUS_FLAG) {
-            holder.getDelete().setVisibility(View.GONE);
+        if (flag == CourseSelectActivity.CONTINUOUS_FLAG || flag == CourseDetailActivity.COURSE_DETAIL_FLAG) {
+            holder.getDelete().setVisibility(View.GONE); // 삭제버튼 지움
         }else{ // 코스 작성, 수정 시
             holder.getUploadIcon().setVisibility(View.GONE);
             holder.getDateButton().setOnClickListener(listener);
@@ -93,7 +94,6 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
             holder.getUploadIcon().setText("작성");
         }
     }
-
 
     @Override
     public int getItemCount() {

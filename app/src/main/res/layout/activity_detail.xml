@@ -6,62 +6,60 @@
     android:id="@+id/detailMainLay"
     android:onClick="setOnClickListener">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/tool_bar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/blackBgColor"
-        android:titleTextColor="@color/mainBgColor">
-
-        <ImageButton
-            android:id="@+id/btn_detail_back"
-            android:layout_marginRight="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@color/transparency"
-            android:src="@drawable/back_btn"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="상세보기"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-        <RelativeLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/tool_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="end">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/blackBgColor"
+            android:titleTextColor="@color/mainBgColor">
 
-            <Button
-                android:id="@+id/btn_detail_course_copy"
+            <ImageButton
+                android:id="@+id/btn_detail_back"
+                android:layout_marginRight="5dp"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_marginStart="10dp"
-                android:background="@drawable/bg_shape_mainbgcolor"
-                android:text="코스복사"
-                android:textSize="15dp"
-                android:textStyle="bold"
-                android:textColor="@color/white"/>
+                android:layout_height="match_parent"
+                android:background="@color/transparency"
+                android:src="@drawable/back_btn"/>
 
-            <ToggleButton
-                android:id="@+id/btn_detail_interest"
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_toEndOf="@+id/btn_detail_course_copy"
-                android:layout_marginStart="10dp"
-                android:background="@drawable/bg_shape_mainbgcolor"
-                android:textSize="15dp"
-                android:textStyle="bold"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:textColor="@color/white"/>
-        </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="상세보기"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end">
 
+                <Button
+                    android:id="@+id/btn_detail_course_copy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/bg_shape_mainbgcolor"
+                    android:text="코스복사"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"/>
 
-    </android.support.v7.widget.Toolbar>
+                <ToggleButton
+                    android:id="@+id/btn_detail_interest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_toEndOf="@+id/btn_detail_course_copy"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/bg_shape_mainbgcolor"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:textColor="@color/white"/>
+            </RelativeLayout>
+        </android.support.v7.widget.Toolbar>
 
     <Spinner
         android:id="@+id/course_spinner"

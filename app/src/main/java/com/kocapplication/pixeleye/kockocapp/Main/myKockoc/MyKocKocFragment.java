@@ -1,6 +1,5 @@
 package com.kocapplication.pixeleye.kockocapp.main.myKockoc;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -85,7 +84,7 @@ public class MyKocKocFragment extends Fragment {
 
     private void init(View view) {
         View profile = view.findViewById(R.id.profile_container);
-        View recycler = view.findViewById(R.id.story_recycler_layout);
+        View recycler = view.findViewById(R.id.course_recycler_layout);
 
         //profile
         profileImage = (ImageView) profile.findViewById(R.id.profile_image);

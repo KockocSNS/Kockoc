@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
@@ -27,7 +26,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_key" />
-
 
         <!-- 카카오톡 debug key -->
         <meta-data
@@ -148,6 +146,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".main.tour.TourDetailActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".main.course.CourseDetailActivity"
+            android:screenOrientation="portrait"/>
 
 
         <!-- 네이버 로그인-->
@@ -164,26 +164,18 @@
             android:name="com.facebook.FacebookActivity"
             android:screenOrientation="portrait" />
 
-
-        <!-- Gcm Service -->
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="net.saltfactory.demo.gcm" />
-            </intent-filter>
-        </receiver>
-
         <service
-            android:name=".util.GCM.RegistrationIntentService"
-            android:exported="false" />
-        <service
-            android:name=".util.GCM.MyGcmListenerService"
+            android:name=".util.GCM.MyInstanceIDListenerService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".util.GCM.MyFcmListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 

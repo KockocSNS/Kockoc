@@ -27,6 +27,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.kocapplication.pixeleye.kockocapp.R;
+import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
@@ -62,11 +63,11 @@ public class DetailActivity extends AppCompatActivity {
     private Spinner course_spinner;
     private ArrayList<String> course;
 
-
     private int boardNo;
     private int courseNo;
     private String courseTitle;
     private int board_userNo; // 글 작성자 유저번호
+    private int position;
 
     private boolean isTheUser = false; //글의 작성자와 보고있는 유저가 동일인물인지
 
@@ -135,6 +136,7 @@ public class DetailActivity extends AppCompatActivity {
         boardNo = intent.getIntExtra("boardNo", 0);
         courseNo = intent.getIntExtra("courseNo", 0);
         board_userNo = intent.getIntExtra("board_userNo", 0);
+        position = intent.getIntExtra("position",0);
     }
 
     private void changeIsTheUser() {
@@ -312,7 +314,9 @@ public class DetailActivity extends AppCompatActivity {
                             public void onClick(
                                     DialogInterface dialoginterface, int i) {
                                 JspConn.boardDelete(boardNo, BasicValue.getInstance().getUserNo());
-                                setResult(DELETE_FLAG);
+                                Intent intent = new Intent();
+                                intent.putExtra("position",position);
+                                setResult(MainActivity.DETAIL_ACTIVITY_REQUEST_CODE,intent);
                                 finish();
                             }
                         })
