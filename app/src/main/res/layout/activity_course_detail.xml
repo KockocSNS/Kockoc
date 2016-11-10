@@ -6,13 +6,16 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_course_detail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/course_detail_ll_comment_menu"
+        android:layout_margin="@dimen/course_item_margin"/>
     <!-- commentMenuView -->
     <LinearLayout
         android:id="@+id/course_detail_ll_comment_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rv_course_detail"
+        android:layout_above="@+id/rv_course_comment"
         android:background="@color/detailCommentMenuBgColor"
         android:orientation="horizontal">
 
@@ -76,9 +79,33 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_course_comment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/course_detail_ll_comment_menu">
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ll_course_detail_comment">
     </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/ll_course_detail_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <EditText
+            android:id="@+id/et_course_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
+
+        <Button
+            android:id="@+id/btn_course_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/mainBgColor"
+            android:text="댓글"
+            android:textStyle="bold"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
 
 </RelativeLayout>

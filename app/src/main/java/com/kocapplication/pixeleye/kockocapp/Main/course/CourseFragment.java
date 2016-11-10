@@ -105,7 +105,6 @@ public class CourseFragment extends Fragment {
             int position = recyclerView.getChildAdapterPosition(v);
 // TODO: 2016-11-09 코스 수정은 코스 상세보기 안으로 넣기
             Intent intent = new Intent(getActivity(), CourseDetailActivity.class);
-//            intent.putExtra("FLAG", CourseWriteActivity.ADJUST_FLAG);
             intent.putExtra("COURSES", adapter.getItems().get(position));
             getActivity().startActivityForResult(intent, MainActivity.COURSE_WRITE_ACTIVITY_REQUEST_CODE);
         }

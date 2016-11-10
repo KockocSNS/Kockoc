@@ -34,7 +34,6 @@ import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.scrapuser.ScrapUserActivity;
 import com.kocapplication.pixeleye.kockocapp.detail.share.SharingHelper;
 import com.kocapplication.pixeleye.kockocapp.user.UserActivity;
-import com.kocapplication.pixeleye.kockocapp.util.Thumbnail;
 import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_DeleteComment;
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_WriteExpression;
@@ -63,7 +62,7 @@ import java.util.List;
 public class DetailFragment extends Fragment {
     final static String TAG = "DetailFragment";
     public DetailPageData detailPageData;
-    private DetailRecyclerAdapter adapter;
+    private CommentRecyclerAdapter adapter;
 
     private LinearLayout ll_profile;
     private LinearLayout ll_htmlInfo;
@@ -247,7 +246,7 @@ public class DetailFragment extends Fragment {
      * 댓글 데이터를 RecyclerView에 붙임
      */
     private void setCommentList() {
-        adapter = new DetailRecyclerAdapter(detailPageData.getCommentArr(), getActivity(), new CommentClickListener());
+        adapter = new CommentRecyclerAdapter(detailPageData.getCommentArr(), getActivity(), new CommentClickListener());
         rv_comment_list.setAdapter(adapter);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv_comment_list.setLayoutManager(manager);
@@ -304,7 +303,7 @@ public class DetailFragment extends Fragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             detailPageData = (DetailPageData) msg.getData().getSerializable("THREAD");
-            adapter = new DetailRecyclerAdapter(detailPageData.getCommentArr(), getActivity(), new CommentClickListener());
+            adapter = new CommentRecyclerAdapter(detailPageData.getCommentArr(), getActivity(), new CommentClickListener());
             rv_comment_list.setAdapter(adapter);
         }
     }
