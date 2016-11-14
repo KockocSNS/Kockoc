@@ -5,15 +5,15 @@
     android:orientation="vertical">
 
     <include
-        android:id="@+id/story_recycler_layout"
+        android:id="@+id/course_recycler_layout"
         layout="@layout/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_above="@+id/course_set_layout"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp" />
+        android:layout_marginLeft="@dimen/course_item_margin"
+        android:layout_marginRight="@dimen/course_item_margin"
+        android:layout_marginTop="@dimen/course_item_margin" />
 
     <RelativeLayout
         android:id="@+id/course_set_layout"

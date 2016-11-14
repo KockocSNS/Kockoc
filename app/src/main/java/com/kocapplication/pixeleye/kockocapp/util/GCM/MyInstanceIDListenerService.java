@@ -1,18 +1,16 @@
 package com.kocapplication.pixeleye.kockocapp.util.GCM;
 
 /**
- * Created by pixeleye03 on 2016-04-22.
+ * Created by Hyeongpil on 2016-04-22.
  */
 
-import android.annotation.SuppressLint;
-import android.app.IntentService;
-import android.content.Intent;
 import android.os.StrictMode;
 import android.util.Log;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.iid.InstanceID;
-import com.kocapplication.pixeleye.kockocapp.R;
+
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdService;
+
 import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 
 import org.apache.http.HttpResponse;
@@ -25,51 +23,24 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegistrationIntentService  extends IntentService {
+public class MyInstanceIDListenerService extends FirebaseInstanceIdService {
 
-    private static final String TAG = "RegistrationIntentService";
+    private static final String TAG = MyInstanceIDListenerService.class.getSimpleName();
 
-    public RegistrationIntentService() {
-        super(TAG);
-    }
-
-    /**
-     * GCM을 위한 Instance ID의 토큰을 생성하여 가져온다.
-     * @param intent
-     */
-    @SuppressLint("LongLogTag")
+    // TODO: 2016-10-27 이 함수를 활용하여 새 토큰값을 받아야함
     @Override
-    protected void onHandleIntent(Intent intent) {
-
-        Log.e(TAG,"onHandleIntent 진입");
-        // GCM을 위한 Instance ID를 가져온다.
-        InstanceID instanceID = InstanceID.getInstance(this);
-        String token = null;
-        try {
-            synchronized (TAG) {
-                Log.e(TAG,"synchronized 진입");
-                // GCM 앱을 등록하고 획득한 설정파일인 google-services.json을 기반으로 SenderID를 자동으로 가져온다.
-                String default_senderId = getString(R.string.gcm_defaultSenderId);
-                // GCM 기본 scope는 "GCM"이다.
-                String scope = GoogleCloudMessaging.INSTANCE_ID_SCOPE;
-                // Instance ID에 해당하는 토큰을 생성하여 가져온다.
-                token = instanceID.getToken(default_senderId, scope, null);
-                // TODO: 2016-06-21 gcmKey DB 입력  userNo값 가져와야함
-                Log.i(TAG, "GCM Registration Token Check:  " + token);
-                setGcmKey(token);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void onTokenRefresh() {
+        super.onTokenRefresh();
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "Refreshed token: " + refreshedToken);
+        setGcmKey(refreshedToken);
     }
 
     static public String setGcmKey(String gcmKey) {
-        Log.i("GCM_" , "test");
         String result = "";
         try {
             passiveMethod();

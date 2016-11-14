@@ -1,6 +1,5 @@
 package com.kocapplication.pixeleye.kockocapp.main.story;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -102,7 +101,7 @@ public class StoryFragment extends Fragment {
         continuousAdd = (TextView) view.findViewById(R.id.story_continuous_add);
         buttonListenerSet();
 
-        View includeView = view.findViewById(R.id.story_recycler_layout);
+        View includeView = view.findViewById(R.id.course_recycler_layout);
         refreshLayout = (SwipeRefreshLayout) includeView.findViewById(R.id.refresh_layout);
         recyclerView = (RecyclerView) includeView.findViewById(R.id.recycler_view);
 
@@ -152,6 +151,11 @@ public class StoryFragment extends Fragment {
         writeContainer.startAnimation(down);
     }
 
+    public void deleteItem(int position){
+        adapter.deleteItems(position);
+        adapter.notifyDataSetChanged();
+    }
+
     private class RefreshListener implements SwipeRefreshLayout.OnRefreshListener {
         @Override
         public void onRefresh() {
@@ -173,6 +177,7 @@ public class StoryFragment extends Fragment {
                 intent.putExtra("boardNo", boardWithImage.getBasicAttributes().getBoardNo());
                 intent.putExtra("courseNo", boardWithImage.getBasicAttributes().getCourseNo());
                 intent.putExtra("board_userNo", boardWithImage.getBasicAttributes().getUserNo());
+                intent.putExtra("position",position);
                 getActivity().startActivityForResult(intent, MainActivity.DETAIL_ACTIVITY_REQUEST_CODE);
             } else {
                 buttonLayoutDownAnimation();
@@ -260,4 +265,5 @@ public class StoryFragment extends Fragment {
             refreshLayout.setRefreshing(false);
         }
     }
+
 }

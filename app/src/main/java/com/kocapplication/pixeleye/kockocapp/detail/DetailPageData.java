@@ -156,7 +156,7 @@ public class DetailPageData implements Serializable {
         return recommend_No;
     }
 
-    public class Comment {
+    public class Comment implements Serializable{
         private int comment_userNo;
         private String comment_userName;
         private String comment_profileImage;

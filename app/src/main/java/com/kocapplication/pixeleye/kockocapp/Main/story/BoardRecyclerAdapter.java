@@ -2,6 +2,7 @@ package com.kocapplication.pixeleye.kockocapp.main.story;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import java.util.List;
  * Created by Han_ on 2016-06-21.
  */
 public class BoardRecyclerAdapter extends RecyclerView.Adapter<BoardRecyclerViewHolder> {
+    public static String TAG = BoardRecyclerAdapter.class.getSimpleName();
     private List<BoardWithImage> items;
     private View.OnClickListener listener;
     private Context mContext;
@@ -83,5 +85,12 @@ public class BoardRecyclerAdapter extends RecyclerView.Adapter<BoardRecyclerView
 
     public void setItems(List<BoardWithImage> items) {
         this.items = items;
+    }
+
+    public void deleteItems(int position){
+        if(position > -1) {
+            this.items.remove(position);
+            notifyDataSetChanged();
+        }
     }
 }

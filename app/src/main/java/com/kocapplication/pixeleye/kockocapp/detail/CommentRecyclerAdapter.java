@@ -15,13 +15,13 @@ import java.util.ArrayList;
 /**
  * Created by hp on 2016-06-23.
  */
-public class DetailRecyclerAdapter extends RecyclerView.Adapter<DetailRecyclerViewHolder>{
-    final static String TAG = "DetailRecyclerAdapter";
+public class CommentRecyclerAdapter extends RecyclerView.Adapter<DetailRecyclerViewHolder>{
+    final static String TAG = CommentRecyclerAdapter.class.getSimpleName();
     private ArrayList<DetailPageData.Comment> commentArr;
     private Context mContext;
     private View.OnClickListener listener;
 
-    public DetailRecyclerAdapter(ArrayList<DetailPageData.Comment> data,Context mContext,View.OnClickListener listener) {
+    public CommentRecyclerAdapter(ArrayList<DetailPageData.Comment> data, Context mContext, View.OnClickListener listener) {
         this.mContext = mContext;
         this.commentArr = data;
         this.listener = listener;

@@ -1,66 +1,61 @@
 package com.kocapplication.pixeleye.kockocapp.util.GCM;
 
 /**
- * Created by pixeleye03 on 2016-04-22.
+ * Created by Hyeongpil on 2016-04-22.
  */
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.facebook.login.LoginManager;
-import com.google.android.gms.gcm.GcmListenerService;
+
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 import com.kocapplication.pixeleye.kockocapp.R;
-import com.kocapplication.pixeleye.kockocapp.intro.IntroActivity;
 import com.kocapplication.pixeleye.kockocapp.login.LoginActivity;
+
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Map;
 
-public class MyGcmListenerService extends GcmListenerService {
+public class MyFcmListenerService extends FirebaseMessagingService {
 
-    private static final String TAG = "MyGcmListenerService";
+    private static final String TAG = "MyFcmListenerService";
 
-    /**
-     *
-     * @param from SenderID 값을 받아온다.
-     * @param data Set형태로 GCM으로 받은 데이터 payload이다.
-     */
+    // TODO: 2016-10-27 fcm 보내는 부분에서 map 형태로 보내고 키,밸류로 값을 받아오도록 해야한다
     @Override
-    public void onMessageReceived(String from, Bundle data) {
-        String title = "KocKoc";
-        String message = data.getString("msg");
-        int boardNo = 0;
-        int courseNo = 0;
+    public void onMessageReceived(RemoteMessage fcm_message) {
+        super.onMessageReceived(fcm_message);
+        String from = fcm_message.getFrom();
+        Map data = fcm_message.getData();
+        Log.e(TAG,from);
         try {
-            message = URLDecoder.decode(message, "UTF-8");
-            Log.i(TAG, message);
-            boardNo = Integer.parseInt(message.substring(message.indexOf("|")+1,message.indexOf("&"))); // 메세지에서 보드넘버 추출
-            courseNo = Integer.parseInt(message.substring(message.indexOf("&")+1));
-            message = message.substring(0,message.indexOf("|")); // 메세지에서 보드넘버 제거
+            String msg = URLDecoder.decode(data.get("msg").toString(), "UTF-8");
+            int boardNo = Integer.parseInt(msg.substring(msg.indexOf("|")+1,msg.indexOf("&"))); // 메세지에서 보드넘버 추출
+            int courseNo = Integer.parseInt(msg.substring(msg.indexOf("&")+1));
+            String message = msg.substring(0,msg.indexOf("|")); // 메세지에서 보드넘버 제거
 
             Log.d(TAG, "From: " + from);
-            Log.d(TAG, "Title: " + title);
             Log.d(TAG, "Message: " + message);
             Log.d(TAG, "boardNo: " + boardNo);
             Log.d(TAG, "courseNo: " + courseNo);
-
+            // GCM으로 받은 메세지를 디바이스에 알려주는 sendNotification()을 호출한다.
+            sendNotification("Kockoc", message,boardNo,courseNo);
         }catch(UnsupportedEncodingException e){
             Log.e(TAG,"인코딩 오류");
             e.printStackTrace();
         }
-
-        // GCM으로 받은 메세지를 디바이스에 알려주는 sendNotification()을 호출한다.
-        sendNotification(title, message,boardNo,courseNo);
     }
-
 
     /**
      * 실제 디바에스에 GCM으로부터 받은 메세지를 알려주는 함수이다. 디바이스 Notification Center에 나타난다.
@@ -77,19 +72,17 @@ public class MyGcmListenerService extends GcmListenerService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, id /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.app_icon)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setAutoCancel(true)
-                .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
         notificationManager.notify(id /* ID of notification */, notificationBuilder.build());
+
         Vibrator vibrator =(Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
         vibrator.vibrate(1000); // 1초간 진동
     }

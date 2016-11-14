@@ -6,6 +6,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -46,6 +49,9 @@ import org.apmem.tools.layouts.FlowLayout;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +62,7 @@ import java.util.List;
 public class DetailFragment extends Fragment {
     final static String TAG = "DetailFragment";
     public DetailPageData detailPageData;
-    private DetailRecyclerAdapter adapter;
+    private CommentRecyclerAdapter adapter;
 
     private LinearLayout ll_profile;
     private LinearLayout ll_htmlInfo;
@@ -231,8 +237,7 @@ public class DetailFragment extends Fragment {
             temp.setLayoutParams(params);
             temp.setAdjustViewBounds(true);
             temp.setScaleType(ImageView.ScaleType.FIT_CENTER);
-
-            Glide.with(getActivity()).load(BasicValue.getInstance().getUrlHead() + "board_image/" + data.getUserNo() + "/" + data.getBoardImgArr().get(i)).into(temp);
+            Glide.with(getActivity()).load("").placeholder(imageFromServer(data.getBoardImgArr().get(i))).into(temp);
             ll_board_img.addView(temp);
         }
     }
@@ -241,7 +246,7 @@ public class DetailFragment extends Fragment {
      * 댓글 데이터를 RecyclerView에 붙임
      */
     private void setCommentList() {
-        adapter = new DetailRecyclerAdapter(detailPageData.getCommentArr(), getActivity(), new CommentClickListener());
+        adapter = new CommentRecyclerAdapter(detailPageData.getCommentArr(), getActivity(), new CommentClickListener());
         rv_comment_list.setAdapter(adapter);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv_comment_list.setLayoutManager(manager);
@@ -255,6 +260,19 @@ public class DetailFragment extends Fragment {
         Handler handler = new RefreshDataReceiveHandler();
         Thread thread = new DetailThread(handler, boardNo, courseNo);
         thread.start();
+    }
+
+    private Drawable imageFromServer(String imgName) {
+        Drawable img = null;
+        try {
+            InputStream inputStream = (InputStream) new URL(BasicValue.getInstance().getUrlHead()+"board_image/" + board_userNo + "/" + imgName).getContent();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            img = new BitmapDrawable(BitmapFactory.decodeStream(inputStream, null, options));
+            inputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return img;
     }
 
     private class DetailDataReceiveHandler extends Handler {
@@ -285,7 +303,7 @@ public class DetailFragment extends Fragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             detailPageData = (DetailPageData) msg.getData().getSerializable("THREAD");
-            adapter = new DetailRecyclerAdapter(detailPageData.getCommentArr(), getActivity(), new CommentClickListener());
+            adapter = new CommentRecyclerAdapter(detailPageData.getCommentArr(), getActivity(), new CommentClickListener());
             rv_comment_list.setAdapter(adapter);
         }
     }

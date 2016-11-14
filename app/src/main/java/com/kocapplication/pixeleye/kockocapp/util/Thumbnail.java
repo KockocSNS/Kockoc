@@ -2,11 +2,14 @@ package com.kocapplication.pixeleye.kockocapp.util;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.StringTokenizer;
 
 public class Thumbnail {
@@ -33,8 +36,10 @@ public class Thumbnail {
             FileOutputStream out = null;//파일을 쓰기위한 FileOutputStream 생성
             try {
                 makePath = String.valueOf(Environment.getExternalStorageDirectory()) + "/KocKoc/";
-                StringTokenizer stk = new StringTokenizer(targetName, ".");
                 out = new FileOutputStream(makePath + targetName);//thumbnail 파일이 생길 위치를 지정하며 메모리 할당
+
+                int imgOrientation = getImageOrientation(targetPath+targetName);
+                if(imgOrientation > 0) bitmap = imgRotate(bitmap,imgOrientation); // 이미지 회전
 
                 if(bitmap.getWidth() > bitmap.getHeight()) {//눕혀진 이미지
                     if (bitmap.getWidth() > width1280) {
@@ -105,6 +110,52 @@ public class Thumbnail {
             Log.e("Image","No Exist Image Name & Path");
         }
         return makePath + imgName;
+    }
+
+    /**
+     * 이미지를 받아 회전된 각도를 리턴
+     * @param path+name
+     * @return 각도
+     */
+    public static int getImageOrientation(String path){
+        int rotation =0;
+        try {
+            ExifInterface exif = new ExifInterface(path);
+            int rot= exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+            if(rot == ExifInterface.ORIENTATION_ROTATE_90){
+                rotation = 90;
+            }else if(rot == ExifInterface.ORIENTATION_ROTATE_180){
+                rotation = 180;
+            }else if(rot == ExifInterface.ORIENTATION_ROTATE_270){
+                rotation = 270;
+            }else{
+                rotation = 0;
+            }
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return rotation;
+    }
+
+    /**
+     * 사진을 각도에 맞게 회전
+     * @return
+     */
+    private static Bitmap imgRotate(Bitmap bmp, int orientation){
+        Log.e(TAG,"orien :"+orientation);
+        int width = bmp.getWidth();
+        int height = bmp.getHeight();
+
+        Matrix matrix = new Matrix();
+        matrix.postRotate(orientation);
+
+        Bitmap resizedBitmap = Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, true);
+        bmp.recycle();
+
+        return resizedBitmap;
     }
 
     static public void makeKocDir(){

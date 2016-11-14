@@ -10,4 +10,5 @@
     <dimen name="main_frag_content_height">420dp</dimen>
     <dimen name="main_frag_content_margin_top">20dp</dimen>
     <dimen name="tour_recycler_item">200dp</dimen>
+    <dimen name="course_item_margin">10dp</dimen>
 </resources>
