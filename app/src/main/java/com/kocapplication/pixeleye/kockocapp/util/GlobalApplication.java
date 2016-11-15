@@ -2,6 +2,9 @@ package com.kocapplication.pixeleye.kockocapp.util;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.bumptech.glide.Glide;
 import com.kakao.auth.KakaoSDK;
@@ -62,6 +65,12 @@ public class GlobalApplication extends Application {
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
         Glide.get(this).trimMemory(level);
+    }
+    //키보드 숨김
+    public void softKeyboardHide(EditText editText) {
+        InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        editText.setText("");
     }
 }
 

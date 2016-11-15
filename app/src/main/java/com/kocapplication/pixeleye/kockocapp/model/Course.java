@@ -12,10 +12,12 @@ import java.util.Date;
 public class Course implements Serializable {
     final static String TAG = "Course";
     private int courseNo;
+    private int userNo;
     private int coursePosition;
     private String title;
     private Date dateTime = new Date();
     private String memo="not_change";
+
 
     public Course (int courseNo, int coursePosition, String title, Date date, String memo){
         this.courseNo = courseNo;

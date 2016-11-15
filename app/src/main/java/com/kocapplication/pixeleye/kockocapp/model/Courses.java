@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Han_ on 2016-06-23.
  */
 public class Courses implements Serializable {
-
+    private int userNo;
     private int courseNo;
     private String title;
     private Date dateTime;
@@ -29,6 +29,13 @@ public class Courses implements Serializable {
         this.dateTime = dateTime;
         this.courses = courses;
         this.memo = memo;
+    }
+    public Courses(int courseNo, String title, Date dateTime, List<Course> courses, int userNo) { //메모 있는 코스
+        this.courseNo = courseNo;
+        this.title = title;
+        this.dateTime = dateTime;
+        this.courses = courses;
+        this.userNo = userNo;
     }
 
     public Courses(String title, Date dateTime, List<Course> courses) {
@@ -74,4 +81,8 @@ public class Courses implements Serializable {
     }
 
     public void setMemo(String memo) {this.memo = memo;}
+
+    public int getUserNo() {
+        return userNo;
+    }
 }

@@ -84,6 +84,7 @@ public class JspConn_ReadAllCourseThread extends Thread {
             int courseNo = resultObject.get("index").getAsInt();
             String title = resultObject.get("title").getAsString();
             String date = resultObject.get("courseDate").getAsString();
+            int userNo = resultObject.get("userNo").getAsInt();
             Log.i(TAG,"resultObject :"+resultObject.toString());
             JsonArray stopoverArr = resultObject.getAsJsonArray("courseArr");
             Log.i(TAG,"stopoverArr :"+stopoverArr.toString());
@@ -111,7 +112,7 @@ public class JspConn_ReadAllCourseThread extends Thread {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            courses.add(new Courses(courseNo, title, temp, course));
+            courses.add(new Courses(courseNo, title, temp, course, userNo));
         }
 
         Message msg = Message.obtain();

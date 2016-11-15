@@ -23,6 +23,7 @@ import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
 import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
+import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.Course.JspConn_ReadAllCourseThread;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseTitleActivity;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseWriteActivity;
 
@@ -48,7 +49,7 @@ public class CourseFragment extends Fragment {
         init(view);
 
         Handler handler = new CourseHandler();
-        Thread thread = new CourseThread(handler);
+        Thread thread = new JspConn_ReadAllCourseThread(handler);
         thread.start();
 
         return view;
@@ -80,7 +81,7 @@ public class CourseFragment extends Fragment {
         if (refreshLayout == null) return;
         refreshLayout.setRefreshing(true);
         Handler handler = new CourseHandler();
-        Thread thread = new CourseThread(handler);
+        Thread thread = new JspConn_ReadAllCourseThread(handler);
         thread.start();
     }
 
@@ -103,7 +104,6 @@ public class CourseFragment extends Fragment {
         @Override
         public void onClick(View v) {
             int position = recyclerView.getChildAdapterPosition(v);
-// TODO: 2016-11-09 코스 수정은 코스 상세보기 안으로 넣기
             Intent intent = new Intent(getActivity(), CourseDetailActivity.class);
             intent.putExtra("COURSES", adapter.getItems().get(position));
             getActivity().startActivityForResult(intent, MainActivity.COURSE_WRITE_ACTIVITY_REQUEST_CODE);
@@ -112,15 +112,15 @@ public class CourseFragment extends Fragment {
         @Override
         public boolean onLongClick(View v) {
             int position = recyclerView.getChildAdapterPosition(v);
-
-            AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                    .setTitle("코스 삭제")
-                    .setMessage("코스를 삭제하시겠습니까")
-                    .setPositiveButton("예", new DialogClickListener(position))
-                    .setNegativeButton("아니오", new DialogClickListener(position))
-                    .create();
-            dialog.show();
-
+            if(adapter.getItems().get(position).getUserNo() == BasicValue.getInstance().getUserNo()){
+                AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                        .setTitle("코스 삭제")
+                        .setMessage("코스를 삭제하시겠습니까")
+                        .setPositiveButton("예", new DialogClickListener(position))
+                        .setNegativeButton("아니오", new DialogClickListener(position))
+                        .create();
+                dialog.show();
+            }
             return true;
         }
     }

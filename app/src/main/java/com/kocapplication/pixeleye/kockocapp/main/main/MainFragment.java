@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
+import com.kocapplication.pixeleye.kockocapp.main.course.CourseDetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseThread;
 import com.kocapplication.pixeleye.kockocapp.main.story.BoardRecyclerAdapter;
@@ -87,7 +88,6 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         rv_tour.setLayoutManager(manager);
         rv_tour.setHasFixedSize(true);
     }
-    // TODO: 2016-10-13 코스 이름이 코스랑 안맞음, 코스 상세보기 페이지 필요
     public void setCourseData(){
         Handler handler = new CourseHandler();
         Thread thread = new JspConn_ReadAllCourseThread(handler);
@@ -132,9 +132,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
         @Override
         public void onClick(View v) {
             int position = rv_course.getChildAdapterPosition(v);
-
-            Intent intent = new Intent(getActivity(), CourseWriteActivity.class);
-            intent.putExtra("FLAG", CourseWriteActivity.ADJUST_FLAG);
+            Intent intent = new Intent(getActivity(), CourseDetailActivity.class);
             intent.putExtra("COURSES", adapter_course.getItems().get(position));
             getActivity().startActivityForResult(intent, MainActivity.COURSE_WRITE_ACTIVITY_REQUEST_CODE);
         }
