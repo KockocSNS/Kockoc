@@ -30,6 +30,7 @@ import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
+import com.kocapplication.pixeleye.kockocapp.util.GlobalApplication;
 import com.kocapplication.pixeleye.kockocapp.util.JsonParser;
 import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.Course.JspConn_ReadCourseByCourseNo;
@@ -163,7 +164,7 @@ public class DetailActivity extends AppCompatActivity {
             JspConn_PushGcm.pushGcm(commentString + "|" + boardNo + "&" + courseNo, board_userNo); //gcm
 
             detailFragment.addComment();
-            softKeyboardHide(comment_et);
+            GlobalApplication.getGlobalApplicationContext().softKeyboardHide(comment_et);
         }
     }
 
@@ -327,13 +328,6 @@ public class DetailActivity extends AppCompatActivity {
                             }
                         })
                 .show();
-    }
-
-    //키보드 숨김
-    protected void softKeyboardHide(EditText editText) {
-        InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-        editText.setText("");
     }
 
     private void set_spinner() {
