@@ -19,6 +19,7 @@ import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.main.course.CourseDetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.search.SearchActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
+import com.kocapplication.pixeleye.kockocapp.util.GlobalApplication;
 import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 import com.kocapplication.pixeleye.kockocapp.write.continuousWrite.CourseSelectActivity;
@@ -88,10 +89,11 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
         holder.getSearch().setOnClickListener(listener);
 
         //경유지글이 업로드되면 업로드아이콘 표시
-        if (JspConn.checkDuplBoard(item.getTitle(), BasicValue.getInstance().getUserNo())) {
+        if (JspConn.checkDuplBoard(item.getTitle(),item.getTime(), BasicValue.getInstance().getUserNo())) {
             holder.getUploadIcon().setText("수정");
         } else {
             holder.getUploadIcon().setText("작성");
+            holder.getUploadIcon().setBackground(GlobalApplication.getInstance().getDrawable(GlobalApplication.getInstance(),R.drawable.bg_round_shape_maincolor));
         }
     }
 
@@ -139,6 +141,7 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
 
             } else if (v.equals(holder.getDelete())) {
                 // 해당하는 코스에 글이 있다면 삭제 할것인지 확인  삭제한다면 글은 그대로 두고 코스만 지움
+                Log.e(TAG,"time :"+items.get(position).getTime());
                 if(JspConn.getBoardNoForEdit(items.get(position).getCourseNo(),items.get(position).getTitle()).equals("")){
                     items.remove(position);
                     notifyDataSetChanged();

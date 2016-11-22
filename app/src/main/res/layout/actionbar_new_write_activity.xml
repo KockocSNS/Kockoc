@@ -28,6 +28,6 @@
         android:text="완료"
         android:textSize="15dp"
         android:textColor="@color/white"
-        android:background="@drawable/bg_round_shape_subbgcolor"/>
+        android:background="@drawable/bg_round_shape_maincolor"/>
 
 </RelativeLayout>

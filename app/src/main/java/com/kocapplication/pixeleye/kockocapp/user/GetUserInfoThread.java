@@ -70,9 +70,13 @@ public class GetUserInfoThread extends Thread {
         Log.d(TAG,"get user Info result :"+result);
 
         JsonParser parser = new JsonParser();
-        JsonObject object = parser.parse(result).getAsJsonObject();
+        JsonObject object = new JsonObject();
+        String nickName = "";
+        if(result.equals("not exist No")){
+            object = parser.parse(result).getAsJsonObject();
 
-        String nickName = object.get("nickname").getAsString();
+            nickName = object.get("nickname").getAsString();
+        }
 
         postURL = BasicValue.getInstance().getUrlHead() + "Member/getUserScrapCourse.jsp";
         result = "";

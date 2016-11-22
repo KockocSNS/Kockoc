@@ -215,8 +215,8 @@ public class JspConn {
         Log.d("Jspconn", "editBoard result :" + result);
         return result;
     }
-//코스넘버와 경유지이름으로 코스 중복 검색
-    static public boolean checkDuplBoard(String stopverName, int userNo) {
+    //코스넘버와 경유지이름으로 코스 중복 검색
+    static public boolean checkDuplBoard(String stopverName, String time, int userNo) {
         String result = "";
         try {
             passiveMethod();
@@ -227,6 +227,8 @@ public class JspConn {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("StopoverName", stopverName));
             params.add(new BasicNameValuePair("UserNo", String.valueOf(userNo)));
+            Log.e(TAG,"time :"+time);
+            params.add(new BasicNameValuePair("Time", time));
 
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
             post.setEntity(ent);
@@ -345,7 +347,7 @@ public class JspConn {
                 resultStr += line;
             }
 
-            Log.i(TAG, "Insert User" + resultStr);
+            Log.i(TAG, "Insert User :" + resultStr);
             return Integer.parseInt(resultStr.trim());
         } catch (Exception e) {
             Log.e(TAG, "recordMember error" + e.getMessage());

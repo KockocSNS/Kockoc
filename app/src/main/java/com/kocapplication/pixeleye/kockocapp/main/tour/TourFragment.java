@@ -122,6 +122,7 @@ public class TourFragment extends Fragment {
             adapter.notifyDataSetChanged();
         }
     }
+
     /**
      * 하단 새로고침 데이터를 받아오는 핸들러, pageNo를 1씩 늘린다.
      */

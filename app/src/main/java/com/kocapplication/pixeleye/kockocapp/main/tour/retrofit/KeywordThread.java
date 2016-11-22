@@ -30,7 +30,7 @@ public class KeywordThread extends Thread {
     private Context mContext;
     private Handler handler;
     private TourRepo tourRepo;
-    private String apiKey = GlobalApplication.getGlobalApplicationContext().getResources().getString(R.string.tour_api_key);
+    private String apiKey = GlobalApplication.getInstance().getResources().getString(R.string.tour_api_key);
     private String arrange = "B"; //정렬 구분 (A = 제목순, B = 조회순, C = 수정일순, D = 생성일순)
     private String os = "AND"; // 운영체제 (IOS = 아이폰, AND = 안드로이드, WIN = 윈도우폰)
     private String appName = "Kockoc";

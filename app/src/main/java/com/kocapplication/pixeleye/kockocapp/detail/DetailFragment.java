@@ -413,8 +413,8 @@ public class DetailFragment extends Fragment {
             String courseBoardNo = "";
 
             try {
-                courseBoardNo = JspConn.getBoardNoForEdit(courseNo, course_adapter.getItems().get(position).getTitle());
-                Log.e(TAG, "" + courseBoardNo + "/" + course_adapter.getItems().get(position).getTitle());
+                courseBoardNo = JspConn.getBoardNoForEdit(courseNo, course_adapter.getItems().get(position).getTitle().split("/")[0]);
+                Log.e(TAG, "" + courseBoardNo + "/" + course_adapter.getItems().get(position).getTitle().split("/")[0]);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -432,6 +432,7 @@ public class DetailFragment extends Fragment {
         public MapClickListener(DetailPageData data) {this.data = data;}
         @Override
         public void onClick(View v) {
+            Log.e(TAG,"디테일 지도 클릭 진입");
             ll_board_map.setVisibility(View.VISIBLE);
             board_map_img.setVisibility(View.GONE);
             MapPointBounds mapPointBounds = new MapPointBounds();
@@ -445,8 +446,8 @@ public class DetailFragment extends Fragment {
             mapPointBounds.add(mapPoint);
 
             MapView mapView = new MapView(mInflater.getContext());
-            ViewGroup.LayoutParams layoutParams = new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 600);
-            mapView.setLayoutParams(layoutParams);
+//            ViewGroup.LayoutParams layoutParams = new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 600);
+//            mapView.setLayoutParams(layoutParams);
             mapView.setDaumMapApiKey(BasicValue.getInstance().getDAUM_MAP_API_KEY());
             mapView.addPOIItem(poiItem);
             mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
