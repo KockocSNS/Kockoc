@@ -18,6 +18,8 @@ public class CourseRecyclerAdapter extends RecyclerView.Adapter<CourseRecyclerVi
     private List<Courses> items;
     private View.OnClickListener listener;
     private View.OnLongClickListener longClickListener;
+    private String flag = "";
+    private View itemView;
 
     public CourseRecyclerAdapter(List<Courses> data, View.OnClickListener listener, View.OnLongClickListener longClickListener) {
         super();
@@ -26,16 +28,18 @@ public class CourseRecyclerAdapter extends RecyclerView.Adapter<CourseRecyclerVi
         this.listener = listener;
         this.longClickListener = longClickListener;
     }
-    public CourseRecyclerAdapter(List<Courses> data, View.OnClickListener listener) {
+    public CourseRecyclerAdapter(List<Courses> data, View.OnClickListener listener,String flag) {
         super();
         if (data == null) throw new IllegalArgumentException("Data Must Not Be Null");
         this.items = data;
         this.listener = listener;
+        this.flag = flag;
     }
 
     @Override
     public CourseRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_course, parent, false);
+        if(flag.equals("main")) itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_main_course, parent, false);
+        else itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_course, parent, false);
         itemView.setOnClickListener(listener);
         itemView.setOnLongClickListener(longClickListener);
         return new CourseRecyclerViewHolder(itemView);

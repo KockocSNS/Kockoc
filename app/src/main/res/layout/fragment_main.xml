@@ -50,7 +50,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
+                android:layout_height="120dp"
                 android:layout_marginTop="@dimen/main_frag_content_margin_top">
                 <TextView
                     android:id="@+id/tv_main_frag_course"
@@ -79,8 +79,6 @@
                     android:layout_height="wrap_content">
                 </android.support.v7.widget.RecyclerView>
             </RelativeLayout>
-
-
         </LinearLayout>
     </ScrollView>
 

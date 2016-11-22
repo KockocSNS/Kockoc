@@ -22,6 +22,7 @@ import java.util.logging.SimpleFormatter;
  * Created by Han_ on 2016-07-05.
  */
 public class DetailCourseAdapter extends RecyclerView.Adapter<DetailCourseViewHolder> {
+    final static String TAG = DetailCourseAdapter.class.getSimpleName();
     private int coursePo;
     private List<Course> items;
     private View.OnClickListener listener;
@@ -51,9 +52,9 @@ public class DetailCourseAdapter extends RecyclerView.Adapter<DetailCourseViewHo
     @Override
     public void onBindViewHolder(DetailCourseViewHolder holder, int position) {
         Course item = items.get(position);
-
-        holder.getCourseName().setText(item.getTitle());
-        holder.getCourseTime().setText(item.getTime());
+        String[] temp = item.getTitle().split("/"); // 코스 타이틀 / 시간 으로 받음
+        holder.getCourseName().setText(temp[0]);
+        holder.getCourseTime().setText(temp[1]);
 
         if (position == coursePo) holder.getCourseImage().setImageDrawable(context.getResources().getDrawable(R.drawable.circle_main_color));
         else holder.getCourseImage().setImageDrawable(context.getResources().getDrawable(R.drawable.circle_gray));
@@ -76,7 +77,7 @@ public class DetailCourseAdapter extends RecyclerView.Adapter<DetailCourseViewHo
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         for (int i = 0; i < data.size(); i++) {
             String temp = data.get(i);
-            Log.i("detailcourseadapter",temp);
+            Log.i(TAG,temp);
             items.add(new Course(temp));
         }
     }

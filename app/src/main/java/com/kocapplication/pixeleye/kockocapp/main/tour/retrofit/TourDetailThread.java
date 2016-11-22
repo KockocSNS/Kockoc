@@ -30,7 +30,7 @@ public class TourDetailThread extends Thread {
     private TourDetailRepo tourDetailRepo;
     private TourImageRepo tourImageRepo;
     private TourDetailData data;
-    private String apiKey = GlobalApplication.getGlobalApplicationContext().getResources().getString(R.string.tour_api_key);
+    private String apiKey = GlobalApplication.getInstance().getResources().getString(R.string.tour_api_key);
     private String os = "AND"; // 운영체제 (IOS = 아이폰, AND = 안드로이드, WIN = 윈도우폰)
     private String appName = "Kockoc";
     private String contentId = "";

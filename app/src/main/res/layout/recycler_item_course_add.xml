@@ -101,8 +101,8 @@
                 android:layout_marginStart="5dp"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="작성"
+                android:textAlignment="center"
                 android:textColor="@color/white"
-                android:drawableLeft="@drawable/detail_star"
                 android:background="@drawable/bg_round_shape_subbgcolor"
                 android:layout_centerVertical="true" />
 

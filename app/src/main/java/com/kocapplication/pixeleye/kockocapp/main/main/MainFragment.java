@@ -82,8 +82,8 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
 
     public void setTourData(ArrayList<TourData> tourDataList){
         this.tourDataList = tourDataList;
-        adapter_tour = new TourRecyclerAdapter(tourDataList, new TourClickListener(), getActivity());
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        adapter_tour = new TourRecyclerAdapter(tourDataList, new TourClickListener(), getActivity(),"main");
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 1, GridLayoutManager.HORIZONTAL, false);
         rv_tour.setAdapter(adapter_tour);
         rv_tour.setLayoutManager(manager);
         rv_tour.setHasFixedSize(true);
@@ -95,8 +95,8 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
     }
 
     public void setStoryData(ArrayList<BoardWithImage> storyDataList){
-        adapter_story = new BoardRecyclerAdapter(storyDataList, new StoryClickListener(), getActivity());
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        adapter_story = new BoardRecyclerAdapter(storyDataList, new StoryClickListener(), getActivity(),"main");
+        GridLayoutManager manager = new GridLayoutManager(getActivity(), 1, GridLayoutManager.HORIZONTAL, false);
         rv_story.setAdapter(adapter_story);
         rv_story.setLayoutManager(manager);
         rv_story.setHasFixedSize(true);
@@ -109,8 +109,8 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
 
             List<Courses> courses = (ArrayList<Courses>) msg.getData().getSerializable("THREAD");
 
-            adapter_course = new CourseRecyclerAdapter(courses,new CourseClickListener());
-            GridLayoutManager manager = new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+            adapter_course = new CourseRecyclerAdapter(courses,new CourseClickListener(),"main");
+            GridLayoutManager manager = new GridLayoutManager(getActivity(), 1, GridLayoutManager.HORIZONTAL, false);
             rv_course.setAdapter(adapter_course);
             rv_course.setLayoutManager(manager);
             rv_course.setHasFixedSize(true);

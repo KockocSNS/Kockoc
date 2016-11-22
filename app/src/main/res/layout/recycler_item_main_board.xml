@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="160dp"
+    android:layout_height="200dp"
+    android:layout_gravity="center"
+    android:background="@drawable/board_background">
+
+    <ImageView
+        android:id="@+id/board_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerCrop" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/board_background"/>
+
+    <TextView
+        android:id="@+id/board_course_count"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:background="@color/mainBgColor"
+        android:textSize="16dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:text="course_count"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/board_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@color/white"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/board_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@color/innerTagColor"
+            android:textSize="10dp" />
+
+        <ImageView
+            android:id="@+id/board_course_image"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/course_image"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/board_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:textColor="@color/gray"
+            android:textSize="9dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/board_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="7dp"
+            android:drawableLeft="@drawable/board_like"
+            android:drawablePadding="2dp"
+            android:textColor="@color/gray"
+            android:textSize="10dp"/>
+
+        <TextView
+            android:id="@+id/board_scrap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="7dp"
+            android:drawableLeft="@drawable/board_scrap"
+            android:drawablePadding="2dp"
+            android:textColor="@color/gray"
+            android:textSize="10dp"/>
+
+        <TextView
+            android:id="@+id/board_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="7dp"
+            android:drawableLeft="@drawable/board_comment"
+            android:drawablePadding="2dp"
+            android:textColor="@color/gray"
+            android:textSize="10dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

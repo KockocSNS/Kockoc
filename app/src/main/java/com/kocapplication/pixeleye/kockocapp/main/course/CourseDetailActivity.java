@@ -3,7 +3,6 @@ package com.kocapplication.pixeleye.kockocapp.main.course;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -29,8 +28,6 @@ import android.widget.ToggleButton;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.CommentRecyclerAdapter;
 import com.kocapplication.pixeleye.kockocapp.detail.DetailPageData;
-import com.kocapplication.pixeleye.kockocapp.main.BaseActivityWithoutNav;
-import com.kocapplication.pixeleye.kockocapp.main.MainActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.model.Courses;
 import com.kocapplication.pixeleye.kockocapp.util.GlobalApplication;
@@ -39,13 +36,11 @@ import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.Course.JspConn_CourseExpression;
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.Course.JspConn_ReadCourseByCourseNo;
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_DeleteComment;
-import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_PushGcm;
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_WriteComment;
 import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseTitleActivity;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseWriteActivity;
 import com.kocapplication.pixeleye.kockocapp.write.course.CourseWriteRecyclerAdapter;
-import com.kocapplication.pixeleye.kockocapp.write.newWrite.NewWriteActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -227,7 +222,7 @@ public class CourseDetailActivity extends AppCompatActivity {
             JspConn_WriteComment.writeCourseComment(commentString, courses.getCourseNo(), BasicValue.getInstance().getUserNo());
 //            JspConn_PushGcm.pushGcm(commentString + "|" + boardNo + "&" + courseNo, board_userNo); //gcm
             getData(); // 댓글 달면 데이터 새로 불러옴
-            GlobalApplication.getGlobalApplicationContext().softKeyboardHide(et_comment);
+            GlobalApplication.getInstance().softKeyboardHide(et_comment);
         }
     }
 
