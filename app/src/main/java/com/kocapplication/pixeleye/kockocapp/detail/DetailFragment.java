@@ -14,7 +14,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -33,11 +32,14 @@ import com.bumptech.glide.Glide;
 import com.kocapplication.pixeleye.kockocapp.R;
 import com.kocapplication.pixeleye.kockocapp.detail.scrapuser.ScrapUserActivity;
 import com.kocapplication.pixeleye.kockocapp.detail.share.SharingHelper;
+import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.user.UserActivity;
+import com.kocapplication.pixeleye.kockocapp.util.StringUtil;
 import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_DeleteComment;
 import com.kocapplication.pixeleye.kockocapp.util.connect.Jsp.DetailPage.JspConn_WriteExpression;
 import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
+
 
 import net.daum.mf.map.api.CameraUpdateFactory;
 import net.daum.mf.map.api.MapPOIItem;
@@ -63,6 +65,7 @@ public class DetailFragment extends Fragment {
     final static String TAG = "DetailFragment";
     public DetailPageData detailPageData;
     private CommentRecyclerAdapter adapter;
+    private StringUtil stringUtil = new StringUtil();
 
     private LinearLayout ll_profile;
     private LinearLayout ll_htmlInfo;
@@ -97,7 +100,10 @@ public class DetailFragment extends Fragment {
     private int boardNo;
     private int courseNo;
     private int board_userNo;
+    private int coursePo;
     private LayoutInflater mInflater;
+    private View view;
+    private boolean nameDuple = false; // 코스 이름에 중복된 값이 있을 경우 // 구버전과 호환하기 위해 분기를 나눔
 
     private ProgressDialog dialog;
 
@@ -118,10 +124,10 @@ public class DetailFragment extends Fragment {
         dialog = ProgressDialog.show(getActivity(),"","잠시만 기다려주세요");
         dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
-        View view = inflater.inflate(R.layout.detail_content, container, false);
+        view = inflater.inflate(R.layout.detail_content, container, false);
         this.mInflater = inflater;
 
-        init(view);
+        init();
 
         //DetailThread 에서 데이터를 받아옴
         Handler handler = new DetailDataReceiveHandler();
@@ -134,7 +140,7 @@ public class DetailFragment extends Fragment {
         return view;
     }
 
-    private void init(View view) {
+    private void init() {
         detailPageData = new DetailPageData();
 
         ll_profile = (LinearLayout) view.findViewById(R.id.ll_profile);
@@ -173,16 +179,19 @@ public class DetailFragment extends Fragment {
         ll_profile.setOnClickListener(new ProfileClickListener());
 
         btn_like.setOnClickListener(new LikeClickListener());
+
     }
 
     private void setCourseRecyclerView(View view) {
         String courseName = JspConn.getCourseName(boardNo);
-        int coursePo = JspConn.getCoursePo(courseNo, courseName) - 1;
+        coursePo = JspConn.getCoursePo_use_boardNo(boardNo)-1; // 이름이 중복될 경우
+        if(coursePo == -1)coursePo = JspConn.getCoursePo(courseNo, courseName) - 1; //구버전용 이름으로 검색
         coursePo = coursePo == -1 ? 0 : coursePo;
 
         course_recyclerView = (RecyclerView) view.findViewById(R.id.iv_detail_content_courses);
         course_adapter = new DetailCourseAdapter(new ArrayList<String>(), new CourseClickListener(), coursePo, getActivity());
         course_recyclerView.setAdapter(course_adapter);
+
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         manager.scrollToPosition(0);
@@ -216,7 +225,6 @@ public class DetailFragment extends Fragment {
         //지도
         if(data.getLatitude()==0 && data.getLongitude() == 0) {
             rl_board_map_container.setVisibility(View.GONE);
-            ll_board_map.setVisibility(View.GONE);
         }else board_map_img.setOnClickListener(new MapClickListener(data));
     }
 
@@ -411,14 +419,17 @@ public class DetailFragment extends Fragment {
         public void onClick(View v) {
             int position = course_recyclerView.getChildAdapterPosition(v);
             String courseBoardNo = "";
-
-            try {
-                courseBoardNo = JspConn.getBoardNoForEdit(courseNo, course_adapter.getItems().get(position).getTitle().split("/")[0]);
-                Log.e(TAG, "" + courseBoardNo + "/" + course_adapter.getItems().get(position).getTitle().split("/")[0]);
-            } catch (Exception e) {
-                e.printStackTrace();
+            nameDuple = new StringUtil().findDuplicateValue(course_adapter.getItems());
+            if(nameDuple){ // 코스 이름에 중복이 있을 경우 stopoverIndex로 검색
+                courseBoardNo = JspConn.getBoardNo(courseNo, course_adapter.getItems().get(position).getCoursePosition());
+            }else{ //중복이 없을 경우 이름으로 검색 (기존 글들과 호환성을 위해 나눔)
+                try {
+                    courseBoardNo = JspConn.getBoardNoForEdit(courseNo, course_adapter.getItems().get(position).getTitle());
+                    Log.e(TAG, "" + courseBoardNo + "/" + course_adapter.getItems().get(position).getTitle());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-
             if (!courseBoardNo.equals("")) {
                 DetailFragment detailFragment = new DetailFragment(Integer.parseInt(courseBoardNo), courseNo, board_userNo);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, detailFragment).commit();
@@ -432,26 +443,30 @@ public class DetailFragment extends Fragment {
         public MapClickListener(DetailPageData data) {this.data = data;}
         @Override
         public void onClick(View v) {
-            Log.e(TAG,"디테일 지도 클릭 진입");
-            ll_board_map.setVisibility(View.VISIBLE);
-            board_map_img.setVisibility(View.GONE);
-            MapPointBounds mapPointBounds = new MapPointBounds();
-            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(data.getLatitude(), data.getLongitude());
-            MapPOIItem poiItem = new MapPOIItem();
-            poiItem.setItemName("현재 위치");
-            poiItem.setMapPoint(mapPoint);
-            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
-            poiItem.setCustomImageAutoscale(false);
-            poiItem.setCustomImageAnchor(0.5f, 1.0f);
-            mapPointBounds.add(mapPoint);
-
-            MapView mapView = new MapView(mInflater.getContext());
-//            ViewGroup.LayoutParams layoutParams = new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 600);
-//            mapView.setLayoutParams(layoutParams);
-            mapView.setDaumMapApiKey(BasicValue.getInstance().getDAUM_MAP_API_KEY());
-            mapView.addPOIItem(poiItem);
-            mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
-            ll_board_map.addView(mapView);
+            /**
+             * 지도 api 문제
+             */
+//            ll_board_map.setVisibility(View.VISIBLE);
+//            board_map_img.setVisibility(View.GONE);
+//            MapPointBounds mapPointBounds = new MapPointBounds();
+//            MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(data.getLatitude(), data.getLongitude());
+////            MapPOIItem poiItem = new MapPOIItem();
+////            poiItem.setItemName("현재 위치");
+////            poiItem.setMapPoint(mapPoint);
+////            poiItem.setSelectedMarkerType(MapPOIItem.MarkerType.CustomImage);
+////            poiItem.setCustomImageAutoscale(false);
+////            poiItem.setCustomImageAnchor(0.5f, 1.0f);
+////            mapPointBounds.add(mapPoint);
+//
+//
+//            MapView mapView = new MapView(getActivity());
+//            ViewGroup mapViewContainer = (ViewGroup)view.findViewById(R.id.rl_detail_map_container);
+//            mapView.setDaumMapApiKey(BasicValue.getInstance().getDAUM_MAP_API_KEY());
+////            mapView.addPOIItem(poiItem);
+//            mapView.setMapCenterPoint(MapPoint.mapPointWithGeoCoord(data.getLatitude(), data.getLongitude()), true);
+////            mapView.moveCamera(CameraUpdateFactory.newMapPointBounds(mapPointBounds));
+//            mapViewContainer.addView(mapView);
         }
     }
+
 }

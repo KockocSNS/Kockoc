@@ -119,7 +119,7 @@ public class JspConn {
             passiveMethod();
             HttpClient client = new DefaultHttpClient();
 
-            String postURL = BasicValue.getInstance().getUrlHead() + "Board/new_writeBoard.jsp";
+            String postURL = BasicValue.getInstance().getUrlHead() + "Board/writeBoard.jsp";
             String map = Double.toString(board.getCoordinate().getmLatitude()) + " " + Double.toString(board.getCoordinate().getmLongitude());
             HttpPost post = new HttpPost(postURL);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -147,6 +147,7 @@ public class JspConn {
 
             params.add(new BasicNameValuePair("courseNo", "" + board.getBasicAttributes().getCourseNo()));
             params.add(new BasicNameValuePair("map", "" + map));
+            params.add(new BasicNameValuePair("stopoverNo", "" + getStopoverIndex(board.getBasicAttributes().getCourseNo(),board.getBasicAttributes().getCoursePosition())));
 
 
             UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
@@ -697,7 +698,35 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if (result.equals("")) result = "0";
         Log.d("TAG", "getBoardNoForEdit result :" + result);
+        return result;
+    }
+
+    static public String getBoardNo(int courseNo, int coursePo) { // 코스넘버와 코스 포지션을 받아 보드넘버 반환
+        String result = "";
+        try {
+            passiveMethod();
+            HttpClient client = new DefaultHttpClient();
+
+            String postURL = BasicValue.getInstance().getUrlHead() + "Course_V2/getBoardNo.jsp";
+            HttpPost post = new HttpPost(postURL);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("courseNo", "" + courseNo));
+            params.add(new BasicNameValuePair("coursePo", "" + coursePo));
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d("TAG", "getBoardNo result :" + result);
+        if(result.equals("")) result = "0";
         return result;
     }
 
@@ -738,6 +767,41 @@ public class JspConn {
         }
         return coursePo;
     }
+    //보드 넘버를 받아 코스 포지션 리턴
+    static public int getCoursePo_use_boardNo(int boardNo) {
+        passiveMethod();
+        HttpClient client = new DefaultHttpClient();
+        String postURL = BasicValue.getInstance().getUrlHead() + "/Course/getCoursePo_use_boardNo.jsp";
+        HttpPost post = new HttpPost(postURL);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("boardNo", ""+boardNo));
+        String result = "";
+
+        try {
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        result = result.trim();     // DB에서 값을 받아올 때 공백을 제거함
+        Log.d("jspconn", "getCoursePo_use_boardNo result :" + result);
+
+        int coursePo = 0;
+        try {
+            coursePo = Integer.parseInt(result);
+        } catch (NumberFormatException e) {
+            Log.e(TAG, "THIS BOARD IS NOT COURSE");
+        }
+        return coursePo;
+    }
 
     static public String getCourseName(int Board_No) {
         passiveMethod();
@@ -767,6 +831,7 @@ public class JspConn {
 
 
     static public String getCourseTitle(int courseNo) {
+        Log.e("jspconn getcourseTitle","courseNo :"+courseNo);
         HttpClient client = new DefaultHttpClient();
         String postURL = BasicValue.getInstance().getUrlHead() + "/Course/getCourseTitle.jsp";
         HttpPost post = new HttpPost(postURL);
@@ -787,7 +852,7 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        Log.e("jspconn getcourseTitle","result :"+result);
         return result;
     }
     static public String setCourseMemo(String memo, int courseNo, int coursePo) {
@@ -837,6 +902,30 @@ public class JspConn {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return result;
+    }
+    static public String getStopoverIndex(int courseNo, int coursePo) {
+        HttpClient client = new DefaultHttpClient();
+        String postURL = BasicValue.getInstance().getUrlHead() + "/Course_V2/getStopoverIndex.jsp";
+        HttpPost post = new HttpPost(postURL);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("courseNo", "" + courseNo));
+        params.add(new BasicNameValuePair("coursePo", "" + coursePo));
+        String result = "";
+        try {
+            UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params, HTTP.UTF_8);
+            post.setEntity(ent);
+
+            HttpResponse response = client.execute(post);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), HTTP.UTF_8));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                result += line;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.e(TAG,"getStopoverIndex result :"+result);
         return result;
     }
 

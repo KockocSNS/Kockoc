@@ -89,22 +89,22 @@ public class ProfileBoardThread extends Thread {
 
             int courseCount = 0;
 
-            try {
-                String courseJsonString = JspConn_ReadCourseByCourseNo.readCourseByCourseNo(object.get("Course_No").getAsInt());
-                JsonObject courseObject = parser.parse(courseJsonString).getAsJsonObject();
-                if(courseObject.isJsonNull()){
-                    for (int innerI = 1; innerI < 10; innerI++) {
-                        String temp = "Course" + innerI;
-                        JsonElement courseElement = courseObject.get(temp);
-                        if (courseElement.isJsonNull()) {
-                            break;
-                        }
-                        courseCount++;
-                    }
-                }
-            } catch (IllegalStateException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                String courseJsonString = JspConn_ReadCourseByCourseNo.readCourseByCourseNo(object.get("Course_No").getAsInt());
+//                JsonObject courseObject = parser.parse(courseJsonString).getAsJsonObject();
+//                if(courseObject.isJsonNull()){
+//                    for (int innerI = 1; innerI < 10; innerI++) {
+//                        String temp = "Course" + innerI;
+//                        JsonElement courseElement = courseObject.get(temp);
+//                        if (courseElement.isJsonNull()) {
+//                            break;
+//                        }
+//                        courseCount++;
+//                    }
+//                }
+//            } catch (IllegalStateException e) {
+//                e.printStackTrace();
+//            }
 
             BoardBasicAttr attributes =
                     new BoardBasicAttr(

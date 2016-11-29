@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,11 +53,17 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
     private ImageView[] dots;
     private ArrayList<TourData> tourDataList;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.e(TAG,"oncreate 호출");
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main,container,false);
-
+        Log.e(TAG,"onCreateView 호출");
         init(view);
         setViewPager();
         setCourseData();
@@ -65,6 +72,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
     }
 
     private void init(View view){
+        Log.e(TAG,"init 호출");
         viewPager = (ViewPager) view.findViewById(R.id.main_frag_viewpager);
         indicator = (LinearLayout) view.findViewById(R.id.iv_main_frag_indicator);
         rv_tour = (RecyclerView) view.findViewById(R.id.rv_main_frag_tour);
@@ -81,9 +89,12 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
     }
 
     public void setTourData(ArrayList<TourData> tourDataList){
+        Log.e(TAG,"setTourData 호출");
         this.tourDataList = tourDataList;
         adapter_tour = new TourRecyclerAdapter(tourDataList, new TourClickListener(), getActivity(),"main");
         GridLayoutManager manager = new GridLayoutManager(getActivity(), 1, GridLayoutManager.HORIZONTAL, false);
+        Log.e(TAG,"tour :"+rv_tour);
+        Log.e(TAG,"adapter :"+adapter_tour);
         rv_tour.setAdapter(adapter_tour);
         rv_tour.setLayoutManager(manager);
         rv_tour.setHasFixedSize(true);
