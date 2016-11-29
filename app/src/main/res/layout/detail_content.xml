@@ -158,9 +158,13 @@
                             android:id="@+id/ll_detail_map"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/detail_map_img"
                             android:orientation="vertical"
-                            android:visibility="invisible">
+                            android:visibility="gone">
+                            <RelativeLayout
+                                android:id="@+id/rl_detail_map_container"
+                                android:layout_width="match_parent"
+                                android:layout_height="300dp">
+                            </RelativeLayout>
                         </LinearLayout>
                     </RelativeLayout>
                     <!-- hashTag-->

@@ -20,6 +20,7 @@ import com.kocapplication.pixeleye.kockocapp.main.course.CourseDetailActivity;
 import com.kocapplication.pixeleye.kockocapp.main.search.SearchActivity;
 import com.kocapplication.pixeleye.kockocapp.model.Course;
 import com.kocapplication.pixeleye.kockocapp.util.GlobalApplication;
+import com.kocapplication.pixeleye.kockocapp.util.StringUtil;
 import com.kocapplication.pixeleye.kockocapp.util.connect.BasicValue;
 import com.kocapplication.pixeleye.kockocapp.util.connect.JspConn;
 import com.kocapplication.pixeleye.kockocapp.write.continuousWrite.CourseSelectActivity;
@@ -88,8 +89,21 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
         holder.getMemo().setOnClickListener(listener);
         holder.getSearch().setOnClickListener(listener);
 
+        int boardNo = 0;
+
+        //중복 체크
+        if(new StringUtil().findDuplicateValue(items)){ // 코스 이름에 중복이 있을 경우 stopoverIndex로 검색
+            boardNo = Integer.parseInt(JspConn.getBoardNo(items.get(position).getCourseNo(), items.get(position).getCoursePosition()));
+        }else{ //중복이 없을 경우 이름으로 검색 (기존 글들과 호환성을 위해 나눔)
+            try {
+                boardNo = Integer.parseInt(JspConn.getBoardNoForEdit(items.get(position).getCourseNo(), items.get(position).getTitle()));
+                Log.e(TAG, "" + boardNo + "/" + items.get(position).getTitle());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         //경유지글이 업로드되면 업로드아이콘 표시
-        if (JspConn.checkDuplBoard(item.getTitle(),item.getTime(), BasicValue.getInstance().getUserNo())) {
+        if (boardNo > 0) {
             holder.getUploadIcon().setText("수정");
         } else {
             holder.getUploadIcon().setText("작성");
@@ -113,7 +127,6 @@ public class CourseWriteRecyclerAdapter extends RecyclerView.Adapter<CourseWrite
     public boolean contain(Course course) {
         for (Course item : items)
             if (item.equals(course)) return true;
-
         return false;
     }
 

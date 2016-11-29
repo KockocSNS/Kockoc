@@ -134,7 +134,7 @@ public class DetailActivity extends AppCompatActivity {
         boardNo = intent.getIntExtra("boardNo", 0);
         courseNo = intent.getIntExtra("courseNo", 0);
         board_userNo = intent.getIntExtra("board_userNo", 0);
-        position = intent.getIntExtra("position",0);
+        position = intent.getIntExtra("position",0); // 글 삭제시 쓰기 위해 스토리 프래그먼트 포지션
     }
 
     private void changeIsTheUser() {
@@ -251,8 +251,7 @@ public class DetailActivity extends AppCompatActivity {
             try {
                 courseBoardNo = JspConn.getBoardNoForEdit(courseNo, course.get(position - 1).split("/")[0]);
                 Log.e(TAG, "코스넘버 코스이름 :" + courseNo + "/" + course.get(position - 1).split("/")[0] + "/" + courseBoardNo);
-            } catch (Exception e) {
-            }
+            } catch (Exception e) {}
 
             switch (position) {
                 case 0:

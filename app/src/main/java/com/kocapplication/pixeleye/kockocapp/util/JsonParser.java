@@ -26,10 +26,8 @@ public class JsonParser {
      */
     static public ArrayList<String> readCourse(String MSG) {
         ArrayList<String> result = new ArrayList<>();
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        DateFormat timeformat = new SimpleDateFormat("HH:mm");
         try {
-            // 임시로 title에 / 를 붙여 시간을 표시했다  DetailPageData에 왜 코스가 ArrayList<String>인지 모르겠다 ArrayList<Course>로 수정하는데 50억년 걸릴거같다...
+            // 임시로 title에 / 를 붙여 시간을 표시했다  DetailPageData에 왜 코스가 ArrayList<String>인지 모르겠다 ArrayList<Course>로 DetailCourseAdapter에서 다시 변환한다 굉장히 좋지않다...
             com.google.gson.JsonParser parser = new com.google.gson.JsonParser();
             JsonArray stopoversArray = parser.parse(MSG).getAsJsonArray();
             ArrayList<String> tempArr = new ArrayList<>();
@@ -37,7 +35,7 @@ public class JsonParser {
             for(int i = 0; i < stopoversArray.size(); i++) {
                 String temp[];
                 temp = stopoversArray.get(i).getAsJsonObject().get("stopover_"+(i+1)).toString().split("\"");
-                tempArr.add(temp[1]+"/"+timeformat.format(format.parse(stopoversArray.get(i).getAsJsonObject().get("stopover_"+(i+1)+"_time").getAsString())));
+                tempArr.add(temp[1]+"/"+stopoversArray.get(i).getAsJsonObject().get("stopover_"+(i+1)+"_time").getAsString());
             }
             for (String temp : tempArr) {
                 if (temp != null)

@@ -52,9 +52,8 @@ public class DetailCourseAdapter extends RecyclerView.Adapter<DetailCourseViewHo
     @Override
     public void onBindViewHolder(DetailCourseViewHolder holder, int position) {
         Course item = items.get(position);
-        String[] temp = item.getTitle().split("/"); // 코스 타이틀 / 시간 으로 받음
-        holder.getCourseName().setText(temp[0]);
-        holder.getCourseTime().setText(temp[1]);
+        holder.getCourseName().setText(item.getTitle());
+        holder.getCourseTime().setText(item.getTime());
 
         if (position == coursePo) holder.getCourseImage().setImageDrawable(context.getResources().getDrawable(R.drawable.circle_main_color));
         else holder.getCourseImage().setImageDrawable(context.getResources().getDrawable(R.drawable.circle_gray));
@@ -74,11 +73,11 @@ public class DetailCourseAdapter extends RecyclerView.Adapter<DetailCourseViewHo
     public void setItems(List<String> data) throws ParseException {
 
         items = new ArrayList<>();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for (int i = 0; i < data.size(); i++) {
             String temp = data.get(i);
-            Log.i(TAG,temp);
-            items.add(new Course(temp));
+            String[] arr = temp.split("/");
+            items.add(new Course(arr[0],format.parse(arr[1]),i+1));
         }
     }
 

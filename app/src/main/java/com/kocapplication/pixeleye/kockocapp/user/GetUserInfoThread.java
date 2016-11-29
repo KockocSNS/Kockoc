@@ -72,9 +72,8 @@ public class GetUserInfoThread extends Thread {
         JsonParser parser = new JsonParser();
         JsonObject object = new JsonObject();
         String nickName = "";
-        if(result.equals("not exist No")){
+        if(!result.equals("not exist No")){
             object = parser.parse(result).getAsJsonObject();
-
             nickName = object.get("nickname").getAsString();
         }
 
