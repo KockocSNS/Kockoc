@@ -1,21 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    android:id="@+id/mykockoc_main_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include android:id="@+id/profile_container"
-            layout="@layout/fragment_mykockoc_profile" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <include
-            android:id="@+id/course_recycler_layout"
-            layout="@layout/recyclerview" />
+            <include android:id="@+id/profile_container"
+                layout="@layout/fragment_mykockoc_profile" />
+
+            <include
+                android:id="@+id/course_recycler_layout"
+                layout="@layout/recyclerview" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="5dp">
+
+        <TextView
+            android:id="@+id/mykockoc_course_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/story_course_add"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="12dp"
+            android:text="코스짜기"
+            android:textColor="@color/white"
+            android:textSize="10dp" />
+
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="5dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/mykockoc_write_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:id="@+id/mykockoc_continuous_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/story_continuous" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:layout_marginBottom="12dp"
+                    android:text="이어쓰기"
+                    android:textColor="@color/white"
+                    android:textSize="10dp" />
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
+
+                <TextView
+                    android:id="@+id/mykockoc_board_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/story_board_add" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:layout_marginBottom="12dp"
+                    android:text="새글"
+                    android:textColor="@color/white"
+                    android:textSize="10dp" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/mykockoc_write_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/story_write_button"
+                android:visibility="visible" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|bottom"
+                android:layout_marginBottom="12dp"
+                android:text="글쓰기"
+                android:textColor="@color/white"
+                android:textSize="10dp" />
+
+        </FrameLayout>
 
     </LinearLayout>
-t
-</ScrollView>
+</FrameLayout>
+

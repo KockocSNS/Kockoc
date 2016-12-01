@@ -14,11 +14,9 @@ public class StringUtil {
     public boolean findDuplicateValue(List<Course> list) {
         for (int i = 0; i < list.size(); i++) {
             String str1 = list.get(i).getTitle();
-            Log.e("StringUtil","str1 :"+str1);
             for (int j = 0; j < list.size(); j++) {
                 if (i == j) continue;
                 String str2 = list.get(j).getTitle();
-                Log.e("StringUtil","str2 :"+str1);
                 if (str1.equals(str2)) {
                     return true;
                 }
