@@ -3,7 +3,6 @@ package com.kocapplication.pixeleye.kockocapp.main.main;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +23,8 @@ public class ViewPagerAdapter extends PagerAdapter{
     // imageResources에 사진들 넣고 MainFragment에서 아이템 카운트 맞추기 // 서버에서 가져온 갯수 만큼 itemcount 수정해야함
     private int[] imageResources = {
             R.drawable.main_image0,
-            R.drawable.main_image1,
-            R.drawable.main_image2
+            R.drawable.main_image11,
+//            R.drawable.main_image2
     };
 
     public ViewPagerAdapter(Context mContext, int itemCount) {
@@ -45,18 +44,22 @@ public class ViewPagerAdapter extends PagerAdapter{
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(mContext, DetailActivity.class);
                 switch (realPosition){
                     case 0 :
-                        Intent intent = new Intent(mContext, DetailActivity.class);
                         intent.putExtra("boardNo",504);
                         intent.putExtra("courseNo",377);
                         intent.putExtra("board_userNo",235);
                         mContext.startActivity(intent);
                         break;
-                    case 1 : Log.e(TAG,"클릭1");
+                    case 1 :
+                        intent.putExtra("boardNo",471);
+                        intent.putExtra("courseNo",374);
+                        intent.putExtra("board_userNo",93);
+                        mContext.startActivity(intent);
                         break;
-                    case 2 : Log.e(TAG,"클릭2");
-                        break;
+//                    case 2 : Log.e(TAG,"클릭2");
+//                        break;
                 }
             }
         });

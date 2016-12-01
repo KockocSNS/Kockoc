@@ -82,7 +82,7 @@ public class MainFragment extends Fragment implements ViewPager.OnPageChangeList
 
     // TODO: 2016-10-13 서버에서 이미지 불러오게 해야함
     private void setViewPager(){
-        adapter_viewpager = new ViewPagerAdapter(getActivity(), 3); // 아이템 갯수
+        adapter_viewpager = new ViewPagerAdapter(getActivity(), 2); // 아이템 갯수
         viewPager.setAdapter(adapter_viewpager);
         viewPager.addOnPageChangeListener(this);
         setViewPagerIndicator();

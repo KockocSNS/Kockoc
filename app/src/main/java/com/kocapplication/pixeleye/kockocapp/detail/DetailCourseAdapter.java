@@ -76,7 +76,7 @@ public class DetailCourseAdapter extends RecyclerView.Adapter<DetailCourseViewHo
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for (int i = 0; i < data.size(); i++) {
             String temp = data.get(i);
-            String[] arr = temp.split("/");
+            String[] arr = temp.split("//");
             items.add(new Course(arr[0],format.parse(arr[1]),i+1));
         }
     }
